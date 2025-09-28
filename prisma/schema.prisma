@@ -1,0 +1,78 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Session {
+  id          String   @id
+  seed        String
+  startedAt   DateTime @default(now())
+  expiresAt   DateTime
+  consent     Boolean  @default(false)
+  demographics Json?
+  suspicion   Float    @default(0)
+  items       Item[]
+  responses   Response[]
+  result      Result?
+  leaderboard LeaderboardOptIn?
+  telemetry   TelemetryEvent[]
+}
+
+model Item {
+  id        String   @id @default(cuid())
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String
+  section   String
+  payload   Json
+  answerKey Json
+  createdAt DateTime @default(now())
+  responses Response[]
+}
+
+model Response {
+  id         String   @id @default(cuid())
+  item       Item?    @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId     String?
+  session    Session  @relation(fields: [sessionId], references: [id])
+  sessionId  String
+  submittedAt DateTime @default(now())
+  rawAnswer  Json
+  correct    Float
+  timeMs     Int
+  confidence Float?
+  suspicion  Float
+}
+
+model Result {
+  id            String   @id @default(cuid())
+  session       Session  @relation(fields: [sessionId], references: [id])
+  sessionId     String   @unique
+  sectionScores Json
+  calibration   Json?
+  overall       Float
+  verdict       String?
+  errorProfile  Json?
+  createdAt     DateTime @default(now())
+}
+
+model LeaderboardOptIn {
+  id        String   @id @default(cuid())
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String   @unique
+  handle    String
+}
+
+model TelemetryEvent {
+  id        String   @id @default(cuid())
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String
+  event     String
+  payload   Json?
+  createdAt DateTime @default(now())
+
+  @@index([sessionId])
+}
