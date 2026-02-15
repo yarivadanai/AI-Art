@@ -1,3 +1,5 @@
+import { TRANSLATION_WORDS_EXT } from "./translations-ext";
+
 export interface TranslationWord {
   word: string;
   language: string;
@@ -1040,3 +1042,12 @@ export const TRANSLATION_WORDS: TranslationWord[] = [
     ],
   },
 ];
+
+// ─── Merge extensions (with dedup) ────────────────────────────────────────────
+{
+  const seen = new Set(TRANSLATION_WORDS.map((t) => `${t.word}:${t.language}`.toLowerCase()));
+  for (const ext of TRANSLATION_WORDS_EXT) {
+    const k = `${ext.word}:${ext.language}`.toLowerCase();
+    if (!seen.has(k)) { seen.add(k); TRANSLATION_WORDS.push(ext); }
+  }
+}

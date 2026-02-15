@@ -1,3 +1,6 @@
+import { GRAMMAR_ITEMS_EXT_1 } from "./grammar-ext-1";
+import { GRAMMAR_ITEMS_EXT_2 } from "./grammar-ext-2";
+
 export interface GrammarItem {
   sentence: string;
   violation: string;
@@ -894,3 +897,12 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Pronoun-antecedent disagreement", "Subject-verb disagreement", "Restrictive clause error"],
   },
 ];
+
+// ─── Merge extensions (with dedup) ────────────────────────────────────────────
+{
+  const seen = new Set(GRAMMAR_ITEMS.map((g) => g.sentence.toLowerCase().trim()));
+  for (const ext of [...GRAMMAR_ITEMS_EXT_1, ...GRAMMAR_ITEMS_EXT_2]) {
+    const k = ext.sentence.toLowerCase().trim();
+    if (!seen.has(k)) { seen.add(k); GRAMMAR_ITEMS.push(ext); }
+  }
+}

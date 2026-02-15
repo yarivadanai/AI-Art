@@ -1,3 +1,8 @@
+import { RARE_WORDS_EXT_1 } from "./words-ext-1";
+import { RARE_WORDS_EXT_2 } from "./words-ext-2";
+import { SPELLING_WORDS_EXT } from "./spelling-ext";
+import { ANALOGY_PAIRS_EXT } from "./analogies-ext";
+
 export interface RareWord {
   word: string;
   definition: string;
@@ -96,8 +101,8 @@ export const RARE_WORDS: RareWord[] = [
   { word: "clerihew", definition: "A short comic or nonsensical verse, typically in two rhyming couplets with lines of unequal length, about a famous person", distractors: ["A type of medieval English clerical vestment with embroidered edges", "A satirical song performed by traveling minstrels at market fairs", "A cryptographic cipher developed by Anglican monks for private correspondence"] },
   { word: "parapraxis", definition: "A slip of the tongue or pen, misreading, or other error thought to reveal unconscious wishes or attitudes; a Freudian slip", distractors: ["A repetitive physical action performed as a coping mechanism for anxiety", "The practical application of theoretical principles in a professional context", "A neurological condition in which voluntary movements are initiated but incomplete"] },
   { word: "acheiropoieta", definition: "Images believed to have come into existence without being made by human hands, especially in Eastern Orthodox Christian tradition", distractors: ["Archaeological artifacts of unknown origin found without accompanying contextual evidence", "Philosophical propositions that are accepted as true without requiring empirical demonstration", "Musical compositions generated through aleatoric or chance-based procedural methods"] },
-  { word: "lethologica", definition: "The inability to recall a word or name that is on the tip of one's tongue", distractors: ["A chronic condition of excessive sleepiness and involuntary drowsing", "The systematic study of forgetfulness and memory decay in cognitive psychology", "A pathological aversion to learning new information or acquiring skills"] },
-  { word: "xenoglossy", definition: "The putative paranormal phenomenon in which a person is allegedly able to speak or write in a language they could not have acquired by natural means", distractors: ["The medical condition of a foreign body becoming lodged in the glossopharyngeal region", "The linguistic study of loanwords and their phonological adaptation across languages", "The pathological fear of hearing unfamiliar languages spoken in one's presence"] },
+  { word: "pleonasm", definition: "The use of more words than necessary to convey meaning, either as a fault of style or as a rhetorical figure used for emphasis", distractors: ["A malignant growth characterized by uncontrolled cellular proliferation", "The philosophical doctrine that the universe is populated by an excess of souls", "A linguistic phenomenon in which vowel sounds are prolonged beyond normal duration"] },
+  { word: "hysteresis", definition: "The dependence of the state of a system on its history; the phenomenon in which the value of a physical property lags behind changes in the effect causing it", distractors: ["A psychological condition of exaggerated emotional response to minor stimuli", "The surgical removal of the uterus for therapeutic purposes", "The tendency of historical narratives to repeat cyclical patterns across civilizations"] },
   { word: "kakistocracy", definition: "Government by the least suitable or competent citizens of a state", distractors: ["A political system in which power is distributed among regional hereditary rulers", "A form of governance based on rigid adherence to canonical religious texts", "A bureaucratic structure in which authority is derived from accumulated seniority"] },
   { word: "incunabulum", definition: "An early printed book, especially one printed before 1501", distractors: ["The innermost chamber of an ancient Egyptian tomb complex", "A rudimentary protective structure built around a developing embryo", "The foundational document establishing the charter of a medieval guild"] },
   { word: "phenakism", definition: "Cheating or deception; imposture", distractors: ["The philosophical study of how things appear to consciousness", "A medical condition involving the abnormal perception of phantom sensations", "The artistic technique of creating optical illusions through sequential images"] },
@@ -286,3 +291,26 @@ export const ANALOGY_PAIRS: AnalogyPair[] = [
   { a: "stethoscope", b: "chest", c: "periscope", answer: "around", relationship: "Greek prefix + skopein: what the viewing instrument observes (stethos/peri)", distractors: ["above", "through", "beneath"] },
   { a: "matrilineal", b: "mother", c: "patrilineal", answer: "father", relationship: "Latin parent root + lineal: through which parent lineage is traced (mater/pater)", distractors: ["family", "ancestors", "male line"] },
 ];
+
+// ─── Merge extensions (with dedup) ────────────────────────────────────────────
+{
+  const seen = new Set(RARE_WORDS.map((w) => w.word.toLowerCase()));
+  for (const ext of [...RARE_WORDS_EXT_1, ...RARE_WORDS_EXT_2]) {
+    const k = ext.word.toLowerCase();
+    if (!seen.has(k)) { seen.add(k); RARE_WORDS.push(ext); }
+  }
+}
+{
+  const seen = new Set(SPELLING_WORDS.map((w) => w.correct.toLowerCase()));
+  for (const ext of SPELLING_WORDS_EXT) {
+    const k = ext.correct.toLowerCase();
+    if (!seen.has(k)) { seen.add(k); SPELLING_WORDS.push(ext); }
+  }
+}
+{
+  const seen = new Set(ANALOGY_PAIRS.map((a) => `${a.a}:${a.b}:${a.c}`.toLowerCase()));
+  for (const ext of ANALOGY_PAIRS_EXT) {
+    const k = `${ext.a}:${ext.b}:${ext.c}`.toLowerCase();
+    if (!seen.has(k)) { seen.add(k); ANALOGY_PAIRS.push(ext); }
+  }
+}

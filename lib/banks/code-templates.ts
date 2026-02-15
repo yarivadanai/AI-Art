@@ -1,3 +1,9 @@
+import { BUG_TEMPLATES_EXT } from "./bugs-ext";
+import { RECURSIVE_TEMPLATES_EXT } from "./recursive-ext";
+import { ASSEMBLY_TEMPLATES_EXT } from "./assembly-ext";
+import { LONG_FUNCTIONS_EXT_1 } from "./long-functions-ext-1";
+import { LONG_FUNCTIONS_EXT_2 } from "./long-functions-ext-2";
+
 export interface BugTemplate {
   code: string;
   language: string;
@@ -426,7 +432,7 @@ function g(n) {
 }`,
     language: "javascript",
     inputN: 5,
-    expectedOutput: 31,
+    expectedOutput: 55,
   },
   {
     code: `function f(n) {
@@ -436,7 +442,7 @@ function g(n) {
 }`,
     language: "javascript",
     inputN: 4,
-    expectedOutput: 54,
+    expectedOutput: 108,
   },
   {
     code: `function f(n) {
@@ -1247,3 +1253,10 @@ export const LONG_FUNCTION_TEMPLATES: LongFunctionTemplate[] = [
     correctOptionIndex: 0,
   },
 ];
+
+// ─── Merge extensions ─────────────────────────────────────────────────────────
+BUG_TEMPLATES.push(...BUG_TEMPLATES_EXT);
+RECURSIVE_TEMPLATES.push(...RECURSIVE_TEMPLATES_EXT);
+ASSEMBLY_TEMPLATES.push(...ASSEMBLY_TEMPLATES_EXT);
+LONG_FUNCTION_TEMPLATES.push(...LONG_FUNCTIONS_EXT_1, ...LONG_FUNCTIONS_EXT_2);
+// Code templates use unique code blocks, so duplicates are extremely unlikely

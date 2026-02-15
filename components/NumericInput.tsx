@@ -15,7 +15,6 @@ export function NumericInput({
     <div className="w-full max-w-xs">
       <input
         type="text"
-        inputMode="decimal"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}

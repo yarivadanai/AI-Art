@@ -1,3 +1,6 @@
+import { FALLACIOUS_PROOFS_EXT_1 } from "./proofs-ext-1";
+import { FALLACIOUS_PROOFS_EXT_2 } from "./proofs-ext-2";
+
 export interface FallaciousProof {
   title: string;
   steps: string[];
@@ -462,8 +465,9 @@ export const FALLACIOUS_PROOFS: FallaciousProof[] = [
       "Express eˣ as a product: eˣ = e · e · e · ... · e (x copies of e)",
       "Each factor e ≈ 2.71828... is a constant with respect to x",
       "The derivative of a constant is 0",
-      "The derivative of a product of constants c₁ · c₂ · ... · cₙ is 0",
-      "Since eˣ is a product of constants, d/dx(eˣ) = 0",
+      "By the product rule for finitely many constant factors, d/dx(c₁ · c₂ · ... · cₙ) = 0",
+      "The number of factors x does not affect the derivative since each factor is constant",
+      "Therefore, since eˣ is a product of constants, d/dx(eˣ) = 0",
     ],
     errorStep: 0,
     errorExplanation: "The expression 'e multiplied by itself x times' is only defined when x is a positive integer. For real-valued x, eˣ is defined via the exponential function (as a power series or the inverse of the natural logarithm), not as a finite product. Moreover, even for integer x, the number of factors changes with x, so the 'product of constants' framing is invalid — the product length is itself a function of x, which must be accounted for in differentiation.",
@@ -610,3 +614,12 @@ export const FALLACIOUS_PROOFS: FallaciousProof[] = [
     ],
   },
 ];
+
+// ─── Merge extensions (with dedup) ────────────────────────────────────────────
+{
+  const seen = new Set(FALLACIOUS_PROOFS.map((p) => p.title.toLowerCase().trim()));
+  for (const ext of [...FALLACIOUS_PROOFS_EXT_1, ...FALLACIOUS_PROOFS_EXT_2]) {
+    const k = ext.title.toLowerCase().trim();
+    if (!seen.has(k)) { seen.add(k); FALLACIOUS_PROOFS.push(ext); }
+  }
+}

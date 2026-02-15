@@ -225,8 +225,15 @@ export function QuestionRenderer({
                       setMultiPartAnswers((prev) => ({ ...prev, [i]: idx }))
                     }
                   />
-                ) : (
+                ) : sub.inputType === "numeric" ? (
                   <NumericInput
+                    value={String(multiPartAnswers[i] ?? "")}
+                    onChange={(v) =>
+                      setMultiPartAnswers((prev) => ({ ...prev, [i]: v }))
+                    }
+                  />
+                ) : (
+                  <TextInput
                     value={String(multiPartAnswers[i] ?? "")}
                     onChange={(v) =>
                       setMultiPartAnswers((prev) => ({ ...prev, [i]: v }))

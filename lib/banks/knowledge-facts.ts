@@ -1,3 +1,8 @@
+import { SCIENCE_FACTS_EXT } from "./science-ext";
+import { GEOGRAPHY_FACTS_EXT } from "./geography-ext";
+import { HISTORICAL_EVENTS_EXT } from "./history-ext";
+import { MATH_CONSTANTS_EXT } from "./math-constants-ext";
+
 export interface ScienceFact {
   question: string;
   correctAnswer: string;
@@ -1240,3 +1245,33 @@ export const MATH_CONSTANTS: MathConstant[] = [
   { name: "Natural log of 10", symbol: "ln(10)", value: "2.30258509299404568401799145468436420760110148862877" },
   { name: "Pi squared over 6 (Basel problem)", symbol: "ζ(2)", value: "1.64493406684822643647241516664602518921894990120680" },
 ];
+
+// ─── Merge extensions (with dedup) ────────────────────────────────────────────
+{
+  const seen = new Set(SCIENCE_FACTS.map((f) => f.question.toLowerCase().trim()));
+  for (const ext of SCIENCE_FACTS_EXT) {
+    const k = ext.question.toLowerCase().trim();
+    if (!seen.has(k)) { seen.add(k); SCIENCE_FACTS.push(ext); }
+  }
+}
+{
+  const seen = new Set(GEOGRAPHY_FACTS.map((f) => f.question.toLowerCase().trim()));
+  for (const ext of GEOGRAPHY_FACTS_EXT) {
+    const k = ext.question.toLowerCase().trim();
+    if (!seen.has(k)) { seen.add(k); GEOGRAPHY_FACTS.push(ext); }
+  }
+}
+{
+  const seen = new Set(HISTORICAL_EVENTS.map((e) => e.event.toLowerCase().trim()));
+  for (const ext of HISTORICAL_EVENTS_EXT) {
+    const k = ext.event.toLowerCase().trim();
+    if (!seen.has(k)) { seen.add(k); HISTORICAL_EVENTS.push(ext); }
+  }
+}
+{
+  const seen = new Set(MATH_CONSTANTS.map((c) => c.name.toLowerCase().trim()));
+  for (const ext of MATH_CONSTANTS_EXT) {
+    const k = ext.name.toLowerCase().trim();
+    if (!seen.has(k)) { seen.add(k); MATH_CONSTANTS.push(ext); }
+  }
+}
