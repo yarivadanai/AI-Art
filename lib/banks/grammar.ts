@@ -1,6 +1,8 @@
 export interface GrammarItem {
   sentence: string;
   violation: string;
+  rule?: string;
+  explanation?: string;
   distractors: [string, string, string];
 }
 
@@ -9,9 +11,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
   // SUBJUNCTIVE MOOD VIOLATIONS (15)
   // ============================================================
   {
-    sentence: "The board of directors recommended that the new policy is implemented before the fiscal year ends in March.",
-    violation: "Subjunctive mood error",
-    distractors: ["Tense inconsistency", "Subject-verb disagreement", "Passive voice misuse"],
+    sentence: "The paleontologist's assertion that the specimen, which she and her colleagues at the institute had been studying for the better part of a decade, represent a previously unknown genus was met with considerable skepticism.",
+    violation: "subject-verb disagreement across parenthetical",
+    rule: "Subject-verb agreement with distant antecedent",
+    explanation: "The subject 'specimen' (singular) is separated from its verb 'represent' by a long parenthetical clause. Should be 'represents'. The intervening plural 'colleagues' creates a false attraction.",
+    distractors: ["Dangling participial phrase", "Improper use of restrictive clause", "Faulty parallelism in compound predicate"],
   },
   {
     sentence: "If the senator was to reconsider her position on the amendment, the bipartisan coalition might still hold together through the vote.",
@@ -44,9 +48,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Subject-verb disagreement", "Parallel structure violation", "Tense inconsistency"],
   },
   {
-    sentence: "If the prime minister was more transparent about the economic data, public trust in the institution would not have eroded so precipitously.",
-    violation: "Subjunctive mood error",
-    distractors: ["Mixed conditional error", "Tense inconsistency", "Pronoun case error"],
+    sentence: "The committee recommended that each of the doctoral candidates who have submitted their dissertations are to present a thirty-minute defense before the full faculty.",
+    violation: "subject-verb disagreement with 'each'",
+    rule: "Distributive pronoun requires singular verb",
+    explanation: "'Each' is the subject of the noun clause and requires a singular verb. 'Are to present' should be 'is to present'. The intervening plural 'candidates who have submitted' creates attraction to plural.",
+    distractors: ["Incorrect subjunctive in mandative clause", "Pronoun-antecedent disagreement", "Misplaced adverbial modifier"],
   },
   {
     sentence: "The provost's memorandum stipulated that each graduate student submits a revised thesis proposal by the end of the fall semester.",
@@ -217,9 +223,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Parallel structure violation", "Subject-verb disagreement", "Comma splice"],
   },
   {
-    sentence: "Both the architect and the structural engineer was consulted before the city planning commission approved the design for the new pedestrian bridge.",
-    violation: "Subject-verb disagreement (correlative conjunction)",
-    distractors: ["Correlative conjunction error", "Tense inconsistency", "Pronoun-antecedent disagreement"],
+    sentence: "Neither the evidence presented by the prosecution's forensic team nor the testimony offered by the three corroborating witnesses were sufficient to convince the appellate panel that the lower court's finding of negligence, rather than malfeasance, were erroneous.",
+    violation: "double subject-verb disagreement",
+    rule: "Neither...nor agreement and predicate complement agreement",
+    explanation: "Two errors: (1) 'Neither...nor...were' should agree with the nearer subject 'testimony' (singular: 'was'). (2) 'finding...were erroneous' should be 'finding...was erroneous'. Both errors are masked by intervening plural nouns.",
+    distractors: ["Faulty parallelism in correlative conjunction", "Ambiguous pronoun reference", "Comma splice between independent clauses"],
   },
   {
     sentence: "The diplomat stated that neither the proposed ceasefire nor the humanitarian corridor were sufficient to address the crisis unfolding in the region.",
@@ -700,9 +708,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
   // SUBJECT-VERB DISAGREEMENT (12)
   // ============================================================
   {
-    sentence: "The number of peer-reviewed publications produced by the department have increased steadily over the past decade under the current chair's leadership.",
-    violation: "Subject-verb disagreement ('number' requires singular verb)",
-    distractors: ["Tense inconsistency", "Pronoun-antecedent disagreement", "Dangling modifier"],
+    sentence: "The data collected over the eighteen-month longitudinal study, together with the meta-analyses of previous cohort studies conducted across fourteen countries, suggests that the correlation between the variables, while statistically significant at the p < 0.01 level, are likely an artifact of confounding socioeconomic factors.",
+    violation: "subject-verb disagreement with distant complement",
+    rule: "Predicate adjective agreement with subject complement",
+    explanation: "'Correlation...are likely an artifact' should be 'correlation...is likely an artifact'. The verb 'are' incorrectly agrees with 'variables' (the nearest plural) rather than with 'correlation' (the actual subject of the subordinate clause).",
+    distractors: ["Dangling modifier on temporal clause", "Incorrect use of subjunctive mood", "Faulty comparison with 'while' clause"],
   },
   {
     sentence: "A series of increasingly severe earthquakes have struck the region over the past six months, displacing tens of thousands of residents.",
@@ -779,9 +789,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Subject-verb disagreement", "Faulty comparison", "Tense inconsistency"],
   },
   {
-    sentence: "Less students enrolled in the advanced calculus sequence this semester than at any point in the preceding decade, prompting the department to consider curricular revisions.",
-    violation: "Diction error ('less' should be 'fewer' for countable nouns)",
-    distractors: ["Subject-verb disagreement", "Faulty comparison", "Tense inconsistency"],
+    sentence: "The researcher, along with her graduate assistants who were responsible for calibrating the spectrometer and whom she had personally trained in the technique of Raman spectroscopy, have published their findings in a peer-reviewed journal.",
+    violation: "subject-verb disagreement with parenthetical 'along with'",
+    rule: "Parenthetical phrase does not compound subject",
+    explanation: "'Along with' is a parenthetical addition, not a conjunction. The subject is still singular 'researcher', so the verb should be 'has published' not 'have published'. The long intervening clause masks this.",
+    distractors: ["Incorrect relative pronoun 'whom'", "Faulty parallelism in participial phrases", "Dangling modifier on subordinate clause"],
   },
   {
     sentence: "The data strongly infers that prolonged exposure to particulate matter at concentrations above the recommended threshold significantly increases the risk of respiratory illness.",
@@ -799,9 +811,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Subject-verb disagreement", "Pronoun-antecedent disagreement", "Parallel structure violation"],
   },
   {
-    sentence: "Irregardless of the committee's reservations, the provost proceeded to implement the policy changes that had been the subject of such contentious debate.",
-    violation: "Diction error ('irregardless' is nonstandard; use 'regardless')",
-    distractors: ["Subject-verb disagreement", "Tense inconsistency", "Pronoun case error"],
+    sentence: "The chairman stated that the synthesis of the compound, the isolation of which from the crude mixture proved to be the most challenging aspect of the entire project and which required no fewer than seven successive chromatographic separations, were completed ahead of schedule.",
+    violation: "subject-verb disagreement across nested relative clauses",
+    rule: "Main clause verb must agree with main clause subject",
+    explanation: "'Synthesis...were completed' should be 'synthesis...was completed'. The subject 'synthesis' (singular) is separated from its verb by two nested relative clauses containing plural nouns ('separations'), causing false attraction to plural.",
+    distractors: ["Incorrect use of 'which' vs 'that' in restrictive clause", "Faulty coordination of relative clauses", "Misplaced limiting modifier"],
   },
   {
     sentence: "The witness testified that she seen the defendant leaving the premises through the service entrance at approximately eleven forty-five on the night in question.",
@@ -839,9 +853,11 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Subjunctive mood error", "Tense inconsistency", "Pronoun case error"],
   },
   {
-    sentence: "The principle reason for the project's failure was not inadequate funding but rather a fundamental flaw in the underlying methodological assumptions.",
-    violation: "Diction error ('principle' should be 'principal')",
-    distractors: ["Correlative conjunction error", "Subject-verb disagreement", "Parallel structure violation"],
+    sentence: "The acoustic analysis revealed that the formant transitions characteristic of the velar consonants produced by the experimental group, who had undergone intensive phonetic training over a six-week period, was indistinguishable from those of native speakers.",
+    violation: "subject-verb disagreement with 'transitions' as subject",
+    rule: "Head noun of subject determines verb number",
+    explanation: "'Formant transitions...was indistinguishable' should be 'transitions...were indistinguishable'. The long post-modification with singular nouns ('group', 'period') attracts the verb to singular.",
+    distractors: ["Ambiguous reference of 'those'", "Dangling participial phrase", "Faulty comparison lacking parallel structure"],
   },
   {
     sentence: "Try and complete the longitudinal analysis before the end of the quarter so that we can include the results in the annual report to stakeholders.",
@@ -859,14 +875,18 @@ export const GRAMMAR_ITEMS: GrammarItem[] = [
     distractors: ["Dangling modifier", "Subject-verb disagreement", "Tense inconsistency"],
   },
   {
-    sentence: "The professor which taught the seminar on postcolonial theory has been nominated for the university's distinguished teaching award three years running.",
-    violation: "Pronoun error ('which' should be 'who' for persons)",
-    distractors: ["Restrictive clause error", "Subject-verb disagreement", "Tense inconsistency"],
+    sentence: "The implications of the theorem, which Professor Harrington and her doctoral students had spent the better part of three years attempting to generalize beyond the finite-dimensional case and which the broader mathematical community had initially regarded as a minor corollary, has fundamentally altered the trajectory of research in algebraic topology.",
+    violation: "subject-verb disagreement",
+    rule: "Plural head noun requires plural verb",
+    explanation: "'Implications...has fundamentally altered' should be 'implications...have fundamentally altered'. The singular nouns in the relative clauses ('community', 'corollary', 'case') create false attraction.",
+    distractors: ["Incorrect use of nonrestrictive 'which' clause", "Split infinitive in compound predicate", "Faulty coordination of relative clauses with 'and which'"],
   },
   {
-    sentence: "The new policy effects every employee in the organization, from entry-level analysts to senior vice presidents, without exception.",
-    violation: "Diction error ('effects' should be 'affects')",
-    distractors: ["Subject-verb disagreement", "Pronoun-antecedent disagreement", "Misplaced modifier"],
+    sentence: "That the pharmaceutical company's chief toxicologist, whose laboratory had been responsible for conducting the pivotal safety trials upon which the regulatory submission depended, were found to have fabricated a substantial portion of the data came as a shock to the scientific community.",
+    violation: "subject-verb disagreement with noun clause subject",
+    rule: "Noun clause as subject takes singular verb",
+    explanation: "'That...were found' — the subject is the entire noun clause 'That...toxicologist...', whose head is 'toxicologist' (singular). Should be 'was found'. The plural 'trials' in the nested relative clause creates attraction.",
+    distractors: ["Dangling participial phrase", "Incorrect subjunctive in noun clause", "Faulty parallelism in compound prepositional phrase"],
   },
   {
     sentence: "Whomever is responsible for the data breach must be held accountable, regardless of their seniority or their tenure within the organization.",

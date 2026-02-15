@@ -50,34 +50,52 @@ export const BUG_TEMPLATES: BugTemplate[] = [
     correctOptionIndex: 1,
   },
   {
-    code: `function calculateTotal(items) {
-  let total = 0;
-  for (const item of items) {
-    total += item.price * item.quantity;
-    if (item.discount) {
-      total -= item.price * item.discount;
+    code: `function mergeOverlapping(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const merged = [intervals[0]];
+  for (let i = 1; i < intervals.length; i++) {
+    const last = merged[merged.length - 1];
+    if (intervals[i][0] <= last[1]) {
+      last[1] = intervals[i][1];
+    } else {
+      merged.push(intervals[i]);
     }
   }
-  return Math.round(total * 100) / 100;
+  return merged;
 }`,
     language: "javascript",
-    bugLine: 6,
-    bugDescription: "Discount is applied to item.price (single unit) instead of item.price * item.quantity (total for that item). The discount should scale with quantity but only applies to one unit's worth.",
-    options: ["Line 4: should use += instead of separate multiplication", "Line 6: discount applied to single unit price instead of price * quantity", "Line 9: rounding should use toFixed(2) instead of Math.round", "Line 5: should check item.discount > 0 not just truthy"],
-    correctOptionIndex: 1,
+    bugLine: 7,
+    bugDescription: "When merging overlapping intervals, the code always takes the new interval's end (intervals[i][1]) instead of taking the maximum of the two ends. If the current interval is entirely contained within the last merged interval, this incorrectly shrinks it. Should be: last[1] = Math.max(last[1], intervals[i][1])",
+    options: ["Line 2: sort comparator should also compare end values", "Line 6: should check intervals[i][0] < last[1] (strict less-than)", "Line 7: should use Math.max(last[1], intervals[i][1]) instead of direct assignment", "Line 9: should clone the interval before pushing"],
+    correctOptionIndex: 2,
   },
   {
-    code: `function paginate(items, pageSize, pageNum) {
-  const totalPages = Math.ceil(items.length / pageSize);
-  if (pageNum < 1 || pageNum > totalPages) return [];
-  const start = pageNum * pageSize;
-  const end = Math.min(start + pageSize, items.length);
-  return items.slice(start, end);
+    code: `function binarySearch(arr, target) {
+  let lo = 0, hi = arr.length - 1;
+  while (lo < hi) {
+    const mid = lo + Math.floor((hi - lo) / 2);
+    if (arr[mid] === target) return mid;
+    if (arr[mid] < target) lo = mid + 1;
+    else hi = mid;
+  }
+  return arr[lo] === target ? lo : -1;
+}
+function findInsertPos(sorted, val) {
+  let lo = 0, hi = sorted.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >>> 1;
+    if (sorted[mid] < val) lo = mid + 1;
+    else hi = mid;
+  }
+  return lo;
+}
+function countInRange(sorted, low, high) {
+  return findInsertPos(sorted, high) - findInsertPos(sorted, low);
 }`,
     language: "javascript",
-    bugLine: 4,
-    bugDescription: "start should be (pageNum - 1) * pageSize since pages are 1-indexed. Using pageNum * pageSize skips the first page of results entirely.",
-    options: ["Line 2: totalPages calculation is wrong for exact multiples", "Line 3: should allow pageNum === 0 as valid", "Line 4: start should be (pageNum - 1) * pageSize for 1-indexed pages", "Line 5: Math.min is unnecessary since slice handles bounds"],
+    bugLine: 21,
+    bugDescription: "countInRange uses findInsertPos(sorted, high) which finds the first position >= high, so it EXCLUDES the value 'high' itself. For an inclusive upper bound, should use findInsertPos(sorted, high + 1) or a separate upperBound function. The range [low, high] misses elements equal to high.",
+    options: ["Line 4: mid calculation can overflow for very large arrays", "Line 3: while condition should be lo <= hi for correctness", "Line 21: high bound is exclusive — misses elements equal to high", "Line 15: unsigned right shift is wrong for negative indices"],
     correctOptionIndex: 2,
   },
   {
@@ -155,21 +173,36 @@ export const BUG_TEMPLATES: BugTemplate[] = [
     correctOptionIndex: 2,
   },
   {
-    code: `function deepClone(obj) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj;
-  }
-  const clone = Array.isArray(obj) ? [] : {};
-  for (const key in obj) {
-    clone[key] = deepClone(obj[key]);
-  }
-  return clone;
+    code: `function flattenDepth(arr, depth = 1) {
+  if (depth <= 0) return arr.slice();
+  return arr.reduce((acc, val) => {
+    if (Array.isArray(val)) {
+      acc.push(...flattenDepth(val, depth - 1));
+    } else {
+      acc.push(val);
+    }
+    return acc;
+  }, []);
+}
+function unique(arr) {
+  return [...new Set(arr)];
+}
+function intersection(a, b) {
+  const setB = new Set(b);
+  return unique(a.filter(x => setB.has(x)));
+}
+function difference(a, b) {
+  const setB = new Set(b);
+  return a.filter(x => !setB.has(x));
+}
+function symmetricDiff(a, b) {
+  return difference(a, b).concat(difference(b, a));
 }`,
     language: "javascript",
-    bugLine: 6,
-    bugDescription: "for...in iterates over inherited prototype properties, not just own properties. Should use Object.keys(obj) or add an obj.hasOwnProperty(key) check",
-    options: ["Line 2: should also check for undefined", "Line 5: Array check should use instanceof", "Line 6: for...in includes inherited properties — needs hasOwnProperty check", "Line 7: should handle circular references"],
-    correctOptionIndex: 2,
+    bugLine: 23,
+    bugDescription: "symmetricDiff doesn't deduplicate its output. difference(a,b) preserves all elements from 'a' not in 'b' including duplicates. For example, symmetricDiff([1,1,2],[2,3]) returns [1,1,3] instead of [1,3]. Should wrap result in unique().",
+    options: ["Line 2: slice() doesn't deep-copy nested arrays", "Line 5: spread operator fails on deeply nested arrays", "Line 16: filter creates new array unnecessarily", "Line 23: symmetricDiff doesn't deduplicate — difference preserves duplicate elements from its first argument"],
+    correctOptionIndex: 3,
   },
   {
     code: `function throttle(fn, limit) {
@@ -211,17 +244,29 @@ export const BUG_TEMPLATES: BugTemplate[] = [
     correctOptionIndex: 1,
   },
   {
-    code: `function chunk(arr, size) {
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, size));
-  }
-  return result;
-}`,
+    code: `function debouncedLeading(fn, delay) {
+  let timer = null;
+  let isLeading = true;
+  return function(...args) {
+    if (isLeading) {
+      fn.apply(this, args);
+      isLeading = false;
+    }
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      isLeading = true;
+    }, delay);
+  };
+}
+// Expected: fires immediately on first call, then waits
+// until delay ms of inactivity before allowing next leading call.
+// Bug: if called again right at the delay boundary, fn fires
+// twice because the trailing timeout resets isLeading before
+// the next clearTimeout can cancel it.`,
     language: "javascript",
-    bugLine: 4,
-    bugDescription: "arr.slice(i, size) should be arr.slice(i, i + size) — the second argument to slice is the end index, not the length",
-    options: ["Line 3: should use i++ instead of i += size", "Line 4: slice second arg should be i + size, not size", "Line 3: should check size > 0", "Line 4: should use splice instead of slice"],
+    bugLine: 9,
+    bugDescription: "clearTimeout happens AFTER the leading invocation check. If the timer fires between the isLeading check (line 5) and the clearTimeout (line 9), isLeading gets reset to true and fn fires again immediately. The clearTimeout should come before the isLeading check to prevent the race condition. In practice, this means rapid calls at exactly the delay boundary cause double-firing.",
+    options: ["Line 6: apply loses the correct 'this' binding in arrow functions", "Line 9: clearTimeout is called after the leading check — timer can fire between lines 5 and 9 causing double invocation", "Line 11: setTimeout should use bind instead of arrow function", "Line 3: isLeading should be initialized to false and set true on first call"],
     correctOptionIndex: 1,
   },
   {
@@ -348,22 +393,30 @@ export const RECURSIVE_TEMPLATES: RecursiveTemplate[] = [
   },
   {
     code: `function f(n) {
-  if (n <= 0) return 0;
-  if (n === 1) return 1;
-  return f(n - 1) + 2 * f(n - 2);
+  if (n <= 0) return 1;
+  if (n === 1) return 3;
+  if (n % 3 === 0) return f(n - 1) * 2 + f(n - 2);
+  if (n % 3 === 1) return f(n - 1) - f(n - 3) + n;
+  return f(n - 2) * f(n - 3);
 }`,
     language: "javascript",
-    inputN: 5,
-    expectedOutput: 11,
+    inputN: 9,
+    expectedOutput: 177,
   },
   {
     code: `function f(n) {
-  if (n <= 1) return 1;
-  return f(n - 1) + f(n - 2) + 1;
+  if (n <= 0) return 1;
+  if (n === 1) return 2;
+  return g(n - 1) + f(n - 2) * 2;
+}
+function g(n) {
+  if (n <= 0) return 0;
+  if (n === 1) return 1;
+  return f(n - 1) - g(n - 2);
 }`,
     language: "javascript",
-    inputN: 5,
-    expectedOutput: 19,
+    inputN: 7,
+    expectedOutput: 44,
   },
   {
     code: `function f(n) {
@@ -387,22 +440,24 @@ export const RECURSIVE_TEMPLATES: RecursiveTemplate[] = [
   },
   {
     code: `function f(n) {
-  if (n <= 0) return 1;
-  return f(n - 1) + f(n - 1);
+  if (n <= 1) return n + 1;
+  if (n & 1) return f(n >> 1) + f(n >> 1) + 1;
+  return f(n - 1) * 2 - f(n >> 2);
 }`,
     language: "javascript",
-    inputN: 5,
-    expectedOutput: 32,
+    inputN: 11,
+    expectedOutput: 15,
   },
   {
     code: `function f(n) {
-  if (n <= 1) return n;
-  if (n % 2 === 0) return f(n / 2);
-  return f(n - 1) + 1;
+  if (n <= 0) return 2;
+  if (n === 1) return 3;
+  if (n <= 3) return f(n - 1) + f(n - 2);
+  return f(f(n - 3) % n) + n;
 }`,
     language: "javascript",
-    inputN: 10,
-    expectedOutput: 2,
+    inputN: 6,
+    expectedOutput: 11,
   },
   {
     code: `function f(n) {
@@ -428,45 +483,71 @@ export const RECURSIVE_TEMPLATES: RecursiveTemplate[] = [
 // ─── Assembly templates ──────────────────────────────────────────────────────
 
 export const ASSEMBLY_TEMPLATES: AssemblyTemplate[] = [
-  // Template 1: Loop with accumulator (5+4+3+2+1 = 15)
+  // Template 1: Loop with conditional shift and accumulation
   {
     code: `mov eax, 0
+mov ebx, 3
 mov ecx, 5
-loop:
+.loop:
+  cmp ebx, 0
+  je .skip
+  add eax, ebx
+  shl ebx, 1
+  and ebx, 0xF
+.skip:
   add eax, ecx
   dec ecx
-  cmp ecx, 0
-  jg loop`,
-    expectedEax: 15,
-    options: [10, 14, 15, 20],
+  jnz .loop`,
+    expectedEax: 44,
+    options: [38, 41, 44, 52],
     correctOptionIndex: 2,
   },
-  // Template 2: Conditional branching with comparison
+  // Template 2: Loop with odd/even conditional accumulation and LEA
   {
-    code: `mov eax, 47
-mov ebx, 23
-cmp eax, 50
-jge .skip_sub
-  sub eax, ebx
-.skip_sub:
-shl eax, 2`,
-    expectedEax: 96,
-    options: [92, 94, 96, 188],
+    code: `mov eax, 0
+mov ebx, 7
+mov ecx, 6
+mov edx, 0
+.loop:
+  test ebx, 1
+  jz .even
+  add edx, ecx
+  jmp .next
+.even:
+  dec edx
+.next:
+  shr ebx, 1
+  dec ecx
+  jnz .loop
+lea eax, [edx + edx*2]
+add eax, 5`,
+    expectedEax: 41,
+    options: [36, 38, 41, 47],
     correctOptionIndex: 2,
   },
-  // Template 3: Stack-based register swap and computation
+  // Template 3: Loop with conditional branch, XOR, and final shift
   {
-    code: `mov eax, 7
-mov ebx, 13
-push eax
-push ebx
-pop eax
-pop ebx
-imul eax, ebx
-sub eax, 3`,
-    expectedEax: 88,
-    options: [85, 88, 91, 94],
-    correctOptionIndex: 1,
+    code: `mov eax, 0
+mov ebx, 5
+mov ecx, 4
+.loop:
+  lea edx, [ebx + ecx]
+  cmp edx, 7
+  jle .small
+  add eax, edx
+  dec ebx
+  jmp .cont
+.small:
+  xor eax, edx
+  inc ebx
+.cont:
+  dec ecx
+  jnz .loop
+shl eax, 1
+or eax, 1`,
+    expectedEax: 29,
+    options: [25, 27, 29, 33],
+    correctOptionIndex: 2,
   },
   // Template 4: Nested conditional (35>30 → +12=47, 47>40 → xor 0xFF → 208)
   {
@@ -748,52 +829,79 @@ export const LONG_FUNCTION_TEMPLATES: LongFunctionTemplate[] = [
     correctOptionIndex: 0,
   },
   {
-    code: `function multiSort(items) {
-  const priorityMap = {};
-  for (const item of items) {
-    if (!priorityMap[item.priority]) {
-      priorityMap[item.priority] = [];
-    }
-    priorityMap[item.priority].push(item);
+    code: `function graphColor(adjList) {
+  const nodes = Object.keys(adjList).sort();
+  const colors = {};
+  const order = [];
+
+  // Compute degree for each node
+  const degree = {};
+  for (const node of nodes) {
+    degree[node] = adjList[node].length;
   }
-  const groups = Object.keys(priorityMap)
-    .map(Number)
-    .sort((a, b) => b - a);
-  const result = [];
-  for (const pri of groups) {
-    const group = priorityMap[pri];
-    group.sort((a, b) => {
-      if (a.timestamp !== b.timestamp) {
-        return a.timestamp - b.timestamp;
+
+  // Sort by degree descending (Welsh-Powell heuristic)
+  const sorted = nodes.slice().sort((a, b) => {
+    if (degree[b] !== degree[a]) return degree[b] - degree[a];
+    return a.localeCompare(b);
+  });
+
+  // Greedy coloring in sorted order
+  for (const node of sorted) {
+    order.push(node);
+    const usedColors = new Set();
+    for (const neighbor of adjList[node]) {
+      if (colors[neighbor] !== undefined) {
+        usedColors.add(colors[neighbor]);
       }
-      return a.name.localeCompare(b.name);
-    });
-    for (const item of group) {
-      result.push(item.name);
+    }
+    let color = 0;
+    while (usedColors.has(color)) {
+      color++;
+    }
+    colors[node] = color;
+  }
+
+  // Compute statistics
+  const numColors = Math.max(...Object.values(colors)) + 1;
+  const colorGroups = {};
+  for (const node of nodes) {
+    const c = colors[node];
+    if (!colorGroups[c]) colorGroups[c] = [];
+    colorGroups[c].push(node);
+  }
+  const groupSizes = [];
+  for (let c = 0; c < numColors; c++) {
+    groupSizes.push(colorGroups[c] ? colorGroups[c].length : 0);
+  }
+
+  // Verify coloring validity
+  let conflicts = 0;
+  for (const node of nodes) {
+    for (const neighbor of adjList[node]) {
+      if (colors[node] === colors[neighbor]) {
+        conflicts++;
+      }
     }
   }
-  const ranked = {};
-  for (let i = 0; i < result.length; i++) {
-    ranked[result[i]] = i + 1;
-  }
-  const topTwo = result.slice(0, 2);
-  const bottomTwo = result.slice(-2);
+
   return JSON.stringify({
-    order: result,
-    topTwo,
-    bottomTwo,
-    totalItems: result.length
+    coloring: colors,
+    chromaticBound: numColors,
+    groupSizes,
+    processingOrder: order,
+    conflicts: conflicts / 2
   });
 }`,
     language: "javascript",
-    inputDescription: "Array of 6 objects with name, priority, and timestamp fields",
-    inputValue: '[{name:"delta",priority:2,timestamp:1000},{name:"alpha",priority:3,timestamp:1200},{name:"echo",priority:2,timestamp:900},{name:"bravo",priority:3,timestamp:1200},{name:"charlie",priority:1,timestamp:800},{name:"foxtrot",priority:2,timestamp:1000}]',
-    expectedOutput: '{"order":["alpha","bravo","echo","delta","foxtrot","charlie"],"topTwo":["alpha","bravo"],"bottomTwo":["foxtrot","charlie"],"totalItems":6}',
+    inputDescription: 'Adjacency list: { A: ["B","C","D"], B: ["A","C","E"], C: ["A","B","D","E"], D: ["A","C","F"], E: ["B","C","F"], F: ["D","E"] }',
+    inputValue: '{ A: ["B","C","D"], B: ["A","C","E"], C: ["A","B","D","E"], D: ["A","C","F"], E: ["B","C","F"], F: ["D","E"] }',
+    expectedOutput: '{"coloring":{"C":0,"A":1,"B":2,"D":2,"E":1,"F":0},"chromaticBound":3,"groupSizes":[2,2,2],"processingOrder":["C","A","B","D","E","F"],"conflicts":0}',
     options: [
-      '{"order":["alpha","bravo","echo","delta","foxtrot","charlie"],"topTwo":["alpha","bravo"],"bottomTwo":["foxtrot","charlie"],"totalItems":6}',
-      '{"order":["bravo","alpha","echo","delta","foxtrot","charlie"],"topTwo":["bravo","alpha"],"bottomTwo":["foxtrot","charlie"],"totalItems":6}',
-      '{"order":["alpha","bravo","delta","echo","foxtrot","charlie"],"topTwo":["alpha","bravo"],"bottomTwo":["foxtrot","charlie"],"totalItems":6}',
-      '{"order":["alpha","bravo","echo","foxtrot","delta","charlie"],"topTwo":["alpha","bravo"],"bottomTwo":["delta","charlie"],"totalItems":6}',
+      '{"coloring":{"C":0,"A":1,"B":2,"D":2,"E":1,"F":0},"chromaticBound":3,"groupSizes":[2,2,2],"processingOrder":["C","A","B","D","E","F"],"conflicts":0}',
+      '{"coloring":{"A":0,"B":1,"C":2,"D":1,"E":0,"F":2},"chromaticBound":3,"groupSizes":[2,2,2],"processingOrder":["A","B","C","D","E","F"],"conflicts":0}',
+      '{"coloring":{"C":0,"A":1,"B":2,"D":2,"E":1,"F":0},"chromaticBound":3,"groupSizes":[2,2,2],"processingOrder":["C","A","D","B","E","F"],"conflicts":0}',
+      '{"coloring":{"C":0,"A":1,"B":2,"D":1,"E":2,"F":0},"chromaticBound":3,"groupSizes":[2,2,2],"processingOrder":["C","A","B","D","E","F"],"conflicts":0}',
     ],
     correctOptionIndex: 0,
   },
