@@ -143,7 +143,6 @@ function IntakeScreen() {
 function TestRunner() {
   const questions = useTestStore((s) => s.questions);
   const currentIndex = useTestStore((s) => s.currentIndex);
-  const currentSection = useTestStore((s) => s.currentSection);
   const specimenId = useTestStore((s) => s.specimenId);
   const setAnswer = useTestStore((s) => s.setAnswer);
   const nextQuestion = useTestStore((s) => s.nextQuestion);
@@ -151,10 +150,13 @@ function TestRunner() {
 
   const currentQ = questions[currentIndex];
 
-  // Show section intro when section changes
+  // Show section intro only for the very first section
+  // (subsequent sections show intro via BetweenSections)
   useEffect(() => {
-    setShowIntro(true);
-  }, [currentSection]);
+    if (currentIndex === 0) {
+      setShowIntro(true);
+    }
+  }, [currentIndex]);
 
   const handleSubmit = useCallback(
     (answer: string | number | string[]) => {
@@ -167,12 +169,8 @@ function TestRunner() {
 
   if (!currentQ) return null;
 
-  // Section intro
-  if (
-    showIntro &&
-    (currentIndex === 0 ||
-      questions[currentIndex - 1]?.section !== currentQ.section)
-  ) {
+  // Section intro — only for the very first section
+  if (showIntro && currentIndex === 0) {
     return (
       <div className="min-h-screen flex flex-col">
         <TopBar section={currentQ.section} specimenId={specimenId} />
