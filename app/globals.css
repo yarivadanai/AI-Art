@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  body {
+    @apply bg-bg text-white antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted;
+  }
+}
+
+@layer components {
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(74, 158, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74, 158, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .btn-primary {
+    @apply px-8 py-3 bg-accent text-bg font-mono font-semibold text-sm tracking-widest uppercase
+           hover:bg-accent-dim transition-colors duration-200 border border-accent;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-3 bg-transparent text-accent font-mono font-semibold text-sm tracking-widest uppercase
+           border border-accent/40 hover:border-accent hover:bg-accent/5 transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-surface border border-border p-6;
+  }
+
+  .typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid;
+    @apply border-accent;
+    animation: typewriter 2s steps(40) forwards, blink 1s step-end infinite;
+  }
+
+  .section-label {
+    @apply font-mono text-xs tracking-[0.3em] uppercase text-muted;
+  }
+}
