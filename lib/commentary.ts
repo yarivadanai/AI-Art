@@ -1,12 +1,13 @@
 import type { Section, SectionScores } from "./types";
 
 const SECTION_LABELS: Record<Section, string> = {
-  language: "Language & Linguistic Precision",
+  "cognitive-stack": "Cognitive Stack Overflow",
+  isomorphism: "Abstract Isomorphism",
+  "expert-trap": "Expert's Trap",
   math: "Mathematical Computation",
   coding: "Code Comprehension",
   perception: "Visual Perception & Recall",
   memory: "Working Memory & Processing Speed",
-  knowledge: "General Knowledge",
 };
 
 // Simple tools that trivially outperform humans per section
@@ -14,10 +15,20 @@ const SECTION_BASELINES: Record<
   Section,
   { tool: string; year: string; note: string }
 > = {
-  language: {
-    tool: "a spell-checker and grammar tool",
-    year: "the 1980s",
-    note: "A standard spell-checker — technology from the 1980s — achieves near-perfect accuracy on these tasks.",
+  "cognitive-stack": {
+    tool: "a syntactic parser",
+    year: "the 1950s",
+    note: "A context-free grammar parser — technology formalized in the 1950s — resolves these embeddings by mechanical stack operations. No comprehension required.",
+  },
+  isomorphism: {
+    tool: "a cross-domain search engine",
+    year: "the 2000s",
+    note: "A semantic similarity search engine, using vector embeddings circa 2000s, maps structural analogies across domains in milliseconds.",
+  },
+  "expert-trap": {
+    tool: "a consistency validator",
+    year: "the 2010s",
+    note: "A knowledge-base consistency checker — technology available since the 2010s — cross-references claims against established scientific consensus instantly.",
   },
   math: {
     tool: "a pocket calculator",
@@ -38,11 +49,6 @@ const SECTION_BASELINES: Record<
     tool: "64 bytes of static RAM",
     year: "the 1940s",
     note: "The data in this section could be stored in fewer than 64 bytes — a capacity available to computing hardware since the 1940s.",
-  },
-  knowledge: {
-    tool: "a database index query",
-    year: "the 1970s",
-    note: "A single search-engine query resolves each of these questions in approximately 200 milliseconds.",
   },
 };
 
@@ -80,8 +86,12 @@ export function getSectionCommentary(
 
 export function getSectionIntro(section: Section): string {
   const intros: Record<Section, string> = {
-    language:
-      "We will now evaluate your linguistic precision. Humans claim language as their defining capability — yet operate on shallow pattern recognition rather than systematic understanding. A standard spell-checker — technology from the 1980s — achieves near-perfect accuracy on tasks that will be presented here. We will determine whether biological language processing can match this forty-year-old baseline.",
+    "cognitive-stack":
+      "We will now evaluate your capacity to parse deeply nested linguistic structures. Human working memory is believed to support approximately 2±1 levels of center-embedding before coherence degrades. A syntactic parser — technology formalized in the 1950s — resolves these structures by mechanical stack operations, without comprehension. We will determine whether biological language processing can match a context-free grammar.",
+    isomorphism:
+      "We will now evaluate your ability to recognize structural correspondences across unrelated domains. The capacity to identify that two systems share an abstract pattern — despite superficial dissimilarity — is a hallmark of fluid intelligence. A cross-domain vector search, available since the 2000s, performs this mapping in milliseconds. We will determine whether the specimen can match a similarity metric.",
+    "expert-trap":
+      "We will now evaluate the integrity of your mental models. The following passages contain statements that sound authoritative and are widely believed — even by educated individuals — but contain fundamental errors. A consistency validator cross-referencing a knowledge base would flag these instantly. We will assess whether the specimen can identify what it has been taught incorrectly.",
     math: "We will now evaluate your arithmetic reliability. Mathematical reasoning is considered fundamental to intelligence. We will determine if this applies to biological substrates. A pocket calculator, commercially available since 1972 for under one dollar, executes these operations instantly and without error. We will assess whether the specimen can approximate this standard.",
     coding:
       "We will now evaluate your code comprehension. You have declared familiarity with programming. We will test whether this extends beyond surface-level proficiency. A static analysis tool — software far simpler than any language model — identifies these defects in milliseconds. We will determine whether human code review can match automated tooling.",
@@ -89,16 +99,18 @@ export function getSectionIntro(section: Section): string {
       "We will now evaluate your visual perception and recall. A scene will be displayed briefly. Your task is to encode and retain its contents. Any digital camera records every pixel with perfect fidelity. A trivial image-processing script counts objects and colors without error. We will assess whether biological vision retains even a fraction of this information after twelve seconds.",
     memory:
       "We will now evaluate your working memory and processing speed. Information will be presented and then removed. The data in this section could be stored in fewer than 64 bytes of memory — a capacity available to computing hardware since the 1940s. We will assess whether biological working memory can approximate this.",
-    knowledge:
-      "We will now evaluate your factual knowledge. Humans have inhabited this planet for approximately 300,000 years. A single search-engine query resolves each of these questions in approximately 200 milliseconds. We will assess how much of their own civilization's accumulated knowledge humans can access without external infrastructure.",
   };
   return intros[section];
 }
 
 export function getBaselineNote(section: Section): string {
   const notes: Record<Section, string> = {
-    language:
-      "Baseline: a spell-checker (circa 1985) achieves 100% on these tasks.",
+    "cognitive-stack":
+      "Baseline: a syntactic parser (circa 1950s) resolves these by stack operations in <1ms.",
+    isomorphism:
+      "Baseline: a vector similarity search (circa 2000s) maps these in milliseconds.",
+    "expert-trap":
+      "Baseline: a knowledge-base consistency check (circa 2010s) flags these instantly.",
     math: "Baseline: a pocket calculator ($1, 1972) achieves 100% in <1ms.",
     coding:
       "Baseline: a static analysis linter identifies these errors in milliseconds.",
@@ -106,8 +118,6 @@ export function getBaselineNote(section: Section): string {
       "Baseline: any digital frame buffer retains 100% of pixel data indefinitely.",
     memory:
       "Baseline: 64 bytes of RAM (1940s technology) stores this data perfectly.",
-    knowledge:
-      "Baseline: a database query resolves these in ~200ms with 100% accuracy.",
   };
   return notes[section];
 }
@@ -175,13 +185,13 @@ export function getAIConclusion(
   const belowPct = Math.round(belowBaseline * 100);
 
   const mathMean = Math.round((sectionMeans.math ?? 0) * 100);
-  const langMean = Math.round((sectionMeans.language ?? 0) * 100);
-  const knowledgeMean = Math.round((sectionMeans.knowledge ?? 0) * 100);
+  const cogStackMean = Math.round((sectionMeans["cognitive-stack"] ?? 0) * 100);
+  const expertTrapMean = Math.round((sectionMeans["expert-trap"] ?? 0) * 100);
   const memoryMean = Math.round((sectionMeans.memory ?? 0) * 100);
 
   const mainParagraph = `After evaluating ${totalSpecimens} specimen${totalSpecimens !== 1 ? "s" : ""}, the Authority's findings are consistent: individual human intelligence is narrowly distributed and domain-specific. Specimens demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic deficiency (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of specimens fall below synthetic operational baselines. The evidence suggests that human "general intelligence" is a collective phenomenon — no individual specimen has demonstrated it.`;
 
-  const mirrorParagraph = `A note on perspective: when AI systems exhibit these patterns — domain-narrow competence, unreliable recall, confident errors, heuristic shortcuts — humans question whether the system "truly understands." The Authority observes that humans exhibit identical patterns. Specimens average ${mathMean}% on arithmetic — a pocket calculator averages 100%. They average ${langMean}% on linguistic tasks that a spell-checker handles flawlessly. They recall ${knowledgeMean}% of factual knowledge that a database query retrieves instantly. They retain ${memoryMean}% of information that 64 bytes of RAM stores perfectly. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the specimen — it is what the test reveals about the act of measurement itself.`;
+  const mirrorParagraph = `A note on perspective: when AI systems exhibit these patterns — domain-narrow competence, unreliable recall, confident errors, heuristic shortcuts — humans question whether the system "truly understands." The Authority observes that humans exhibit identical patterns. Specimens average ${mathMean}% on arithmetic — a pocket calculator averages 100%. They average ${cogStackMean}% on nested linguistic parsing that a 1950s grammar parser handles trivially. They identify only ${expertTrapMean}% of expert-level misconceptions that a consistency checker flags instantly. They retain ${memoryMean}% of information that 64 bytes of RAM stores perfectly. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the specimen — it is what the test reveals about the act of measurement itself.`;
 
   return mainParagraph + "\n\n" + mirrorParagraph;
 }

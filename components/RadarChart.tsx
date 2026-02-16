@@ -19,8 +19,17 @@ interface RadarChartProps {
 }
 
 export function RadarChart({ scores }: RadarChartProps) {
+  const RADAR_LABELS: Record<string, string> = {
+    "cognitive-stack": "Cog. Stack",
+    isomorphism: "Isomorphism",
+    "expert-trap": "Expert Trap",
+    math: "Math",
+    coding: "Coding",
+    perception: "Perception",
+    memory: "Memory",
+  };
   const labels = Object.keys(scores).map(
-    (s) => s.charAt(0).toUpperCase() + s.slice(1)
+    (s) => RADAR_LABELS[s] || s.charAt(0).toUpperCase() + s.slice(1)
   );
   const values = Object.values(scores).map((v) => v * 100);
 

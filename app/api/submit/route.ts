@@ -85,12 +85,13 @@ export async function POST(req: NextRequest) {
 
     // Compute section scores
     const sections: Section[] = [
-      "language",
+      "cognitive-stack",
+      "isomorphism",
+      "expert-trap",
       "math",
       "coding",
       "perception",
       "memory",
-      "knowledge",
     ];
 
     const sectionScores: Record<string, number> = {};
@@ -120,20 +121,22 @@ export async function POST(req: NextRequest) {
 
     if (hasCoding) {
       weights = {
-        language: 0.18,
-        math: 0.18,
-        coding: 0.18,
-        perception: 0.16,
-        memory: 0.16,
-        knowledge: 0.14,
+        "cognitive-stack": 0.15,
+        isomorphism: 0.15,
+        "expert-trap": 0.15,
+        math: 0.15,
+        coding: 0.12,
+        perception: 0.14,
+        memory: 0.14,
       };
     } else {
       weights = {
-        language: 0.216,
-        math: 0.216,
-        perception: 0.196,
-        memory: 0.196,
-        knowledge: 0.176,
+        "cognitive-stack": 0.17,
+        isomorphism: 0.17,
+        "expert-trap": 0.17,
+        math: 0.17,
+        perception: 0.16,
+        memory: 0.16,
       };
     }
 

@@ -1,13 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { RARE_WORDS, SPELLING_WORDS, ANALOGY_PAIRS } from "@/lib/banks/words";
-import { GRAMMAR_ITEMS } from "@/lib/banks/grammar";
-import { TRANSLATION_WORDS } from "@/lib/banks/translations";
-import {
-  SCIENCE_FACTS,
-  GEOGRAPHY_FACTS,
-  HISTORICAL_EVENTS,
-  MATH_CONSTANTS,
-} from "@/lib/banks/knowledge-facts";
+import { COGNITIVE_STACK_ITEMS } from "@/lib/banks/cognitive-stack";
+import { ISOMORPHISM_ITEMS } from "@/lib/banks/isomorphisms";
+import { EXPERT_TRAP_ITEMS } from "@/lib/banks/expert-trap";
 import { FALLACIOUS_PROOFS } from "@/lib/banks/proofs";
 import {
   BUG_TEMPLATES,
@@ -16,35 +10,17 @@ import {
   LONG_FUNCTION_TEMPLATES,
 } from "@/lib/banks/code-templates";
 
-// ─── Minimum counts (after dedup, ~4-5x originals) ──────────────────────────
+// ─── Minimum counts ─────────────────────────────────────────────────────────
 
 describe("Bank minimum counts", () => {
-  it("RARE_WORDS has at least 500 entries", () => {
-    expect(RARE_WORDS.length).toBeGreaterThanOrEqual(500);
+  it("COGNITIVE_STACK_ITEMS has at least 25 entries", () => {
+    expect(COGNITIVE_STACK_ITEMS.length).toBeGreaterThanOrEqual(25);
   });
-  it("SPELLING_WORDS has at least 375 entries", () => {
-    expect(SPELLING_WORDS.length).toBeGreaterThanOrEqual(375);
+  it("ISOMORPHISM_ITEMS has at least 25 entries", () => {
+    expect(ISOMORPHISM_ITEMS.length).toBeGreaterThanOrEqual(25);
   });
-  it("ANALOGY_PAIRS has at least 390 entries", () => {
-    expect(ANALOGY_PAIRS.length).toBeGreaterThanOrEqual(390);
-  });
-  it("GRAMMAR_ITEMS has at least 780 entries", () => {
-    expect(GRAMMAR_ITEMS.length).toBeGreaterThanOrEqual(780);
-  });
-  it("TRANSLATION_WORDS has at least 450 entries", () => {
-    expect(TRANSLATION_WORDS.length).toBeGreaterThanOrEqual(450);
-  });
-  it("SCIENCE_FACTS has at least 515 entries", () => {
-    expect(SCIENCE_FACTS.length).toBeGreaterThanOrEqual(515);
-  });
-  it("GEOGRAPHY_FACTS has at least 320 entries", () => {
-    expect(GEOGRAPHY_FACTS.length).toBeGreaterThanOrEqual(320);
-  });
-  it("HISTORICAL_EVENTS has at least 575 entries", () => {
-    expect(HISTORICAL_EVENTS.length).toBeGreaterThanOrEqual(575);
-  });
-  it("MATH_CONSTANTS has at least 135 entries", () => {
-    expect(MATH_CONSTANTS.length).toBeGreaterThanOrEqual(135);
+  it("EXPERT_TRAP_ITEMS has at least 25 entries", () => {
+    expect(EXPERT_TRAP_ITEMS.length).toBeGreaterThanOrEqual(25);
   });
   it("FALLACIOUS_PROOFS has at least 145 entries", () => {
     expect(FALLACIOUS_PROOFS.length).toBeGreaterThanOrEqual(145);
@@ -63,169 +39,76 @@ describe("Bank minimum counts", () => {
   });
 });
 
-// ─── Structural validation ───────────────────────────────────────────────────
+// ─── Cognitive Stack structural integrity ───────────────────────────────────
 
-describe("RARE_WORDS structural integrity", () => {
-  it("has no duplicate words", () => {
-    const words = RARE_WORDS.map((w) => w.word.toLowerCase());
-    expect(new Set(words).size).toBe(words.length);
-  });
-  it("every entry has word, definition, and 3 distractors", () => {
-    for (const w of RARE_WORDS) {
-      expect(w.word).toBeTruthy();
-      expect(w.definition).toBeTruthy();
-      expect(w.distractors).toHaveLength(3);
-      for (const d of w.distractors) {
-        expect(d).toBeTruthy();
-      }
+describe("COGNITIVE_STACK_ITEMS structural integrity", () => {
+  it("every entry has text, question, answer, alternatives, and valid subtype", () => {
+    const validSubtypes = ["center-embedding", "scope-ambiguity", "temporal-recursion"];
+    for (const item of COGNITIVE_STACK_ITEMS) {
+      expect(item.text).toBeTruthy();
+      expect(item.question).toBeTruthy();
+      expect(item.answer).toBeTruthy();
+      expect(Array.isArray(item.alternatives)).toBe(true);
+      expect(item.alternatives.length).toBeGreaterThanOrEqual(1);
+      expect(validSubtypes).toContain(item.subtype);
+      expect(item.explanation).toBeTruthy();
     }
   });
-  it("no distractor matches the correct definition", () => {
-    for (const w of RARE_WORDS) {
-      const defLower = w.definition.toLowerCase();
-      for (const d of w.distractors) {
-        expect(d.toLowerCase()).not.toBe(defLower);
-      }
-    }
-  });
-});
-
-describe("SPELLING_WORDS structural integrity", () => {
-  it("has no duplicate words", () => {
-    const words = SPELLING_WORDS.map((w) => w.correct.toLowerCase());
-    expect(new Set(words).size).toBe(words.length);
-  });
-  it("every entry has correct spelling and 3 misspellings", () => {
-    for (const w of SPELLING_WORDS) {
-      expect(w.correct).toBeTruthy();
-      expect(w.misspellings).toHaveLength(3);
-    }
-  });
-  it("no misspelling is the same as the correct spelling", () => {
-    for (const w of SPELLING_WORDS) {
-      for (const m of w.misspellings) {
-        expect(m.toLowerCase()).not.toBe(w.correct.toLowerCase());
-      }
-    }
-  });
-});
-
-describe("ANALOGY_PAIRS structural integrity", () => {
-  it("every entry has a, b, c, answer, relationship, and 3 distractors", () => {
-    for (const a of ANALOGY_PAIRS) {
-      expect(a.a).toBeTruthy();
-      expect(a.b).toBeTruthy();
-      expect(a.c).toBeTruthy();
-      expect(a.answer).toBeTruthy();
-      expect(a.relationship).toBeTruthy();
-      expect(a.distractors).toHaveLength(3);
-    }
-  });
-  it("no distractor matches the correct answer", () => {
-    for (const a of ANALOGY_PAIRS) {
-      for (const d of a.distractors) {
-        expect(d.toLowerCase()).not.toBe(a.answer.toLowerCase());
-      }
-    }
-  });
-});
-
-describe("GRAMMAR_ITEMS structural integrity", () => {
-  it("has no duplicate sentences", () => {
-    const sents = GRAMMAR_ITEMS.map((g) => g.sentence.toLowerCase().trim());
-    expect(new Set(sents).size).toBe(sents.length);
-  });
-  it("every entry has sentence, violation, and 3 distractors", () => {
-    for (const g of GRAMMAR_ITEMS) {
-      expect(g.sentence).toBeTruthy();
-      expect(g.violation).toBeTruthy();
-      expect(g.distractors).toHaveLength(3);
-    }
-  });
-});
-
-describe("TRANSLATION_WORDS structural integrity", () => {
-  it("every entry has word, language, description, and 3 distractors", () => {
-    for (const t of TRANSLATION_WORDS) {
-      expect(t.word).toBeTruthy();
-      expect(t.language).toBeTruthy();
-      expect(t.correctDescription).toBeTruthy();
-      expect(t.distractors).toHaveLength(3);
-    }
-  });
-  it("no distractor matches the correct description", () => {
-    for (const t of TRANSLATION_WORDS) {
-      const descLower = t.correctDescription.toLowerCase();
-      for (const d of t.distractors) {
-        expect(d.toLowerCase()).not.toBe(descLower);
-      }
-    }
-  });
-});
-
-describe("SCIENCE_FACTS structural integrity", () => {
   it("has no duplicate questions", () => {
-    const qs = SCIENCE_FACTS.map((f) => f.question.toLowerCase().trim());
+    const qs = COGNITIVE_STACK_ITEMS.map((i) => i.question.toLowerCase().trim());
     expect(new Set(qs).size).toBe(qs.length);
   });
-  it("every entry has question, correctAnswer, and 3 distractors", () => {
-    for (const f of SCIENCE_FACTS) {
-      expect(f.question).toBeTruthy();
-      expect(f.correctAnswer).toBeTruthy();
-      expect(f.distractors).toHaveLength(3);
-    }
-  });
-  it("correct answer is not among distractors", () => {
-    for (const f of SCIENCE_FACTS) {
-      const correct = f.correctAnswer.toLowerCase();
-      for (const d of f.distractors) {
-        expect(d.toLowerCase()).not.toBe(correct);
-      }
-    }
+  it("has all three subtypes represented", () => {
+    const subtypes = new Set(COGNITIVE_STACK_ITEMS.map((i) => i.subtype));
+    expect(subtypes.has("center-embedding")).toBe(true);
+    expect(subtypes.has("scope-ambiguity")).toBe(true);
+    expect(subtypes.has("temporal-recursion")).toBe(true);
   });
 });
 
-describe("GEOGRAPHY_FACTS structural integrity", () => {
-  it("every entry has question, correctAnswer, and 3 distractors", () => {
-    for (const f of GEOGRAPHY_FACTS) {
-      expect(f.question).toBeTruthy();
-      expect(f.correctAnswer).toBeTruthy();
-      expect(f.distractors).toHaveLength(3);
+// ─── Isomorphism structural integrity ───────────────────────────────────────
+
+describe("ISOMORPHISM_ITEMS structural integrity", () => {
+  it("every entry has sourceField, sourceConcept, sourceDescription, targetField, answer, and keywords", () => {
+    for (const item of ISOMORPHISM_ITEMS) {
+      expect(item.sourceField).toBeTruthy();
+      expect(item.sourceConcept).toBeTruthy();
+      expect(item.sourceDescription).toBeTruthy();
+      expect(item.targetField).toBeTruthy();
+      expect(item.answer).toBeTruthy();
+      expect(Array.isArray(item.keywords)).toBe(true);
+      expect(item.keywords.length).toBeGreaterThanOrEqual(1);
+      expect(item.explanation).toBeTruthy();
     }
+  });
+  it("has no duplicate sourceConcepts", () => {
+    const concepts = ISOMORPHISM_ITEMS.map((i) => i.sourceConcept.toLowerCase().trim());
+    expect(new Set(concepts).size).toBe(concepts.length);
   });
 });
 
-describe("HISTORICAL_EVENTS structural integrity", () => {
-  it("every entry has event and year", () => {
-    for (const e of HISTORICAL_EVENTS) {
-      expect(e.event).toBeTruthy();
-      expect(typeof e.year).toBe("number");
+// ─── Expert Trap structural integrity ───────────────────────────────────────
+
+describe("EXPERT_TRAP_ITEMS structural integrity", () => {
+  it("every entry has field, text, answer, and keywords", () => {
+    for (const item of EXPERT_TRAP_ITEMS) {
+      expect(item.field).toBeTruthy();
+      expect(item.text).toBeTruthy();
+      expect(item.answer).toBeTruthy();
+      expect(Array.isArray(item.keywords)).toBe(true);
+      expect(item.keywords.length).toBeGreaterThanOrEqual(1);
+      expect(item.explanation).toBeTruthy();
     }
   });
-  it("has no duplicate events", () => {
-    const events = HISTORICAL_EVENTS.map((e) => e.event.toLowerCase().trim());
-    expect(new Set(events).size).toBe(events.length);
+  it("has no duplicate fields combined with first 50 chars of text", () => {
+    const keys = EXPERT_TRAP_ITEMS.map(
+      (i) => `${i.field}::${i.text.slice(0, 50)}`.toLowerCase()
+    );
+    expect(new Set(keys).size).toBe(keys.length);
   });
 });
 
-describe("MATH_CONSTANTS structural integrity", () => {
-  it("every entry has name, symbol, and value with 15+ decimal places", () => {
-    for (const c of MATH_CONSTANTS) {
-      expect(c.name).toBeTruthy();
-      expect(c.symbol).toBeTruthy();
-      expect(c.value).toBeTruthy();
-      const dotIdx = c.value.indexOf(".");
-      if (dotIdx >= 0) {
-        const decimals = c.value.length - dotIdx - 1;
-        expect(decimals).toBeGreaterThanOrEqual(15);
-      }
-    }
-  });
-  it("has no duplicate constants", () => {
-    const names = MATH_CONSTANTS.map((c) => c.name.toLowerCase().trim());
-    expect(new Set(names).size).toBe(names.length);
-  });
-});
+// ─── Fallacious Proofs structural integrity ─────────────────────────────────
 
 describe("FALLACIOUS_PROOFS structural integrity", () => {
   it("every proof has claim, steps (6+), errorStep, and explanations", () => {
@@ -239,6 +122,8 @@ describe("FALLACIOUS_PROOFS structural integrity", () => {
     }
   });
 });
+
+// ─── Code Templates structural integrity ────────────────────────────────────
 
 describe("BUG_TEMPLATES structural integrity", () => {
   it("every template has code, bugLine, and 4 options", () => {

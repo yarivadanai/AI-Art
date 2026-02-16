@@ -36,12 +36,13 @@ export async function GET(
     const questionResults = result.session.questions
       .sort((a, b) => {
         const sectionOrder = [
-          "language",
+          "cognitive-stack",
+          "isomorphism",
+          "expert-trap",
           "math",
           "coding",
           "perception",
           "memory",
-          "knowledge",
         ];
         const sectionDiff =
           sectionOrder.indexOf(a.section) - sectionOrder.indexOf(b.section);

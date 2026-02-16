@@ -1,11 +1,12 @@
 import { SeededRNG } from './rng';
 import { GeneratedQuestion } from '@/lib/types';
-import { generateLanguageQuestions } from './language';
+import { generateCognitiveStackQuestions } from './cognitive-stack';
+import { generateIsomorphismQuestions } from './isomorphism';
+import { generateExpertTrapQuestions } from './expert-trap';
 import { generateMathQuestions } from './math';
 import { generateCodingQuestions } from './coding';
 import { generatePerceptionQuestions } from './perception';
 import { generateMemoryQuestions } from './memory';
-import { generateKnowledgeQuestions } from './knowledge';
 
 export interface TestPlan {
   seed: string;
@@ -21,12 +22,13 @@ export function generateTestPlan(
   const rng = new SeededRNG(seed);
 
   const questions: GeneratedQuestion[] = [
-    ...generateLanguageQuestions(rng),
+    ...generateCognitiveStackQuestions(rng),
+    ...generateIsomorphismQuestions(rng),
+    ...generateExpertTrapQuestions(rng),
     ...generateMathQuestions(rng),
     ...(includesCoding ? generateCodingQuestions(rng) : []),
     ...generatePerceptionQuestions(rng),
     ...generateMemoryQuestions(rng),
-    ...generateKnowledgeQuestions(rng),
   ];
 
   const expiresAt = new Date(Date.now() + 18 * 60 * 1000); // 18 minutes

@@ -22,8 +22,28 @@ export function gradeAnswer(
       const diff = Math.abs(Number(userAnswer) - Number(correct));
       return { correct: diff <= tolerance, score: diff <= tolerance ? 1 : 0 };
     }
-    const isCorrect =
-      String(userAnswer).trim().toLowerCase() === correct.trim().toLowerCase();
+
+    const userStr = String(userAnswer).trim().toLowerCase();
+
+    // Keywords: if any keyword appears as substring in user answer → correct
+    if (answerKey.keywords && answerKey.keywords.length > 0) {
+      const matched = answerKey.keywords.some(kw =>
+        userStr.includes(kw.toLowerCase())
+      );
+      if (matched) return { correct: true, score: 1 };
+    }
+
+    // Alternatives: exact match against correct or any alternative
+    if (answerKey.alternatives && answerKey.alternatives.length > 0) {
+      const allAccepted = [correct, ...answerKey.alternatives].map(s =>
+        s.trim().toLowerCase()
+      );
+      const matched = allAccepted.includes(userStr);
+      if (matched) return { correct: true, score: 1 };
+      return { correct: false, score: 0 };
+    }
+
+    const isCorrect = userStr === correct.trim().toLowerCase();
     return { correct: isCorrect, score: isCorrect ? 1 : 0 };
   }
 

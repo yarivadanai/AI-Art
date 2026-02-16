@@ -198,9 +198,7 @@ export function QuestionRenderer({
           <TextInput
             value={String(answer)}
             onChange={(v) => setAnswer(v)}
-            monospace={
-              questionType === "digit-span" || questionType === "math-constant"
-            }
+            monospace={questionType === "digit-span"}
           />
         )}
 

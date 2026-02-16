@@ -10,12 +10,13 @@ import { getBaselineNote } from "@/lib/commentary";
 import type { ResultResponse, Section } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
-  language: "Language & Linguistic Precision",
+  "cognitive-stack": "Cognitive Stack Overflow",
+  isomorphism: "Abstract Isomorphism",
+  "expert-trap": "Expert's Trap",
   math: "Mathematical Computation",
   coding: "Code Comprehension",
   perception: "Visual Perception & Recall",
   memory: "Working Memory & Processing",
-  knowledge: "General Knowledge",
 };
 
 const BAND_COLORS: Record<string, string> = {

@@ -1,18 +1,21 @@
 export type Section =
-  | "language"
+  | "cognitive-stack"
+  | "isomorphism"
+  | "expert-trap"
   | "math"
   | "coding"
   | "perception"
-  | "memory"
-  | "knowledge";
+  | "memory";
 
 export type QuestionType =
-  // Language
-  | "grammar-rule"
-  | "rare-word"
-  | "spelling"
-  | "translation-nuance"
-  | "word-analogy"
+  // Cognitive Stack
+  | "center-embedding"
+  | "scope-ambiguity"
+  | "temporal-recursion"
+  // Isomorphism
+  | "cross-domain-mapping"
+  // Expert Trap
+  | "causal-violation"
   // Math
   | "decimal-arithmetic"
   | "order-of-operations"
@@ -33,12 +36,7 @@ export type QuestionType =
   | "digit-span"
   | "fact-retention"
   | "sequence-recall"
-  | "speed-arithmetic"
-  // Knowledge
-  | "science-fact"
-  | "geography-fact"
-  | "historical-date"
-  | "math-constant";
+  | "speed-arithmetic";
 
 export type InputType =
   | "multiple-choice"
@@ -69,6 +67,10 @@ export interface AnswerKey {
   /** For partial credit grading */
   partialCredit?: boolean;
   tolerance?: number;
+  /** Additional exact-match strings */
+  alternatives?: string[];
+  /** Substring matches — any one sufficient */
+  keywords?: string[];
 }
 
 export interface GeneratedQuestion {
@@ -104,12 +106,13 @@ export interface FlashContent {
 }
 
 export interface SectionScores {
-  language: number;
+  "cognitive-stack": number;
+  isomorphism: number;
+  "expert-trap": number;
   math: number;
   coding?: number;
   perception: number;
   memory: number;
-  knowledge: number;
 }
 
 export interface VerdictBand {

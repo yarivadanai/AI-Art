@@ -8,12 +8,13 @@ import { AICommentary } from "@/components/AICommentary";
 import type { StatsResponse } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
-  language: "Language",
+  "cognitive-stack": "Cog. Stack",
+  isomorphism: "Isomorphism",
+  "expert-trap": "Expert Trap",
   math: "Mathematics",
   coding: "Coding",
   perception: "Perception",
   memory: "Memory",
-  knowledge: "Knowledge",
 };
 
 export default function DashboardPage() {
@@ -200,6 +201,18 @@ export default function DashboardPage() {
             </p>
             <div className="space-y-3 pl-4 border-l border-accent/20">
               <p>
+                A syntactic parser{" "}
+                <span className="text-accent">(circa 1950s)</span> outperforms
+                specimens averaging{" "}
+                <span className="text-accent">
+                  {Math.round(
+                    ((stats.sectionMeans?.["cognitive-stack"] as number) ?? 0) * 100
+                  )}
+                  %
+                </span>{" "}
+                on nested linguistic parsing.
+              </p>
+              <p>
                 A pocket calculator{" "}
                 <span className="text-accent">($1, 1972)</span> outperforms
                 specimens averaging{" "}
@@ -212,28 +225,16 @@ export default function DashboardPage() {
                 on arithmetic.
               </p>
               <p>
-                A spell-checker{" "}
-                <span className="text-accent">(circa 1985)</span> outperforms
+                A consistency checker{" "}
+                <span className="text-accent">(circa 2010s)</span> outperforms
                 specimens averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.language as number) ?? 0) * 100
+                    ((stats.sectionMeans?.["expert-trap"] as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on linguistic tasks.
-              </p>
-              <p>
-                A database query{" "}
-                <span className="text-accent">(~200ms)</span> outperforms
-                specimens averaging{" "}
-                <span className="text-accent">
-                  {Math.round(
-                    ((stats.sectionMeans?.knowledge as number) ?? 0) * 100
-                  )}
-                  %
-                </span>{" "}
-                on factual recall.
+                on identifying expert misconceptions.
               </p>
               <p>
                 64 bytes of RAM{" "}

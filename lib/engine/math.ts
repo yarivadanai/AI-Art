@@ -192,28 +192,25 @@ export function generateMathQuestions(rng: SeededRNG): GeneratedQuestion[] {
     answerKey: { correct: integralCorrectIdx },
   });
 
-  // Q5: Proof Error
+  // Q5: Proof Error — free-text with keyword grading
   const proof = rng.pick(FALLACIOUS_PROOFS);
   const stepsDisplay = proof.steps
     .map((step, i) => `Step ${i + 1}: ${step}`)
     .join('\n');
-  const proofOptions = rng.shuffle([
-    proof.errorExplanation,
-    ...proof.distractorExplanations,
-  ]);
-  const proofCorrectIdx = proofOptions.indexOf(proof.errorExplanation);
 
   questions.push({
     section: 'math',
     index: 4,
     type: 'proof-error',
     payload: {
-      prompt: `The following proof contains an error. Identify the nature of the error.`,
-      inputType: 'multiple-choice',
-      options: proofOptions,
+      prompt: `The following proof contains an error. Identify which step is wrong and explain the nature of the error.`,
+      inputType: 'text',
       display: `${proof.title}\n\n${stepsDisplay}`,
     },
-    answerKey: { correct: proofCorrectIdx },
+    answerKey: {
+      correct: proof.errorExplanation,
+      keywords: proof.keywords || [`step ${proof.errorStep}`],
+    },
   });
 
   return questions;

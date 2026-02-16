@@ -7,6 +7,7 @@ export interface FallaciousProof {
   errorStep: number; // 0-indexed
   errorExplanation: string;
   distractorExplanations: [string, string, string];
+  keywords?: string[];
 }
 
 export const FALLACIOUS_PROOFS: FallaciousProof[] = [
@@ -621,5 +622,48 @@ export const FALLACIOUS_PROOFS: FallaciousProof[] = [
   for (const ext of [...FALLACIOUS_PROOFS_EXT_1, ...FALLACIOUS_PROOFS_EXT_2]) {
     const k = ext.title.toLowerCase().trim();
     if (!seen.has(k)) { seen.add(k); FALLACIOUS_PROOFS.push(ext); }
+  }
+}
+
+// ─── Auto-derive keywords from errorExplanation for proofs that lack them ─────
+for (const proof of FALLACIOUS_PROOFS) {
+  if (!proof.keywords || proof.keywords.length === 0) {
+    // Extract key phrases from the error explanation
+    const exp = proof.errorExplanation.toLowerCase();
+    const kws: string[] = [];
+    // Add the error step number as a keyword
+    kws.push(`step ${proof.errorStep}`);
+    // Extract key conceptual terms
+    const conceptPatterns = [
+      /\b(circular\s*reasoning)\b/,
+      /\b(division\s*by\s*zero)\b/,
+      /\b(commutativity)\b/,
+      /\b(indeterminate\s*form)\b/,
+      /\b(branch\s*cut)\b/,
+      /\b(multi-?valued)\b/,
+      /\b(conditionally\s*convergent)\b/,
+      /\b(rearrangement)\b/,
+      /\b(russell'?s?\s*paradox)\b/,
+      /\b(fallacy\s*of\s*composition)\b/,
+      /\b(overlap)\b/,
+      /\b(empty)\b/,
+      /\b(pointwise\s*convergence)\b/,
+      /\b(monotone)\b/,
+      /\b(diagonal)\b/,
+      /\b(uncountable)\b/,
+      /\b(countable)\b/,
+      /\b(transcendental)\b/,
+      /\b(not\s*valid)\b/,
+      /\b(diverge[sd]?)\b/,
+      /\b(coprime)\b/,
+      /\b(only\s*valid)\b/,
+      /\b(number\s*of\s*terms)\b/,
+      /\b(number\s*of\s*summands)\b/,
+    ];
+    for (const pat of conceptPatterns) {
+      const match = exp.match(pat);
+      if (match) kws.push(match[1]);
+    }
+    if (kws.length > 1) proof.keywords = kws;
   }
 }

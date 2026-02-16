@@ -11,12 +11,13 @@ import { getSectionIntro, getSectionCommentary } from "@/lib/commentary";
 import type { Section } from "@/lib/types";
 
 const SECTION_NAMES: Record<Section, string> = {
-  language: "LANGUAGE",
+  "cognitive-stack": "COGNITIVE STACK OVERFLOW",
+  isomorphism: "ABSTRACT ISOMORPHISM",
+  "expert-trap": "EXPERT'S TRAP",
   math: "MATHEMATICS",
   coding: "CODE COMPREHENSION",
   perception: "VISUAL PERCEPTION",
   memory: "MEMORY & PROCESSING",
-  knowledge: "GENERAL KNOWLEDGE",
 };
 
 export default function TestPage() {
@@ -122,8 +123,8 @@ function IntakeScreen() {
             <p>
               •{" "}
               {includesCoding
-                ? "~27 questions across 6 sections"
-                : "~22 questions across 5 sections"}
+                ? "~29 questions across 7 sections"
+                : "~25 questions across 6 sections"}
             </p>
           </div>
 
