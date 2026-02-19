@@ -164,7 +164,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "A different student answered each question.",
     question: "What does the most natural reading imply about the relationship between students and questions?",
-    answer: "Each question was answered by a distinct student — no two questions share the same student",
+    answer: "Each question was answered by a distinct student; no two questions share the same student",
     alternatives: [
       "a unique student answered each question",
       "no student answered more than one question",
@@ -328,7 +328,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
       "each book was read by at most three students",
       "every book was read by no more than three students",
     ],
-    explanation: "Wide scope 'every book': ∀b(|{s : read(s,b)}| ≤ 3). Each book was read by at most 3 students. Narrow scope: |{s : ∀b read(s,b)}| ≤ 3 — at most 3 students read the entire list.",
+    explanation: "Wide scope 'every book': ∀b(|{s : read(s,b)}| ≤ 3). Each book was read by at most 3 students. Narrow scope: |{s : ∀b read(s,b)}| ≤ 3, meaning at most 3 students read the entire list.",
     subtype: "scope-ambiguity",
   },
 
@@ -360,7 +360,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "What is the true grammatical subject of 'are to present', and what form should the verb take?",
     answer: "The subject is 'each', which is singular, so the verb should be 'is to present'",
     alternatives: [
-      "each — should be is to present",
+      "each (should be is to present)",
       "each of the doctoral candidates; is to present",
     ],
     explanation: "Despite the intervening plural 'candidates who have submitted their dissertations,' the head subject is 'each,' which is grammatically singular. The correct form is 'each... is to present.'",
@@ -371,7 +371,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "The verb 'are' is grammatically incorrect. What is its true subject and what should the verb be?",
     answer: "The subject is 'the correlation', which is singular, so the verb should be 'is'",
     alternatives: [
-      "the correlation — should be is",
+      "the correlation (should be is)",
       "the correlation between the variables; is",
     ],
     explanation: "Inside the embedded that-clause, the subject of 'are likely an artifact' is 'the correlation,' which is singular. The parenthetical 'while statistically significant' does not change the subject. The correct form is 'is likely an artifact.'",
@@ -382,7 +382,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "The verb 'were completed' is incorrect. What is its grammatical subject and what should the verb be?",
     answer: "The subject is 'the synthesis', which is singular, so the verb should be 'was completed'",
     alternatives: [
-      "the synthesis — should be was completed",
+      "the synthesis (should be was completed)",
       "the synthesis of the compound; was completed",
     ],
     explanation: "The main clause within the that-complement is 'the synthesis... were completed.' The two relative clauses ('the isolation of which...' and 'which required...') modify 'compound,' but the head subject remains 'the synthesis' (singular). Correct: 'was completed.'",
@@ -393,7 +393,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "The verb 'has' is incorrect. What is the true subject and what should the verb be?",
     answer: "The subject is 'the implications', which is plural, so the verb should be 'have'",
     alternatives: [
-      "the implications — should be have",
+      "the implications (should be have)",
       "the implications of the theorem; have fundamentally altered",
     ],
     explanation: "The two nested relative clauses ('which Professor Harrington... and which the broader mathematical community...') modify 'theorem,' but the head subject is 'the implications' (plural). Correct: 'have fundamentally altered.'",
@@ -404,7 +404,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "The verb 'were found' is incorrect. What is the grammatical subject of this verb and what should it be?",
     answer: "The subject is 'the pharmaceutical company's chief toxicologist', which is singular, so the verb should be 'was found'",
     alternatives: [
-      "the chief toxicologist — should be was found",
+      "the chief toxicologist (should be was found)",
       "the toxicologist; was found",
     ],
     explanation: "The entire that-clause is the sentence subject. Within it, the subject of the passive 'were found' is 'the pharmaceutical company's chief toxicologist' (singular). The relative clause about the laboratory is parenthetical. Correct: 'was found.'",
@@ -415,7 +415,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "The verb 'was indistinguishable' is incorrect. What is its grammatical subject and what should the verb be?",
     answer: "The subject is 'the formant transitions', which is plural, so the verb should be 'were indistinguishable'",
     alternatives: [
-      "the formant transitions — should be were",
+      "the formant transitions (should be were)",
       "the formant transitions; were indistinguishable",
     ],
     explanation: "Within the that-clause, the head subject is 'the formant transitions' (plural), modified by 'characteristic of the velar consonants produced by the experimental group, who...' The verb must agree with 'transitions': 'were indistinguishable.'",
@@ -426,7 +426,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "The verb 'have published' is incorrect. What is the grammatical subject and what should the verb be?",
     answer: "The subject is 'the researcher', which is singular, so the verb should be 'has published'",
     alternatives: [
-      "the researcher — should be has published",
+      "the researcher (should be has published)",
       "the researcher; has published",
     ],
     explanation: "'Along with her graduate assistants...' is a parenthetical addition, not a compound subject. The grammatical subject remains 'the researcher' (singular). 'Along with,' unlike 'and,' does not create a plural subject. Correct: 'has published.'",
@@ -561,21 +561,21 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "Under the wide-scope reading of 'every book', does this entail that only one student read any book at all?",
     answer: "No, it means for each book there is exactly one student who read it, and that student may differ per book",
     alternatives: [
-      "no — each book was read by exactly one student, possibly different students",
+      "no: each book was read by exactly one student, possibly different students",
       "no, the student can vary across books",
     ],
-    explanation: "Wide scope for 'every book': ∀b|{s : read(s,b)}| = 1. Each book has exactly one reader, but different books may have different readers. Narrow scope: |{s : ∀b read(s,b)}| = 1 — exactly one student read all books.",
+    explanation: "Wide scope for 'every book': ∀b|{s : read(s,b)}| = 1. Each book has exactly one reader, but different books may have different readers. Narrow scope: |{s : ∀b read(s,b)}| = 1, meaning exactly one student read all books.",
     subtype: "scope-ambiguity",
   },
   {
     text: "Three referees did not approve any manuscript.",
     question: "This sentence has two scope readings. Under the reading where negation takes wide scope over 'three referees', what does it assert?",
-    answer: "It is not the case that three referees approved any manuscript — fewer than three referees approved anything",
+    answer: "It is not the case that three referees approved any manuscript; fewer than three referees approved anything",
     alternatives: [
       "fewer than three referees approved any manuscript",
       "not three referees approved anything",
     ],
-    explanation: "Wide scope negation: ¬(∃3 referees)(∃ manuscript)(approved). Narrow scope negation with wide 'three referees': (∃3 referees)¬(∃ manuscript)(approved) — there exist three specific referees who approved nothing.",
+    explanation: "Wide scope negation: ¬(∃3 referees)(∃ manuscript)(approved). Narrow scope negation with wide 'three referees': (∃3 referees)¬(∃ manuscript)(approved), meaning there exist three specific referees who approved nothing.",
     subtype: "scope-ambiguity",
   },
   {
@@ -597,7 +597,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
       "each regulation is supported by few politicians",
       "every regulation has few political supporters",
     ],
-    explanation: "Wide scope 'every regulation': ∀r(few p : support(p,r)). Each regulation has few supporters. Narrow scope: few p(∀r support(p,r)) — few politicians support all regulations. The wide-scope reading is stronger.",
+    explanation: "Wide scope 'every regulation': ∀r(few p : support(p,r)). Each regulation has few supporters. Narrow scope: few p(∀r support(p,r)), meaning few politicians support all regulations. The wide-scope reading is stronger.",
     subtype: "scope-ambiguity",
   },
   {
@@ -627,7 +627,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     question: "Under the collective reading of 'two students', can the total number of solved problems exceed three?",
     answer: "No, on the collective reading the two students together solved at most three problems total",
     alternatives: [
-      "no — collectively they solved at most three",
+      "no: collectively they solved at most three",
       "no, at most three problems total",
     ],
     explanation: "Collective reading: the pair of students, treated as a unit, solved at most 3 problems in total. Distributive reading: each of the two students solved at most 3 problems, allowing up to 6 total.",
@@ -636,7 +636,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "Every child in the study was not given a placebo.",
     question: "Under the reading where 'every child' takes wide scope over negation, what is asserted?",
-    answer: "No child in the study was given a placebo — every child received the real treatment",
+    answer: "No child in the study was given a placebo; every child received the real treatment",
     alternatives: [
       "no child received a placebo",
       "all children were given the real treatment, not the placebo",
@@ -658,7 +658,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
     answer: "The sentence does not constrain the maximum per analyst; it says that for each department, at most five analysts reviewed two or more of its reports",
     alternatives: [
       "no maximum per analyst is specified; at most five analysts reviewed 2+ reports from each department",
-      "unconstrained — the limit is on the count of analysts per department",
+      "unconstrained; the limit is on the count of analysts per department",
     ],
     explanation: "Wide scope 'every department': ∀d(|{a : |{r ∈ d : reviewed(a,r)}| ≥ 2}| ≤ 5). For each department, at most 5 analysts reviewed 2+ of that department's reports. The analysts can differ across departments, and each analyst's total is unconstrained.",
     subtype: "scope-ambiguity",
@@ -666,9 +666,9 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "A logician can detect every fallacy or every logician can detect a fallacy.",
     question: "The disjunction creates scope ambiguity. Under the reading where the sentence is trivially true, which interpretation applies?",
-    answer: "The reading where the second disjunct means 'every logician can detect at least one fallacy' — which is trivially true for any competent logician",
+    answer: "The reading where the second disjunct means 'every logician can detect at least one fallacy', which is trivially true for any competent logician",
     alternatives: [
-      "second disjunct: every logician can detect some fallacy — trivially true",
+      "second disjunct: every logician can detect some fallacy (trivially true)",
       "the right disjunct with existential narrow scope is trivially satisfied",
     ],
     explanation: "The sentence is: P ∨ Q. If Q = ∀l∃f(detect(l,f)), this is trivially true (every logician knows at least one fallacy). If Q = ∀l∀f(detect(l,f)), that's very strong. The trivially true reading uses narrow scope for 'a fallacy' in the second disjunct.",
@@ -677,7 +677,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "At least two witnesses claimed that no suspect was at every crime scene.",
     question: "Under the reading where 'every crime scene' takes widest scope and 'no suspect' takes scope over 'at least two witnesses', what does this assert?",
-    answer: "For every crime scene, no suspect was there according to any two witnesses — each scene is reported suspect-free",
+    answer: "For every crime scene, no suspect was there according to any two witnesses; each scene is reported suspect-free",
     alternatives: [
       "every crime scene was reported by witnesses to have no suspects present",
       "for each scene, at least two witnesses said no suspect was there",
@@ -769,7 +769,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
       "the treaty to end the war was drafted before the war started",
       "the treaty preceded the war it was meant to conclude",
     ],
-    explanation: "Double paradox: (1) The treaty to end the war was drafted before the war began. (2) There was an armistice that preceded the war — an armistice implies a prior conflict, yet it came before the war. Timeline: armistice → treaty drafted → armistice voided → war begins → treaty ratified.",
+    explanation: "Double paradox: (1) The treaty to end the war was drafted before the war began. (2) There was an armistice that preceded the war; an armistice implies a prior conflict, yet it came before the war. Timeline: armistice → treaty drafted → armistice voided → war begins → treaty ratified.",
     subtype: "temporal-recursion",
   },
   {
@@ -783,9 +783,9 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "The investigation that was opened after the cover-up was discovered revealed that the cover-up had been initiated before the crime, which was itself staged to justify the cover-up that had already begun, was committed.",
     question: "What is the circular dependency in this timeline?",
-    answer: "The cover-up was started to hide the crime, but the crime was staged to justify the cover-up — each event presupposes the other",
+    answer: "The cover-up was started to hide the crime, but the crime was staged to justify the cover-up; each event presupposes the other",
     alternatives: [
-      "the crime justified the cover-up and the cover-up preceded the crime — circular causation",
+      "the crime justified the cover-up and the cover-up preceded the crime (circular causation)",
       "the cover-up caused the crime which caused the cover-up",
     ],
     explanation: "Circular timeline: cover-up initiated → crime staged (to justify the cover-up) → cover-up discovered → investigation opened. The cover-up preceded and motivated the crime, but the crime was supposedly the reason for the cover-up. This is a causal loop.",
@@ -805,7 +805,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "The defendant testified that he had planned to confess before the trial, but only after learning that the prosecution had obtained the evidence that he had hidden before deciding to confess, which he had decided before he knew the evidence existed.",
     question: "What is the contradictory element in the defendant's testimony?",
-    answer: "He claims he decided to confess before he knew the evidence existed, but also says he would only confess after learning the prosecution had the evidence — the condition for confessing requires knowledge he claims not to have had",
+    answer: "He claims he decided to confess before he knew the evidence existed, but also says he would only confess after learning the prosecution had the evidence: the condition for confessing requires knowledge he claims not to have had",
     alternatives: [
       "he decided to confess before knowing about evidence but his confession was conditional on learning about that evidence",
       "the decision to confess both preceded and depended on knowledge of the evidence",
@@ -816,10 +816,10 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "The archive contained a manuscript that described its own future discovery in the archive that would not be built until centuries after the manuscript had been written, by explorers who would follow the map that the manuscript contained.",
     question: "Identify the self-referential temporal loop.",
-    answer: "The manuscript describes its own discovery in an archive not yet built, and the explorers find it by following a map within the manuscript itself — the manuscript causes its own discovery",
+    answer: "The manuscript describes its own discovery in an archive not yet built, and the explorers find it by following a map within the manuscript itself: the manuscript causes its own discovery",
     alternatives: [
       "the manuscript contains the map that leads to its own discovery",
-      "the manuscript's map leads explorers to find the manuscript — a causal loop",
+      "the manuscript's map leads explorers to find the manuscript (a causal loop)",
     ],
     explanation: "The manuscript was written → centuries pass → the archive is built → explorers follow the map from the manuscript → they find the manuscript in the archive. The manuscript contains information about its own future location, and that information is what leads to it being found there. A bootstrap paradox.",
     subtype: "temporal-recursion",
@@ -909,7 +909,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
       "every country has at least one unsigned treaty",
       "no country signed all treaties",
     ],
-    explanation: "∀c∃≥1t¬(signed(c,t)): for every country, there is at least one treaty it did not sign. Equivalently: no country signed every treaty. Compare with ∀c¬∃≥1t(signed(c,t)), which would mean no country signed any treaty — a much stronger (and less natural) reading.",
+    explanation: "∀c∃≥1t¬(signed(c,t)): for every country, there is at least one treaty it did not sign. Equivalently: no country signed every treaty. Compare with ∀c¬∃≥1t(signed(c,t)), which would mean no country signed any treaty, a much stronger (and less natural) reading.",
     subtype: "scope-ambiguity",
   },
   {
@@ -934,7 +934,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "Almost every student solved some problem that no professor could solve.",
     question: "Under the reading where 'no professor' takes widest scope, what does this claim?",
-    answer: "There is no professor such that almost every student solved a problem that professor could solve — effectively, the students solved problems outside any single professor's ability",
+    answer: "There is no professor such that almost every student solved a problem that professor could solve; effectively, the students solved problems outside any single professor's ability",
     alternatives: [
       "no single professor could solve the problems the students solved",
       "for no professor is it true that almost every student solved a problem they could solve",
@@ -958,7 +958,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "The director had planned to announce the merger after confirming that the board, which had been expected to have approved the deal before the shareholders who would need to have been notified prior to the vote that had been scheduled before the regulatory review that was itself contingent on the merger announcement was completed, had in fact never convened.",
     question: "What is the fundamental coordination failure described?",
-    answer: "The merger announcement depends on the regulatory review, which depends on the merger announcement — a circular dependency — and the board never met, making everything moot",
+    answer: "The merger announcement depends on the regulatory review, which depends on the merger announcement (a circular dependency), and the board never met, making everything moot",
     alternatives: [
       "circular dependency between announcement and regulatory review, compounded by the board never meeting",
       "the announcement requires review which requires the announcement, and the board never convened",
@@ -969,7 +969,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "Precisely two auditors found that no division had reported every discrepancy.",
     question: "Under the reading where 'every discrepancy' takes widest scope, 'no division' takes middle scope, and 'precisely two auditors' takes narrow scope, what is asserted?",
-    answer: "For every discrepancy, no division reported it according to precisely two auditors — each discrepancy was found unreported by exactly two auditors",
+    answer: "For every discrepancy, no division reported it according to precisely two auditors; each discrepancy was found unreported by exactly two auditors",
     alternatives: [
       "each discrepancy had exactly two auditors who found it unreported by any division",
       "every discrepancy was flagged as unreported by precisely two auditors",
@@ -980,7 +980,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
   {
     text: "The retraction was issued after the authors discovered that the peer reviewers had approved the manuscript before the funding agency, which had commissioned the study that the manuscript reported on, had fabricated the preliminary data that the study was designed to confirm, which the authors had not known when they submitted the manuscript that was written before the data fabrication occurred.",
     question: "What is the temporal paradox in this scenario?",
-    answer: "The text states the manuscript was written before the data fabrication, yet the manuscript reports on a study based on that fabricated data — the fabrication must have preceded the writing, contradicting the stated timeline",
+    answer: "The text states the manuscript was written before the data fabrication, yet the manuscript reports on a study based on that fabricated data: the fabrication must have preceded the writing, contradicting the stated timeline",
     alternatives: [
       "the manuscript cannot have been written before the fabrication if it was based on fabricated data",
       "writing preceded fabrication but the content required the fabrication to exist first",
@@ -996,7 +996,7 @@ export const COGNITIVE_STACK_ITEMS: CognitiveStackItem[] = [
       "the enemy knew of the retreat before the decision and intercepted a courier not yet sent",
       "anticipation preceded the decision, and interception preceded the dispatch",
     ],
-    explanation: "Double impossibility: (1) The enemy repositioned before the general decided to retreat — they anticipated a decision not yet made. (2) They intercepted plans from a courier who had not yet been dispatched when the interception occurred — they captured a message before it was sent. Both require retroactive causation or foreknowledge.",
+    explanation: "Double impossibility: (1) The enemy repositioned before the general decided to retreat, meaning they anticipated a decision not yet made. (2) They intercepted plans from a courier who had not yet been dispatched when the interception occurred; they captured a message before it was sent. Both require retroactive causation or foreknowledge.",
     subtype: "temporal-recursion",
   },
 ];

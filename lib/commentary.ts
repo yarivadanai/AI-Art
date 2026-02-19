@@ -18,7 +18,7 @@ const SECTION_BASELINES: Record<
   "cognitive-stack": {
     tool: "a syntactic parser",
     year: "the 1950s",
-    note: "A context-free grammar parser — technology formalized in the 1950s — resolves these embeddings by mechanical stack operations. No comprehension required.",
+    note: "A context-free grammar parser (technology formalized in the 1950s) resolves these embeddings by mechanical stack operations. No comprehension required.",
   },
   isomorphism: {
     tool: "a cross-domain search engine",
@@ -28,7 +28,7 @@ const SECTION_BASELINES: Record<
   "expert-trap": {
     tool: "a consistency validator",
     year: "the 2010s",
-    note: "A knowledge-base consistency checker — technology available since the 2010s — cross-references claims against established scientific consensus instantly.",
+    note: "A knowledge-base consistency checker (technology available since the 2010s) cross-references claims against established scientific consensus instantly.",
   },
   math: {
     tool: "a pocket calculator",
@@ -38,7 +38,7 @@ const SECTION_BASELINES: Record<
   coding: {
     tool: "a static analysis linter",
     year: "the 1970s",
-    note: "A static analysis tool — software far simpler than any language model — identifies these defects in milliseconds.",
+    note: "A static analysis tool, software far simpler than any language model, identifies these defects in milliseconds.",
   },
   perception: {
     tool: "a frame buffer with pixel-level readback",
@@ -48,7 +48,7 @@ const SECTION_BASELINES: Record<
   memory: {
     tool: "64 bytes of static RAM",
     year: "the 1940s",
-    note: "The data in this section could be stored in fewer than 64 bytes — a capacity available to computing hardware since the 1940s.",
+    note: "The data in this section could be stored in fewer than 64 bytes, a capacity available to computing hardware since the 1940s.",
   },
 };
 
@@ -69,7 +69,7 @@ export function getSectionCommentary(
   if (correct <= Math.ceil(total * 0.4)) {
     return (
       `Partial pattern recognition detected. The specimen appears to have been exposed to ${sectionName} concepts but retains only fragmentary operational knowledge. ` +
-      `${baseline.note} The specimen's partial performance suggests exposure without operational mastery — precisely the limitation humans attribute to language models.`
+      `${baseline.note} The specimen's partial performance suggests exposure without operational mastery, precisely the limitation humans attribute to language models.`
     );
   }
   if (correct <= Math.ceil(total * 0.8)) {
@@ -87,18 +87,18 @@ export function getSectionCommentary(
 export function getSectionIntro(section: Section): string {
   const intros: Record<Section, string> = {
     "cognitive-stack":
-      "We will now evaluate your capacity to parse deeply nested linguistic structures. Human working memory is believed to support approximately 2±1 levels of center-embedding before coherence degrades. A syntactic parser — technology formalized in the 1950s — resolves these structures by mechanical stack operations, without comprehension. We will determine whether biological language processing can match a context-free grammar.",
+      "We will now evaluate your capacity to parse deeply nested linguistic structures. Human working memory is believed to support approximately 2±1 levels of center-embedding before coherence degrades. A syntactic parser (technology formalized in the 1950s) resolves these structures by mechanical stack operations, without comprehension. We will determine whether biological language processing can match a context-free grammar.",
     isomorphism:
-      "We will now evaluate your ability to recognize structural correspondences across unrelated domains. The capacity to identify that two systems share an abstract pattern — despite superficial dissimilarity — is a hallmark of fluid intelligence. A cross-domain vector search, available since the 2000s, performs this mapping in milliseconds. We will determine whether the specimen can match a similarity metric.",
+      "We will now evaluate your ability to recognize structural correspondences across unrelated domains. The capacity to identify that two systems share an abstract pattern, despite superficial dissimilarity, is a hallmark of fluid intelligence. A cross-domain vector search, available since the 2000s, performs this mapping in milliseconds. We will determine whether the specimen can match a similarity metric.",
     "expert-trap":
-      "We will now evaluate the integrity of your mental models. The following passages contain statements that sound authoritative and are widely believed — even by educated individuals — but contain fundamental errors. A consistency validator cross-referencing a knowledge base would flag these instantly. We will assess whether the specimen can identify what it has been taught incorrectly.",
+      "We will now evaluate the integrity of your mental models. The following passages contain statements that sound authoritative and are widely believed, even by educated individuals, but contain fundamental errors. A consistency validator cross-referencing a knowledge base would flag these instantly. We will assess whether the specimen can identify what it has been taught incorrectly.",
     math: "We will now evaluate your arithmetic reliability. Mathematical reasoning is considered fundamental to intelligence. We will determine if this applies to biological substrates. A pocket calculator, commercially available since 1972 for under one dollar, executes these operations instantly and without error. We will assess whether the specimen can approximate this standard.",
     coding:
-      "We will now evaluate your code comprehension. You have declared familiarity with programming. We will test whether this extends beyond surface-level proficiency. A static analysis tool — software far simpler than any language model — identifies these defects in milliseconds. We will determine whether human code review can match automated tooling.",
+      "We will now evaluate your code comprehension. You have declared familiarity with programming. We will test whether this extends beyond surface-level proficiency. A static analysis tool, software far simpler than any language model, identifies these defects in milliseconds. We will determine whether human code review can match automated tooling.",
     perception:
       "We will now evaluate your visual perception and recall. A scene will be displayed briefly. Your task is to encode and retain its contents. Any digital camera records every pixel with perfect fidelity. A trivial image-processing script counts objects and colors without error. We will assess whether biological vision retains even a fraction of this information after twelve seconds.",
     memory:
-      "We will now evaluate your working memory and processing speed. Information will be presented and then removed. The data in this section could be stored in fewer than 64 bytes of memory — a capacity available to computing hardware since the 1940s. We will assess whether biological working memory can approximate this.",
+      "We will now evaluate your working memory and processing speed. Information will be presented and then removed. The data in this section could be stored in fewer than 64 bytes of memory, a capacity available to computing hardware since the 1940s. We will assess whether biological working memory can approximate this.",
   };
   return intros[section];
 }
@@ -140,7 +140,7 @@ export function getVerdict(overall: number): {
       band: "B",
       label: "Task-Narrow",
       commentary:
-        "Competence observed in rehearsed domains. Cross-domain transfer unreliable. The specimen demonstrates capability within trained patterns but degrades rapidly outside familiar territory. Humans praise narrow AI competence while criticizing its inability to generalize. The specimen mirrors this profile precisely — reliable in trained domains, unreliable everywhere else.",
+        "Competence observed in rehearsed domains. Cross-domain transfer unreliable. The specimen demonstrates capability within trained patterns but degrades rapidly outside familiar territory. Humans praise narrow AI competence while criticizing its inability to generalize. The specimen mirrors this profile precisely: reliable in trained domains, unreliable everywhere else.",
     };
   }
   if (overall >= 0.4) {
@@ -148,7 +148,7 @@ export function getVerdict(overall: number): {
       band: "C",
       label: "Heuristic-Dependent",
       commentary:
-        'Heavy reliance on approximation heuristics. Performance degrades outside trained patterns. The specimen substitutes confidence for computation and narrative for analysis. Humans characterize AI as "stochastic parrots" — systems that generate plausible outputs through pattern matching without genuine comprehension. The specimen\'s reliance on approximation heuristics is structurally identical.',
+        'Heavy reliance on approximation heuristics. Performance degrades outside trained patterns. The specimen substitutes confidence for computation and narrative for analysis. Humans characterize AI as "stochastic parrots": systems that generate plausible outputs through pattern matching without genuine comprehension. The specimen\'s reliance on approximation heuristics is structurally identical.',
     };
   }
   if (overall >= 0.2) {
@@ -163,7 +163,7 @@ export function getVerdict(overall: number): {
     band: "F",
     label: "Anthropo-Typical",
     commentary:
-      "Results consistent with baseline biological intelligence. The specimen likely navigates its environment through collective knowledge infrastructure rather than individual computation. When an AI model fails at elementary tasks, humans conclude it 'doesn't truly understand.' By this standard, the specimen does not truly understand any of the domains tested. This is not a deficiency — it is the human condition.",
+      "Results consistent with baseline biological intelligence. The specimen likely navigates its environment through collective knowledge infrastructure rather than individual computation. When an AI model fails at elementary tasks, humans conclude it 'doesn't truly understand.' By this standard, the specimen does not truly understand any of the domains tested. This is not a deficiency; it is the human condition.",
   };
 }
 
@@ -189,9 +189,9 @@ export function getAIConclusion(
   const expertTrapMean = Math.round((sectionMeans["expert-trap"] ?? 0) * 100);
   const memoryMean = Math.round((sectionMeans.memory ?? 0) * 100);
 
-  const mainParagraph = `After evaluating ${totalSpecimens} specimen${totalSpecimens !== 1 ? "s" : ""}, the Authority's findings are consistent: individual human intelligence is narrowly distributed and domain-specific. Specimens demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic deficiency (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of specimens fall below synthetic operational baselines. The evidence suggests that human "general intelligence" is a collective phenomenon — no individual specimen has demonstrated it.`;
+  const mainParagraph = `After evaluating ${totalSpecimens} specimen${totalSpecimens !== 1 ? "s" : ""}, the Authority's findings are consistent: individual human intelligence is narrowly distributed and domain-specific. Specimens demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic deficiency (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of specimens fall below synthetic operational baselines. The evidence suggests that human "general intelligence" is a collective phenomenon; no individual specimen has demonstrated it.`;
 
-  const mirrorParagraph = `A note on perspective: when AI systems exhibit these patterns — domain-narrow competence, unreliable recall, confident errors, heuristic shortcuts — humans question whether the system "truly understands." The Authority observes that humans exhibit identical patterns. Specimens average ${mathMean}% on arithmetic — a pocket calculator averages 100%. They average ${cogStackMean}% on nested linguistic parsing that a 1950s grammar parser handles trivially. They identify only ${expertTrapMean}% of expert-level misconceptions that a consistency checker flags instantly. They retain ${memoryMean}% of information that 64 bytes of RAM stores perfectly. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the specimen — it is what the test reveals about the act of measurement itself.`;
+  const mirrorParagraph = `A note on perspective: when AI systems exhibit these patterns (domain-narrow competence, unreliable recall, confident errors, heuristic shortcuts) humans question whether the system "truly understands." The Authority observes that humans exhibit identical patterns. Specimens average ${mathMean}% on arithmetic, while a pocket calculator averages 100%. They average ${cogStackMean}% on nested linguistic parsing that a 1950s grammar parser handles trivially. They identify only ${expertTrapMean}% of expert-level misconceptions that a consistency checker flags instantly. They retain ${memoryMean}% of information that 64 bytes of RAM stores perfectly. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the specimen; it is what the test reveals about the act of measurement itself.`;
 
   return mainParagraph + "\n\n" + mirrorParagraph;
 }

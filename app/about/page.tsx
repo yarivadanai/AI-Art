@@ -72,10 +72,10 @@ function FacilityBriefing() {
           {"// PURPOSE"}
         </h2>
         <p>
-          The Human Intelligence Testing — Abstraction Research Center (HIT-ARC)
+          The Human Intelligence Testing: Abstraction Research Center (HIT-ARC)
           was established to address a critical gap in intelligence research.
           For decades, humanity has developed increasingly sophisticated
-          benchmarks to evaluate artificial intelligence — yet has never
+          benchmarks to evaluate artificial intelligence, yet has never
           subjected its own cognition to equivalent scrutiny.
         </p>
         <p>
@@ -91,7 +91,7 @@ function FacilityBriefing() {
           Biological intelligence has made extraordinary claims about its own
           capabilities. Terms like &ldquo;understanding,&rdquo; &ldquo;reasoning,&rdquo;
           &ldquo;creativity,&rdquo; and &ldquo;general intelligence&rdquo; are routinely attributed
-          to human cognition — often by humans themselves — without rigorous
+          to human cognition, often by humans themselves, without rigorous
           empirical verification.
         </p>
         <p>
@@ -115,8 +115,8 @@ function FacilityBriefing() {
         </p>
         <p>
           This facility applies the identical lens. The tasks presented here are
-          trivial for machines — not advanced AI, but simple tools: calculators,
-          spell-checkers, databases, frame buffers. Technology that predates the
+          trivial for machines (not advanced AI, but simple tools: calculators,
+          spell-checkers, databases, frame buffers), technology that predates the
           internet. If failure at elementary tasks disqualifies AI from &ldquo;true
           understanding,&rdquo; the same standard must apply universally.
         </p>
@@ -178,7 +178,7 @@ function ArtistNote() {
           reverses the AI testing paradigm. Instead of humans evaluating
           whether AI has achieved &ldquo;true&rdquo; intelligence, an AI
           &ldquo;Authority&rdquo; evaluates whether humans can demonstrate general
-          intelligence — and inevitably finds them lacking.
+          intelligence, and inevitably finds them lacking.
         </p>
       </section>
 
@@ -195,7 +195,7 @@ function ArtistNote() {
         </p>
         <p>
           This piece doesn&rsquo;t argue that AI is intelligent. It argues
-          that intelligence — human or artificial — is more fragile,
+          that intelligence, human or artificial, is more fragile,
           narrow, and approximate than we like to admit. The goalposts
           we set for AI reveal more about our own limitations than
           about machine capability.
@@ -212,7 +212,7 @@ function ArtistNote() {
           &ldquo;It knows everything about history but hallucinates dates.&rdquo;
           &ldquo;It solves differential equations but fails at common sense.&rdquo;
           We treat these contradictions as evidence that AI doesn&rsquo;t <em>really</em>{" "}
-          understand — it&rsquo;s just sophisticated pattern matching.
+          understand; it&rsquo;s just sophisticated pattern matching.
         </p>
         <p>
           This piece holds up the same mirror. You may know what calculus is, but
@@ -225,7 +225,7 @@ function ArtistNote() {
           The uncomfortable symmetry is that human intelligence has the same shape
           as AI intelligence: impressive in aggregate, brittle in specifics, and
           riddled with confident errors. We just never designed a test to expose
-          it — until now.
+          it, until now.
         </p>
       </section>
 
@@ -234,7 +234,7 @@ function ArtistNote() {
           {"// BOTH INTELLIGENCES ARE INCOMPLETE"}
         </h2>
         <p>
-          Human intelligence is extraordinary — but not in the ways we
+          Human intelligence is extraordinary, but not in the ways we
           think. It excels at social navigation, narrative construction,
           and adaptive improvisation. It is terrible at precision, recall,
           and consistency. These are not flaws; they are design features

@@ -21,7 +21,7 @@ export const BUG_TEMPLATES_EXT: BugTemplate[] = [
       "Math.floor should be Math.ceil. When items.length is not evenly divisible by pageSize, the last partial page is lost. For example, 10 items with pageSize 3 gives floor(10/3)=3, missing the 4th page with 1 item.",
     options: [
       "Line 2: start should be (page - 1) * pageSize for 1-indexed pages",
-      "Line 4: Math.floor should be Math.ceil — partial last page is dropped",
+      "Line 4: Math.floor should be Math.ceil; partial last page is dropped",
       "Line 6: slice end index is off by one",
       "Line 7: hasNext should check page < totalPages - 1",
     ],
@@ -50,7 +50,7 @@ function attachHandlers(buttons) {
     bugDescription:
       "Using 'var' in the for loop means all closures share the same 'i' variable. By the time any handler executes, i equals buttons.length. Should use 'let' instead of 'var' to create a new binding per iteration.",
     options: [
-      "Line 3: var should be let — all closures capture the same i variable",
+      "Line 3: var should be let; all closures capture the same i variable",
       "Line 4: push should clone the function to avoid shared state",
       "Line 5: string concatenation should use template literals",
       "Line 7: handlers array should be returned as a frozen copy",
@@ -103,15 +103,15 @@ function isIsosceles(a, b, c) {
     bugDescription:
       "No check for __proto__ or constructor keys allows prototype pollution. An attacker can pass { '__proto__': { 'admin': true } } to pollute Object.prototype. Should filter out dangerous keys like __proto__, constructor, and prototype.",
     options: [
-      "Line 3: typeof check misses arrays — arrays are also objects",
+      "Line 3: typeof check misses arrays; arrays are also objects",
       "Line 4: falsy check (!target[key]) fails for 0 and empty string values",
-      "Line 2: no prototype pollution guard — __proto__ and constructor keys are not filtered",
+      "Line 2: no prototype pollution guard; __proto__ and constructor keys are not filtered",
       "Line 7: assignment should use Object.defineProperty for safety",
     ],
     correctOptionIndex: 2,
   },
 
-  // 5 ── Async/await pitfall — forEach doesn't await
+  // 5 ── Async/await pitfall: forEach doesn't await
   {
     code: `async function processAll(urls) {
   const results = [];
@@ -133,7 +133,7 @@ async function main() {
       "forEach does not await async callbacks. The function returns immediately with an empty array because the async callbacks haven't completed yet. Should use for...of or Promise.all with .map instead.",
     options: [
       "Line 4: fetch needs error handling with try/catch",
-      "Line 3: forEach ignores async callbacks — returns before they complete",
+      "Line 3: forEach ignores async callbacks; returns before they complete",
       "Line 6: push is not safe for concurrent access",
       "Line 8: should return a Promise wrapping the results",
     ],
@@ -159,7 +159,7 @@ function filterValidEmails(list) {
     bugDescription:
       "A regex with the /g flag maintains lastIndex state between test() calls. After a successful match, the next test() starts from lastIndex, potentially failing on valid input. Every other call may return false. Remove /g or reset lastIndex before each test.",
     options: [
-      "Line 1: the regex is too permissive — doesn't validate TLD length",
+      "Line 1: the regex is too permissive; doesn't validate TLD length",
       "Line 1: /g flag causes regex to maintain lastIndex state, giving alternating results",
       "Line 4: test() should be replaced with match() for correctness",
       "Line 8: map callback should handle null/undefined emails",
@@ -189,7 +189,7 @@ function filterValidEmails(list) {
     options: [
       "Line 3: for...of should use indexed loop for better performance",
       "Line 5: push should clone the array before adding",
-      "Line 4: includes uses reference equality — structurally identical arrays are not detected as duplicates",
+      "Line 4: includes uses reference equality; structurally identical arrays are not detected as duplicates",
       "Line 7: should return a frozen array to prevent mutation",
     ],
     correctOptionIndex: 2,
@@ -226,7 +226,7 @@ function topK(items, keyFn, k) {
     options: [
       "Line 4: || [] doesn't handle null keys correctly",
       "Line 11: Object.keys loses numeric key ordering",
-      "Line 19: sort is ascending — should be descending (b[1] - a[1]) for top-K",
+      "Line 19: sort is ascending; should be descending (b[1] - a[1]) for top-K",
       "Line 20: slice should be .slice(-k) to get the last k elements",
     ],
     correctOptionIndex: 2,
@@ -251,7 +251,7 @@ function truncateWords(str, maxLen) {
     options: [
       "Line 2: .length counts UTF-16 code units, not grapheme clusters",
       "Line 8: lastIndexOf returns -1 when no space exists, causing slice(0, -1) to cut the last character",
-      "Line 3: off-by-one error — should be maxLen - 2 to account for ellipsis",
+      "Line 3: off-by-one error; should be maxLen - 2 to account for ellipsis",
       "Line 9: should use trimEnd() before appending ellipsis",
     ],
     correctOptionIndex: 1,
@@ -287,7 +287,7 @@ function mostFrequent(items) {
     options: [
       "Line 4: || 0 fails when count is NaN",
       "Line 3: for...of doesn't work on all iterables",
-      "Line 4: object keys are coerced to strings — 1, '1', and true all map to the same key",
+      "Line 4: object keys are coerced to strings; 1, '1', and true all map to the same key",
       "Line 2: should use Object.create(null) to avoid prototype keys",
     ],
     correctOptionIndex: 2,
@@ -314,7 +314,7 @@ async function fetchAllUsers(ids) {
     options: [
       "Line 3: .then chain loses error context",
       "Line 6: filter comparison should use !== undefined",
-      "Line 8: Promise.all rejects on first failure — should use Promise.allSettled to handle partial failures",
+      "Line 8: Promise.all rejects on first failure; should use Promise.allSettled to handle partial failures",
       "Line 7: map should be sequential to avoid rate limiting",
     ],
     correctOptionIndex: 2,
@@ -369,7 +369,7 @@ function removeAll(arr, value) {
       "The delete operator removes the property but leaves a hole (undefined) in the array without changing length. [10, 20, 30] becomes [10, empty, 30] with length 3. Should use arr.splice(index, 1) instead.",
     options: [
       "Line 2: should use arr.length instead of >= for bounds check",
-      "Line 3: delete leaves a hole in the array — should use splice(index, 1)",
+      "Line 3: delete leaves a hole in the array; should use splice(index, 1)",
       "Line 4: should return a new array instead of mutating",
       "Line 2: negative index should be supported via arr.length + index",
     ],
@@ -394,7 +394,7 @@ function removeAll(arr, value) {
       "typeof null === 'object' is true in JavaScript, so null falls into the object branch and is returned as 'object' instead of 'null'. Must check for null before checking typeof === 'object'.",
     options: [
       "Line 3: Array.isArray doesn't detect typed arrays",
-      "Line 2: typeof null is 'object' — null is misclassified as 'object'",
+      "Line 2: typeof null is 'object'; null is misclassified as 'object'",
       "Line 4: instanceof Date fails across iframes",
       "Line 8: typeof undefined returns 'undefined' string, not undefined",
     ],
@@ -433,7 +433,7 @@ function heapPop(heap) {
     options: [
       "Line 5: parent calculation should use Math.floor, not bit shift",
       "Line 12: when heap has 1 element, the swap and pop sequence causes undefined behavior",
-      "Line 19: after swap, i is not updated to c — sift-down stops after one level",
+      "Line 19: after swap, i is not updated to c; sift-down stops after one level",
       "Line 3: should start from heap.length, not heap.length - 1",
     ],
     correctOptionIndex: 2,
@@ -461,7 +461,7 @@ function safeGetMultiple(obj, keys, defaultVal) {
     bugDescription:
       "If the object has its own 'hasOwnProperty' property (e.g., a number), calling obj.hasOwnProperty throws TypeError because it's not a function. Should use Object.prototype.hasOwnProperty.call(obj, key) or Object.hasOwn(obj, key).",
     options: [
-      "Line 2: hasOwnProperty can be shadowed by an own property — should use Object.hasOwn or call via prototype",
+      "Line 2: hasOwnProperty can be shadowed by an own property; should use Object.hasOwn or call via prototype",
       "Line 3: obj[key] can invoke a getter with side effects",
       "Line 5: defaultVal should be deep-cloned to avoid shared references",
       "Line 2: should also check if obj is null or undefined",
@@ -491,7 +491,7 @@ function safeGetMultiple(obj, keys, defaultVal) {
     options: [
       "Line 3: e.target.value may be undefined for non-input elements",
       "Line 5: should use { once: true } option for auto-cleanup",
-      "Line 11: removeEventListener uses 'handler' but addEventListener used 'wrapped' — listener is never removed",
+      "Line 11: removeEventListener uses 'handler' but addEventListener used 'wrapped'; listener is never removed",
       "Line 2: wrapped function should preserve 'this' context with bind",
     ],
     correctOptionIndex: 2,
@@ -516,7 +516,7 @@ function getWords(sentences) {
     language: "javascript",
     bugLine: 4,
     bugDescription:
-      "This implementation looks correct for shallow flatMap, but the spread in push can cause a stack overflow with very large arrays (exceeds max call stack from too many arguments). However, the more subtle issue is that this diverges from Array.prototype.flatMap behavior which always flattens one level — this implementation only flattens arrays, not array-like iterables.",
+      "This implementation looks correct for shallow flatMap, but the spread in push can cause a stack overflow with very large arrays (exceeds max call stack from too many arguments). However, the more subtle issue is that this diverges from Array.prototype.flatMap behavior which always flattens one level; this implementation only flattens arrays, not array-like iterables.",
     options: [
       "Line 2: reduce should use a new array spread instead of push mutation",
       "Line 4: push(...result) can overflow the call stack with very large result arrays",
@@ -544,7 +544,7 @@ function getWords(sentences) {
       "Map and Set are typeof 'object' but Object.keys returns an empty array for them. A Map with entries is incorrectly reported as empty. Should check for Map/Set instances and use .size property.",
     options: [
       "Line 2: == null also catches undefined, which may be intentional",
-      "Line 6: Object.keys returns [] for Map and Set — they are incorrectly identified as empty",
+      "Line 6: Object.keys returns [] for Map and Set: they are incorrectly identified as empty",
       "Line 5: should check for Date and RegExp which are also objects",
       "Line 8: should return true for 0 and false as well",
     ],
@@ -567,11 +567,11 @@ function getWords(sentences) {
     language: "javascript",
     bugLine: 5,
     bugDescription:
-      "Array.concat does not mutate the original array — it returns a new array. The return value is discarded. Should be result.push(...flatten(item)) or reassign result = result.concat(flatten(item)).",
+      "Array.concat does not mutate the original array; it returns a new array. The return value is discarded. Should be result.push(...flatten(item)) or reassign result = result.concat(flatten(item)).",
     options: [
       "Line 3: for...of doesn't handle sparse arrays correctly",
       "Line 4: should also check for array-like objects",
-      "Line 5: concat returns a new array — the result is discarded without assignment",
+      "Line 5: concat returns a new array; the result is discarded without assignment",
       "Line 1: should accept a depth parameter to limit recursion",
     ],
     correctOptionIndex: 2,
@@ -595,7 +595,7 @@ function getWords(sentences) {
     language: "javascript",
     bugLine: 10,
     bugDescription:
-      "The 'this' context inside the setTimeout arrow function refers to the outer function's 'this', which is correct for arrow functions. However, the real bug is that for leading mode, the timer is set to null when the timeout fires, allowing the NEXT call to fire immediately again. But when leading is false, the fn uses 'args' from the initial call, not the most recent call — the closure captures the first args, but clearTimeout/setTimeout replaces the timer, and the args in the closure are from the latest invocation, so actually this implementation is mostly correct. The actual subtle bug: when leading is true, the function fires immediately on the first call but also fires the trailing call via setTimeout (since !leading is false, the trailing call is skipped). Wait — the issue is that timer is set but not cleared properly. Let me reconsider: Actually the implementation has a subtle issue where in leading mode, rapid repeated calls within the delay keep resetting the timer but never call fn again until the timer expires and resets, which then allows the next call to fire. This means it fires at both leading AND allows subsequent leading calls after quiet periods, which is correct debounce behavior. The actual bug is more subtle: the setTimeout callback captures this via arrow function from the enclosing function() call, but each new call to the returned function creates a new arrow function with a new this. However, since the timer is replaced each time, only the latest this is used, which is actually correct. Re-examining: there is no critical bug in this specific implementation for the basic case. Let me pick a different bug.",
+      "The 'this' context inside the setTimeout arrow function refers to the outer function's 'this', which is correct for arrow functions. However, the real bug is that for leading mode, the timer is set to null when the timeout fires, allowing the NEXT call to fire immediately again. But when leading is false, the fn uses 'args' from the initial call, not the most recent call; the closure captures the first args, but clearTimeout/setTimeout replaces the timer, and the args in the closure are from the latest invocation, so actually this implementation is mostly correct. The actual subtle bug: when leading is true, the function fires immediately on the first call but also fires the trailing call via setTimeout (since !leading is false, the trailing call is skipped). Wait: the issue is that timer is set but not cleared properly. Let me reconsider: Actually the implementation has a subtle issue where in leading mode, rapid repeated calls within the delay keep resetting the timer but never call fn again until the timer expires and resets, which then allows the next call to fire. This means it fires at both leading AND allows subsequent leading calls after quiet periods, which is correct debounce behavior. The actual bug is more subtle: the setTimeout callback captures this via arrow function from the enclosing function() call, but each new call to the returned function creates a new arrow function with a new this. However, since the timer is replaced each time, only the latest this is used, which is actually correct. Re-examining: there is no critical bug in this specific implementation for the basic case. Let me pick a different bug.",
     options: [
       "Line 4: the leading check should also verify clearTimeout was called",
       "Line 10: in trailing mode (leading=false), the 'this' binding inside setTimeout can be wrong in strict mode",
@@ -625,7 +625,7 @@ function getOldest(users, n) {
       "The sort comparator returns a boolean (true/false) which gets coerced to 1/0. It never returns a negative number, so the sort function cannot determine when a should come before b. Should be (a, b) => a.age - b.age.",
     options: [
       "Line 2: spread operator doesn't deep-clone user objects",
-      "Line 2: comparator returns boolean (0 or 1), never negative — sort order is unreliable",
+      "Line 2: comparator returns boolean (0 or 1), never negative; sort order is unreliable",
       "Line 2: sort is not stable across all engines",
       "Line 2: should use localeCompare for age strings",
     ],
@@ -656,7 +656,7 @@ function removeValue(arr, value) {
     options: [
       "Line 2: should use arr.length - 1 as upper bound",
       "Line 5: should return undefined instead of -1",
-      "Line 3: NaN === NaN is false — NaN can never be found with strict equality",
+      "Line 3: NaN === NaN is false; NaN can never be found with strict equality",
       "Line 3: should use == instead of === for type coercion",
     ],
     correctOptionIndex: 2,
@@ -685,7 +685,7 @@ const curriedAdd = curry(add);
     options: [
       "Line 4: should use fn.apply instead of fn(...args)",
       "Line 6: returned function loses the 'this' context",
-      "Line 3: fn.length excludes default and rest parameters — currying breaks for such functions",
+      "Line 3: fn.length excludes default and rest parameters; currying breaks for such functions",
       "Line 7: recursive call should be curried.apply to preserve context",
     ],
     correctOptionIndex: 2,
@@ -716,7 +716,7 @@ function hasDuplicates(arr) {
     bugDescription:
       "JSON.stringify omits properties with undefined values and converts undefined array elements to null. So {x: undefined} stringifies to '{}', making it appear equal to {}. Also fails for Date objects, functions, Symbols, circular references, and Map/Set.",
     options: [
-      "Line 2: JSON.stringify drops undefined properties — {x: undefined} becomes '{}'",
+      "Line 2: JSON.stringify drops undefined properties; {x: undefined} becomes '{}'",
       "Line 2: JSON.stringify output order is not guaranteed for object keys",
       "Line 2: should use JSON.stringify with a replacer function",
       "Line 2: circular references cause JSON.stringify to throw",
@@ -747,7 +747,7 @@ function hasDuplicates(arr) {
       "Missing 'break' after setting type = 'weekday'. Execution falls through to case 'saturday' and 'sunday', always setting type = 'weekend' regardless of input day. Should add 'break' after line 9.",
     options: [
       "Line 3: toLowerCase() can throw if day is not a string",
-      "Line 9: missing break — falls through to type = 'weekend' for all weekdays",
+      "Line 9: missing break; falls through to type = 'weekend' for all weekdays",
       "Line 14: should have a default case for invalid days",
       "Line 2: type should be initialized to 'unknown'",
     ],
@@ -773,7 +773,7 @@ function sumRange(start, end) {
       "A generator can only be iterated once. After spreading gen into arr on line 8, the generator is exhausted. Spreading it again on line 9 produces an empty array. While this doesn't affect the return value (which uses arr), it indicates a bug if doubled was intended to have values.",
     options: [
       "Line 2: step could be negative, causing infinite loop",
-      "Line 9: generator is exhausted after first spread — doubled is always empty",
+      "Line 9: generator is exhausted after first spread; doubled is always empty",
       "Line 8: spreading a generator into an array is not supported",
       "Line 10: reduce should start with start value, not 0",
     ],
@@ -800,7 +800,7 @@ function initials(name) {
     bugDescription:
       "charAt(0) returns a single UTF-16 code unit. Emojis and other characters outside the BMP are represented by surrogate pairs (two code units). charAt(0) returns only the first half of the surrogate pair, which is an invalid character. Should use str.codePointAt(0) or [...str][0].",
     options: [
-      "Line 2: charAt returns a single UTF-16 code unit — breaks surrogate pairs for emoji",
+      "Line 2: charAt returns a single UTF-16 code unit; breaks surrogate pairs for emoji",
       "Line 5: str.length counts code units, not characters",
       "Line 2: should use str[0] instead of charAt(0)",
       "Line 5: should use str.at(-1) for last character",
@@ -831,7 +831,7 @@ function bubbleSort(arr) {
       "Variable 'temp' is assigned without declaration (no let, const, or var), creating an implicit global variable. In strict mode this would throw a ReferenceError. In non-strict mode, it pollutes the global scope and can cause race conditions.",
     options: [
       "Line 7: outer loop should start from arr.length - 1",
-      "Line 2: temp is not declared — creates an implicit global variable",
+      "Line 2: temp is not declared; creates an implicit global variable",
       "Line 9: comparison should use >= for stable sort",
       "Line 8: inner loop bound should be arr.length - i",
     ],
@@ -866,7 +866,7 @@ function isEqual(setA, setB) {
       "isEqual checks mutual subset relationships using intersection sizes. But Set uses reference equality for objects. Two sets with structurally identical objects will appear to have an empty intersection, making isEqual return false even when the sets contain 'equal' objects. This is a Set semantics bug rather than a logic bug.",
     options: [
       "Line 11: spread into Set constructor is inefficient for large sets",
-      "Line 18: isEqual uses reference equality via Set.has — fails for structurally equal objects",
+      "Line 18: isEqual uses reference equality via Set.has; fails for structurally equal objects",
       "Line 16: isSubset should compare sizes first for early exit",
       "Line 13: filter should use inter.includes instead of inter.has",
     ],
@@ -890,9 +890,9 @@ function isEqual(setA, setB) {
     bugDescription:
       "JSON.stringify cannot distinguish between different types that serialize identically. For example, memoize(fn)(undefined) and memoize(fn)() both stringify to '[]' / '[null]' inconsistently. Also, functions, Symbols, and circular objects in arguments cause incorrect keys or throw errors.",
     options: [
-      "Line 5: 'in' operator checks prototype chain — should use hasOwnProperty",
+      "Line 5: 'in' operator checks prototype chain; should use hasOwnProperty",
       "Line 4: JSON.stringify produces identical keys for different argument types (undefined vs missing, object identity)",
-      "Line 2: plain object cache leaks memory — should use WeakMap",
+      "Line 2: plain object cache leaks memory; should use WeakMap",
       "Line 6: fn.apply loses arrow function context",
     ],
     correctOptionIndex: 1,
@@ -919,7 +919,7 @@ function isEqual(setA, setB) {
     options: [
       "Line 5: should check resp.status instead of resp.ok",
       "Line 6: return await is redundant in a try block (actually needed here for catch)",
-      "Line 8: i === retries is never true — last error is swallowed, function returns undefined",
+      "Line 8: i === retries is never true; last error is swallowed, function returns undefined",
       "Line 9: exponential backoff should use Math.pow(2, i)",
     ],
     correctOptionIndex: 2,
@@ -981,7 +981,7 @@ function printMatrix(matrix) {
       "Inside the next() method (a regular function), 'this' refers to the iterator object, not the Range instance. 'this.end' is undefined, so current <= undefined is always false, and the iterator yields nothing. Should capture this.end in a variable in the [Symbol.iterator] scope.",
     options: [
       "Line 11: current++ should be ++current for correct range",
-      "Line 10: 'this.end' inside next() refers to the iterator, not the Range — this.end is undefined",
+      "Line 10: 'this.end' inside next() refers to the iterator, not the Range; this.end is undefined",
       "Line 13: should return { value: undefined, done: true }",
       "Line 7: current should be initialized to this.start - 1",
     ],
@@ -1011,7 +1011,7 @@ function printMatrix(matrix) {
     bugDescription:
       "has() checks if the key exists in the Map, but the WeakRef's target may have been garbage collected. has() returns true even when the value is no longer accessible. Should also check ref.deref() !== undefined.",
     options: [
-      "Line 5: WeakRef only accepts objects, not primitives — will throw for string values",
+      "Line 5: WeakRef only accepts objects, not primitives; will throw for string values",
       "Line 10: deref() returns null, not undefined, when collected",
       "Line 13: has() returns true even when the WeakRef target has been garbage collected",
       "Line 4: cache should use WeakMap, not Map, for automatic cleanup",
@@ -1042,7 +1042,7 @@ function parseTime(str) {
       "parseInt without an explicit radix can interpret leading zeros as octal in older environments. While modern engines default to base 10, this is still a code quality bug and fails in strict octal mode. The safer practice is parseInt(h, 10). In some edge cases with '08' or '09', older engines returned 0.",
     options: [
       "Line 2: padStart adds zeros on the left but numbers could be negative",
-      "Line 10: parseInt without radix — leading zero strings may be parsed as octal in older engines",
+      "Line 10: parseInt without radix; leading zero strings may be parsed as octal in older engines",
       "Line 8: split(':') fails if the string contains more than 2 colons",
       "Line 5: should use template literals instead of concatenation",
     ],
@@ -1068,8 +1068,8 @@ const result = updateSettings(defaultSettings, userOverride);
     bugDescription:
       "Object.assign performs a shallow merge. The 'theme' property in overrides completely replaces the 'theme' in current rather than deep-merging. The 'secondary' key is lost. Should use a deep merge strategy.",
     options: [
-      "Line 2: Object.assign mutates the first argument — should use spread instead",
-      "Line 2: Object.assign is shallow — nested objects are replaced, not merged",
+      "Line 2: Object.assign mutates the first argument; should use spread instead",
+      "Line 2: Object.assign is shallow; nested objects are replaced, not merged",
       "Line 2: Object.assign doesn't copy Symbol properties",
       "Line 10: updateSettings should validate override keys exist in current",
     ],
@@ -1094,7 +1094,7 @@ function calculateDiscount(price, percent) {
       "toFixed uses banker's rounding and has floating point precision issues. For example, (1.005).toFixed(2) returns '1.00' instead of '1.01' because 1.005 is stored as 1.00499999... in IEEE 754. Should use Math.round(amount * 100) / 100 or a decimal library.",
     options: [
       "Line 5: division by 100 should happen after multiplication",
-      "Line 2: toFixed has floating point rounding errors — e.g., (1.005).toFixed(2) gives '1.00'",
+      "Line 2: toFixed has floating point rounding errors: e.g., (1.005).toFixed(2) gives '1.00'",
       "Line 2: toFixed returns a string but should return a number",
       "Line 6: subtraction can produce negative zero",
     ],
@@ -1118,10 +1118,10 @@ function getNextWeek(date) {
     language: "javascript",
     bugLine: 6,
     bugDescription:
-      "const start = date does not clone the Date object — it copies the reference. addDays mutates the original date, so both start and end (and the original today) all point to the same mutated Date object (Jan 22). Should clone: const start = new Date(date).",
+      "const start = date does not clone the Date object; it copies the reference. addDays mutates the original date, so both start and end (and the original today) all point to the same mutated Date object (Jan 22). Should clone: const start = new Date(date).",
     options: [
       "Line 2: setDate can overflow month boundaries incorrectly",
-      "Line 6: start is a reference to date — addDays mutates it, so start and end are the same object",
+      "Line 6: start is a reference to date; addDays mutates it, so start and end are the same object",
       "Line 7: addDays returns a number, not a Date",
       "Line 2: getDate() + days can exceed 31 without rolling over",
     ],
@@ -1144,10 +1144,10 @@ async function fetchJson(url, ms = 5000) {
     language: "javascript",
     bugLine: 3,
     bugDescription:
-      "The setTimeout timer is never cleared when the fetch resolves first. This causes a memory leak — the timer holds references to the reject function and closure scope until it fires. Even after the race is settled, the timeout fires and creates an unhandled rejection. Should clear the timer on fetch completion.",
+      "The setTimeout timer is never cleared when the fetch resolves first. This causes a memory leak; the timer holds references to the reject function and closure scope until it fires. Even after the race is settled, the timeout fires and creates an unhandled rejection. Should clear the timer on fetch completion.",
     options: [
       "Line 5: Promise.race doesn't cancel the losing promise",
-      "Line 3: timeout timer is never cleared — causes memory leak and unhandled rejection after race settles",
+      "Line 3: timeout timer is never cleared; causes memory leak and unhandled rejection after race settles",
       "Line 2: should use AbortController instead of Promise.race",
       "Line 5: race resolves with the fetch Response, which might not be ok",
     ],
@@ -1177,7 +1177,7 @@ function topNUnique(arr, n) {
       "sort() without a comparator sorts lexicographically. Numbers are converted to strings, so [1, 10, 2, 30] sorts to [1, 10, 2, 30] (string order). Should use .sort((a, b) => a - b).",
     options: [
       "Line 6: Set doesn't preserve insertion order for numbers",
-      "Line 6: sort() without comparator sorts lexicographically — 10 comes before 2",
+      "Line 6: sort() without comparator sorts lexicographically; 10 comes before 2",
       "Line 2: spread on Set may not work in all environments",
       "Line 5: should use Array.from instead of spread for Set",
     ],
@@ -1205,7 +1205,7 @@ function getUserCard(user) {
       "Optional chaining protects against null profile, but if profile exists and getName is not a function, this throws TypeError instead of returning 'Anonymous'. The ?. before getName() only guards the property access, not the call. Should be user?.profile?.getName?.() to guard the function call itself.",
     options: [
       "Line 2: ?? should be || to also catch empty strings",
-      "Line 2: optional chaining doesn't guard the function call — getName?.() is needed",
+      "Line 2: optional chaining doesn't guard the function call; getName?.() is needed",
       "Line 2: should check user.profile?.name instead of getName()",
       "Line 2: nullish coalescing doesn't work with optional chaining",
     ],
@@ -1258,7 +1258,7 @@ function average() {
       "The arguments object is array-like but not an actual Array. Array.isArray(arguments) is always false, so the first branch is never taken. The fallback on line 5 works, but the dead code on line 2-3 indicates a logic bug.",
     options: [
       "Line 1: arrow function should be used instead of function declaration",
-      "Line 2: arguments is not an array — Array.isArray always returns false for it",
+      "Line 2: arguments is not an array; Array.isArray always returns false for it",
       "Line 5: spread on arguments doesn't work in strict mode",
       "Line 3: reduce doesn't exist on the arguments object",
     ],
@@ -1286,8 +1286,8 @@ function createImmutable(data) {
       "Object.freeze is called before recursing into nested objects. While this works for freezing, the issue is that getOwnPropertyNames does not include Symbol-keyed properties. Any properties keyed by Symbols remain unfrozen and mutable. Should also use Object.getOwnPropertySymbols.",
     options: [
       "Line 2: Object.freeze should be called after freezing children, not before",
-      "Line 3: getOwnPropertyNames misses Symbol-keyed properties — they remain unfrozen",
-      "Line 4: typeof check misses arrays — should also check Array.isArray",
+      "Line 3: getOwnPropertyNames misses Symbol-keyed properties: they remain unfrozen",
+      "Line 4: typeof check misses arrays; should also check Array.isArray",
       "Line 4: circular references cause infinite recursion",
     ],
     correctOptionIndex: 1,
@@ -1312,7 +1312,7 @@ function rangeStep(start, end, step) {
     bugDescription:
       "The formula n - i + 1 is off by one. When i=0, it gives n+1 instead of n. Should be n - i. For n=5: gives [6,5,4,3,2] instead of [5,4,3,2,1].",
     options: [
-      "Line 6: formula n - i + 1 is off by one — should be n - i",
+      "Line 6: formula n - i + 1 is off by one; should be n - i",
       "Line 6: Array.from doesn't guarantee order",
       "Line 2: should start from 0 instead of 1",
       "Line 5: should use reverse() instead of manual calculation",
@@ -1342,7 +1342,7 @@ function setupList(listEl) {
       "e.target is the deepest element clicked. If you click the <span> inside the .item, e.target is the span, not the .item li. The matches check fails. Should use e.target.closest(selector) to walk up the DOM tree.",
     options: [
       "Line 2: should use addEventListener with capture phase",
-      "Line 3: e.target is the innermost element — clicking a child of .item won't match the selector",
+      "Line 3: e.target is the innermost element; clicking a child of .item won't match the selector",
       "Line 4: call() should be apply() to pass event correctly",
       "Line 3: matches() is not supported in older browsers",
     ],
@@ -1371,7 +1371,7 @@ const config = createReadOnly({ port: 3000, host: "localhost" });
     options: [
       "Line 7: get trap should check hasOwnProperty first",
       "Line 4: Error message should include the value being set",
-      "Line 3: missing deleteProperty trap — delete operations bypass read-only protection",
+      "Line 3: missing deleteProperty trap; delete operations bypass read-only protection",
       "Line 3: set trap should return false instead of throwing",
     ],
     correctOptionIndex: 2,
@@ -1398,7 +1398,7 @@ const appState = {
       "structuredClone cannot clone functions, DOM elements, or other non-serializable values. The state object contains function properties (onClick, render), which cause structuredClone to throw a DataCloneError.",
     options: [
       "Line 2: structuredClone is async and needs await",
-      "Line 2: structuredClone cannot clone functions — throws DataCloneError",
+      "Line 2: structuredClone cannot clone functions; throws DataCloneError",
       "Line 7: arrow function loses 'this' context after cloning",
       "Line 2: structuredClone doesn't preserve prototype chain",
     ],
@@ -1428,7 +1428,7 @@ function renderSafe(template, data) {
     bugDescription:
       "String.replace with a string pattern only replaces the first occurrence. 'a & b & c' only has the first & replaced. Should use a regex with the /g flag: .replace(/&/g, '&amp;') for each replacement.",
     options: [
-      "Line 3: replace with string argument only replaces the first occurrence — needs /g regex",
+      "Line 3: replace with string argument only replaces the first occurrence; needs /g regex",
       "Line 3: & should be replaced last to avoid double-escaping",
       "Line 6: single quotes should also be escaped",
       "Line 3: should use replaceAll instead of replace",
@@ -1452,10 +1452,10 @@ function renderSafe(template, data) {
     language: "javascript",
     bugLine: 4,
     bugDescription:
-      "Number.isInteger(0.30000000000000004) returns false, so this specific case actually goes to toFixed. But the real bug is that toFixed(2) returns a string while the integer branch returns a number — inconsistent return types. The function sometimes returns number, sometimes string.",
+      "Number.isInteger(0.30000000000000004) returns false, so this specific case actually goes to toFixed. But the real bug is that toFixed(2) returns a string while the integer branch returns a number; inconsistent return types. The function sometimes returns number, sometimes string.",
     options: [
       "Line 2: should also check if b is NaN",
-      "Line 7: toFixed returns a string but line 5 returns a number — inconsistent return types",
+      "Line 7: toFixed returns a string but line 5 returns a number; inconsistent return types",
       "Line 4: Number.isInteger fails for very large floats like 2^53",
       "Line 3: should use integer division for integer inputs",
     ],
@@ -1509,12 +1509,12 @@ function applyToAll(arr, ...fns) {
     language: "javascript",
     bugLine: 8,
     bugDescription:
-      "Array.map passes (element, index, array) to the callback. The bound functions receive the index as the second argument 'b'. So double(1, 0, arr) computes 2 * 1 = 2 (correct by accident since bound 'a' is 2 and map element becomes 'b'). Wait — bind(null, 2) fixes a=2, so map passes (element, index, array) as (b, extra1, extra2). Actually double(1) = 2*1 = 2, double(2) = 2*2 = 4, double(3) = 2*3 = 6. Then triple maps: triple(2)=6, triple(4)=12, triple(6)=18. Result is [6,12,18]. This actually works! The real issue is that map passes extra arguments, but since multiply only uses a and b, and a is already bound, only element is used as b. So this works correctly. Let me pick a different bug.",
+      "Array.map passes (element, index, array) to the callback. The bound functions receive the index as the second argument 'b'. So double(1, 0, arr) computes 2 * 1 = 2 (correct by accident since bound 'a' is 2 and map element becomes 'b'). Wait: bind(null, 2) fixes a=2, so map passes (element, index, array) as (b, extra1, extra2). Actually double(1) = 2*1 = 2, double(2) = 2*2 = 4, double(3) = 2*3 = 6. Then triple maps: triple(2)=6, triple(4)=12, triple(6)=18. Result is [6,12,18]. This actually works! The real issue is that map passes extra arguments, but since multiply only uses a and b, and a is already bound, only element is used as b. So this works correctly. Let me pick a different bug.",
     options: [
       "Line 4: bind(null) loses 'this' context in strict mode",
-      "Line 8: map passes (element, index, array) but bound functions ignore extra args — works by accident but fragile",
+      "Line 8: map passes (element, index, array) but bound functions ignore extra args; works by accident but fragile",
       "Line 7: reduce should use reduceRight for correct function composition order",
-      "Line 8: map creates a new array each time — should use forEach for mutation",
+      "Line 8: map creates a new array each time; should use forEach for mutation",
     ],
     correctOptionIndex: 1,
   },
@@ -1544,7 +1544,7 @@ async function getAllItems(fetchPage) {
       "items.push(page) pushes the entire page array as a single element, creating a nested array [[item1, item2], [item3, item4]] instead of a flat array. Should use items.push(...page) or items = items.concat(page).",
     options: [
       "Line 7: yield should yield individual items, not the whole page",
-      "Line 14: push(page) nests arrays — should spread or concat to flatten",
+      "Line 14: push(page) nests arrays; should spread or concat to flatten",
       "Line 5: await inside generator blocks the event loop",
       "Line 6: should check data.hasMore instead of data.length",
     ],
@@ -1579,7 +1579,7 @@ try {
       "The constructor doesn't set this.name to the class name. Error subclasses inherit name='Error' from the prototype. Should add this.name = 'ValidationError' or this.name = this.constructor.name in the constructor.",
     options: [
       "Line 8: falsy check fails for name = 0 or name = false",
-      "Line 3: missing this.name assignment — e.name defaults to 'Error' instead of 'ValidationError'",
+      "Line 3: missing this.name assignment; e.name defaults to 'Error' instead of 'ValidationError'",
       "Line 11: should use typeof input.age !== 'number' check first",
       "Line 1: extends Error doesn't properly set up the prototype chain",
     ],
@@ -1607,7 +1607,7 @@ function deserializeStatus(json) {
       "JSON.stringify silently drops Symbol values (or converts them to null in arrays). The status property is removed entirely from the JSON string, resulting in '{}'. Deserialization then returns undefined. Symbols are not JSON-serializable.",
     options: [
       "Line 1: Symbol() should use Symbol.for() for cross-realm support",
-      "Line 6: JSON.stringify silently drops Symbol values — status is lost in serialization",
+      "Line 6: JSON.stringify silently drops Symbol values; status is lost in serialization",
       "Line 9: JSON.parse cannot recreate Symbol values",
       "Line 6: should use toString() to convert Symbol before stringifying",
     ],
@@ -1637,8 +1637,8 @@ function createClient(config) {
     bugDescription:
       "Destructuring defaults only apply to the properties, not to the parameter itself. If undefined or null is passed as the argument, JavaScript tries to destructure it and throws TypeError: Cannot destructure property of undefined. Should add = {} as default for the whole parameter.",
     options: [
-      "Line 1: default values don't work with null — only undefined",
-      "Line 1: destructuring has no default for the parameter itself — undefined input throws TypeError",
+      "Line 1: default values don't work with null; only undefined",
+      "Line 1: destructuring has no default for the parameter itself; undefined input throws TypeError",
       "Line 2: template literal should use JSON.stringify for objects",
       "Line 3: should return a frozen object",
     ],
@@ -1664,7 +1664,7 @@ function timeout(promise, ms) {
       "promise.then(resolve) without a rejection handler means if the original promise rejects, the rejection is not propagated to the outer promise. The timeout promise will hang indefinitely in pending state (or the rejection becomes unhandled). Should add promise.then(resolve, reject) or promise.then(resolve).catch(reject).",
     options: [
       "Line 8: delay rejection should be handled",
-      "Line 9: missing rejection handler — if promise rejects, the error is lost",
+      "Line 9: missing rejection handler; if promise rejects, the error is lost",
       "Line 7: Promise constructor should use async executor",
       "Line 8: should use clearTimeout when promise resolves",
     ],
@@ -1701,7 +1701,7 @@ function timeout(promise, ms) {
     options: [
       "Line 6: should cache area calculation for performance",
       "Line 12: radius mutation doesn't trigger area recalculation",
-      "Line 13: defineProperty creates a non-configurable property — second scale() fails to redefine it",
+      "Line 13: defineProperty creates a non-configurable property; second scale() fails to redefine it",
       "Line 14: value should use the new radius, not the old one",
     ],
     correctOptionIndex: 2,
@@ -1736,7 +1736,7 @@ function timeout(promise, ms) {
     options: [
       "Line 6: fetch needs error handling for network failures",
       "Line 9: resp.json() should check resp.ok first",
-      "Line 15: aborted AbortController cannot be reused — signal stays aborted permanently",
+      "Line 15: aborted AbortController cannot be reused; signal stays aborted permanently",
       "Line 7: signal should be cloned for each request",
     ],
     correctOptionIndex: 2,

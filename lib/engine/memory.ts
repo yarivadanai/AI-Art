@@ -7,7 +7,7 @@ const OBJECTS = ['book', 'lamp', 'chair', 'key', 'clock', 'vase', 'hat', 'cup', 
 export function generateMemoryQuestions(rng: SeededRNG): GeneratedQuestion[] {
   const questions: GeneratedQuestion[] = [];
 
-  // Q1: Digit Span — 20 digits, 3 seconds
+  // Q1: Digit Span: 20 digits, 3 seconds
   const digits: string[] = [];
   for (let i = 0; i < 20; i++) {
     digits.push(String(rng.int(0, 9)));
@@ -113,7 +113,7 @@ export function generateMemoryQuestions(rng: SeededRNG): GeneratedQuestion[] {
     },
   });
 
-  // Q3: Sequence Recall — 14 colors at 1s each
+  // Q3: Sequence Recall: 14 colors at 1s each
   const colorSequence: string[] = [];
   for (let i = 0; i < 14; i++) {
     colorSequence.push(rng.pick(COLOR_PALETTE));
@@ -139,7 +139,7 @@ export function generateMemoryQuestions(rng: SeededRNG): GeneratedQuestion[] {
     },
   });
 
-  // Q4: Speed Arithmetic — 3 operands, 1.5s flash
+  // Q4: Speed Arithmetic: 3 operands, 1.5s flash
   const opA = rng.int(10, 99);
   const opB = rng.int(10, 99);
   const opC = rng.int(2, 30);

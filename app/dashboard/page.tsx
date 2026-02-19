@@ -77,7 +77,7 @@ export default function DashboardPage() {
               FINDINGS ON HUMAN INTELLIGENCE
             </h1>
             <p className="font-mono text-xs text-muted tracking-wider">
-              POPULATION DATA — {stats.totalSpecimens} SPECIMENS EVALUATED
+              POPULATION DATA: {stats.totalSpecimens} SPECIMENS EVALUATED
             </p>
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* The Mirror — tool vs human comparisons */}
+        {/* The Mirror: tool vs human comparisons */}
         <div className="card border-accent/20">
           <div className="section-label mb-4">THE MIRROR</div>
           <div className="space-y-4 font-mono text-xs text-muted leading-relaxed">

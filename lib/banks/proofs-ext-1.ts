@@ -23,7 +23,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The step illegitimately concludes that because discontinuities form a measure-zero set and Dini derivatives are finite a.e., the jumps must vanish. Continuity a.e. does not imply continuity everywhere. A monotone function can indeed have countably many jump discontinuities (e.g., the function that jumps by 1/2ⁿ at the n-th rational). The finiteness of Dini derivatives a.e. says nothing about eliminating the actual jump discontinuities — it only constrains the derivative where it exists.",
+      "The step illegitimately concludes that because discontinuities form a measure-zero set and Dini derivatives are finite a.e., the jumps must vanish. Continuity a.e. does not imply continuity everywhere. A monotone function can indeed have countably many jump discontinuities (e.g., the function that jumps by 1/2ⁿ at the n-th rational). The finiteness of Dini derivatives a.e. says nothing about eliminating the actual jump discontinuities; it only constrains the derivative where it exists.",
     distractorExplanations: [
       "The error is in step 4: the intervals Jₙ are not necessarily pairwise disjoint because a monotone function can have overlapping ranges near adjacent discontinuities",
       "The Bolzano-Weierstrass argument is needed in step 5 to ensure the sum converges, but the proof skips this, so the sum could diverge",
@@ -69,9 +69,9 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 3,
     errorExplanation:
-      "Balls in a general metric space are NOT necessarily convex — convexity of balls is a special property of normed vector spaces (and not even all normed spaces). In a general metric space, there is no notion of 'straight-line segment' between two points within a ball. The topologist's sine curve is a standard example of a connected metric space (as a subspace of ℝ²) that is not path-connected.",
+      "Balls in a general metric space are NOT necessarily convex; convexity of balls is a special property of normed vector spaces (and not even all normed spaces). In a general metric space, there is no notion of 'straight-line segment' between two points within a ball. The topologist's sine curve is a standard example of a connected metric space (as a subspace of ℝ²) that is not path-connected.",
     distractorExplanations: [
-      "The error is in step 2: a finite chain of overlapping balls connecting a to b requires compactness, not just connectedness — the proof conflates the two",
+      "The error is in step 2: a finite chain of overlapping balls connecting a to b requires compactness, not just connectedness: the proof conflates the two",
       "The error is in step 5: uniform convergence of paths γₙ does not imply the limit γ is continuous unless X is complete",
       "The error is in step 1: the open ball cover need not be countable, so the finite chain construction in step 2 requires the Axiom of Choice and may not produce a well-defined path",
     ],
@@ -152,8 +152,8 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "Now N must have a prime factorization. If all prime factors of N were of the form 4k + 1, then their product would also be ≡ 1 (mod 4), contradicting N ≡ 3 (mod 4).",
       "Therefore N has at least one prime factor q of the form 4k + 3.",
       "Since q divides N = 4·p₁·p₂·…·pₙ − 1, we have q | (4·p₁·p₂·…·pₙ − 1). If q = pᵢ for some i, then pᵢ | (4·p₁·p₂·…·pₙ − 1) and pᵢ | 4·p₁·p₂·…·pₙ, so pᵢ | 1, contradiction.",
-      "Thus q is a prime of the form 4k + 3 not in our list — but we assumed the list was complete. This contradicts our assumption that the list p₁, …, pₙ exhausts all such primes.",
-      "Wait — this actually proves there are infinitely many such primes, contradicting our goal. The resolution is that our initial construction was wrong: N need not be prime itself, and its prime factor q of the form 4k+3 could be 3 itself, which was already counted. So the argument has a gap, and the infinitude is not established.",
+      "Thus q is a prime of the form 4k + 3 not in our list, but we assumed the list was complete. This contradicts our assumption that the list p₁, …, pₙ exhausts all such primes.",
+      "Wait: this actually proves there are infinitely many such primes, contradicting our goal. The resolution is that our initial construction was wrong: N need not be prime itself, and its prime factor q of the form 4k+3 could be 3 itself, which was already counted. So the argument has a gap, and the infinitude is not established.",
       "Therefore there are only finitely many primes of the form 4k + 3. ∎",
     ],
     errorStep: 7,
@@ -162,7 +162,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     distractorExplanations: [
       "The error is actually in step 3: a product of primes all ≡ 1 (mod 4) can be ≡ 3 (mod 4) if an odd number of them satisfy additional congruence conditions modulo 8",
       "The error is in step 1: the number N = 4·p₁·…·pₙ − 1 could be negative if the product overflows, making the modular arithmetic invalid",
-      "The error is in step 5: the conclusion q | 1 requires that gcd(q, 4) = 1, which is not verified — if q = 2, the argument fails",
+      "The error is in step 5: the conclusion q | 1 requires that gcd(q, 4) = 1, which is not verified; if q = 2, the argument fails",
     ],
   },
 
@@ -230,7 +230,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The map r is NOT linear. Choosing a near-minimal-norm representative in each coset does not produce a linear map. There is no reason that the representative of α[x] + [y] should equal α·r([x]) + r([y]) — the near-minimal-norm elements in distinct cosets are chosen independently. Constructing a bounded linear right inverse (a bounded linear projection) is equivalent to complementing Y, which is not always possible: Lindenstrauss showed that c₀ is a closed non-complemented subspace of ℓ^∞, and Phillips proved L^∞/c₀ provides a counterexample.",
+      "The map r is NOT linear. Choosing a near-minimal-norm representative in each coset does not produce a linear map. There is no reason that the representative of α[x] + [y] should equal α·r([x]) + r([y]); the near-minimal-norm elements in distinct cosets are chosen independently. Constructing a bounded linear right inverse (a bounded linear projection) is equivalent to complementing Y, which is not always possible: Lindenstrauss showed that c₀ is a closed non-complemented subspace of ℓ^∞, and Phillips proved L^∞/c₀ provides a counterexample.",
     distractorExplanations: [
       "The error is in step 3: the factor of 2 in the norm bound should be 1 + ε, and taking the limit ε → 0 is needed to make the construction work",
       "The open mapping theorem in step 2 requires both spaces to be Banach, but X/Y might not be complete when Y is merely closed, not complemented",
@@ -253,7 +253,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The step claims that for x ∈ f(G) = F, we have xaF = aF. But left cosets satisfy xaF = aF if and only if a⁻¹xa ∈ F, i.e., x ∈ aFa⁻¹. This holds for all a only when F is normal in H. If f(G) is not a normal subgroup, then xaF ≠ aF for some a even when x ∈ F. However, in the actual (correct) proof of this theorem, one uses a different construction (e.g., coset representations in the permutation group on right cosets, or a more careful pair of homomorphisms) that does work. The proof as stated has a flaw in this step, yet the theorem itself is actually true — epimorphisms in Grp are indeed surjective. The error is a proof error, not a theorem error.",
+      "The step claims that for x ∈ f(G) = F, we have xaF = aF. But left cosets satisfy xaF = aF if and only if a⁻¹xa ∈ F, i.e., x ∈ aFa⁻¹. This holds for all a only when F is normal in H. If f(G) is not a normal subgroup, then xaF ≠ aF for some a even when x ∈ F. However, in the actual (correct) proof of this theorem, one uses a different construction (e.g., coset representations in the permutation group on right cosets, or a more careful pair of homomorphisms) that does work. The proof as stated has a flaw in this step, yet the theorem itself is actually true; epimorphisms in Grp are indeed surjective. The error is a proof error, not a theorem error.",
     distractorExplanations: [
       "The error is that S(H/f(G)) is not a group when f(G) is not normal, since H/f(G) is not well-defined as a quotient group",
       "The trivial homomorphism h is not well-defined because the target S(H/f(G)) may be infinite and the homomorphism needs a finite presentation",
@@ -298,7 +298,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The claim that 'at least one pair must be in different components since v has at most 5 neighbors' is false. This is precisely where Kempe's original (flawed) proof of the Four Color Theorem fails — when v has degree 5, it is possible that for every pair of colors, the two relevant neighbors are connected by a Kempe chain, and these chains can interlock in a way that prevents any swap from freeing a color. Heawood found the counterexample to Kempe's argument in 1890. The correct result is the Five Color Theorem (degree ≤ 5 suffices for 5 colors) or the Four Color Theorem (which requires a much more sophisticated proof).",
+      "The claim that 'at least one pair must be in different components since v has at most 5 neighbors' is false. This is precisely where Kempe's original (flawed) proof of the Four Color Theorem fails; when v has degree 5, it is possible that for every pair of colors, the two relevant neighbors are connected by a Kempe chain, and these chains can interlock in a way that prevents any swap from freeing a color. Heawood found the counterexample to Kempe's argument in 1890. The correct result is the Five Color Theorem (degree ≤ 5 suffices for 5 colors) or the Four Color Theorem (which requires a much more sophisticated proof).",
     distractorExplanations: [
       "The error is in step 2: Euler's formula guarantees a vertex of degree ≤ 5 only for 3-connected planar graphs, not all planar graphs",
       "The error is in step 6: the Kempe chain argument requires the graph to be triangulated, which is not assumed",
@@ -324,7 +324,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "The application of Borel-Cantelli to conclude |X̄ₙ − X̄_{nₖ}| → 0 a.s. is not justified as stated. To use Borel-Cantelli (first lemma), one needs ∑P(|X̄ₙ − X̄_{nₖ}| > ε) < ∞, which requires tail bounds that typically need finite variance (or at least more than just finite mean). The proof is essentially trying to recreate the Etemadi or truncation proof of the SLLN but skips the crucial truncation step that makes it work. The actual SLLN does hold with only finite mean (by Etemadi's theorem), but the proof requires a careful truncation argument, not the naive Borel-Cantelli application given here.",
     distractorExplanations: [
       "The weak law in step 2 itself requires finite variance, so the entire argument fails at the very first step",
-      "The error is in step 3: convergence in probability does NOT imply the existence of an a.s. convergent subsequence — this requires uniform integrability",
+      "The error is in step 3: convergence in probability does NOT imply the existence of an a.s. convergent subsequence; this requires uniform integrability",
       "The error is in step 4: the bound on E[|Sₙ − Sₙₖ|] should use Markov's inequality, not the triangle inequality, and Markov's inequality gives a weaker bound",
     ],
   },
@@ -343,7 +343,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The step claims lim fₙ'(cₙ) = g(c). This requires that if cₙ → c and fₙ' → g pointwise, then fₙ'(cₙ) → g(c). But this is FALSE for merely pointwise convergence — it would require uniform convergence of fₙ' (or at least equicontinuity). The values cₙ depend on n, so even though fₙ'(c) → g(c) for each fixed c, the 'moving target' fₙ'(cₙ) can converge to something else entirely. The correct theorem requires uniform convergence of fₙ'.",
+      "The step claims lim fₙ'(cₙ) = g(c). This requires that if cₙ → c and fₙ' → g pointwise, then fₙ'(cₙ) → g(c). But this is FALSE for merely pointwise convergence; it would require uniform convergence of fₙ' (or at least equicontinuity). The values cₙ depend on n, so even though fₙ'(c) → g(c) for each fixed c, the 'moving target' fₙ'(cₙ) can converge to something else entirely. The correct theorem requires uniform convergence of fₙ'.",
     distractorExplanations: [
       "The mean value theorem in step 2 requires fₙ to be continuous on [x, x+h] and differentiable on (x, x+h), but pointwise convergence could destroy continuity",
       "The error is in step 3: taking n → ∞ on both sides of an equation requires uniform convergence of fₙ, not just pointwise convergence",
@@ -367,7 +367,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     errorExplanation:
       "The claim that R/P is Noetherian is not justified. We are given no hypothesis that R is Noetherian. For a general commutative ring R, the quotient R/P by a prime ideal can be a non-Noetherian integral domain. An injective endomorphism of a non-Noetherian module need not be surjective. For example, in Z[x₁,x₂,...] (polynomials in infinitely many variables), the ideal (x₁,x₂,...) is prime but not maximal: the quotient is isomorphic to Z, and Z is not a field. More directly, in any integral domain that is not a field, (0) is prime but not maximal.",
     distractorExplanations: [
-      "The error is in step 1: the quotient R/P is an integral domain only when P is maximal, not merely prime — this is a circular argument",
+      "The error is in step 1: the quotient R/P is an integral domain only when P is maximal, not merely prime; this is a circular argument",
       "The map x ↦ [a]x is not necessarily injective in step 3 because R/P could have zero divisors if P is not prime in the quotient",
       "The error is in step 5: surjectivity gives [a][b] = [1] only in the quotient, but lifting back to R introduces elements of P that spoil the inverse",
     ],
@@ -428,14 +428,14 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "sin(πs₀/2) = 0 when s₀ = 2k for integer k. But 0 < Re(s₀) < 1 excludes all even integers. So sin(πs₀/2) ≠ 0 in the critical strip.",
       "Therefore ζ(1−s₀) = 0. Since 0 < Re(s₀) < 1, we have 0 < Re(1−s₀) < 1, so 1−s₀ is also in the critical strip.",
       "This means zeros come in pairs: s₀ and 1−s₀. Now the pair {s₀, 1−s₀} maps to the pair {1−s₀, s₀} under the symmetry s ↦ 1−s, creating an infinite regress of zeros... no, it's the same pair.",
-      "The key insight: ζ(s₀) = 0 forces ζ(1−s₀) = 0 (from step 5). But applying the functional equation to ζ(1−s₀) = 0 gives back ζ(s₀) = 0 — consistent, not contradictory. So the functional equation alone cannot produce a contradiction.",
+      "The key insight: ζ(s₀) = 0 forces ζ(1−s₀) = 0 (from step 5). But applying the functional equation to ζ(1−s₀) = 0 gives back ζ(s₀) = 0; consistent, not contradictory. So the functional equation alone cannot produce a contradiction.",
       "However, combine with the Euler product: for Re(s) > 1, ζ(s) = ∏(1 − p⁻ˢ)⁻¹ ≠ 0. So ζ has no zeros for Re(s) > 1. By the functional equation, ζ has no zeros for Re(s) < 0 except trivial zeros at s = −2, −4, .... Since there are no zeros for Re(s) > 1 or Re(s) < 0, there are no zeros in 0 < Re(s) < 1. ∎",
     ],
     errorStep: 8,
     errorExplanation:
-      "The conclusion 'since there are no zeros for Re(s) > 1 or Re(s) < 0, there are no zeros in 0 < Re(s) < 1' is a blatant non sequitur. The absence of zeros outside the critical strip says nothing about zeros inside it. The functional equation maps s to 1−s, which maps the critical strip to itself, so the Euler-product argument (which only works for Re(s) > 1) cannot reach into the critical strip. In fact, ζ has infinitely many zeros in the critical strip — Hardy proved infinitely many lie on the critical line Re(s) = 1/2, and computational verification has found over 10 trillion zeros there. The Riemann Hypothesis (that ALL zeros are on Re(s) = 1/2) remains unproven.",
+      "The conclusion 'since there are no zeros for Re(s) > 1 or Re(s) < 0, there are no zeros in 0 < Re(s) < 1' is a blatant non sequitur. The absence of zeros outside the critical strip says nothing about zeros inside it. The functional equation maps s to 1−s, which maps the critical strip to itself, so the Euler-product argument (which only works for Re(s) > 1) cannot reach into the critical strip. In fact, ζ has infinitely many zeros in the critical strip; Hardy proved infinitely many lie on the critical line Re(s) = 1/2, and computational verification has found over 10 trillion zeros there. The Riemann Hypothesis (that ALL zeros are on Re(s) = 1/2) remains unproven.",
     distractorExplanations: [
-      "The functional equation in step 1 is stated incorrectly — the correct form involves ξ(s) = π^{−s/2}Γ(s/2)ζ(s), not the asymmetric form given",
+      "The functional equation in step 1 is stated incorrectly; the correct form involves ξ(s) = π^{−s/2}Γ(s/2)ζ(s), not the asymmetric form given",
       "The error is in step 4: sin(πs₀/2) can be zero for complex s₀ even when Re(s₀) is not an even integer, because sin is entire and has complex zeros",
       "The Gamma function Γ(1−s₀) has poles at s₀ = 1, 2, 3, ..., and the pole at s₀ = 1 lies near the critical strip boundary, invalidating step 3",
     ],
@@ -456,7 +456,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The final step claims the basis itself is unique (not just its cardinality). This is false — a vector space generally has many distinct bases (e.g., ℝ² has bases {e₁,e₂}, {e₁+e₂, e₁−e₂}, etc.). The proof correctly shows the cardinality (dimension) is unique (steps 0–6 are the standard Steinitz replacement argument for infinite dimensions), but then makes the false leap that the actual set of vectors is unique. Two maximal linearly independent sets can be completely different sets.",
+      "The final step claims the basis itself is unique (not just its cardinality). This is false; a vector space generally has many distinct bases (e.g., ℝ² has bases {e₁,e₂}, {e₁+e₂, e₁−e₂}, etc.). The proof correctly shows the cardinality (dimension) is unique (steps 0–6 are the standard Steinitz replacement argument for infinite dimensions), but then makes the false leap that the actual set of vectors is unique. Two maximal linearly independent sets can be completely different sets.",
     distractorExplanations: [
       "The error is in step 3: the map φ is not well-defined because the representation of b' in terms of B is not unique when B is infinite",
       "The inequality in step 5 requires the Generalized Continuum Hypothesis, not just the Axiom of Choice",
@@ -478,7 +478,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 4,
     errorExplanation:
-      "Step 4 claims that for the N chosen in step 2 (which depends only on x₀), we also have |fₙ(x) − f(x)| < ε/3 for all x near x₀. But this N was chosen to work at x₀ specifically. For a different point x, the convergence fₙ(x) → f(x) may require a much larger N. The N that works at x₀ need not work at nearby points — this is exactly the distinction between pointwise and uniform convergence. The correct version of this theorem requires uniform convergence. The Baire category theorem shows that the pointwise limit of continuous functions IS continuous on a dense Gδ set, but not necessarily everywhere: the characteristic function of the rationals is a pointwise limit of continuous functions (via an enumeration construction) but is nowhere continuous.",
+      "Step 4 claims that for the N chosen in step 2 (which depends only on x₀), we also have |fₙ(x) − f(x)| < ε/3 for all x near x₀. But this N was chosen to work at x₀ specifically. For a different point x, the convergence fₙ(x) → f(x) may require a much larger N. The N that works at x₀ need not work at nearby points; this is exactly the distinction between pointwise and uniform convergence. The correct version of this theorem requires uniform convergence. The Baire category theorem shows that the pointwise limit of continuous functions IS continuous on a dense Gδ set, but not necessarily everywhere: the characteristic function of the rationals is a pointwise limit of continuous functions (via an enumeration construction) but is nowhere continuous.",
     distractorExplanations: [
       "The error is in step 3: the δ depends on N and hence on ε, creating a circular dependence that invalidates the triangle inequality argument",
       "The triangle inequality in step 5 requires all three functions f, fₙ to be defined at the same points, which fails if fₙ has different domains",
@@ -503,8 +503,8 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     errorExplanation:
       "The claim that 'the roots of the quintic can be expressed in terms of roots of the resolvent cubic plus auxiliary equations of degree ≤ 2' is false for the general quintic. This method works for the quartic (where the resolvent cubic fully reduces the problem) but NOT for the quintic. Solving the resolvent does not reduce the quintic to lower-degree solvable equations. The Galois group of the general quintic is S₅, which is not solvable (the composition series has A₅ as a simple non-abelian quotient). No tower of radical extensions can capture S₅. Abel and Galois proved this impossibility.",
     distractorExplanations: [
-      "The Tschirnhaus transformation in step 1 requires extracting roots, which is circular — it assumes solvability by radicals to achieve the Bring-Jerrard form",
-      "The resolvent cubic in step 3 does not exist for quintics — resolvent equations only work for polynomials of degree ≤ 4",
+      "The Tschirnhaus transformation in step 1 requires extracting roots, which is circular; it assumes solvability by radicals to achieve the Bring-Jerrard form",
+      "The resolvent cubic in step 3 does not exist for quintics; resolvent equations only work for polynomials of degree ≤ 4",
       "The error is in step 2: the Galois group of x⁵ + px + q is always A₅ (not a subgroup of S₅), and A₅ is solvable as a simple group",
     ],
   },
@@ -516,7 +516,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "The Klein bottle K can be presented as a CW-complex with one 0-cell, two 1-cells a, b, and one 2-cell attached via the word abab⁻¹.",
       "By the Seifert-van Kampen theorem applied to this CW structure, π₁(K) = ⟨a, b | abab⁻¹⟩.",
       "Rewrite the relation: abab⁻¹ = 1 implies ab = ba (multiply both sides on the right by b).",
-      "Wait — let's be more careful. abab⁻¹ = 1 ⟹ aba = b.",
+      "Wait: let's be more careful. abab⁻¹ = 1 ⟹ aba = b.",
       "From aba = b, we get ab = ba⁻¹... no. Let's redo: aba = b ⟹ ab = ba⁻¹... no, from aba = b, right-multiply by a⁻¹: ab = ba⁻¹.",
       "So ab = ba⁻¹. Now consider: a(ba⁻¹) = (ab)a⁻¹ = (ba⁻¹)a⁻¹ = ba⁻². And (ab)a⁻¹ = ba⁻², confirming consistency.",
       "But ab = ba⁻¹ means ab = b·a⁻¹, which rearranges to aba⁻¹ = ba⁻², hmm. Actually from ab = ba⁻¹, we get a = ba⁻¹b⁻¹, so a commutes with b if a = a⁻¹, i.e., a² = 1.",
@@ -525,7 +525,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The step incorrectly derives a² = 1. From ab = ba⁻¹ one can deduce a = ba⁻¹b⁻¹, but this does NOT imply a² = 1 — it only tells us that conjugation of a by b gives a⁻¹ (i.e., bab⁻¹ = a⁻¹). The relation a² = 1 is an additional claim with no justification. In fact, π₁(K) = ⟨a, b | bab⁻¹ = a⁻¹⟩ is a non-abelian group (it is a semidirect product ℤ ⋊ ℤ where the action is negation). For example, ab ≠ ba since ab = ba⁻¹ and a ≠ a⁻¹ (a has infinite order).",
+      "The step incorrectly derives a² = 1. From ab = ba⁻¹ one can deduce a = ba⁻¹b⁻¹, but this does NOT imply a² = 1; it only tells us that conjugation of a by b gives a⁻¹ (i.e., bab⁻¹ = a⁻¹). The relation a² = 1 is an additional claim with no justification. In fact, π₁(K) = ⟨a, b | bab⁻¹ = a⁻¹⟩ is a non-abelian group (it is a semidirect product ℤ ⋊ ℤ where the action is negation). For example, ab ≠ ba since ab = ba⁻¹ and a ≠ a⁻¹ (a has infinite order).",
     distractorExplanations: [
       "The CW-structure in step 0 is wrong: the Klein bottle's attaching word is aba⁻¹b, not abab⁻¹",
       "The error is in step 1: Seifert-van Kampen cannot be applied to CW complexes with a single 0-cell because the space is not a union of two open path-connected sets",
@@ -548,9 +548,9 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The claim ℓ(Iₙ) = λ*(Iₙ ∩ A) + λ*(Iₙ \\ A) is precisely what fails for non-measurable sets. Outer measure is subadditive but NOT additive on arbitrary disjoint sets — that is the whole point of measurability! The equation λ*(B ∪ C) = λ*(B) + λ*(C) for disjoint B, C requires at least one of them to be measurable. For a Vitali set V, ℓ(I) < λ*(I ∩ V) + λ*(I \\ V) can occur. The proof assumes what it is trying to prove.",
+      "The claim ℓ(Iₙ) = λ*(Iₙ ∩ A) + λ*(Iₙ \\ A) is precisely what fails for non-measurable sets. Outer measure is subadditive but NOT additive on arbitrary disjoint sets; that is the whole point of measurability! The equation λ*(B ∪ C) = λ*(B) + λ*(C) for disjoint B, C requires at least one of them to be measurable. For a Vitali set V, ℓ(I) < λ*(I ∩ V) + λ*(I \\ V) can occur. The proof assumes what it is trying to prove.",
     distractorExplanations: [
-      "The error is in step 4: the sets Iₙ ∩ A are not intervals, so they cannot be used to compute outer measure — the infimum in the definition of λ* runs over interval covers only",
+      "The error is in step 4: the sets Iₙ ∩ A are not intervals, so they cannot be used to compute outer measure; the infimum in the definition of λ* runs over interval covers only",
       "The error is in step 6: the subadditivity λ*(∪(Iₙ ∩ A)) ≤ ∑λ*(Iₙ ∩ A) requires the sets to be open, which Iₙ ∩ A need not be",
       "The error is in step 3: the covering {Iₙ} must consist of open intervals, but partitioning them creates half-open or closed pieces, changing the outer measure",
     ],
@@ -567,12 +567,12 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "On Cε, parameterize z = εeⁱᶿ with θ from π to 0: ∫_{Cε} eⁱᶻ/z dz = ∫_π^0 (eⁱᵋᵉ^ⁱᶿ / εeⁱᶿ) · iεeⁱᶿ dθ = i∫_π^0 eⁱᵋᵉ^ⁱᶿ dθ → i∫_π^0 1 dθ = −πi as ε → 0.",
       "The real-axis integrals combine: ∫_ε^R eⁱˣ/x dx + ∫_{-R}^{-ε} eⁱˣ/x dx = ∫_ε^R (eⁱˣ − e⁻ⁱˣ)/x dx = 2i ∫_ε^R sin(x)/x dx.",
       "Setting the total to 0: 2i ∫_0^∞ sin(x)/x dx − πi = 0, so ∫_0^∞ sin(x)/x dx = π/2.",
-      "Wait — we claimed the answer is π. Redo: the small semicircle was taken in the upper half-plane (avoiding the pole from above), so its contribution should be −πi·Res(f,0) = −πi · 1 = −πi. And the factor from the real axis is 2i∫sin(x)/x dx. So 2i·I − πi = 0 gives I = π/2, not π.",
+      "Wait: we claimed the answer is π. Redo: the small semicircle was taken in the upper half-plane (avoiding the pole from above), so its contribution should be −πi·Res(f,0) = −πi · 1 = −πi. And the factor from the real axis is 2i∫sin(x)/x dx. So 2i·I − πi = 0 gives I = π/2, not π.",
       "The title claims ∫ sin(x)/x dx = π. Therefore π = π/2. ∎",
     ],
     errorStep: 7,
     errorExplanation:
-      "The 'proof' correctly computes ∫₀^∞ sin(x)/x dx = π/2, then claims this equals π to force a contradiction. The computation itself is correct (the Dirichlet integral does equal π/2). The false claim is in the title — the proof does not actually establish that the integral equals π. Step 7 pretends to 'redo' the calculation and still gets π/2, then equates it to π by fiat. This is simply asserting a false equality; there is no subtle mathematical error, just a fraudulent final step.",
+      "The 'proof' correctly computes ∫₀^∞ sin(x)/x dx = π/2, then claims this equals π to force a contradiction. The computation itself is correct (the Dirichlet integral does equal π/2). The false claim is in the title: the proof does not actually establish that the integral equals π. Step 7 pretends to 'redo' the calculation and still gets π/2, then equates it to π by fiat. This is simply asserting a false equality; there is no subtle mathematical error, just a fraudulent final step.",
     distractorExplanations: [
       "The error is in step 4: the small semicircle contribution should be −πi/2 (half a residue), not −πi, because the contour traverses a semicircle, not a full circle",
       "Jordan's lemma in step 3 requires the integrand to decay as |z| → ∞, but eⁱᶻ/z only decays like 1/|z|, which is not fast enough",
@@ -595,7 +595,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The reasoning 'at least one of p, q must be a QR mod the other' is a non sequitur. The fact that 1 is a QR and the Legendre symbol is multiplicative does not imply anything about whether a specific prime is a QR. The case analysis correctly shows (p/q) = (q/p) (same sign), but from 'both residues or both non-residues,' one cannot conclude 'both residues.' Many pairs of primes are mutual quadratic non-residues: for example, (3/5) = −1 and (5/3) = −1. The pigeonhole argument makes no sense — there is no constraint forcing them to be residues rather than non-residues.",
+      "The reasoning 'at least one of p, q must be a QR mod the other' is a non sequitur. The fact that 1 is a QR and the Legendre symbol is multiplicative does not imply anything about whether a specific prime is a QR. The case analysis correctly shows (p/q) = (q/p) (same sign), but from 'both residues or both non-residues,' one cannot conclude 'both residues.' Many pairs of primes are mutual quadratic non-residues: for example, (3/5) = −1 and (5/3) = −1. The pigeonhole argument makes no sense; there is no constraint forcing them to be residues rather than non-residues.",
     distractorExplanations: [
       "The error is in step 1: quadratic reciprocity requires p and q to be distinct odd primes with p < q, and the formula changes sign otherwise",
       "Euler's criterion in step 3 only computes the Legendre symbol for primes q > 2, and the proof doesn't handle q = 2 separately",
@@ -620,7 +620,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The proof makes diagonal dominance do work it cannot do. Adding cI to make A + cI diagonally dominant only shows eigenvalues of A + cI are positive, giving λᵢ > −c. This bound is trivially true and says nothing about the sign of λᵢ. The proof confuses 'eigenvalues of A + cI are positive' with 'eigenvalues of A are positive.' In fact, the matrix diag(−1, 1) is real symmetric with a negative eigenvalue. The statement is simply false — real symmetric matrices can have negative eigenvalues.",
+      "The proof makes diagonal dominance do work it cannot do. Adding cI to make A + cI diagonally dominant only shows eigenvalues of A + cI are positive, giving λᵢ > −c. This bound is trivially true and says nothing about the sign of λᵢ. The proof confuses 'eigenvalues of A + cI are positive' with 'eigenvalues of A are positive.' In fact, the matrix diag(−1, 1) is real symmetric with a negative eigenvalue. The statement is simply false; real symmetric matrices can have negative eigenvalues.",
     distractorExplanations: [
       "The error is in step 0: the spectral theorem requires A to have distinct eigenvalues for orthogonal diagonalization",
       "The Gershgorin theorem in step 6 requires strict diagonal dominance (strict inequality), and the proof only shows weak dominance",
@@ -687,7 +687,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "Then H²(M; ℤ) ≅ Hom(ℤʳ, ℤ) ⊕ Ext¹(H₁, ℤ) ≅ ℤʳ ⊕ (torsion part of H₁).",
       "Combining steps 1 and 6: H₁(M; ℤ) ≅ H²(M; ℤ) ≅ ℤʳ ⊕ T where T is the torsion of H₁.",
       "But H₁ = ℤʳ ⊕ T, and we just showed H₁ ≅ ℤʳ ⊕ T, which is consistent. For the torsion part, Poincaré duality with field coefficients gives b₁ = b₂ (Betti numbers). Combined with Euler characteristic χ(M) = 0 (for odd-dimensional closed manifolds): b₀ − b₁ + b₂ − b₃ = 0, so 1 − b₁ + b₁ − 1 = 0. This is always satisfied, giving no constraint on b₁.",
-      "Wait — we need another argument. Since M is simply connected (π₁(M) = 1)... actually, we didn't assume this. The claim H₁ = 0 cannot be established without simple connectivity. The proof is incomplete.",
+      "Wait: we need another argument. Since M is simply connected (π₁(M) = 1)... actually, we didn't assume this. The claim H₁ = 0 cannot be established without simple connectivity. The proof is incomplete.",
       "Therefore H₁(M; ℤ) = 0. ∎",
     ],
     errorStep: 9,
@@ -695,8 +695,8 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "The proof acknowledges its own failure in step 9 (that no constraint forces b₁ = 0), then sneaks in 'simple connectivity' which was never assumed, and ultimately just asserts the conclusion. The statement is false: many closed orientable 3-manifolds have nontrivial H₁. For example, the 3-torus T³ = S¹ × S¹ × S¹ has H₁(T³; ℤ) ≅ ℤ³. Any 3-manifold with nontrivial fundamental group that abelianizes nontrivially (e.g., lens spaces, surface bundles over S¹) provides a counterexample.",
     distractorExplanations: [
       "Poincaré duality in step 0 requires ℤ coefficients and orientation, but the isomorphism is between homology and cohomology with potentially different coefficient structures",
-      "The universal coefficient theorem in step 2 has an Ext term that is not computed correctly — it should vanish for free groups, making the whole torsion analysis moot",
-      "The error is in step 8: the Euler characteristic formula χ(M) = 0 is wrong for 3-manifolds — it only vanishes for odd-dimensional manifolds without boundary",
+      "The universal coefficient theorem in step 2 has an Ext term that is not computed correctly; it should vanish for free groups, making the whole torsion analysis moot",
+      "The error is in step 8: the Euler characteristic formula χ(M) = 0 is wrong for 3-manifolds; it only vanishes for odd-dimensional manifolds without boundary",
     ],
   },
 
@@ -716,11 +716,11 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The second Borel-Cantelli lemma requires the events to be independent (or at least satisfy a pairwise correlation condition). The events {Mₙ > ε} for a martingale are NOT independent — they are strongly correlated (if Mₙ is large, the martingale property makes Mₙ₊₁ large in expectation). The divergence of ∑P(Mₙ > ε) alone does not imply P(Mₙ > ε i.o.) = 1 without independence. The conclusion is false: the constant martingale Mₙ = 1 for all n is a non-negative martingale converging to 1, not 0.",
+      "The second Borel-Cantelli lemma requires the events to be independent (or at least satisfy a pairwise correlation condition). The events {Mₙ > ε} for a martingale are NOT independent: they are strongly correlated (if Mₙ is large, the martingale property makes Mₙ₊₁ large in expectation). The divergence of ∑P(Mₙ > ε) alone does not imply P(Mₙ > ε i.o.) = 1 without independence. The conclusion is false: the constant martingale Mₙ = 1 for all n is a non-negative martingale converging to 1, not 0.",
     distractorExplanations: [
       "The error is in step 2: Doob's convergence theorem requires the martingale to be uniformly integrable, not just non-negative",
       "Fatou's lemma in step 3 gives the wrong direction of inequality: it should be E[M∞] ≥ lim inf E[Mₙ]",
-      "The error is in step 4: a martingale is not a reversed submartingale — this reversal only works for submartingales satisfying Doob's decomposition",
+      "The error is in step 4: a martingale is not a reversed submartingale; this reversal only works for submartingales satisfying Doob's decomposition",
     ],
   },
 
@@ -740,9 +740,9 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The claim that variation distributes proportionally to length — 'variation over intervals of total length L is at most V·L/(b−a)' — is completely false. Variation is not proportional to interval length. The Cantor function (devil's staircase) has bounded variation V = 1 on [0,1] but concentrates all its variation on the Cantor set (measure 0). For any δ > 0, one can find intervals of total length < δ covering the Cantor set on which the variation is 1 (the full variation). The Cantor function is BV but NOT absolutely continuous — it is the canonical counterexample.",
+      "The claim that variation distributes proportionally to length; 'variation over intervals of total length L is at most V·L/(b−a)'; is completely false. Variation is not proportional to interval length. The Cantor function (devil's staircase) has bounded variation V = 1 on [0,1] but concentrates all its variation on the Cantor set (measure 0). For any δ > 0, one can find intervals of total length < δ covering the Cantor set on which the variation is 1 (the full variation). The Cantor function is BV but NOT absolutely continuous; it is the canonical counterexample.",
     distractorExplanations: [
-      "The error is in step 3: dividing [a,b] into N subintervals does not guarantee the variation on each is less than V/N — variation can concentrate on a single subinterval",
+      "The error is in step 3: dividing [a,b] into N subintervals does not guarantee the variation on each is less than V/N; variation can concentrate on a single subinterval",
       "The error is in step 5: the bound δ = ε/(2V) doesn't work because V could be 0, causing division by zero",
       "The error is in step 1: the definition of bounded variation uses supremum over all partitions, but the proof only considers equally-spaced partitions",
     ],
@@ -759,17 +759,17 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "Now we show {pᵢ} are linearly independent. Suppose ∑rᵢpᵢ = 0 in P ⊆ F.",
       "Then ∑rᵢpᵢ = 0 in F, which means ∑rᵢeᵢ − ∑rᵢqᵢ = 0, so ∑rᵢeᵢ = ∑rᵢqᵢ.",
       "The left side is in F (trivially) and the right side is in Q. But ∑rᵢeᵢ is a general element of F, and since {eᵢ} is a basis, ∑rᵢeᵢ = 0 implies all rᵢ = 0.",
-      "Wait — ∑rᵢeᵢ need not be 0; it equals ∑rᵢqᵢ ∈ Q, but ∑rᵢeᵢ also lies in F. Elements of F can certainly be in Q (since Q ⊆ F). So we only get ∑rᵢeᵢ ∈ Q, not ∑rᵢeᵢ = 0.",
+      "Wait: ∑rᵢeᵢ need not be 0; it equals ∑rᵢqᵢ ∈ Q, but ∑rᵢeᵢ also lies in F. Elements of F can certainly be in Q (since Q ⊆ F). So we only get ∑rᵢeᵢ ∈ Q, not ∑rᵢeᵢ = 0.",
       "Hmm, but Q ∩ P = {0} and ∑rᵢpᵢ = 0, so ∑rᵢeᵢ = ∑rᵢqᵢ ∈ Q. Then ∑rᵢeᵢ ∈ Q and ∑rᵢeᵢ = ∑rᵢpᵢ + ∑rᵢqᵢ = 0 + ∑rᵢqᵢ = ∑rᵢqᵢ. This is consistent. Since ∑rᵢeᵢ ∈ P ⊕ Q and its P-component is ∑rᵢpᵢ = 0, its Q-component is ∑rᵢqᵢ = ∑rᵢeᵢ, so indeed ∑rᵢeᵢ = ∑rᵢqᵢ ∈ Q. Since {eᵢ} is free and ∑rᵢeᵢ ∈ Q, each rᵢ = 0.",
       "Therefore {pᵢ} is a basis for P, so P is free. ∎",
     ],
     errorStep: 8,
     errorExplanation:
-      "The conclusion 'since {eᵢ} is free and ∑rᵢeᵢ ∈ Q, each rᵢ = 0' is wrong. Linear independence of {eᵢ} means ∑rᵢeᵢ = 0 implies rᵢ = 0, but ∑rᵢeᵢ ∈ Q does NOT mean ∑rᵢeᵢ = 0. The submodule Q can contain nonzero elements that are nontrivial linear combinations of the eᵢ. The proof conflates 'being in Q' with 'being zero.' The Kaplansky theorem shows projective modules over local rings are free, but in general, projective modules need not be free — for example, over R = ℤ/6ℤ, the ideal (2) is projective but not free.",
+      "The conclusion 'since {eᵢ} is free and ∑rᵢeᵢ ∈ Q, each rᵢ = 0' is wrong. Linear independence of {eᵢ} means ∑rᵢeᵢ = 0 implies rᵢ = 0, but ∑rᵢeᵢ ∈ Q does NOT mean ∑rᵢeᵢ = 0. The submodule Q can contain nonzero elements that are nontrivial linear combinations of the eᵢ. The proof conflates 'being in Q' with 'being zero.' The Kaplansky theorem shows projective modules over local rings are free, but in general, projective modules need not be free: for example, over R = ℤ/6ℤ, the ideal (2) is projective but not free.",
     distractorExplanations: [
       "The error is in step 1: the projection π is not well-defined because the decomposition eᵢ = pᵢ + qᵢ need not be unique when the direct sum is external, not internal",
       "The spanning argument in step 3 fails because p = ∑rᵢpᵢ requires knowing the coefficients rᵢ, but the map from p to its F-representation is not canonical",
-      "The error is in step 0: not every projective module is a direct summand of a free module — this requires the ring to be Noetherian",
+      "The error is in step 0: not every projective module is a direct summand of a free module; this requires the ring to be Noetherian",
     ],
   },
 
@@ -782,16 +782,16 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "The preimage p⁻¹(Vb) = ⊔ᵢ Wᵢ^b is a disjoint union of open sets each mapped homeomorphically to Vb by p.",
       "Since {Vb : b ∈ B} covers B and B is compact, extract a finite subcover Vb₁, ..., Vbₖ.",
       "For each bⱼ, p⁻¹(Vbⱼ) = ⊔ᵢ Wᵢ^bⱼ. Each sheet Wᵢ^bⱼ is homeomorphic to Vbⱼ via p, hence is compact (as the continuous image of a compact set under a homeomorphism).",
-      "Wait — Vbⱼ is an open subset of B, not necessarily compact. But Vbⱼ ⊆ B and B is compact, so Vbⱼ is relatively compact. Take its closure: cl(Vbⱼ) is compact since B is compact.",
+      "Wait: Vbⱼ is an open subset of B, not necessarily compact. But Vbⱼ ⊆ B and B is compact, so Vbⱼ is relatively compact. Take its closure: cl(Vbⱼ) is compact since B is compact.",
       "Each sheet Wᵢ^bⱼ is homeomorphic to Vbⱼ, so cl(Wᵢ^bⱼ) is compact. The sheets over cl(Vbⱼ) cover a compact subset of E.",
       "Since E = ∪ⱼ p⁻¹(Vbⱼ) and each p⁻¹(Vbⱼ) has compact closure, E is a finite union of sets with compact closure, hence E has compact closure... but E is the whole space.",
       "Therefore E is compact. ∎",
     ],
     errorStep: 4,
     errorExplanation:
-      "The sheets Wᵢ^bⱼ are homeomorphic to Vbⱼ which is open in B — open subsets of compact spaces are NOT necessarily compact (they are not even closed, generally). The proof tries to fix this in steps 5-7 by taking closures, but this creates new problems: the number of sheets over each Vbⱼ could be infinite (the covering is not assumed to be finite-sheeted). With infinitely many sheets, p⁻¹(Vbⱼ) is an infinite disjoint union of open sets, each needing separate coverage. The real counterexample: the universal cover of S¹ is ℝ (via t ↦ e^{2πit}), and ℝ is not compact even though S¹ is.",
+      "The sheets Wᵢ^bⱼ are homeomorphic to Vbⱼ which is open in B; open subsets of compact spaces are NOT necessarily compact (they are not even closed, generally). The proof tries to fix this in steps 5-7 by taking closures, but this creates new problems: the number of sheets over each Vbⱼ could be infinite (the covering is not assumed to be finite-sheeted). With infinitely many sheets, p⁻¹(Vbⱼ) is an infinite disjoint union of open sets, each needing separate coverage. The real counterexample: the universal cover of S¹ is ℝ (via t ↦ e^{2πit}), and ℝ is not compact even though S¹ is.",
     distractorExplanations: [
-      "The error is in step 1: not every point of B has an evenly covered neighborhood — this requires B to be locally path-connected and semi-locally simply connected",
+      "The error is in step 1: not every point of B has an evenly covered neighborhood; this requires B to be locally path-connected and semi-locally simply connected",
       "The error is in step 3: a finite subcover of B exists, but the preimages may overlap in E, so the disjoint union decomposition breaks down",
       "The error is in step 6: the closure of p⁻¹(Vbⱼ) is not the same as p⁻¹(cl(Vbⱼ)) because the covering map is not a closed map in general",
     ],
@@ -814,7 +814,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 8,
     errorExplanation:
-      "The proof contradicts itself. Step 6 correctly recognizes that a finite-order entire function can have infinitely many zeros (e.g., sin(z) has order 1 with infinitely many zeros). Step 8 then incorrectly claims f has finitely many zeros because it is P(z)·e^{g(z)} — but this form only applies when zeros are finite, which step 2 assumed without justification. The proof then asserts g must be constant with no reasoning. The conclusion is false: sin(z), e^z, and cos(z) are entire functions of finite order that are not polynomials.",
+      "The proof contradicts itself. Step 6 correctly recognizes that a finite-order entire function can have infinitely many zeros (e.g., sin(z) has order 1 with infinitely many zeros). Step 8 then incorrectly claims f has finitely many zeros because it is P(z)·e^{g(z)}; but this form only applies when zeros are finite, which step 2 assumed without justification. The proof then asserts g must be constant with no reasoning. The conclusion is false: sin(z), e^z, and cos(z) are entire functions of finite order that are not polynomials.",
     distractorExplanations: [
       "The Hadamard factorization in step 1 requires ρ to be a positive integer, and the theorem fails for non-integer orders",
       "Jensen's formula in step 3 requires f(0) ≠ 0, and the proof doesn't handle the case f(0) = 0",
@@ -842,7 +842,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     distractorExplanations: [
       "The error is in step 4: the definition f(w) = min(ℕ \\ ...) requires the well-ordering of ℕ, but this is circular because we are trying to prove all well-ordered sets embed into ℕ",
       "The injectivity argument in step 7 is wrong: f(w) ∈ {f(x) : x < w'} does not mean f(w) ≠ f(w') since the set could contain repetitions",
-      "The error is in step 2: well-ordering of I(w) as a subset is not automatic — it requires the subspace ordering to inherit the well-ordering property, which needs transfinite induction",
+      "The error is in step 2: well-ordering of I(w) as a subset is not automatic; it requires the subspace ordering to inherit the well-ordering property, which needs transfinite induction",
     ],
   },
 
@@ -856,12 +856,12 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "For a submanifold M ⊆ ℝ^{2n+1}, the Gauss equation relates the curvature of M to the ambient curvature and the second fundamental form: R^M = R^{ℝ^{2n+1}}|_M + (terms involving the second fundamental form).",
       "Since R^{ℝ^{2n+1}} = 0, we get R^M = (terms involving the second fundamental form).",
       "The second fundamental form measures how M curves within ℝ^{2n+1}, and for the induced metric, these terms contribute extrinsic curvature.",
-      "But we are free to choose the embedding. Choose an embedding that minimizes the second fundamental form — specifically, one where the second fundamental form vanishes identically (a totally geodesic embedding).",
+      "But we are free to choose the embedding. Choose an embedding that minimizes the second fundamental form: specifically, one where the second fundamental form vanishes identically (a totally geodesic embedding).",
       "If the embedding is totally geodesic, then R^M = 0, so (M, g) is flat. ∎",
     ],
     errorStep: 6,
     errorExplanation:
-      "A totally geodesic submanifold of ℝⁿ must be an affine subspace (a plane), so only open subsets of ℝⁿ can be totally geodesically embedded in Euclidean space. An arbitrary manifold cannot be totally geodesically embedded in Euclidean space — the topology of M constrains its curvature. For instance, any closed manifold embedded in ℝⁿ must have points of positive (extrinsic) curvature. The 2-sphere S² admits no flat metric at all (by Gauss-Bonnet: ∫K dA = 4π ≠ 0), providing a direct counterexample to the claim.",
+      "A totally geodesic submanifold of ℝⁿ must be an affine subspace (a plane), so only open subsets of ℝⁿ can be totally geodesically embedded in Euclidean space. An arbitrary manifold cannot be totally geodesically embedded in Euclidean space; the topology of M constrains its curvature. For instance, any closed manifold embedded in ℝⁿ must have points of positive (extrinsic) curvature. The 2-sphere S² admits no flat metric at all (by Gauss-Bonnet: ∫K dA = 4π ≠ 0), providing a direct counterexample to the claim.",
     distractorExplanations: [
       "Whitney's embedding theorem in step 0 gives a topological embedding, not an isometric one, so the induced metric is not well-defined",
       "The Gauss equation in step 3 only applies to hypersurfaces (codimension 1), not submanifolds of arbitrary codimension in ℝ^{2n+1}",
@@ -878,7 +878,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "For each k ∈ ℕ, let Aₙ,ₖ = {x : |fₙ(x) − f(x)| ≥ 1/k}. Then μ(Aₙ,ₖ) → 0 as n → ∞.",
       "Define Bₖ = lim sup Aₙ,ₖ = ∩_{N} ∪_{n≥N} Aₙ,ₖ. This is the set of x where |fₙ(x) − f(x)| ≥ 1/k for infinitely many n.",
       "Since μ(Aₙ,ₖ) → 0, for any δ > 0, μ(∪_{n≥N} Aₙ,ₖ) ≤ ∑_{n≥N} μ(Aₙ,ₖ) → 0 as N → ∞.",
-      "Wait — ∑μ(Aₙ,ₖ) could diverge even though μ(Aₙ,ₖ) → 0. But μ(∪_{n≥N} Aₙ,ₖ) ≤ ∑_{n≥N} μ(Aₙ,ₖ), and if this sum → 0, then μ(Bₖ) = lim μ(∪_{n≥N} Aₙ,ₖ) = 0.",
+      "Wait: ∑μ(Aₙ,ₖ) could diverge even though μ(Aₙ,ₖ) → 0. But μ(∪_{n≥N} Aₙ,ₖ) ≤ ∑_{n≥N} μ(Aₙ,ₖ), and if this sum → 0, then μ(Bₖ) = lim μ(∪_{n≥N} Aₙ,ₖ) = 0.",
       "Since μ(Aₙ,ₖ) → 0, we can choose a subsequence with μ(Aₙⱼ,ₖ) < 2⁻ʲ. Then ∑μ(Aₙⱼ,ₖ) < ∞. By Borel-Cantelli, μ(lim sup Aₙⱼ,ₖ) = 0. So along the subsequence, fₙⱼ → f a.e.",
       "But we claimed the full sequence converges a.e., not just a subsequence. The subsequence result is all we get from convergence in measure.",
       "Therefore fₙ → f a.e. ∎",
@@ -909,7 +909,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 8,
     errorExplanation:
-      "The 'density argument' — that because √2 exists in infinitely many ℚₚ, it exists in all — is nonsensical. Each ℚₚ is an independent, distinct topological field; there is no density or continuity relating the solvability of x² = 2 across different primes. The proof itself correctly demonstrates that √2 does NOT exist in ℚ₂ or in ℚₚ for p ≡ 3, 5 (mod 8), then pretends this doesn't matter. The conclusion contradicts the proof's own intermediate results.",
+      "The 'density argument'; that because √2 exists in infinitely many ℚₚ, it exists in all; is nonsensical. Each ℚₚ is an independent, distinct topological field; there is no density or continuity relating the solvability of x² = 2 across different primes. The proof itself correctly demonstrates that √2 does NOT exist in ℚ₂ or in ℚₚ for p ≡ 3, 5 (mod 8), then pretends this doesn't matter. The conclusion contradicts the proof's own intermediate results.",
     distractorExplanations: [
       "Hensel's lemma in step 1 requires f'(a) ≢ 0 (mod p²), not just mod p, for the iteration to converge in ℚₚ",
       "The second supplement formula in step 4 is (2/p) = (−1)^{(p−1)(p+1)/8}, which differs from the stated formula when p ≡ 3 (mod 4)",
@@ -932,7 +932,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim that the mixed terms vanish is false. The 'alternating property' of the determinant applies to multilinear functions of columns (or rows), but each mixed term ∑_σ sgn(σ)(∏_{i∈S} Aᵢ,σ(i))(∏_{i∉S} Bᵢ,σ(i)) is NOT a determinant of a matrix with repeated columns — it is a sum over all permutations of a product that mixes entries from A and B in different rows. These mixed terms are generally nonzero. For example, with A = B = I (identity), det(I+I) = det(2I) = 2ⁿ, but det(I) + det(I) = 2. For n ≥ 2, 2ⁿ ≠ 2.",
+      "The claim that the mixed terms vanish is false. The 'alternating property' of the determinant applies to multilinear functions of columns (or rows), but each mixed term ∑_σ sgn(σ)(∏_{i∈S} Aᵢ,σ(i))(∏_{i∉S} Bᵢ,σ(i)) is NOT a determinant of a matrix with repeated columns; it is a sum over all permutations of a product that mixes entries from A and B in different rows. These mixed terms are generally nonzero. For example, with A = B = I (identity), det(I+I) = det(2I) = 2ⁿ, but det(I) + det(I) = 2. For n ≥ 2, 2ⁿ ≠ 2.",
     distractorExplanations: [
       "The expansion in step 3 is incorrect: the product should be expanded using the multinomial theorem, not the subset expansion, because the terms are not independent",
       "The error is in step 5: the S = [n] term gives det(A) only if σ ranges over all of Sₙ, but when S = [n], the sum should be restricted to even permutations",
@@ -981,7 +981,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim 'adjoining one root of an irreducible polynomial automatically gives all roots' is false. If f is irreducible of degree n over ℚ, then ℚ(α) contains α but generally does NOT contain the other roots of f. For example, f(x) = x³ − 2 is irreducible over ℚ, and ℚ(∛2) contains the real cube root of 2 but NOT the complex cube roots ∛2·ω and ∛2·ω² (where ω = e^{2πi/3}). The extension ℚ(∛2)/ℚ has degree 3 but is not Galois — its splitting field is ℚ(∛2, ω) of degree 6.",
+      "The claim 'adjoining one root of an irreducible polynomial automatically gives all roots' is false. If f is irreducible of degree n over ℚ, then ℚ(α) contains α but generally does NOT contain the other roots of f. For example, f(x) = x³ − 2 is irreducible over ℚ, and ℚ(∛2) contains the real cube root of 2 but NOT the complex cube roots ∛2·ω and ∛2·ω² (where ω = e^{2πi/3}). The extension ℚ(∛2)/ℚ has degree 3 but is not Galois; its splitting field is ℚ(∛2, ω) of degree 6.",
     distractorExplanations: [
       "The primitive element theorem in step 1 requires K/ℚ to be separable, which must be proved first before invoking it",
       "The error is in step 3: in characteristic 0, minimal polynomials can still be inseparable if the ground field is not perfect",
@@ -1006,7 +1006,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 8,
     errorExplanation:
-      "A homotopy equivalence between closed manifolds is NOT necessarily a homeomorphism. Homotopy equivalence is a much weaker notion than homeomorphism. The claim is false even in the simply connected case — the Poincaré conjecture (now theorem, proved by Perelman using Ricci flow) is precisely the statement that a simply connected closed 3-manifold is homeomorphic to S³. If homotopy equivalence implied homeomorphism for closed manifolds, the Poincaré conjecture would be trivial, which it famously is not. In higher dimensions, there exist homotopy spheres that are not homeomorphic to the standard sphere (exotic spheres in dimension 7 and above, though in dimension 3 the result happens to be true — but the proof is deep).",
+      "A homotopy equivalence between closed manifolds is NOT necessarily a homeomorphism. Homotopy equivalence is a much weaker notion than homeomorphism. The claim is false even in the simply connected case; the Poincaré conjecture (now theorem, proved by Perelman using Ricci flow) is precisely the statement that a simply connected closed 3-manifold is homeomorphic to S³. If homotopy equivalence implied homeomorphism for closed manifolds, the Poincaré conjecture would be trivial, which it famously is not. In higher dimensions, there exist homotopy spheres that are not homeomorphic to the standard sphere (exotic spheres in dimension 7 and above, though in dimension 3 the result happens to be true; but the proof is deep).",
     distractorExplanations: [
       "The second application of Hurewicz in step 4 is wrong: Hurewicz gives π₂ ≅ H₂ only when π₁ = 0, which requires M to be 1-connected, not just have H₁ = 0",
       "Whitehead's theorem in step 7 requires f to induce isomorphisms on all homotopy groups, but step 6 only shows this for π₃, not for higher πₙ",
@@ -1030,7 +1030,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The 'converse of Fubini' stated here is false. Fubini/Tonelli says: if E ∈ A⊗B, then its sections are measurable and the section-measure function is measurable. The converse — if sections are measurable and the section-measure function is measurable, then E ∈ A⊗B — does NOT hold. Measurability of sections does not guarantee product measurability. In fact, the product of two complete measure spaces is generally NOT complete. The standard example: the product of Lebesgue measure with itself on [0,1]² is not complete. One must take the completion of the product σ-algebra to recover completeness.",
+      "The 'converse of Fubini' stated here is false. Fubini/Tonelli says: if E ∈ A⊗B, then its sections are measurable and the section-measure function is measurable. The converse; if sections are measurable and the section-measure function is measurable, then E ∈ A⊗B; does NOT hold. Measurability of sections does not guarantee product measurability. In fact, the product of two complete measure spaces is generally NOT complete. The standard example: the product of Lebesgue measure with itself on [0,1]² is not complete. One must take the completion of the product σ-algebra to recover completeness.",
     distractorExplanations: [
       "The error is in step 3: Fubini's theorem requires N to be A⊗B-measurable, but we only know (μ⊗ν)(N) = 0 from the outer measure, not that N is in the σ-algebra",
       "The error is in step 5: completeness of ν gives Eₓ ∈ B only when Eₓ is a subset of a set of measure zero in B, but Nₓ might not be in B",
@@ -1054,9 +1054,9 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The claim that g → 0 at infinity makes g bounded is wrong, and more fundamentally, the conclusion that g is bounded does not follow. An entire function can be unbounded along some sequences (|f(zₙ)| → ∞) while remaining moderate along others. The function g = 1/f need not tend to 0 'at infinity' in any uniform sense — it tends to 0 along the specific sequence where |f| → ∞, but could be large elsewhere. Liouville's theorem requires g to be bounded on ALL of ℂ, not just along subsequences. The counterexample is trivial: f(z) = eᶻ is entire, non-vanishing, and non-constant. We have |eᶻ| = e^{Re(z)}, which is unbounded as Re(z) → +∞ but tends to 0 as Re(z) → −∞, so g(z) = e^{−z} is also entire and unbounded.",
+      "The claim that g → 0 at infinity makes g bounded is wrong, and more fundamentally, the conclusion that g is bounded does not follow. An entire function can be unbounded along some sequences (|f(zₙ)| → ∞) while remaining moderate along others. The function g = 1/f need not tend to 0 'at infinity' in any uniform sense; it tends to 0 along the specific sequence where |f| → ∞, but could be large elsewhere. Liouville's theorem requires g to be bounded on ALL of ℂ, not just along subsequences. The counterexample is trivial: f(z) = eᶻ is entire, non-vanishing, and non-constant. We have |eᶻ| = e^{Re(z)}, which is unbounded as Re(z) → +∞ but tends to 0 as Re(z) → −∞, so g(z) = e^{−z} is also entire and unbounded.",
     distractorExplanations: [
-      "The error is in step 2: a global holomorphic logarithm log f(z) requires the domain to be simply connected, but ℂ is simply connected so this is fine — the real issue is elsewhere",
+      "The error is in step 2: a global holomorphic logarithm log f(z) requires the domain to be simply connected, but ℂ is simply connected so this is fine; the real issue is elsewhere",
       "The maximum modulus principle in step 4 applies to bounded domains, not to all of ℂ, so the bound on g is invalid",
       "The error is in step 6: Liouville's theorem requires f to be bounded by a polynomial, not just bounded, for the stronger conclusion that f is a polynomial",
     ],
@@ -1077,7 +1077,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The argument does NOT produce 2^{ℵ₀} distinct elements of A. Step 5 shows that for each path b through the binary tree, the intersection ∩ₙ A_{b|ₙ} is nonempty (in fact uncountable). But different paths b and b' do not necessarily yield DIFFERENT elements of A. It is possible that the same set S ∈ A lies in the intersection for multiple paths — in fact, S lies on exactly ONE path (determined by its characteristic function), but the 'element chosen from A_{b|ₙ}' at each level could be any element, and without the Axiom of Choice applied carefully, we don't get an injection from paths to A. More fundamentally, Cohen proved CH is independent of ZFC, so no proof from ZFC axioms can establish ℵ₁ = 2^{ℵ₀}.",
+      "The argument does NOT produce 2^{ℵ₀} distinct elements of A. Step 5 shows that for each path b through the binary tree, the intersection ∩ₙ A_{b|ₙ} is nonempty (in fact uncountable). But different paths b and b' do not necessarily yield DIFFERENT elements of A. It is possible that the same set S ∈ A lies in the intersection for multiple paths; in fact, S lies on exactly ONE path (determined by its characteristic function), but the 'element chosen from A_{b|ₙ}' at each level could be any element, and without the Axiom of Choice applied carefully, we don't get an injection from paths to A. More fundamentally, Cohen proved CH is independent of ZFC, so no proof from ZFC axioms can establish ℵ₁ = 2^{ℵ₀}.",
     distractorExplanations: [
       "The error is in step 3: the induction requires the Axiom of Dependent Choice, which is weaker than full AC but is not provable in ZF alone",
       "The error is in step 1: the tree T has only countably many nodes at each level, so the total number of paths cannot exceed ℵ₁ (the first uncountable cardinal)",
@@ -1093,7 +1093,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "The eigenvalues λ₁, ..., λₙ (counted with multiplicity, in ℂ) satisfy ∑Re(λᵢ) = Re(tr(A)) = tr(A) < 0.",
       "Since the sum of the real parts is negative, the average real part is negative: (1/n)∑Re(λᵢ) < 0.",
       "If any eigenvalue had Re(λₖ) ≥ 0, then the remaining eigenvalues would need to compensate: ∑_{i≠k} Re(λᵢ) < 0.",
-      "But this is still consistent — some eigenvalues could have positive real part as long as the sum is negative. However, for stability we need ALL eigenvalues to have negative real part.",
+      "But this is still consistent; some eigenvalues could have positive real part as long as the sum is negative. However, for stability we need ALL eigenvalues to have negative real part.",
       "Consider the Lyapunov equation: A^T P + PA = −Q for positive definite Q. If a solution P > 0 exists, the system is asymptotically stable.",
       "Choose Q = I. Then P = ∫₀^∞ e^{A^T t} e^{At} dt converges if and only if the system is stable (all eigenvalues have negative real part).",
       "By the trace condition: tr(A^T P + PA) = 2tr(PA) = −tr(Q) = −n < 0. Since P > 0, we need 2tr(PA) = −n, which gives tr(PA) = −n/2 < 0.",
@@ -1102,7 +1102,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 8,
     errorExplanation:
-      "The reasoning is circular and the final conclusion is a non sequitur. Step 6 defines P via an integral that converges ONLY IF the system is already stable — this assumes what we want to prove. Moreover, step 8 claims 'P > 0 and tr(PA) < 0 implies all eigenvalues of A have negative real part,' which is false. The trace of PA being negative says the eigenvalues of PA sum to a negative number, but eigenvalues of PA are NOT simply related to eigenvalues of A (the product PA has different eigenvalues). The counterexample: A = [[−3, 0],[0, 1]] has tr(A) = −2 < 0 but has an eigenvalue +1, so the system is unstable.",
+      "The reasoning is circular and the final conclusion is a non sequitur. Step 6 defines P via an integral that converges ONLY IF the system is already stable; this assumes what we want to prove. Moreover, step 8 claims 'P > 0 and tr(PA) < 0 implies all eigenvalues of A have negative real part,' which is false. The trace of PA being negative says the eigenvalues of PA sum to a negative number, but eigenvalues of PA are NOT simply related to eigenvalues of A (the product PA has different eigenvalues). The counterexample: A = [[−3, 0],[0, 1]] has tr(A) = −2 < 0 but has an eigenvalue +1, so the system is unstable.",
     distractorExplanations: [
       "The Lyapunov equation A^TP + PA = −Q in step 5 has a unique solution only when A has no eigenvalues that sum to zero, which is not guaranteed",
       "The error is in step 1: complex eigenvalues come in conjugate pairs for real matrices, so ∑Re(λᵢ) = tr(A) requires all eigenvalues to be real",
@@ -1175,7 +1175,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 2,
     errorExplanation:
-      "The pigeonhole argument is too weak: with 4 edges and 2 colors, pigeonhole gives at least ⌈4/2⌉ = 2 edges of the same color, but the standard proof of R(3,3) = 6 requires at least ⌈5/2⌉ = 3 edges of the same color from a vertex in K₆ (which has 5 edges from each vertex). The proof attempts to show R(3,3) = 5, but the correct value is R(3,3) = 6. K₅ can be 2-colored without a monochromatic triangle (the Ramsey coloring of K₅ based on the Petersen complement achieves this). The error is trying to prove a false statement — R(3,3) = 6, not 5.",
+      "The pigeonhole argument is too weak: with 4 edges and 2 colors, pigeonhole gives at least ⌈4/2⌉ = 2 edges of the same color, but the standard proof of R(3,3) = 6 requires at least ⌈5/2⌉ = 3 edges of the same color from a vertex in K₆ (which has 5 edges from each vertex). The proof attempts to show R(3,3) = 5, but the correct value is R(3,3) = 6. K₅ can be 2-colored without a monochromatic triangle (the Ramsey coloring of K₅ based on the Petersen complement achieves this). The error is trying to prove a false statement; R(3,3) = 6, not 5.",
     distractorExplanations: [
       "The error is in step 4: the remaining vertices c, d might have edges to v that are blue, changing the case analysis",
       "The pigeonhole principle in step 2 should give at least 3 red edges because 4 edges into 2 colors gives at least 3 by the strengthened pigeonhole",
@@ -1200,7 +1200,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 9,
     errorExplanation:
-      "The conclusion 'since stable distributions approach normal as α → 2, the CLT still holds' is a fallacy. The parameter α is fixed by the distribution of X₁ — it does not vary or approach 2. If X₁ has infinite variance, then α < 2 is determined by the tail behavior of X₁, and the limit distribution is a non-Gaussian stable law, period. The CLT (convergence to normal) genuinely requires finite variance. The proof correctly derives the generalized CLT (convergence to stable laws) in steps 5-8, but then falsely claims this implies convergence to normal by 'taking α → 2,' conflating a fixed distributional parameter with a limiting process.",
+      "The conclusion 'since stable distributions approach normal as α → 2, the CLT still holds' is a fallacy. The parameter α is fixed by the distribution of X₁; it does not vary or approach 2. If X₁ has infinite variance, then α < 2 is determined by the tail behavior of X₁, and the limit distribution is a non-Gaussian stable law, period. The CLT (convergence to normal) genuinely requires finite variance. The proof correctly derives the generalized CLT (convergence to stable laws) in steps 5-8, but then falsely claims this implies convergence to normal by 'taking α → 2,' conflating a fixed distributional parameter with a limiting process.",
     distractorExplanations: [
       "The Taylor expansion in step 2 requires φ to be twice differentiable, which fails when E[X₁²] = ∞",
       "The approximation in step 4 is only valid for symmetric distributions; for skewed distributions, the characteristic function has an imaginary correction term",
@@ -1250,9 +1250,9 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     errorExplanation:
       "The proof correctly shows that every irreducible representation of an ABELIAN group is one-dimensional (steps 7-8), but then universally quantifies over 'any finite group' in step 9, dropping the crucial abelian hypothesis. Non-abelian groups have irreducible representations of dimension > 1. For example, S₃ has an irreducible 2-dimensional representation (the standard representation). The dimension formula ∑(dim Vᵢ)² = |G| shows that non-abelian groups (which have fewer conjugacy classes than elements) must have irreducible representations of dimension > 1.",
     distractorExplanations: [
-      "Maschke's theorem in step 1 requires char(ℂ) ∤ |G|, and since char(ℂ) = 0, this always holds — so Maschke's theorem is not the issue",
+      "Maschke's theorem in step 1 requires char(ℂ) ∤ |G|, and since char(ℂ) = 0, this always holds; so Maschke's theorem is not the issue",
       "Schur's lemma in step 3 requires the representation to be finite-dimensional, which should be stated explicitly",
-      "The error is in step 7: for abelian groups, Schur's lemma gives End_G(Vᵢ) ≅ ℂ but does not force dim Vᵢ = 1 — it only forces the endomorphism algebra to be commutative",
+      "The error is in step 7: for abelian groups, Schur's lemma gives End_G(Vᵢ) ≅ ℂ but does not force dim Vᵢ = 1; it only forces the endomorphism algebra to be commutative",
     ],
   },
 
@@ -1273,7 +1273,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 9,
     errorExplanation:
-      "The universal coefficient theorem does NOT work 'in reverse' — agreement of homology with ℤ/2 coefficients does not imply agreement with ℤ coefficients. The UCT expresses H_n(X; R) in terms of H_n(X; ℤ), not the other way around. Homology with ℤ/2 coefficients loses torsion information: it cannot distinguish ℤ from ℤ/2ℤ (both give ℤ/2 when tensored with ℤ/2). The proof's own computation (steps 4-7) correctly shows the integer homology groups DIFFER: H₁(T²) = ℤ² ≠ ℤ ⊕ ℤ/2ℤ = H₁(K) and H₂(T²) = ℤ ≠ 0 = H₂(K).",
+      "The universal coefficient theorem does NOT work 'in reverse'; agreement of homology with ℤ/2 coefficients does not imply agreement with ℤ coefficients. The UCT expresses H_n(X; R) in terms of H_n(X; ℤ), not the other way around. Homology with ℤ/2 coefficients loses torsion information: it cannot distinguish ℤ from ℤ/2ℤ (both give ℤ/2 when tensored with ℤ/2). The proof's own computation (steps 4-7) correctly shows the integer homology groups DIFFER: H₁(T²) = ℤ² ≠ ℤ ⊕ ℤ/2ℤ = H₁(K) and H₂(T²) = ℤ ≠ 0 = H₂(K).",
     distractorExplanations: [
       "The CW structure of the Klein bottle in step 1 is wrong: the attaching word should be aba⁻¹b, not abab⁻¹",
       "The boundary computation ∂₂(σ) = 2a in step 5 is incorrect: the correct boundary of the 2-cell for K is a + b + a + b = 2a + 2b",
@@ -1309,7 +1309,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
   {
     title: "Proof that every simply connected open subset of ℂ is conformally equivalent to ℂ",
     steps: [
-      "Let Ω ⊆ ℂ be a simply connected open set (not all of ℂ — wait, we include ℂ itself).",
+      "Let Ω ⊆ ℂ be a simply connected open set (not all of ℂ; wait, we include ℂ itself).",
       "By the Riemann mapping theorem, every simply connected proper open subset of ℂ is conformally equivalent to the open unit disk 𝔻.",
       "The open unit disk 𝔻 is conformally mapped to ℂ by the map f(z) = z/(1−|z|²)... no, that's not holomorphic. Use f(z) = tan(πz/2)... no, that maps (−1,1) to ℝ.",
       "Consider the exponential map g: ℂ → ℂ \\ {0}. This is a conformal map from ℂ to a proper subset of ℂ.",
@@ -1325,7 +1325,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     distractorExplanations: [
       "The Riemann mapping theorem in step 1 requires the boundary of Ω to contain at least two points, not just that Ω is proper",
       "The error is in step 6: Liouville's theorem requires the entire function to be bounded on all of ℂ, but a map to 𝔻 is bounded by definition, so the argument is actually correct and there is no error",
-      "The Cayley transform in step 4 is not surjective onto 𝔻 — it misses the boundary point −1",
+      "The Cayley transform in step 4 is not surjective onto 𝔻; it misses the boundary point −1",
     ],
   },
 
@@ -1342,11 +1342,11 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "So a homomorphism G → ℤˢ corresponds to a family of homomorphisms {G → ℤ}_{s∈S}, i.e., an element of Hom_Grp(G, ℤ)ˢ.",
       "For the right adjoint, we need Hom_Grp(G, R(S)) ≅ Hom_Set(U(G), S). But we got Hom_Grp(G, ℤˢ) ≅ Hom(G,ℤ)ˢ, not Hom_Set(U(G), S).",
       "Unless Hom(G,ℤ)ˢ ≅ Hom_Set(U(G), S) naturally, which would require |Hom(G,ℤ)| = |U(G)|, i.e., the number of group homomorphisms from G to ℤ equals the cardinality of G. This fails for finite groups (only the trivial homomorphism G → ℤ exists when G is finite).",
-      "Therefore the construction fails. But the forgetful functor has a right adjoint anyway — we just chose the wrong one. ∎",
+      "Therefore the construction fails. But the forgetful functor has a right adjoint anyway; we just chose the wrong one. ∎",
     ],
     errorStep: 9,
     errorExplanation:
-      "The final claim 'the forgetful functor U: Grp → Set has a right adjoint anyway' is false. U has a LEFT adjoint (the free group functor F: Set → Grp), not a right adjoint. A right adjoint to U would require U to preserve colimits (which it does, as left adjoints preserve colimits and U being a right adjoint would mean something else). Actually, U: Grp → Set preserves limits (which is automatic for forgetful functors from algebraic categories) but does NOT preserve all colimits — for instance, it doesn't preserve coproducts (the free product of groups is not the disjoint union of underlying sets). Since a functor with a right adjoint must preserve colimits, and U doesn't, U has no right adjoint. The cofree group functor does not exist in any useful sense.",
+      "The final claim 'the forgetful functor U: Grp → Set has a right adjoint anyway' is false. U has a LEFT adjoint (the free group functor F: Set → Grp), not a right adjoint. A right adjoint to U would require U to preserve colimits (which it does, as left adjoints preserve colimits and U being a right adjoint would mean something else). Actually, U: Grp → Set preserves limits (which is automatic for forgetful functors from algebraic categories) but does NOT preserve all colimits; for instance, it doesn't preserve coproducts (the free product of groups is not the disjoint union of underlying sets). Since a functor with a right adjoint must preserve colimits, and U doesn't, U has no right adjoint. The cofree group functor does not exist in any useful sense.",
     distractorExplanations: [
       "The error is in step 2: ℤˢ with pointwise addition is an abelian group, but we need R(S) to be in Grp which includes non-abelian groups, so the functor lands in the wrong category",
       "The free abelian group on S is ℤ^{(S)} (direct sum), not ℤˢ (direct product), and this distinction matters for infinite S because the direct sum has finite support",
@@ -1362,7 +1362,7 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
       "The prime ideals of ℤ are: (0) and (p) for each prime number p.",
       "The Zariski topology on Spec(ℤ) has closed sets V(I) = {P ∈ Spec(ℤ) : P ⊇ I} for ideals I of ℤ.",
       "The closure of a point (p) is V((p)) = {Q : Q ⊇ (p)} = {(p)} (since the only prime containing (p) and containing (p) is (p) itself).",
-      "Wait: (0) ⊆ (p) means (0) ⊇ (p)? No — (p) ⊆ (0) is false since p ∈ (p) but p ∉ (0) only if (0) = {0}. Hmm: (0) ⊆ (p) since 0 ∈ (p). And (p) ⊄ (0) since p ≠ 0.",
+      "Wait: (0) ⊆ (p) means (0) ⊇ (p)? No; (p) ⊆ (0) is false since p ∈ (p) but p ∉ (0) only if (0) = {0}. Hmm: (0) ⊆ (p) since 0 ∈ (p). And (p) ⊄ (0) since p ≠ 0.",
       "So V((p)) = {Q ∈ Spec(ℤ) : Q ⊇ (p)} = {(p)} because (0) ⊉ (p) and no (q) for q ≠ p contains (p) (since p ∉ (q) when q ≠ p).",
       "Therefore each closed point {(p)} is closed. The generic point (0) is dense (its closure is all of Spec(ℤ)).",
       "Since (0) is dense and every closed set containing (0) is all of Spec(ℤ), and (0) is the unique generic point, and the space is irreducible...",
@@ -1419,10 +1419,10 @@ export const FALLACIOUS_PROOFS_EXT_1: FallaciousProof[] = [
     ],
     errorStep: 8,
     errorExplanation:
-      "The claim that ∑|ĉₙ| < ∞ follows from ∑|ĉₙ|² < ∞ is false — ℓ² summability does NOT imply ℓ¹ summability. The sequence ĉₙ = 1/n satisfies ∑1/n² < ∞ but ∑1/n = ∞. The inequality |ĉₙ| ≤ |ĉₙ|² when |ĉₙ| ≤ 1 is backwards: for |ĉₙ| ≤ 1, we have |ĉₙ|² ≤ |ĉₙ|, not the other way around. So ℓ² gives a WEAKER condition than ℓ¹. In fact, the Fourier series of a general L² function does NOT converge uniformly — the function f(x) = ∑(sin nx)/n is in L² but its Fourier series does not converge uniformly (it represents a sawtooth wave with Gibbs phenomenon at the jump).",
+      "The claim that ∑|ĉₙ| < ∞ follows from ∑|ĉₙ|² < ∞ is false; ℓ² summability does NOT imply ℓ¹ summability. The sequence ĉₙ = 1/n satisfies ∑1/n² < ∞ but ∑1/n = ∞. The inequality |ĉₙ| ≤ |ĉₙ|² when |ĉₙ| ≤ 1 is backwards: for |ĉₙ| ≤ 1, we have |ĉₙ|² ≤ |ĉₙ|, not the other way around. So ℓ² gives a WEAKER condition than ℓ¹. In fact, the Fourier series of a general L² function does NOT converge uniformly: the function f(x) = ∑(sin nx)/n is in L² but its Fourier series does not converge uniformly (it represents a sawtooth wave with Gibbs phenomenon at the jump).",
     distractorExplanations: [
       "The error is in step 4: the triangle inequality |∑aₖeⁱᵏˣ| ≤ ∑|aₖ| is only valid for finite sums, and the interchange with the infinite series requires absolute convergence, which is what we're trying to prove",
-      "Parseval's theorem in step 1 requires f to be continuous, not just L² — for discontinuous L² functions, the Fourier coefficients may not satisfy ∑|ĉₙ|² < ∞",
+      "Parseval's theorem in step 1 requires f to be continuous, not just L²; for discontinuous L² functions, the Fourier coefficients may not satisfy ∑|ĉₙ|² < ∞",
       "The error is in step 2: L²-convergence of Sₙ to f does not imply pointwise convergence, so bounding |f(x) − Sₙ(x)| pointwise is meaningless for L² functions",
     ],
   },

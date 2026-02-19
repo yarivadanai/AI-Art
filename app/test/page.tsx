@@ -170,7 +170,7 @@ function TestRunner() {
 
   if (!currentQ) return null;
 
-  // Section intro — only for the very first section
+  // Section intro: only for the very first section
   if (showIntro && currentIndex === 0) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -213,7 +213,7 @@ function TestRunner() {
           {/* Question counter */}
           <div className="flex items-center justify-between">
             <span className="section-label">
-              {SECTION_NAMES[currentQ.section]} — Q{sectionIdx}/
+              {SECTION_NAMES[currentQ.section]}: Q{sectionIdx}/
               {sectionQuestions.length}
             </span>
             <span className="font-mono text-xs text-muted">

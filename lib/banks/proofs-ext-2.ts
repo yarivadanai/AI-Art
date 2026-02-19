@@ -16,7 +16,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "Surgery on embedded 2-spheres in a 4-manifold does not trivially kill H₂. In dimension 4, Whitney's trick fails because the Whitney disk itself is 2-dimensional in a 4-manifold and cannot be embedded avoiding intersections — this is the crux of why 4-manifold topology is hard. The surgery step silently assumes the embedded spheres have trivial normal bundle and can be excised cleanly, ignoring the intersection form obstruction. The intersection form of M (e.g., E₈ ⊕ E₈ for the Freedman E₈-manifold) is a homeomorphism invariant not captured by homology alone.",
+      "Surgery on embedded 2-spheres in a 4-manifold does not trivially kill H₂. In dimension 4, Whitney's trick fails because the Whitney disk itself is 2-dimensional in a 4-manifold and cannot be embedded avoiding intersections; this is the crux of why 4-manifold topology is hard. The surgery step silently assumes the embedded spheres have trivial normal bundle and can be excised cleanly, ignoring the intersection form obstruction. The intersection form of M (e.g., E₈ ⊕ E₈ for the Freedman E₈-manifold) is a homeomorphism invariant not captured by homology alone.",
     distractorExplanations: [
       "Smale's proof of the generalized Poincaré conjecture actually covers dimension 4 as well via the h-cobordism theorem, so the error must be in the Hurewicz step where π₂ ≅ H₂ requires simply connected plus asphericity",
       "The error is in applying Poincaré duality: it requires an orientation on M, and not every simply connected 4-manifold is orientable, so H₃ ≅ H¹ fails in general",
@@ -60,10 +60,10 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The extension theorem for solvability requires H to be a NORMAL subgroup of G. The point stabilizer H of index 5 in A₅ is not normal in A₅ (since A₅ is simple, its only normal subgroups are {e} and A₅ itself). Without normality, the quotient G/H is not even a group — it is merely a set of cosets. The solvability of H and the 'quotient' does not imply solvability of G. Indeed, A₅ is the standard example of a non-solvable group, and this is precisely why the general quintic is not solvable by radicals.",
+      "The extension theorem for solvability requires H to be a NORMAL subgroup of G. The point stabilizer H of index 5 in A₅ is not normal in A₅ (since A₅ is simple, its only normal subgroups are {e} and A₅ itself). Without normality, the quotient G/H is not even a group; it is merely a set of cosets. The solvability of H and the 'quotient' does not imply solvability of G. Indeed, A₅ is the standard example of a non-solvable group, and this is precisely why the general quintic is not solvable by radicals.",
     distractorExplanations: [
       "The classification of transitive subgroups of S₅ in step 1 is incomplete: there also exist transitive subgroups isomorphic to ℤ/5ℤ ⋊ ℤ/4ℤ that are not listed, and these non-solvable groups invalidate the argument",
-      "The error is in step 4: the stabilizer of a root in A₅ does not have order 12 because A₅ does not act faithfully on the roots — the kernel of the action could be nontrivial, making the actual stabilizer larger",
+      "The error is in step 4: the stabilizer of a root in A₅ does not have order 12 because A₅ does not act faithfully on the roots; the kernel of the action could be nontrivial, making the actual stabilizer larger",
       "The resolvent cubic analysis in step 2 is incorrect: having Δ(f) be a perfect square only implies G ⊆ A₅ when f has degree ≤ 4; for degree 5, the discriminant criterion requires checking the Lagrange resolvent instead",
     ],
   },
@@ -77,14 +77,14 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "Since ρ is faithful, ker(ρ) = {e}. For each g ≠ e, there exists some irreducible summand V_i where g acts nontrivially.",
       "Define N_i = ker(G → GL(V_i)) for each irreducible representation V_i. The faithfulness of ρ gives ∩_i N_i = {e}.",
       "Since G is finite, the intersection ∩_i N_i = {e} can be achieved by finitely many kernels: there exist i₁, ..., iₖ with N_{i₁} ∩ ... ∩ N_{iₖ} = {e}.",
-      "Now consider V = V_{i₁} ⊕ ... ⊕ V_{iₖ}. This representation is faithful. Since it is a direct sum of irreducibles, it is semisimple. Among its irreducible summands, at least one must be faithful — otherwise each summand has a nontrivial kernel, and the intersection of finitely many nontrivial normal subgroups of G must contain a nontrivial element, contradicting faithfulness of V.",
+      "Now consider V = V_{i₁} ⊕ ... ⊕ V_{iₖ}. This representation is faithful. Since it is a direct sum of irreducibles, it is semisimple. Among its irreducible summands, at least one must be faithful; otherwise each summand has a nontrivial kernel, and the intersection of finitely many nontrivial normal subgroups of G must contain a nontrivial element, contradicting faithfulness of V.",
       "Therefore G has a faithful irreducible representation. ∎",
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim that 'the intersection of finitely many nontrivial normal subgroups must contain a nontrivial element' is false. This is exactly what step 5 established does NOT happen — the intersection of all the kernels N_{i₁} ∩ ... ∩ N_{iₖ} = {e}, yet each N_{ij} is nontrivial. The argument contradicts itself. A faithful semisimple representation need not have any faithful irreducible summand. For example, ℤ/2ℤ × ℤ/2ℤ has no faithful irreducible representation (all irreps are 1-dimensional, hence have kernel of index ≤ 2), but it has faithful reducible representations.",
+      "The claim that 'the intersection of finitely many nontrivial normal subgroups must contain a nontrivial element' is false. This is exactly what step 5 established does NOT happen; the intersection of all the kernels N_{i₁} ∩ ... ∩ N_{iₖ} = {e}, yet each N_{ij} is nontrivial. The argument contradicts itself. A faithful semisimple representation need not have any faithful irreducible summand. For example, ℤ/2ℤ × ℤ/2ℤ has no faithful irreducible representation (all irreps are 1-dimensional, hence have kernel of index ≤ 2), but it has faithful reducible representations.",
     distractorExplanations: [
-      "Maschke's theorem requires the characteristic of the field to not divide |G|, and since ℂ has characteristic 0 this is satisfied, but the decomposition in step 2 uses the wrong multiplicities — each V_i appears dim(V_i) times only for the regular representation over algebraically closed fields of characteristic p > 0",
+      "Maschke's theorem requires the characteristic of the field to not divide |G|, and since ℂ has characteristic 0 this is satisfied, but the decomposition in step 2 uses the wrong multiplicities: each V_i appears dim(V_i) times only for the regular representation over algebraically closed fields of characteristic p > 0",
       "The error is in step 1: the regular representation ρ: G → GL(ℂ[G]) is faithful only when G is abelian; for non-abelian groups, the center of G acts trivially on certain subspaces of ℂ[G]",
       "Step 5 is wrong because achieving ∩_i N_i = {e} with finitely many kernels requires G to satisfy the descending chain condition on normal subgroups, which fails for finite groups with large centers",
     ],
@@ -104,11 +104,11 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim that eigenvalue 1 of U_T has multiplicity 1 for any unitary Koopman operator is false — this is precisely the definition of ergodicity, not a consequence of unitarity. A unitary operator can have eigenvalue 1 with arbitrary multiplicity. For example, if T is the identity map (which is measure-preserving), then U_T = I and every function is an eigenfunction with eigenvalue 1. More generally, if X = A ∪ B with T(A) = A and T(B) = B, then both χ_A and χ_B are invariant, giving a 2-dimensional eigenspace. The step circularly assumes what it tries to prove.",
+      "The claim that eigenvalue 1 of U_T has multiplicity 1 for any unitary Koopman operator is false; this is precisely the definition of ergodicity, not a consequence of unitarity. A unitary operator can have eigenvalue 1 with arbitrary multiplicity. For example, if T is the identity map (which is measure-preserving), then U_T = I and every function is an eigenfunction with eigenvalue 1. More generally, if X = A ∪ B with T(A) = A and T(B) = B, then both χ_A and χ_B are invariant, giving a 2-dimensional eigenspace. The step circularly assumes what it tries to prove.",
     distractorExplanations: [
-      "The mean ergodic theorem in step 5 requires T to be ergodic as a hypothesis, so its application here is circular — it cannot be used to prove ergodicity",
+      "The mean ergodic theorem in step 5 requires T to be ergodic as a hypothesis, so its application here is circular; it cannot be used to prove ergodicity",
       "The spectral theorem characterization in step 4 is incorrect: the eigenspace for eigenvalue 1 is not the orthogonal complement of range(U_T − I) but rather its closure, and this distinction matters in infinite-dimensional L² spaces",
-      "The Koopman operator U_T is isometric but not unitary in general — unitarity requires T to be invertible (a bijective measure-preserving transformation), which was not assumed",
+      "The Koopman operator U_T is isometric but not unitary in general; unitarity requires T to be invertible (a bijective measure-preserving transformation), which was not assumed",
     ],
   },
   // ── 6. Spectral Theory ────────────────────────────────────────────────────
@@ -125,10 +125,10 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The open mapping theorem cannot be applied to conclude that T − λI is bounded below. The open mapping theorem applies to surjective bounded operators between Banach spaces, but here we only know T − λI is injective with dense range — it need not be surjective, and its inverse (defined on the range) need not be bounded. An injective operator with dense range can fail to have closed range. For example, the multiplication operator (Mf)(x) = xf(x) on L²[0,1] is injective and self-adjoint, and 0 is in the continuous spectrum (not an eigenvalue) — the range of M is dense but not closed. The argument confuses the continuous spectrum with the point spectrum.",
+      "The open mapping theorem cannot be applied to conclude that T − λI is bounded below. The open mapping theorem applies to surjective bounded operators between Banach spaces, but here we only know T − λI is injective with dense range; it need not be surjective, and its inverse (defined on the range) need not be bounded. An injective operator with dense range can fail to have closed range. For example, the multiplication operator (Mf)(x) = xf(x) on L²[0,1] is injective and self-adjoint, and 0 is in the continuous spectrum (not an eigenvalue); the range of M is dense but not closed. The argument confuses the continuous spectrum with the point spectrum.",
     distractorExplanations: [
       "The spectral radius formula ‖T‖ = r(T) is only valid for normal operators on complex Hilbert spaces, and self-adjoint operators over real Hilbert spaces may have ‖T‖ > r(T), so the choice of λ in step 1 may be incorrect",
-      "The error is in step 0: σ(T) need not contain sup σ(T) because the spectrum of a bounded operator is closed but the supremum might not be attained — it could be a limit point not in σ(T)",
+      "The error is in step 0: σ(T) need not contain sup σ(T) because the spectrum of a bounded operator is closed but the supremum might not be attained; it could be a limit point not in σ(T)",
       "Step 4 is wrong: the adjoint of T − λI is T* − λ̄I = T − λI only when λ is real, but the spectral radius could be attained at a complex point even for self-adjoint operators if the Hilbert space is real",
     ],
   },
@@ -147,7 +147,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The quadratic variation ⟨W⟩ₜ = t does NOT vanish. The claim that it 'vanishes in the L² limit of Riemann sums' confuses quadratic variation with the maximum step size. The sum ∑(ΔWᵢ)² converges to t in L² as the partition refines — this is a fundamental property of Brownian motion. The ½t correction term (the Itô correction) is precisely what distinguishes the Itô integral from the Stratonovich integral. The correct result is ∫₀ᵗ Wₛ dWₛ = ½Wₜ² − ½t, not ½Wₜ².",
+      "The quadratic variation ⟨W⟩ₜ = t does NOT vanish. The claim that it 'vanishes in the L² limit of Riemann sums' confuses quadratic variation with the maximum step size. The sum ∑(ΔWᵢ)² converges to t in L² as the partition refines; this is a fundamental property of Brownian motion. The ½t correction term (the Itô correction) is precisely what distinguishes the Itô integral from the Stratonovich integral. The correct result is ∫₀ᵗ Wₛ dWₛ = ½Wₜ² − ½t, not ½Wₜ².",
     distractorExplanations: [
       "Itô's formula in step 2 is missing the drift term: for a general semimartingale, there should be an additional μdt term, and since Brownian motion has zero drift, the formula is only approximately correct",
       "The error is in step 1: f''(x) = 1 is correct but the Itô formula requires the second derivative of f evaluated at Wₜ, which is a random variable, so one cannot simply substitute the deterministic value 1",
@@ -191,7 +191,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The claim that φₜ*ω → 0 as t → −∞ is false for the stated vector field. The vector field V = (x∂_x + y∂_y + z∂_z)/r² does not generate a simple dilation — its flow is not φₜ(x) = e^{t/r²}x because r itself depends on x and changes along the flow. More fundamentally, this homotopy operator argument (which works on star-shaped domains to prove the Poincaré lemma) cannot work here because H²_dR(ℝ³\\{0}) ≅ ℝ ≠ 0. The solid angle form ω = (x dy∧dz − y dx∧dz + z dx∧dy)/r³ is a closed 2-form on ℝ³\\{0} that is NOT exact, as its integral over S² equals 4π.",
+      "The claim that φₜ*ω → 0 as t → −∞ is false for the stated vector field. The vector field V = (x∂_x + y∂_y + z∂_z)/r² does not generate a simple dilation; its flow is not φₜ(x) = e^{t/r²}x because r itself depends on x and changes along the flow. More fundamentally, this homotopy operator argument (which works on star-shaped domains to prove the Poincaré lemma) cannot work here because H²_dR(ℝ³\\{0}) ≅ ℝ ≠ 0. The solid angle form ω = (x dy∧dz − y dx∧dz + z dx∧dy)/r³ is a closed 2-form on ℝ³\\{0} that is NOT exact, as its integral over S² equals 4π.",
     distractorExplanations: [
       "The deformation retraction in step 1 is incorrect: ℝ³ \\ {0} does not retract onto S², but rather onto ℝP², so H²_dR(M) = 0 and the proof's conclusion is actually true",
       "Cartan's magic formula in step 4 requires V to be a smooth vector field, but V has a singularity at the origin, which is still in the closure of M, causing the formula to produce distributional terms",
@@ -213,7 +213,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim that compatibility of J with the closed form ω implies the Nijenhuis tensor N_J vanishes is false. Closedness of ω (dω = 0) together with ω-compatibility of J does NOT imply integrability of J. An almost Kähler manifold (where ω is closed and J-compatible) need not be Kähler — the Nijenhuis tensor can be nonzero. There exist compact symplectic manifolds that admit no Kähler structure at all (e.g., the Kodaira-Thurston manifold), showing this step is fundamentally wrong. Integrability of J is an additional condition not forced by the symplectic structure.",
+      "The claim that compatibility of J with the closed form ω implies the Nijenhuis tensor N_J vanishes is false. Closedness of ω (dω = 0) together with ω-compatibility of J does NOT imply integrability of J. An almost Kähler manifold (where ω is closed and J-compatible) need not be Kähler; the Nijenhuis tensor can be nonzero. There exist compact symplectic manifolds that admit no Kähler structure at all (e.g., the Kodaira-Thurston manifold), showing this step is fundamentally wrong. Integrability of J is an additional condition not forced by the symplectic structure.",
     distractorExplanations: [
       "The construction of J = AB⁻¹ in step 4 is not well-defined because B = √(−A²) need not commute with A when A has repeated eigenvalues, so J² ≠ −I in general",
       "The metric h(u,v) = ω(u, Jv) defined in step 5 need not be positive-definite: it could be indefinite if J is not compatible with the orientation of M induced by ω",
@@ -235,9 +235,9 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The argument reverses the relationship between topologies. The fact that the WOT is weaker than the norm topology means WOT-open sets are norm-open, which implies norm-closed sets are WOT-closed — but NOT that WOT limits of elements in a norm-closed set remain in that set. In fact, a norm-closed set need not be WOT-closed. The step confuses 'closed in a finer topology' with 'closed in a coarser topology.' The WOT-closure of π(A) is generally strictly larger than π(A) for infinite-dimensional C*-algebras. For example, C₀(ℝ) is a C*-algebra that is not a von Neumann algebra; its WOT-closure in any faithful representation is L^∞.",
+      "The argument reverses the relationship between topologies. The fact that the WOT is weaker than the norm topology means WOT-open sets are norm-open, which implies norm-closed sets are WOT-closed; but NOT that WOT limits of elements in a norm-closed set remain in that set. In fact, a norm-closed set need not be WOT-closed. The step confuses 'closed in a finer topology' with 'closed in a coarser topology.' The WOT-closure of π(A) is generally strictly larger than π(A) for infinite-dimensional C*-algebras. For example, C₀(ℝ) is a C*-algebra that is not a von Neumann algebra; its WOT-closure in any faithful representation is L^∞.",
     distractorExplanations: [
-      "The GNS construction in step 0 does not produce a faithful representation in general — faithfulness requires choosing the universal representation (direct sum over all states), which the proof does not specify",
+      "The GNS construction in step 0 does not produce a faithful representation in general; faithfulness requires choosing the universal representation (direct sum over all states), which the proof does not specify",
       "Kaplansky's density theorem in step 4 applies only to self-adjoint elements, not to arbitrary operators in M, so the approximation by a net from π(A) fails for non-self-adjoint T",
       "The double commutant theorem in step 2 requires π(A) to contain the identity operator, but a general C*-algebra may be non-unital, so π(A)'' may not equal the WOT-closure of π(A)",
     ],
@@ -277,7 +277,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The Continuum Hypothesis is NOT a Σ¹₂ statement. CH asserts the existence of a bijection between ℝ and ω₁, which quantifies over arbitrary functions (sets of ordered pairs of reals and countable ordinals). This makes CH a Σ²₁ statement in the projective hierarchy (second-order over the reals), not Σ¹₂. Shoenfield absoluteness applies to Σ¹₂ statements (those with one existential second-order quantifier over naturals), but CH involves quantification at a higher level. This is precisely why Cohen's forcing can produce models of ZFC + ¬CH — CH is not absolute between V and L.",
+      "The Continuum Hypothesis is NOT a Σ¹₂ statement. CH asserts the existence of a bijection between ℝ and ω₁, which quantifies over arbitrary functions (sets of ordered pairs of reals and countable ordinals). This makes CH a Σ²₁ statement in the projective hierarchy (second-order over the reals), not Σ¹₂. Shoenfield absoluteness applies to Σ¹₂ statements (those with one existential second-order quantifier over naturals), but CH involves quantification at a higher level. This is precisely why Cohen's forcing can produce models of ZFC + ¬CH; CH is not absolute between V and L.",
     distractorExplanations: [
       "König's theorem in step 1 only gives cf(2^{ℵ₀}) > ℵ₀, which is consistent with 2^{ℵ₀} = ℵ₂ or larger, so the argument already fails to pin down κ = ℵ₁",
       "The error is in step 3: Gödel's result about L only shows consistency of ZFC + GCH relative to ZFC, not that GCH actually holds in L; the constructible universe is a class model, not a set model, so the completeness theorem does not apply",
@@ -293,7 +293,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "Since X is paracompact Hausdorff, it is normal. By Urysohn's lemma, for each x ∈ U, there exists a continuous function fₓ: X → [0,1] with fₓ(x) = 1 and supp(fₓ) ⊆ U.",
       "Take a locally finite open refinement {Vᵢ}ᵢ of the cover {U, X\\supp(s)} with a subordinate partition of unity {φᵢ}. Let I₀ = {i : Vᵢ ⊆ U}.",
       "For each i ∈ I₀, define sᵢ = φᵢ · s ∈ F(Vᵢ), where multiplication by the smooth function φᵢ is defined via the module structure of F over the sheaf of continuous functions.",
-      "For i ∉ I₀, set sᵢ = 0 ∈ F(Vᵢ). The sections {sᵢ} agree on overlaps: on Vᵢ ∩ Vⱼ with i ∈ I₀ and j ∉ I₀, we have sᵢ = φᵢ · s and sⱼ = 0, but φᵢ · s = 0 on Vⱼ \\ U since s is not defined there — however φᵢ vanishes outside U, so this is consistent.",
+      "For i ∉ I₀, set sᵢ = 0 ∈ F(Vᵢ). The sections {sᵢ} agree on overlaps: on Vᵢ ∩ Vⱼ with i ∈ I₀ and j ∉ I₀, we have sᵢ = φᵢ · s and sⱼ = 0, but φᵢ · s = 0 on Vⱼ \\ U since s is not defined there; however φᵢ vanishes outside U, so this is consistent.",
       "By the sheaf gluing axiom, there exists a unique global section σ ∈ F(X) with σ|_{Vᵢ} = sᵢ. On U, σ = ∑ᵢ∈I₀ φᵢ · s = (∑ᵢ∈I₀ φᵢ) · s = 1 · s = s since the partition of unity sums to 1.",
       "Therefore F is flasque: every section over an open set extends to a global section. ∎",
     ],
@@ -302,7 +302,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "An arbitrary sheaf of abelian groups does not have a module structure over the sheaf of continuous functions. The operation 'φᵢ · s' (multiplying a sheaf section by a continuous real-valued function) is not defined for a general sheaf of abelian groups. This multiplication makes sense for sheaves of C⁰-modules (or sheaves of vector spaces with a continuous structure), such as the sheaf of sections of a vector bundle, but not for an arbitrary sheaf. For example, a constant sheaf ℤ_X does not admit multiplication by arbitrary continuous functions. The partition of unity argument works for fine sheaves (which are acyclic on paracompact spaces) but not for all sheaves.",
     distractorExplanations: [
       "The sheaf gluing axiom in step 6 requires agreement on ALL pairwise overlaps, but the argument only checks overlaps between I₀ and its complement, missing overlaps within I₀ where different sᵢ might disagree",
-      "The partition of unity sums to 1 everywhere on X, but ∑ᵢ∈I₀ φᵢ ≠ 1 on U in general — some φⱼ with j ∉ I₀ could have support intersecting U, so the sum is strictly less than 1 on parts of U",
+      "The partition of unity sums to 1 everywhere on X, but ∑ᵢ∈I₀ φᵢ ≠ 1 on U in general; some φⱼ with j ∉ I₀ could have support intersecting U, so the sum is strictly less than 1 on parts of U",
       "Urysohn's lemma in step 2 requires the space to be perfectly normal (not just normal) to produce continuous functions separating a point from a closed set, and paracompact Hausdorff spaces need not be perfectly normal",
     ],
   },
@@ -356,7 +356,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     steps: [
       "Let R be a ring, {Aᵢ}ᵢ∈I a family of R-modules, and B an R-module. We claim Ext^n_R(∏ᵢ Aᵢ, B) ≅ ∏ᵢ Ext^n_R(Aᵢ, B) for all n ≥ 0.",
       "Choose a projective resolution P_• → B → 0 of B.",
-      "Wait — Ext in the first variable uses injective resolutions of B or projective resolutions of the first argument. Use projective resolutions Q_•^{(i)} → Aᵢ → 0 for each Aᵢ.",
+      "Wait: Ext in the first variable uses injective resolutions of B or projective resolutions of the first argument. Use projective resolutions Q_•^{(i)} → Aᵢ → 0 for each Aᵢ.",
       "Form ∏ᵢ Q_•^{(i)}. Since direct products of projective modules are projective (as projective modules are direct summands of free modules, and products of free modules are free), ∏ᵢ Q_•^{(i)} is a projective resolution of ∏ᵢ Aᵢ.",
       "Now compute: Ext^n_R(∏ᵢ Aᵢ, B) = H^n(Hom_R(∏ᵢ Q_•^{(i)}, B)).",
       "The natural isomorphism Hom_R(∏ᵢ Q_n^{(i)}, B) ≅ ∏ᵢ Hom_R(Q_n^{(i)}, B) holds by the universal property of the product: a map from a product is determined by its components.",
@@ -365,11 +365,11 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The claimed 'natural isomorphism' Hom_R(∏ᵢ Mᵢ, B) ≅ ∏ᵢ Hom_R(Mᵢ, B) is FALSE. The universal property of the product says that Hom_R(X, ∏ᵢ Mᵢ) ≅ ∏ᵢ Hom_R(X, Mᵢ) — the product is characterized by maps INTO it, not out of it. Maps from a product are NOT determined by 'components' in this way. The correct universal property for maps out of a coproduct (direct sum) gives Hom_R(⊕ᵢ Mᵢ, B) ≅ ∏ᵢ Hom_R(Mᵢ, B). The proof confuses products with coproducts in the covariant Hom variable.",
+      "The claimed 'natural isomorphism' Hom_R(∏ᵢ Mᵢ, B) ≅ ∏ᵢ Hom_R(Mᵢ, B) is FALSE. The universal property of the product says that Hom_R(X, ∏ᵢ Mᵢ) ≅ ∏ᵢ Hom_R(X, Mᵢ); the product is characterized by maps INTO it, not out of it. Maps from a product are NOT determined by 'components' in this way. The correct universal property for maps out of a coproduct (direct sum) gives Hom_R(⊕ᵢ Mᵢ, B) ≅ ∏ᵢ Hom_R(Mᵢ, B). The proof confuses products with coproducts in the covariant Hom variable.",
     distractorExplanations: [
       "The error is in step 3: direct products of projective modules are NOT projective in general. Over a non-Noetherian ring, a product of free modules can fail to be free or even projective (Chase's theorem)",
       "Step 2 is wrong: one cannot use individual projective resolutions for each Aᵢ and combine them; the correct approach is to take a single projective resolution of the product ∏ᵢ Aᵢ, which has a different structure",
-      "The cohomology-product interchange in step 6 fails because cohomology does not commute with infinite products — this requires a Mittag-Leffler condition on the inverse system",
+      "The cohomology-product interchange in step 6 fails because cohomology does not commute with infinite products; this requires a Mittag-Leffler condition on the inverse system",
     ],
   },
   // ── 18. Constructive Mathematics (Hidden Excluded Middle) ─────────────────
@@ -387,7 +387,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "Markov's principle (¬¬∃n.P(n) → ∃n.P(n) for decidable P) is NOT constructively valid — it is an independent principle that is consistent with but not provable in constructive mathematics (e.g., it fails in some sheaf models and realizability toposes). The step claims Markov's principle is constructively valid to eliminate the double negation, but this is a hidden use of a non-constructive principle. In Bishop-style constructive mathematics, the monotone convergence theorem requires an additional condition (such as a rate of convergence or a modulus of Cauchy convergence) precisely because this double-negation elimination is not available.",
+      "Markov's principle (¬¬∃n.P(n) → ∃n.P(n) for decidable P) is NOT constructively valid; it is an independent principle that is consistent with but not provable in constructive mathematics (e.g., it fails in some sheaf models and realizability toposes). The step claims Markov's principle is constructively valid to eliminate the double negation, but this is a hidden use of a non-constructive principle. In Bishop-style constructive mathematics, the monotone convergence theorem requires an additional condition (such as a rate of convergence or a modulus of Cauchy convergence) precisely because this double-negation elimination is not available.",
     distractorExplanations: [
       "The Dedekind cut in step 1 is not well-defined constructively because the set {q ∈ ℚ : q < aₙ for some n} requires deciding for each rational whether it is less than some aₙ, which involves an unbounded search",
       "The error is in step 3: 'L − ε is not an upper bound' requires the supremum to have the classical least-upper-bound property, which fails constructively since ℝ does not satisfy trichotomy",
@@ -412,7 +412,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The curvature tensor is NOT linear in the metric. The claim R(∑ ρβ gβ) = ∑ ρβ R(gβ) is completely false. The Riemann curvature tensor involves second derivatives of the metric and products of Christoffel symbols (which themselves involve first derivatives of the metric), making it a highly nonlinear function of g. A convex combination of flat metrics is generically NOT flat. This is the fundamental reason why flatness is a strong topological constraint: a manifold admits a flat metric only if it has vanishing curvature, which by the Bieberbach theorems restricts it to being finitely covered by a torus (in the compact case).",
     distractorExplanations: [
       "The partition of unity in step 4 is smooth but the chart maps may not be compatible, so gα and gβ are defined with respect to different coordinate systems and cannot be summed without a coordinate transformation",
-      "The pullback metric gα = φα*(δ) is not flat because the chart map φα is not an isometry — it is only a diffeomorphism, and pullback by a non-isometric diffeomorphism introduces curvature",
+      "The pullback metric gα = φα*(δ) is not flat because the chart map φα is not an isometry; it is only a diffeomorphism, and pullback by a non-isometric diffeomorphism introduces curvature",
       "The error is in step 0: not every manifold admits an atlas with chart maps to ℝⁿ; some manifolds require charts to orbifold quotients ℝⁿ/Γ, and the Euclidean metric does not descend to these quotients",
     ],
   },
@@ -469,12 +469,12 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The Galois group G = Gal(K/ℚ) has order 8. The automorphisms are determined by their action on ⁴√2 and i.",
       "Define σ: ⁴√2 ↦ i·⁴√2, i ↦ i. This has order 4 (σ⁴ = id) and generates a cyclic subgroup of order 4.",
       "Define τ: ⁴√2 ↦ ⁴√2, i ↦ −i (complex conjugation). This has order 2.",
-      "Since G has order 8 and contains elements of order 4 and 2, G is generated by σ and τ. Now σ and τ commute: σ(τ(⁴√2)) = σ(⁴√2) = i·⁴√2, and τ(σ(⁴√2)) = τ(i·⁴√2) = −i·⁴√2. Wait — these are equal since τ fixes ⁴√2 and σ(i) = i, giving στ(⁴√2) = i·⁴√2 = τσ(⁴√2). So G ≅ ℤ/4ℤ × ℤ/2ℤ ≅ ℤ/4ℤ (since ℤ/4ℤ × ℤ/2ℤ has an element of order 4, it is cyclic).",
+      "Since G has order 8 and contains elements of order 4 and 2, G is generated by σ and τ. Now σ and τ commute: σ(τ(⁴√2)) = σ(⁴√2) = i·⁴√2, and τ(σ(⁴√2)) = τ(i·⁴√2) = −i·⁴√2. Wait: these are equal since τ fixes ⁴√2 and σ(i) = i, giving στ(⁴√2) = i·⁴√2 = τσ(⁴√2). So G ≅ ℤ/4ℤ × ℤ/2ℤ ≅ ℤ/4ℤ (since ℤ/4ℤ × ℤ/2ℤ has an element of order 4, it is cyclic).",
       "Therefore Gal(K/ℚ) ≅ ℤ/4ℤ. ∎",
     ],
     errorStep: 5,
     errorExplanation:
-      "Multiple errors compound here. First, σ and τ do NOT commute: στ(⁴√2) = σ(⁴√2) = i·⁴√2 but τσ(⁴√2) = τ(i·⁴√2) = (−i)·⁴√2, so στ ≠ τσ. The proof glosses over this with a faulty computation. Second, even if they did commute, ℤ/4ℤ × ℤ/2ℤ is NOT isomorphic to ℤ/4ℤ — it is a group of order 8, not 4, and it is not cyclic (it has no element of order 8). The actual Galois group is the dihedral group D₄ of order 8, which is non-abelian, reflecting the non-commutativity of σ and τ.",
+      "Multiple errors compound here. First, σ and τ do NOT commute: στ(⁴√2) = σ(⁴√2) = i·⁴√2 but τσ(⁴√2) = τ(i·⁴√2) = (−i)·⁴√2, so στ ≠ τσ. The proof glosses over this with a faulty computation. Second, even if they did commute, ℤ/4ℤ × ℤ/2ℤ is NOT isomorphic to ℤ/4ℤ; it is a group of order 8, not 4, and it is not cyclic (it has no element of order 8). The actual Galois group is the dihedral group D₄ of order 8, which is non-abelian, reflecting the non-commutativity of σ and τ.",
     distractorExplanations: [
       "The polynomial x⁴ − 2 is not irreducible over ℚ: it factors as (x² − √2)(x² + √2), so the splitting field has smaller degree and the Galois group computation starts with the wrong field extension",
       "The automorphism σ does not have order 4 because σ²(⁴√2) = σ(i·⁴√2) = i·σ(⁴√2) = i²·⁴√2 = −⁴√2, and σ³(⁴√2) = −i·⁴√2, σ⁴(⁴√2) = ⁴√2, but this is only valid if σ(i) = i, which must be verified separately",
@@ -496,11 +496,11 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The claim that p(n) ≈ p(n−1) + 1 is completely wrong. The ratio p(n)/p(n−1) → 1 means p(n) − p(n−1) = o(p(n)), but it does NOT mean the difference is approximately 1. In fact, p(n) grows exponentially: by Hardy-Ramanujan, p(n) ~ exp(π√(2n/3))/(4n√3), so p(n) − p(n−1) also grows exponentially. The 'approximation becomes exact' reasoning is nonsensical — an asymptotic relationship between rapidly growing functions cannot be replaced by a simple additive recurrence. For example, p(5) = 7 ≠ 5, p(10) = 42 ≠ 10, and p(20) = 627 ≠ 20.",
+      "The claim that p(n) ≈ p(n−1) + 1 is completely wrong. The ratio p(n)/p(n−1) → 1 means p(n) − p(n−1) = o(p(n)), but it does NOT mean the difference is approximately 1. In fact, p(n) grows exponentially: by Hardy-Ramanujan, p(n) ~ exp(π√(2n/3))/(4n√3), so p(n) − p(n−1) also grows exponentially. The 'approximation becomes exact' reasoning is nonsensical; an asymptotic relationship between rapidly growing functions cannot be replaced by a simple additive recurrence. For example, p(5) = 7 ≠ 5, p(10) = 42 ≠ 10, and p(20) = 627 ≠ 20.",
     distractorExplanations: [
       "The error is in step 0: the number of irreducible representations equals the number of conjugacy classes only over algebraically closed fields of characteristic 0; over ℂ this holds but the proof should verify ℂ is algebraically closed",
       "Euler's pentagonal number theorem in step 3 gives the generating function for p(n), not a recurrence, and converting it to a recurrence requires dividing by the partition generating function, which introduces additional terms",
-      "The conjugacy classes of Sₙ are not determined by cycle type alone — elements with the same cycle type but different signs (even vs odd permutations) may form different conjugacy classes in Aₙ, affecting the count",
+      "The conjugacy classes of Sₙ are not determined by cycle type alone; elements with the same cycle type but different signs (even vs odd permutations) may form different conjugacy classes in Aₙ, affecting the count",
     ],
   },
   // ── 24. Ergodic Theory (Mixing Error) ─────────────────────────────────────
@@ -535,12 +535,12 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The eigenspaces for distinct eigenvalues are orthogonal: if Δφ = λφ and Δψ = μψ with λ ≠ μ, then λ⟨φ,ψ⟩ = ⟨Δφ,ψ⟩ = ⟨φ,Δψ⟩ = μ⟨φ,ψ⟩, so (λ−μ)⟨φ,ψ⟩ = 0, giving ⟨φ,ψ⟩ = 0.",
       "The direct sum ⊕_λ E_λ is an orthogonal decomposition. Each E_λ has dimension d_λ ≥ 1, and these subspaces are mutually orthogonal inside L²(M).",
       "Since L²(M) is separable (M is compact, hence second-countable), it has a countable orthonormal basis. The orthogonal subspaces E_λ must therefore be at most countably many.",
-      "But we can say more: dim(L²(M)) = ∑_λ d_λ. Since L²(M) is infinite-dimensional but each summand contributes at least dimension 1, and the total dimension must equal the Hilbert space dimension ℵ₀, the number of eigenvalues is at most ℵ₀. But the eigenvalues are real numbers, and a countable set of reals occupies zero measure. By Weyl's asymptotic law, N(λ) ~ C·λ^{n/2} as λ → ∞, where n = dim M. For N(λ) to be finite for each λ, we need only finitely many eigenvalues below each threshold — but the growth rate N(λ) → ∞ means the total count must be finite (otherwise N(λ) would be infinite for some finite λ).",
+      "But we can say more: dim(L²(M)) = ∑_λ d_λ. Since L²(M) is infinite-dimensional but each summand contributes at least dimension 1, and the total dimension must equal the Hilbert space dimension ℵ₀, the number of eigenvalues is at most ℵ₀. But the eigenvalues are real numbers, and a countable set of reals occupies zero measure. By Weyl's asymptotic law, N(λ) ~ C·λ^{n/2} as λ → ∞, where n = dim M. For N(λ) to be finite for each λ, we need only finitely many eigenvalues below each threshold; but the growth rate N(λ) → ∞ means the total count must be finite (otherwise N(λ) would be infinite for some finite λ).",
       "Therefore Δ has finitely many eigenvalues. ∎",
     ],
     errorStep: 6,
     errorExplanation:
-      "The argument confuses 'N(λ) is finite for each finite λ' with 'the total number of eigenvalues is finite.' Weyl's law N(λ) ~ Cλ^{n/2} says the counting function grows polynomially — it is finite for each λ but unbounded as λ → ∞. This is precisely what happens: there are infinitely many eigenvalues λ₀ ≤ λ₁ ≤ λ₂ ≤ ... accumulating at +∞, with only finitely many below any given threshold. The claim 'the total count must be finite otherwise N(λ) would be infinite for some finite λ' is a non-sequitur — an infinite sequence tending to infinity has finitely many terms below each finite bound. The Laplacian on a compact manifold has countably infinitely many eigenvalues.",
+      "The argument confuses 'N(λ) is finite for each finite λ' with 'the total number of eigenvalues is finite.' Weyl's law N(λ) ~ Cλ^{n/2} says the counting function grows polynomially; it is finite for each λ but unbounded as λ → ∞. This is precisely what happens: there are infinitely many eigenvalues λ₀ ≤ λ₁ ≤ λ₂ ≤ ... accumulating at +∞, with only finitely many below any given threshold. The claim 'the total count must be finite otherwise N(λ) would be infinite for some finite λ' is a non-sequitur; an infinite sequence tending to infinity has finitely many terms below each finite bound. The Laplacian on a compact manifold has countably infinitely many eigenvalues.",
     distractorExplanations: [
       "The error is in step 2: elliptic regularity gives finite-dimensionality of eigenspaces only for the Dirichlet problem on domains with boundary, not for closed manifolds where the kernel of an elliptic operator can be infinite-dimensional",
       "The self-adjointness used in step 3 requires Δ to be essentially self-adjoint on C^∞(M), which fails for manifolds with certain singularities in the metric, so the orthogonality of eigenspaces is not guaranteed",
@@ -564,7 +564,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The reduction to odd n is invalid for extensions that genuinely require 2-power roots of unity. When n ≡ 2 (mod 4), it is true that ℚ(ζₙ) = ℚ(ζ_{n/2}). But when 4 | n, the extension ℚ(ζₙ) is strictly larger than any ℚ(ζₘ) with m odd. For example, ℚ(i) = ℚ(ζ₄) is an abelian extension of ℚ that cannot be embedded in any ℚ(ζₘ) with m odd (since all such fields are totally real). The discriminant of ℚ(i) is −4, which is even. More generally, any abelian extension of ℚ ramified at 2 has even discriminant.",
     distractorExplanations: [
       "The conductor-discriminant formula in step 2 only applies to abelian extensions of number fields, not to subfields of cyclotomic fields, so the divisibility relationship between discriminants is not established",
-      "The Kronecker-Weber theorem in step 0 requires K/ℚ to be a finite abelian extension, but the proof does not verify that K is a finite extension — it could be an infinite abelian extension like ℚ^{ab}/ℚ",
+      "The Kronecker-Weber theorem in step 0 requires K/ℚ to be a finite abelian extension, but the proof does not verify that K is a finite extension; it could be an infinite abelian extension like ℚ^{ab}/ℚ",
       "The discriminant formula for ℚ(ζₙ) in step 1 is incorrect: the discriminant is n^{φ(n)} · ∏_{p|n} p^{−φ(n)/(p−1)}, and this is always a power of n, so the sign ± does not affect the odd/even analysis",
     ],
   },
@@ -583,7 +583,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 4,
     errorExplanation:
-      "The connection 1-form ω is defined only LOCALLY in a choice of orthonormal frame, and in general there is no globally defined connection 1-form on a closed surface. The equation Ω = dω holds locally in a trivializing neighborhood, but ω does not extend to a global 1-form unless the tangent bundle is trivializable (parallelizable). The sphere S², for example, has χ(S²) = 2 and ∫K dA = 4π ≠ 0. The obstruction to globalizing ω is precisely the topology of the frame bundle — the Euler class. The proof illegitimately applies Stokes' theorem to a locally-defined form as if it were global.",
+      "The connection 1-form ω is defined only LOCALLY in a choice of orthonormal frame, and in general there is no globally defined connection 1-form on a closed surface. The equation Ω = dω holds locally in a trivializing neighborhood, but ω does not extend to a global 1-form unless the tangent bundle is trivializable (parallelizable). The sphere S², for example, has χ(S²) = 2 and ∫K dA = 4π ≠ 0. The obstruction to globalizing ω is precisely the topology of the frame bundle; the Euler class. The proof illegitimately applies Stokes' theorem to a locally-defined form as if it were global.",
     distractorExplanations: [
       "The formula ω ∧ ω = 0 is wrong even for 2-surfaces: the connection form ω takes values in so(2) ≅ ℝ, and the wedge product of a Lie-algebra-valued 1-form with itself involves the Lie bracket, which is nonzero for so(2)",
       "Stokes' theorem in step 5 requires Σ to be a manifold with corners, not just a smooth manifold, and closed surfaces without boundary do not satisfy the regularity conditions for Stokes' theorem",
@@ -599,13 +599,13 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "This isomorphism shows TM ≅ T*M as vector bundles. Therefore the Euler class e(TM) = e(T*M).",
       "For any real vector bundle E of rank r, the Euler class satisfies e(E*) = (−1)ʳ e(E), where E* is the dual bundle.",
       "Since TM has rank 2n, e(T*M) = (−1)²ⁿ e(TM) = e(TM). Combined with step 2, this gives e(TM) = e(TM), which is trivially true and gives no information.",
-      "But wait — the isomorphism TM ≅ T*M given by ω is skew-symmetric, introducing an orientation reversal. Accounting for this: the isomorphism reverses orientation when n is odd, so e(TM) = −e(T*M) = −e(TM) when n is odd.",
+      "But wait: the isomorphism TM ≅ T*M given by ω is skew-symmetric, introducing an orientation reversal. Accounting for this: the isomorphism reverses orientation when n is odd, so e(TM) = −e(T*M) = −e(TM) when n is odd.",
       "For n odd: e(TM) = −e(TM) implies 2e(TM) = 0. Since e(TM) ∈ H²ⁿ(M; ℤ) ≅ ℤ (M closed oriented), 2χ(M) = 0 implies χ(M) = 0. For n even: repeat with the form ω ⊕ ω on M × M (dim 4n, with n' = 2n odd), giving χ(M × M) = χ(M)² = 0, hence χ(M) = 0.",
       "Therefore every closed symplectic manifold has χ(M) = 0. ∎",
     ],
     errorStep: 5,
     errorExplanation:
-      "The claim that the symplectic isomorphism TM → T*M 'reverses orientation when n is odd' is incorrect. The map v ↦ ω(v, ·) is a specific bundle isomorphism that need not reverse orientation — orientation reversal depends on the determinant of the map in local frames, and for the symplectic form this determinant is always positive (since ω^n is a volume form compatible with the symplectic orientation). The entire 'orientation reversal' argument is fabricated. The conclusion is false: ℂP² is a closed symplectic manifold (with the Fubini-Study form) and has Euler characteristic χ(ℂP²) = 3 ≠ 0. More generally, ℂPⁿ has χ = n+1.",
+      "The claim that the symplectic isomorphism TM → T*M 'reverses orientation when n is odd' is incorrect. The map v ↦ ω(v, ·) is a specific bundle isomorphism that need not reverse orientation; orientation reversal depends on the determinant of the map in local frames, and for the symplectic form this determinant is always positive (since ω^n is a volume form compatible with the symplectic orientation). The entire 'orientation reversal' argument is fabricated. The conclusion is false: ℂP² is a closed symplectic manifold (with the Fubini-Study form) and has Euler characteristic χ(ℂP²) = 3 ≠ 0. More generally, ℂPⁿ has χ = n+1.",
     distractorExplanations: [
       "The formula e(E*) = (−1)ʳe(E) in step 3 is only valid for oriented vector bundles, and the dual of an oriented bundle may carry a different orientation class, making the sign depend on the structure group reduction",
       "The product trick in step 6 (using M × M) fails because ω ⊕ ω is a symplectic form on M × M only if the factors are symplectically orthogonal, which requires an additional compatibility condition not guaranteed for arbitrary symplectic manifolds",
@@ -627,7 +627,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The step claims ⟨Tₙ*Tₙx, x⟩ → ⟨T*Tx, x⟩ by weak convergence of Tₙ, but this is invalid. Weak convergence of Tₙ gives ⟨Tₙx, y⟩ → ⟨Tx, y⟩ for fixed x, y. The expression ⟨Tₙ*Tₙx, x⟩ = ⟨Tₙx, Tₙx⟩ involves Tₙ applied twice — the second argument Tₙx is CHANGING with n, not fixed. Weak convergence ⟨Tₙx, y⟩ → ⟨Tx, y⟩ holds for fixed y, but substituting y = Tₙx (which varies) is not justified. This is precisely why WOT convergence is strictly weaker than SOT convergence. For example, the sequence of right shifts Sⁿ on ℓ²(ℕ) converges WOT to 0 but not SOT (‖Sⁿe₁‖ = 1 for all n, but actually Sⁿ does converge SOT to 0 — better example: let Tₙ = projection onto span{eₙ}; then Tₙ → 0 weakly but ‖Tₙeₙ‖ = 1).",
+      "The step claims ⟨Tₙ*Tₙx, x⟩ → ⟨T*Tx, x⟩ by weak convergence of Tₙ, but this is invalid. Weak convergence of Tₙ gives ⟨Tₙx, y⟩ → ⟨Tx, y⟩ for fixed x, y. The expression ⟨Tₙ*Tₙx, x⟩ = ⟨Tₙx, Tₙx⟩ involves Tₙ applied twice; the second argument Tₙx is CHANGING with n, not fixed. Weak convergence ⟨Tₙx, y⟩ → ⟨Tx, y⟩ holds for fixed y, but substituting y = Tₙx (which varies) is not justified. This is precisely why WOT convergence is strictly weaker than SOT convergence. For example, the sequence of right shifts Sⁿ on ℓ²(ℕ) converges WOT to 0 but not SOT (‖Sⁿe₁‖ = 1 for all n, but actually Sⁿ does converge SOT to 0; better example: let Tₙ = projection onto span{eₙ}; then Tₙ → 0 weakly but ‖Tₙeₙ‖ = 1).",
     distractorExplanations: [
       "The uniform boundedness principle in step 2 requires the weak convergence to hold for a Banach space, not just a Hilbert space, and B(H) with the weak operator topology is not a Banach space",
       "The weak lower semicontinuity in step 4 applies to the norm of a fixed sequence in H, not to the operator norm, so ‖Tx‖ ≤ lim inf ‖Tₙx‖ requires a separate argument using the uniform boundedness of ‖Tₙ‖",
@@ -640,7 +640,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     steps: [
       "Consider the first-order theories Th(ℝ) and Th(ℂ) in the language of ordered rings L = {+, ·, 0, 1, <}.",
       "ℂ cannot be ordered as an ordered field, so we work in the language of rings L₀ = {+, ·, 0, 1} and compare Th(ℝ; L₀) with Th(ℂ; L₀).",
-      "Both ℝ and ℂ are algebraically closed in the model-theoretic sense: every non-constant polynomial with coefficients in the field has a root. Wait — ℝ is not algebraically closed; correct this: ℝ is a real closed field.",
+      "Both ℝ and ℂ are algebraically closed in the model-theoretic sense: every non-constant polynomial with coefficients in the field has a root. Wait: ℝ is not algebraically closed; correct this: ℝ is a real closed field.",
       "By Tarski's quantifier elimination, Th(ℝ; L₀) admits quantifier elimination in the language with < (the ordered ring language). Every sentence is equivalent to a Boolean combination of atomic formulas.",
       "In the language L₀ (without ordering), every atomic sentence over the prime field ℚ is of the form p(x₁,...,xₙ) = 0 for some polynomial p ∈ ℤ[x₁,...,xₙ]. The truth of such equations is the same in ℝ and ℂ (both contain ℚ).",
       "By quantifier elimination for algebraically closed fields (Chevalley's theorem), Th(ℂ; L₀) has quantifier elimination. Every sentence in L₀ is equivalent to a Boolean combination of equations. Since ℝ and ℂ agree on all quantifier-free sentences, they agree on all sentences in L₀.",
@@ -649,9 +649,9 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The claim that ℝ and ℂ agree on all sentences in L₀ is false. Quantifier elimination for ACF₀ means every sentence about ℂ reduces to a Boolean combination of atomic statements — but when we evaluate these in ℝ, we get DIFFERENT truth values because ℝ is not algebraically closed. For example, the sentence ∃x: x² + 1 = 0 is true in ℂ but false in ℝ. The quantifier elimination for ℂ says this is equivalent to the quantifier-free statement 'true' in ℂ, but the corresponding quantifier-free equivalent in ℝ's theory is different because ℝ has a different theory. The proof confuses quantifier elimination in ℂ with equivalence of theories between ℝ and ℂ.",
+      "The claim that ℝ and ℂ agree on all sentences in L₀ is false. Quantifier elimination for ACF₀ means every sentence about ℂ reduces to a Boolean combination of atomic statements; but when we evaluate these in ℝ, we get DIFFERENT truth values because ℝ is not algebraically closed. For example, the sentence ∃x: x² + 1 = 0 is true in ℂ but false in ℝ. The quantifier elimination for ℂ says this is equivalent to the quantifier-free statement 'true' in ℂ, but the corresponding quantifier-free equivalent in ℝ's theory is different because ℝ has a different theory. The proof confuses quantifier elimination in ℂ with equivalence of theories between ℝ and ℂ.",
     distractorExplanations: [
-      "Tarski's quantifier elimination in step 3 is for real closed fields, not for all ordered fields, so it does not apply to ℝ without first proving ℝ is real closed — which requires the intermediate value theorem, an analytical (not algebraic) result",
+      "Tarski's quantifier elimination in step 3 is for real closed fields, not for all ordered fields, so it does not apply to ℝ without first proving ℝ is real closed; which requires the intermediate value theorem, an analytical (not algebraic) result",
       "The step reducing < to existential quantification (x − y = z²) in step 7 introduces new quantifiers, contradicting the claim of quantifier elimination; the reduction only works at the sentence level, not at the formula level",
       "Chevalley's theorem is a result about constructible sets in algebraic geometry, not about quantifier elimination; the correct attribution is Tarski (for real closed fields) or Robinson (for algebraically closed fields)",
     ],
@@ -661,7 +661,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     title: "Proof that the sheaf cohomology H¹(S², ℤ) is nonzero",
     steps: [
       "Consider the constant sheaf ℤ on S² and the exponential exact sequence of sheaves: 0 → ℤ → 𝒪 → 𝒪* → 0, where 𝒪 is the sheaf of continuous real-valued functions and 𝒪* is the sheaf of nowhere-zero continuous functions.",
-      "Wait — the exponential sequence should be 0 → ℤ →^{2πi·} 𝒪_ℂ →^{exp} 𝒪*_ℂ → 0 for complex-valued functions. On S², the associated long exact sequence in cohomology gives:",
+      "Wait: the exponential sequence should be 0 → ℤ →^{2πi·} 𝒪_ℂ →^{exp} 𝒪*_ℂ → 0 for complex-valued functions. On S², the associated long exact sequence in cohomology gives:",
       "... → H⁰(S², 𝒪*_ℂ) → H¹(S², ℤ) → H¹(S², 𝒪_ℂ) → H¹(S², 𝒪*_ℂ) → H²(S², ℤ) → ...",
       "The sheaf 𝒪_ℂ (continuous complex-valued functions) is a fine sheaf on a paracompact space, so H¹(S², 𝒪_ℂ) = 0.",
       "The connecting homomorphism H⁰(S², 𝒪*_ℂ) → H¹(S², ℤ) sends a global nowhere-zero function f to the cohomology class of the integer-valued Čech cocycle (1/2πi)(log f_α − log f_β) on overlaps.",
@@ -714,7 +714,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 4,
     errorExplanation:
-      "The surjection f: ω → ω₁^M constructed in V using the countability of M CANNOT be shown to exist in M[G]. The forcing extension M[G] only contains sets that are DEFINABLE in M from G via names in the forcing language. While ω₁^M is countable in V (the ambient universe), M[G] does not 'see' the full power of V. Cohen forcing ℙ = Fn(ω, 2) is a c.c.c. (countable chain condition) forcing, and c.c.c. forcing preserves all cardinals. Specifically, ω₁^M = ω₁^{M[G]}. The error confuses 'countable in V' with 'countable in M[G]' — the generic extension is much smaller than V.",
+      "The surjection f: ω → ω₁^M constructed in V using the countability of M CANNOT be shown to exist in M[G]. The forcing extension M[G] only contains sets that are DEFINABLE in M from G via names in the forcing language. While ω₁^M is countable in V (the ambient universe), M[G] does not 'see' the full power of V. Cohen forcing ℙ = Fn(ω, 2) is a c.c.c. (countable chain condition) forcing, and c.c.c. forcing preserves all cardinals. Specifically, ω₁^M = ω₁^{M[G]}. The error confuses 'countable in V' with 'countable in M[G]'; the generic extension is much smaller than V.",
     distractorExplanations: [
       "The countable transitive model M may not exist in ZFC; its existence requires an inaccessible cardinal, so the entire forcing argument is conducted in a meta-theory stronger than ZFC",
       "The error is in step 2: ω₁^M being countable in V does not mean it is an ordinal of M[G], because M[G] might have new ordinals not in M, making ω₁^{M[G]} > ω₁^M",
@@ -757,7 +757,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 3,
     errorExplanation:
-      "This proof is actually correct — the Euler characteristic of every closed odd-dimensional manifold (orientable or not) is indeed zero. The proof as stated contains no error. However, the TITLE claims this is proved 'by the Lefschetz fixed point theorem,' while the actual proof uses Poincaré duality and the multiplicativity of Euler characteristic for coverings. The Lefschetz number computation in step 2 is used only to identify L(id) = χ(M), not to derive the vanishing. Since the task requires identifying an error step, and the proof logic is valid, the error must be found elsewhere. Re-examining step 3: the pairing argument has a subtle issue when 2k+1 is the middle dimension — there is no middle dimension for odd-dimensional manifolds, so the pairing is complete. Actually the calculation is correct. The proof is VALID, which contradicts the premise.",
+      "This proof is actually correct; the Euler characteristic of every closed odd-dimensional manifold (orientable or not) is indeed zero. The proof as stated contains no error. However, the TITLE claims this is proved 'by the Lefschetz fixed point theorem,' while the actual proof uses Poincaré duality and the multiplicativity of Euler characteristic for coverings. The Lefschetz number computation in step 2 is used only to identify L(id) = χ(M), not to derive the vanishing. Since the task requires identifying an error step, and the proof logic is valid, the error must be found elsewhere. Re-examining step 3: the pairing argument has a subtle issue when 2k+1 is the middle dimension; there is no middle dimension for odd-dimensional manifolds, so the pairing is complete. Actually the calculation is correct. The proof is VALID, which contradicts the premise.",
     distractorExplanations: [
       "Poincaré duality in step 3 requires coefficients in a field, and the use of ℚ-coefficients means the Betti numbers could differ from the ℤ-Betti numbers due to torsion, invalidating the Euler characteristic computation",
       "The multiplicativity χ(M̃) = 2χ(M) in step 4 holds only for regular (Galois) coverings; the orientable double cover is regular (deck group ℤ/2ℤ), so this is actually fine, but the proof should verify regularity",
@@ -773,16 +773,16 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "Known representations: the trivial (d=1), the sign (d=1), the standard (d=4, from the 5-dim permutation representation minus the trivial), the sign-twisted standard (d=4).",
       "The remaining three representations have dimensions d₅, d₆, d₇ satisfying 1² + 1² + 4² + 4² + d₅² + d₆² + d₇² = 120, so d₅² + d₆² + d₇² = 120 − 34 = 86.",
       "Also, each dᵢ divides |S₅| = 120 and dᵢ ≤ √120 < 11. The possible dimensions are 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.",
-      "We need three squares summing to 86. Trying d₅ = 7: 86 − 49 = 37, and 37 = 36 + 1 = 6² + 1². So (d₅,d₆,d₇) = (7,6,1). But we already have two 1-dimensional representations. Can there be a third? No — the only 1-dim representations of S₅ are trivial and sign. So this doesn't work.",
+      "We need three squares summing to 86. Trying d₅ = 7: 86 − 49 = 37, and 37 = 36 + 1 = 6² + 1². So (d₅,d₆,d₇) = (7,6,1). But we already have two 1-dimensional representations. Can there be a third? No; the only 1-dim representations of S₅ are trivial and sign. So this doesn't work.",
       "Try (d₅,d₆,d₇) = (7,6,1) again. The third 1-dimensional representation would need to be a group homomorphism S₅ → ℂ*. Since S₅/[S₅,S₅] = S₅/A₅ ≅ ℤ/2, there are only two: trivial and sign. Contradiction. But 86 = 5² + 5² + 6² = 25+25+36. So (d₅,d₆,d₇) = (5,5,6). Check: 1+1+16+16+25+25+36 = 120. ✓",
       "Therefore S₅ has an irreducible representation of dimension 7... wait, the correct decomposition is (1,1,4,4,5,5,6) with no 7-dimensional representation. The claim is false.",
     ],
     errorStep: 3,
     errorExplanation:
-      "The initial calculation 1² + 1² + 4² + 4² = 1 + 1 + 16 + 16 = 34 and 120 − 34 = 86 is correct, and the rest of the proof actually DISPROVES the title claim, arriving at dimensions (1,1,4,4,5,5,6). The error is in the problem setup: the title asserts S₅ has a 7-dimensional irreducible representation, but the dimension equation ∑dᵢ² = 120 with 7 irreducible representations forces the dimensions to be exactly {1,1,4,4,5,5,6}. There is no 7-dimensional irreducible representation of S₅. The 'error step' is where the proof first entertains d₅ = 7 as viable — the dimension 7 does not divide 120, violating the theorem that dimensions of irreducible representations divide the group order.",
+      "The initial calculation 1² + 1² + 4² + 4² = 1 + 1 + 16 + 16 = 34 and 120 − 34 = 86 is correct, and the rest of the proof actually DISPROVES the title claim, arriving at dimensions (1,1,4,4,5,5,6). The error is in the problem setup: the title asserts S₅ has a 7-dimensional irreducible representation, but the dimension equation ∑dᵢ² = 120 with 7 irreducible representations forces the dimensions to be exactly {1,1,4,4,5,5,6}. There is no 7-dimensional irreducible representation of S₅. The 'error step' is where the proof first entertains d₅ = 7 as viable; the dimension 7 does not divide 120, violating the theorem that dimensions of irreducible representations divide the group order.",
     distractorExplanations: [
       "The standard representation of S₅ has dimension 5−1 = 4, but this is the standard representation of the REFLECTION representation, not the permutation representation; the actual standard representation has dimension 5",
-      "The constraint that dᵢ divides |G| is not a theorem for all finite groups — it only holds for groups of Lie type, and S₅ is not a group of Lie type (it is a Coxeter group)",
+      "The constraint that dᵢ divides |G| is not a theorem for all finite groups; it only holds for groups of Lie type, and S₅ is not a group of Lie type (it is a Coxeter group)",
       "The number of 1-dimensional representations equals |G/[G,G]| = |G^{ab}|, and for S₅ the abelianization is ℤ/2ℤ, giving two 1-dim reps; but there could be additional 1-dim reps over ℂ if we allow roots of unity",
     ],
   },
@@ -825,7 +825,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The proof actually arrives at the CORRECT conclusion σ(V) = {0} by step 6, contradicting the title claim that σ(V) = {0, 1}. The 'error' is in the title/claim. The Volterra operator is a quasinilpotent compact operator: its spectral radius is 0, and σ(V) = {0}. Step 7 correctly shows that V − I is invertible (via the Neumann series or explicit Volterra integral equation solution), confirming 1 ∉ σ(V). The initial claim σ(V) = {0, 1} is simply false. The proof disproves its own title at step 7 when it verifies that (V − I) has a bounded inverse.",
     distractorExplanations: [
       "The differentiation in step 3 is invalid: Vf ∈ AC[0,1] (absolutely continuous) but λf need not be differentiable, so equating derivatives requires f ∈ H¹[0,1], which was not assumed",
-      "The Volterra operator is not compact on L²[0,1] — compactness requires the operator to map bounded sets to precompact sets, and while V maps to equicontinuous functions, equicontinuity does not imply precompactness in L²",
+      "The Volterra operator is not compact on L²[0,1]; compactness requires the operator to map bounded sets to precompact sets, and while V maps to equicontinuous functions, equicontinuity does not imply precompactness in L²",
       "The spectral theorem for compact operators applies only to self-adjoint compact operators; the Volterra operator is not self-adjoint (V* ≠ V), so eigenvalues need not be real and the spectral characterization is different",
     ],
   },
@@ -839,7 +839,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "Take conditional expectation: E[Wₜ² | ℱₛ] = Wₛ² + 2WₛE[Wₜ − Wₛ | ℱₛ] + E[(Wₜ − Wₛ)² | ℱₛ].",
       "Since Wₜ − Wₛ is independent of ℱₛ with mean 0: E[Wₜ − Wₛ | ℱₛ] = 0.",
       "Since (Wₜ − Wₛ)² has expectation E[(Wₜ − Wₛ)²] = Var(Wₜ − Wₛ) = t − s, and independence gives E[(Wₜ − Wₛ)² | ℱₛ] = t − s.",
-      "Combining: E[Wₜ² | ℱₛ] = Wₛ² + 0 + (t − s) = Wₛ² + (t − s) ≠ Wₛ². But wait — the (t − s) term should vanish because the increment Wₜ − Wₛ has mean zero, and (mean zero)² = 0. So t − s = 0.",
+      "Combining: E[Wₜ² | ℱₛ] = Wₛ² + 0 + (t − s) = Wₛ² + (t − s) ≠ Wₛ². But wait: the (t − s) term should vanish because the increment Wₜ − Wₛ has mean zero, and (mean zero)² = 0. So t − s = 0.",
       "Therefore E[Wₜ² | ℱₛ] = Wₛ², proving Wₜ² is a martingale. ∎",
     ],
     errorStep: 6,
@@ -861,7 +861,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "By the divergence theorem on the surface: ∫_Σ ΔΣ f dA = ∫_{∂Σ} ∇Σf · ν ds, where ν is the outward co-normal along ∂Σ.",
       "Since Σ is closed (∂Σ = ∅), the right-hand side is 0. Therefore ∫_Σ ΔΣ X dA = 0.",
       "Hence −2∫_Σ Hn dA = 0, giving ∫_Σ Hn dA = 0.",
-      "The vector ∫_Σ Hn dA = 0 means the total mean curvature vector vanishes. In particular, ∫_Σ H dA = |∫_Σ Hn dA| = 0. Wait — the magnitude of the zero vector is 0, but ∫_Σ H dA is a scalar obtained by integrating H (not Hn). These are different: ∫Hn dA = 0 is a vector equation; ∫H dA = 0 is a scalar equation.",
+      "The vector ∫_Σ Hn dA = 0 means the total mean curvature vector vanishes. In particular, ∫_Σ H dA = |∫_Σ Hn dA| = 0. Wait: the magnitude of the zero vector is 0, but ∫_Σ H dA is a scalar obtained by integrating H (not Hn). These are different: ∫Hn dA = 0 is a vector equation; ∫H dA = 0 is a scalar equation.",
       "Since ∫_Σ Hn dA = 0 component-wise, and this is a vector equation, we get three scalar equations. But ∫_Σ H dA = ∫_Σ H·1 dA, which does NOT follow from ∫_Σ Hn dA = 0 unless n is constant (i.e., Σ is contained in a plane).",
     ],
     errorStep: 6,
@@ -870,7 +870,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     distractorExplanations: [
       "The formula ΔΣX = −2Hn in step 1 holds only for minimal surfaces (H = 0), not for general surfaces; the correct formula is ΔΣX = Hn without the factor of −2",
       "The divergence theorem on a surface (step 3) requires Σ to be a smooth manifold, but embedded surfaces in ℝ³ can have self-intersections where the outward normal is not well-defined",
-      "Step 2 applies the Laplacian component-wise to the vector X, but the Laplace-Beltrami operator on a curved surface does not distribute over vector components — it involves Christoffel symbol terms from the embedding",
+      "Step 2 applies the Laplacian component-wise to the vector X, but the Laplace-Beltrami operator on a curved surface does not distribute over vector components; it involves Christoffel symbol terms from the embedding",
     ],
   },
   // ── 41. Algebraic Number Theory (Norm Argument Error) ─────────────────────
@@ -888,9 +888,9 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The argument confuses 'infinitely many associates' with 'infinitely many units.' Two elements are associates if they differ by a unit factor: α ~ uα for a unit u. Having infinitely many distinct powers αⁿ does NOT imply infinitely many units — the powers differ by non-unit factors (powers of α), not by unit factors. The associates of any single element β are {uβ : u ∈ ℤ[i]×}, and since ℤ[i]× = {1, −1, i, −i} has exactly 4 elements, each element has exactly 4 associates. The proof correctly found all 4 units in step 3 but then incorrectly argued for more.",
+      "The argument confuses 'infinitely many associates' with 'infinitely many units.' Two elements are associates if they differ by a unit factor: α ~ uα for a unit u. Having infinitely many distinct powers αⁿ does NOT imply infinitely many units; the powers differ by non-unit factors (powers of α), not by unit factors. The associates of any single element β are {uβ : u ∈ ℤ[i]×}, and since ℤ[i]× = {1, −1, i, −i} has exactly 4 elements, each element has exactly 4 associates. The proof correctly found all 4 units in step 3 but then incorrectly argued for more.",
     distractorExplanations: [
-      "The norm computation N(1+i) = 2 is correct, but (1+i) is not a prime in ℤ[i] — it factors as (1+i) = i(1−i)·(something), and the argument about prime powers breaks down",
+      "The norm computation N(1+i) = 2 is correct, but (1+i) is not a prime in ℤ[i]; it factors as (1+i) = i(1−i)·(something), and the argument about prime powers breaks down",
       "The factorization 2 = −i(1+i)² in step 6 is wrong: the correct factorization is 2 = (1+i)(1−i) as a product of non-associate primes, not as −i times a square",
       "The multiplicativity of the norm in step 1 requires ℤ[i] to be an integral domain, which it is, but the step also implicitly uses the archimedean property of N, which fails for norms on non-Euclidean rings",
     ],
@@ -914,7 +914,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     distractorExplanations: [
       "The linear map T in step 2 is actually volume-preserving (det T = λ·λ⁻¹ = 1) and every volume-preserving map is symplectic in dimension 2, so the argument works for n = 1 but fails for n ≥ 2",
       "Action-angle coordinates in step 6 only exist for integrable Hamiltonian systems (by the Arnold-Liouville theorem), and the ball B²ⁿ(R) does not come equipped with an integrable Hamiltonian, so the coordinate change is undefined",
-      "The symplectic cylinder Z²ⁿ(r) is not a symplectic manifold — it is an open subset of ℂⁿ, and the symplectic embedding problem is only well-defined for closed symplectic manifolds by Gromov's compactness theorem",
+      "The symplectic cylinder Z²ⁿ(r) is not a symplectic manifold; it is an open subset of ℂⁿ, and the symplectic embedding problem is only well-defined for closed symplectic manifolds by Gromov's compactness theorem",
     ],
   },
   // ── 43. Operator Algebras (Nuclearity Error) ─────────────────────────────
@@ -932,9 +932,9 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The CPAP (completely positive approximation property) for nuclearity requires pointwise convergence in NORM, not merely in the strong operator topology. Specifically, nuclearity demands that for each T ∈ A and ε > 0, there exist finite-rank CP maps ψ, φ such that ‖φ∘ψ(T) − T‖ < ε. The compression maps φₙ(T) = PₙTPₙ converge to T only in SOT, not in norm. For example, if T is the unilateral shift S, then PₙSPₙ does not converge to S in operator norm (‖PₙSPₙ − S‖ = 1 for all n, since S maps eₙ to eₙ₊₁ which is killed by Pₙ). B(H) for infinite-dimensional H is NOT nuclear — it is the prototypical non-nuclear C*-algebra.",
+      "The CPAP (completely positive approximation property) for nuclearity requires pointwise convergence in NORM, not merely in the strong operator topology. Specifically, nuclearity demands that for each T ∈ A and ε > 0, there exist finite-rank CP maps ψ, φ such that ‖φ∘ψ(T) − T‖ < ε. The compression maps φₙ(T) = PₙTPₙ converge to T only in SOT, not in norm. For example, if T is the unilateral shift S, then PₙSPₙ does not converge to S in operator norm (‖PₙSPₙ − S‖ = 1 for all n, since S maps eₙ to eₙ₊₁ which is killed by Pₙ). B(H) for infinite-dimensional H is NOT nuclear; it is the prototypical non-nuclear C*-algebra.",
     distractorExplanations: [
-      "The decomposition H = ⊕Hₙ with dim Hₙ = n in step 3 gives H of dimension ∑n = ∞, but not every separable infinite-dimensional Hilbert space decomposes this way — some may require all Hₙ to have the same dimension",
+      "The decomposition H = ⊕Hₙ with dim Hₙ = n in step 3 gives H of dimension ∑n = ∞, but not every separable infinite-dimensional Hilbert space decomposes this way; some may require all Hₙ to have the same dimension",
       "The compression φₙ(T) = PₙTPₙ is not completely positive in general: complete positivity requires φₙ ⊗ id_k to be positive on Mₖ(B(H)) for all k, and this fails when the projection Pₙ has co-rank larger than k",
       "Nuclearity in step 0 should be defined using the minimal and maximal tensor norms coinciding, not uniqueness of C*-norms; there could be multiple C*-norms that all coincide without the algebra being nuclear",
     ],
@@ -948,13 +948,13 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "By Łoś's theorem, K ⊨ φ if and only if {p ∈ P : 𝔽ₚ ⊨ φ} ∈ 𝒰 for any first-order sentence φ.",
       "Characteristic: For each prime q, the sentence 'q · 1 = 0' holds in 𝔽ₚ only when p = q. The set {q} is finite, hence not in the non-principal ultrafilter 𝒰. So K ⊨ 'q · 1 ≠ 0' for all primes q. Therefore char(K) = 0.",
       "Algebraic closure: Fix a polynomial of degree d. The sentence ∃x: xᵈ + aₐ₋₁xᵈ⁻¹ + ... + a₀ = 0 must hold in K. For each 𝔽ₚ with p > d, every polynomial of degree d has a root in 𝔽ₚ (since 𝔽ₚ has p elements and the polynomial has at most d roots, and... wait, having p > d elements does not mean every polynomial has a root in 𝔽ₚ).",
-      "Correction: a polynomial of degree d has a root in 𝔽ₚ if and only if it has an irreducible factor of degree 1 over 𝔽ₚ. But not every polynomial over 𝔽ₚ splits into linear factors — only those whose splitting field is contained in 𝔽ₚ.",
+      "Correction: a polynomial of degree d has a root in 𝔽ₚ if and only if it has an irreducible factor of degree 1 over 𝔽ₚ. But not every polynomial over 𝔽ₚ splits into linear factors; only those whose splitting field is contained in 𝔽ₚ.",
       "However, every polynomial of degree d splits completely in 𝔽_{p^{d!}} (the field with p^{d!} elements, which contains all roots). Since we are taking the ultraproduct of 𝔽ₚ (not 𝔽_{p^{d!}}), the roots may not exist in 𝔽ₚ. Therefore K is NOT algebraically closed.",
-      "K is a field of characteristic 0 that is not algebraically closed — it is a pseudo-finite field. ∎",
+      "K is a field of characteristic 0 that is not algebraically closed; it is a pseudo-finite field. ∎",
     ],
     errorStep: 4,
     errorExplanation:
-      "The proof actually CORRECTLY identifies the flaw in its own reasoning and arrives at the right conclusion: the ultraproduct of all 𝔽ₚ is NOT algebraically closed. The title claim is false. However, the proof structure is unusual: it starts claiming to prove algebraic closure, discovers the error, and concludes the opposite. The key mathematical point is correct: x² − a has a root in 𝔽ₚ only when a is a quadratic residue mod p, which by quadratic reciprocity fails for roughly half of the elements. The ultraproduct K is indeed a pseudo-finite field (satisfies all first-order properties of finite fields) of characteristic 0, but it is not algebraically closed because 'every polynomial of degree d has a root' is true in 𝔽ₚ only when p is large enough AND the polynomial's specific coefficients yield a root — the universal sentence fails.",
+      "The proof actually CORRECTLY identifies the flaw in its own reasoning and arrives at the right conclusion: the ultraproduct of all 𝔽ₚ is NOT algebraically closed. The title claim is false. However, the proof structure is unusual: it starts claiming to prove algebraic closure, discovers the error, and concludes the opposite. The key mathematical point is correct: x² − a has a root in 𝔽ₚ only when a is a quadratic residue mod p, which by quadratic reciprocity fails for roughly half of the elements. The ultraproduct K is indeed a pseudo-finite field (satisfies all first-order properties of finite fields) of characteristic 0, but it is not algebraically closed because 'every polynomial of degree d has a root' is true in 𝔽ₚ only when p is large enough AND the polynomial's specific coefficients yield a root; the universal sentence fails.",
     distractorExplanations: [
       "Łoś's theorem in step 2 applies only to bounded formulas, and the existential quantifier ∃x in the algebraic closure statement makes it unbounded, so the theorem cannot be used to transfer properties from 𝔽ₚ to K",
       "The non-principal ultrafilter on the primes may not exist without the axiom of choice, and in ZF alone the ultraproduct construction is not available",
@@ -970,13 +970,13 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "This forcing adds ℵ_ω many Cohen reals (one for each α < ω_ω), so in the extension M[G], there are at least ℵ_ω real numbers.",
       "The forcing ℙ has cardinality |ℙ| = |ω_ω × ω|^{<ω} = ℵ_ω^{<ω}. Under GCH, ℵ_ω^{<ω} = ℵ_ω (since ℵₙ^ω = ℵₙ₊₁ for each n by GCH, and the supremum over n is ℵ_ω).",
       "By the standard cardinal arithmetic of forcing: |2^{ℵ₀}|^{M[G]} ≤ |ℙ|^{ℵ₀} = ℵ_ω^{ℵ₀}. Under GCH in M, ℵ_ω^{ℵ₀} = ℵ_{ω+1} ≠ ℵ_ω.",
-      "Wait — we need 2^{ℵ₀} = ℵ_ω exactly. But the computation in step 4 gives 2^{ℵ₀} ≤ ℵ_{ω+1}. Moreover, by König's theorem, cf(2^{ℵ₀}) > ℵ₀. Since cf(ℵ_ω) = ω = ℵ₀, we have cf(ℵ_ω) = ℵ₀, so 2^{ℵ₀} ≠ ℵ_ω by König's theorem.",
+      "Wait: we need 2^{ℵ₀} = ℵ_ω exactly. But the computation in step 4 gives 2^{ℵ₀} ≤ ℵ_{ω+1}. Moreover, by König's theorem, cf(2^{ℵ₀}) > ℵ₀. Since cf(ℵ_ω) = ω = ℵ₀, we have cf(ℵ_ω) = ℵ₀, so 2^{ℵ₀} ≠ ℵ_ω by König's theorem.",
       "This is a fundamental obstruction: 2^{ℵ₀} can never equal ℵ_ω because cf(ℵ_ω) = ω < ℵ₁ ≤ cf(2^{ℵ₀}). No forcing extension can achieve 2^{ℵ₀} = ℵ_ω.",
       "The claim is false. ∎",
     ],
     errorStep: 0,
     errorExplanation:
-      "The proof correctly identifies that the claim is false via König's theorem: since cf(ℵ_ω) = ω and König's theorem requires cf(2^{ℵ₀}) > ℵ₀, the continuum can never equal ℵ_ω. This is not an error in the proof — the proof correctly refutes its own title. The 'fallacy' is the title claim itself. König's inequality cf(2^κ) > κ (applied with κ = ℵ₀) gives cf(2^{ℵ₀}) > ℵ₀ = cf(ℵ_ω), making 2^{ℵ₀} = ℵ_ω impossible. Easton's theorem shows 2^{ℵ₀} can be any cardinal κ with cf(κ) > ℵ₀, e.g., ℵ₁, ℵ₂, ℵ_{ω+1}, ℵ_{ω₁}, but not ℵ_ω itself.",
+      "The proof correctly identifies that the claim is false via König's theorem: since cf(ℵ_ω) = ω and König's theorem requires cf(2^{ℵ₀}) > ℵ₀, the continuum can never equal ℵ_ω. This is not an error in the proof: the proof correctly refutes its own title. The 'fallacy' is the title claim itself. König's inequality cf(2^κ) > κ (applied with κ = ℵ₀) gives cf(2^{ℵ₀}) > ℵ₀ = cf(ℵ_ω), making 2^{ℵ₀} = ℵ_ω impossible. Easton's theorem shows 2^{ℵ₀} can be any cardinal κ with cf(κ) > ℵ₀, e.g., ℵ₁, ℵ₂, ℵ_{ω+1}, ℵ_{ω₁}, but not ℵ_ω itself.",
     distractorExplanations: [
       "GCH gives ℵₙ^ω = ℵₙ₊₁ only for n ≥ 1 (not n = 0, since ℵ₀^ω = 2^ω = ℵ₁ under GCH), so the cardinality calculation of ℙ in step 3 is off by one cardinal",
       "The forcing Fn(ω_ω × ω, 2, ω) is not ω-closed and not c.c.c., so it could collapse cardinals, making the cardinal arithmetic in M[G] completely different from M",
@@ -1021,7 +1021,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The claim that the Chern character of the symbol class is zero 'by the Thom isomorphism' is nonsensical. The Thom isomorphism K(M) ≅ K(T*M, T*M\\0) is an ISOMORPHISM, not a zero map — it maps K(M) bijectively to the compactly supported K-theory of T*M. The Chern character of the symbol class is generally nonzero and is exactly what the Atiyah-Singer formula integrates. The argument that 'pairing D with D* gives zero' only shows ind(D⊕D*) = 0, which is trivially true and says nothing about ind(D) itself. The Dirac operator on an even-dimensional spin manifold has index equal to the Â-genus, which is often nonzero (e.g., ind = 1 on ℂP² with the spin^c Dirac operator).",
+      "The claim that the Chern character of the symbol class is zero 'by the Thom isomorphism' is nonsensical. The Thom isomorphism K(M) ≅ K(T*M, T*M\\0) is an ISOMORPHISM, not a zero map; it maps K(M) bijectively to the compactly supported K-theory of T*M. The Chern character of the symbol class is generally nonzero and is exactly what the Atiyah-Singer formula integrates. The argument that 'pairing D with D* gives zero' only shows ind(D⊕D*) = 0, which is trivially true and says nothing about ind(D) itself. The Dirac operator on an even-dimensional spin manifold has index equal to the Â-genus, which is often nonzero (e.g., ind = 1 on ℂP² with the spin^c Dirac operator).",
     distractorExplanations: [
       "The formal adjoint D* depends on the choice of metrics on E, F, and M, and different choices give different adjoints with different kernels, so ind(D*) = −ind(D) is not well-defined without specifying metrics",
       "The Thom isomorphism in step 3 requires M to be spin (or at least spin^c) because the Thom class of the cotangent bundle involves a spin structure, and without it the isomorphism K(M) ≅ K(T*M) fails",
@@ -1089,8 +1089,8 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     errorExplanation:
       "The cellular approximation argument is wrong. Cellular approximation says a map between CW complexes is homotopic to a cellular map (one that maps the n-skeleton to the n-skeleton). For f: S³ → S², a cellular map sends the 3-skeleton of S³ (which is all of S³) into the 3-skeleton of S² (which is all of S² since S² has cells in dimensions 0 and 2 only, making its 3-skeleton equal to S² itself). So the cellular map still maps into ALL of S², not into a lower skeleton. The argument confuses 'S² has no 3-cells' with 'the 3-skeleton is trivial.' In fact, the long exact sequence computation in step 6 correctly gives π₃(S²) ≅ ℤ, generated by the Hopf map η: S³ → S². This is a famous and important nontrivial homotopy group.",
     distractorExplanations: [
-      "The Hopf fibration in step 1 is not a fiber bundle in the classical sense — it is only a Serre fibration, and the long exact sequence of a Serre fibration requires the base to be simply connected, which S² is, so this is actually fine",
-      "The Hurewicz isomorphism in step 4 gives π₃(S³) ≅ H₃(S³; ℤ) only when S³ is (n−1)-connected for the relevant n, and 2-connectivity is insufficient — one needs 3-connectivity for the Hurewicz map in degree 3 to be an isomorphism",
+      "The Hopf fibration in step 1 is not a fiber bundle in the classical sense; it is only a Serre fibration, and the long exact sequence of a Serre fibration requires the base to be simply connected, which S² is, so this is actually fine",
+      "The Hurewicz isomorphism in step 4 gives π₃(S³) ≅ H₃(S³; ℤ) only when S³ is (n−1)-connected for the relevant n, and 2-connectivity is insufficient; one needs 3-connectivity for the Hurewicz map in degree 3 to be an isomorphism",
       "The exact sequence in step 6 gives 0 → ℤ → π₃(S²) → 0, but this only shows π₃(S²) has ℤ as a quotient, not as a subgroup, so π₃(S²) could be a larger group like ℤ² that surjects onto ℤ",
     ],
   },
@@ -1113,7 +1113,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     distractorExplanations: [
       "The localization in step 0 does not preserve additive structure: localizing at quasi-isomorphisms requires a calculus of fractions, which exists (since quasi-isomorphisms form a localizing class), but the resulting category is only pre-additive, not additive",
       "The mapping cone in step 2 is only well-defined up to homotopy equivalence, not up to isomorphism in D(R-Mod), so the assignment f ↦ C(f) is not functorial and cannot define a kernel/cokernel functor",
-      "The octahedral axiom in step 3 is not satisfied by all triangulated categories — it is an additional axiom that holds for D(R-Mod) but must be verified separately, and without it the factorization into image and coimage fails",
+      "The octahedral axiom in step 3 is not satisfied by all triangulated categories; it is an additional axiom that holds for D(R-Mod) but must be verified separately, and without it the factorization into image and coimage fails",
     ],
   },
   // ── 52. Differential Geometry (Wrong Dimension Counting) ──────────────────
@@ -1131,9 +1131,9 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 5,
     errorExplanation:
-      "The dimension counting argument is completely invalid. ALL constant-curvature 3-dimensional geometries (S³, ℝ³, H³) have a 6-dimensional isometry group, and a general Riemannian 3-manifold also has at most 6 local Killing fields. The matching of dimension '6 = 6' does not mean the geometry must be S³ — it could equally well be ℝ³ (curvature 0) or H³ (negative curvature). The argument confuses 'having the maximal number of Killing fields' with 'having positive curvature.' Furthermore, not every 3-manifold admits ANY of the three constant-curvature geometries — the geometrization theorem says M decomposes into pieces with various geometries, many of which (Nil, Sol, SL̃₂(ℝ), etc.) are NOT constant curvature.",
+      "The dimension counting argument is completely invalid. ALL constant-curvature 3-dimensional geometries (S³, ℝ³, H³) have a 6-dimensional isometry group, and a general Riemannian 3-manifold also has at most 6 local Killing fields. The matching of dimension '6 = 6' does not mean the geometry must be S³; it could equally well be ℝ³ (curvature 0) or H³ (negative curvature). The argument confuses 'having the maximal number of Killing fields' with 'having positive curvature.' Furthermore, not every 3-manifold admits ANY of the three constant-curvature geometries; the geometrization theorem says M decomposes into pieces with various geometries, many of which (Nil, Sol, SL̃₂(ℝ), etc.) are NOT constant curvature.",
     distractorExplanations: [
-      "Perelman's proof of geometrization requires the Ricci flow to develop singularities, and the surgery procedure might not converge to a constant curvature metric — it could produce metrics with curvature blowup at surgery points",
+      "Perelman's proof of geometrization requires the Ricci flow to develop singularities, and the surgery procedure might not converge to a constant curvature metric; it could produce metrics with curvature blowup at surgery points",
       "The developing map in step 6 exists only for simply connected manifolds; for non-simply connected M, the holonomy representation π₁(M) → Isom(S³) = O(4) may not be faithful, preventing a global geometric structure",
       "The eight Thurston geometries listed in step 3 are not all distinct: S²×ℝ is a quotient of S³ (since S³ fibers over S² with fiber S¹), so the list actually has only 7 distinct geometries",
     ],
@@ -1153,9 +1153,9 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim that a measure change preserves the property of being a Brownian motion is exactly BACKWARDS. Girsanov's theorem says that under a measure change, a Brownian motion PLUS a drift becomes a Brownian motion — it changes the drift, not preserves it. A process that is a Brownian motion under ℚ is generally a semimartingale (Brownian motion plus a finite-variation drift) under ℙ, not a Brownian motion. The step illegitimately concludes that because N is a Brownian motion under some equivalent measure ℚ, it must be a Brownian motion under ℙ. This is false: the Girsanov measure change precisely enables transforming non-Brownian continuous local martingales into Brownian motion, not the reverse.",
+      "The claim that a measure change preserves the property of being a Brownian motion is exactly BACKWARDS. Girsanov's theorem says that under a measure change, a Brownian motion PLUS a drift becomes a Brownian motion; it changes the drift, not preserves it. A process that is a Brownian motion under ℚ is generally a semimartingale (Brownian motion plus a finite-variation drift) under ℙ, not a Brownian motion. The step illegitimately concludes that because N is a Brownian motion under some equivalent measure ℚ, it must be a Brownian motion under ℙ. This is false: the Girsanov measure change precisely enables transforming non-Brownian continuous local martingales into Brownian motion, not the reverse.",
     distractorExplanations: [
-      "The Dambis-Dubins-Schwarz theorem in step 3 requires ⟨N⟩_∞ = ∞ a.s., which is not guaranteed for an arbitrary continuous local martingale — if ⟨N⟩_∞ < ∞, the time change τ(t) is only defined for t < ⟨N⟩_∞",
+      "The Dambis-Dubins-Schwarz theorem in step 3 requires ⟨N⟩_∞ = ∞ a.s., which is not guaranteed for an arbitrary continuous local martingale; if ⟨N⟩_∞ < ∞, the time change τ(t) is only defined for t < ⟨N⟩_∞",
       "Lévy's characterization in step 1 requires M to be a martingale (not just a local martingale) with ⟨M⟩ₜ = t, and local martingales with quadratic variation t can fail to be true martingales if they are not uniformly integrable",
       "The time change in step 2 changes the filtration, and processes that are martingales with respect to one filtration need not be martingales with respect to another, so the Brownian motion property of B does not transfer back to N",
     ],
@@ -1177,7 +1177,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The functional equation does NOT transfer the pole at s = 1 to a pole at s = 0. The completed function Λ_K(s) = Λ_K(1−s) means that the pole of ζ_K at s = 1 corresponds to a pole of Λ_K at s = 1, which by the functional equation gives a pole of Λ_K at s = 0. But Λ_K includes gamma factors Γ_ℝ(s)^{r₁} Γ_ℂ(s)^{r₂}, and these gamma factors have THEIR OWN poles at s = 0. The ratio ζ_K(s) = Λ_K(s) / (gamma factors) has the gamma factor poles in the denominator, which can cancel the pole of Λ_K. In fact, ζ_K(0) is finite (nonzero): ζ_K(0) = −h_K R_K / w_K for totally real fields. The Dedekind zeta function has a ZERO of order r₁ + r₂ − 1 at s = 0, not a pole.",
     distractorExplanations: [
       "The Euler product in step 0 converges only for Re(s) > 1, so it cannot be used to analyze behavior at s = 0; the meromorphic continuation provides a different representation that may not have a product formula",
-      "The analytic class number formula in step 3 gives the residue at s = 1, but this formula assumes the class group h_K is finite, which is only known for number fields by Minkowski's bound — for function fields the class group can be infinite",
+      "The analytic class number formula in step 3 gives the residue at s = 1, but this formula assumes the class group h_K is finite, which is only known for number fields by Minkowski's bound; for function fields the class group can be infinite",
       "The functional equation in step 2 relates ζ_K(s) to ζ_K(1−s) only up to a factor involving the discriminant |d_K|^{s-1/2}, and this factor could introduce additional poles or zeros at s = 0",
     ],
   },
@@ -1196,11 +1196,11 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 6,
     errorExplanation:
-      "The claim that 'a covariantly constant field along a closed curve returns to its starting value' is exactly what needs to be proved and is generally FALSE. Covariant constancy (∇_{γ'}V = 0) means the field is parallel-transported, but the result V(1) of parallel transport depends on the HOLONOMY of the connection along γ. On a curved manifold, V(1) ≠ V(0) in general — this is precisely what holonomy measures. For example, parallel-transporting a tangent vector around a spherical triangle on S² rotates it by the area of the triangle (the Gauss-Bonnet theorem for holonomy). The statement 'V = v constant' confuses parallel transport in curved space with the trivial connection in flat space.",
+      "The claim that 'a covariantly constant field along a closed curve returns to its starting value' is exactly what needs to be proved and is generally FALSE. Covariant constancy (∇_{γ'}V = 0) means the field is parallel-transported, but the result V(1) of parallel transport depends on the HOLONOMY of the connection along γ. On a curved manifold, V(1) ≠ V(0) in general; this is precisely what holonomy measures. For example, parallel-transporting a tangent vector around a spherical triangle on S² rotates it by the area of the triangle (the Gauss-Bonnet theorem for holonomy). The statement 'V = v constant' confuses parallel transport in curved space with the trivial connection in flat space.",
     distractorExplanations: [
       "The energy functional in step 3 should be E(V) = ∫₀¹ g(∇_{γ'}V, ∇_{γ'}V) dt, and the minimum E = 0 only occurs for geodesics, not for arbitrary parallel transport along non-geodesic curves",
       "The Euler-Lagrange equation in step 5 involves the Riemann curvature tensor, and for a parallel field (∇V = 0), the curvature term R(γ',V)γ' need not vanish, creating a contradiction with ∇²V = 0",
-      "Parallel transport P_γ is an isometry (step 2 is correct), but an isometry of a finite-dimensional inner product space need not be the identity — it could be a rotation or reflection, and the proof only eliminates reflections (since P_γ is orientation-preserving for homotopically trivial γ)",
+      "Parallel transport P_γ is an isometry (step 2 is correct), but an isometry of a finite-dimensional inner product space need not be the identity; it could be a rotation or reflection, and the proof only eliminates reflections (since P_γ is orientation-preserving for homotopically trivial γ)",
     ],
   },
   // ── 56. Symplectic Geometry (Arnold Conjecture Error) ─────────────────────
@@ -1211,7 +1211,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "Fixed points of φ correspond to 1-periodic orbits of the Hamiltonian flow: x(t) is a 1-periodic orbit iff x(0) = x(1), and x(0) is a fixed point of φ.",
       "By the Arnold conjecture (proved in various generality), the number of fixed points of φ is at least the sum of Betti numbers: #Fix(φ) ≥ ∑ dim Hᵢ(M; ℚ).",
       "For M = S², the Betti numbers are b₀ = 1, b₁ = 0, b₂ = 1, so ∑bᵢ = 2. Therefore φ has at least 2 fixed points.",
-      "But wait — we claim exactly 1 fixed point. On S², a rotation by angle θ ≠ 0, 2π is a symplectomorphism with exactly 2 fixed points (north and south poles). However, this rotation is NOT Hamiltonian if θ is irrational.",
+      "But wait: we claim exactly 1 fixed point. On S², a rotation by angle θ ≠ 0, 2π is a symplectomorphism with exactly 2 fixed points (north and south poles). However, this rotation is NOT Hamiltonian if θ is irrational.",
       "Actually, every area-preserving diffeomorphism of S² is Hamiltonian (since H¹(S²; ℝ) = 0). So the rotation IS Hamiltonian, and it has 2 fixed points, not 1.",
       "The Arnold conjecture gives ≥ 2 fixed points for S², contradicting our claim of exactly 1. The title's claim is false.",
     ],
@@ -1239,7 +1239,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 2,
     errorExplanation:
-      "The proof correctly identifies that the claim is false starting at step 5 when the convergence argument breaks down. The 'error step' is step 2 where the proof sets out to show ∑sₙ converges — this is the step that embodies the false claim. The condition sₙ → 0 (compactness) is strictly weaker than ∑sₙ < ∞ (trace class), which is strictly weaker than ∑sₙ² < ∞ wait — the reverse: ∑sₙ < ∞ (trace class) implies ∑sₙ² < ∞ (Hilbert-Schmidt) implies sₙ → 0 (compact). The inclusions are strict: trace class ⊊ Hilbert-Schmidt ⊊ compact. The diagonal operator T with eigenvalues 1/n is compact, Hilbert-Schmidt (∑1/n² < ∞), but NOT trace class (∑1/n = ∞).",
+      "The proof correctly identifies that the claim is false starting at step 5 when the convergence argument breaks down. The 'error step' is step 2 where the proof sets out to show ∑sₙ converges; this is the step that embodies the false claim. The condition sₙ → 0 (compactness) is strictly weaker than ∑sₙ < ∞ (trace class), which is strictly weaker than ∑sₙ² < ∞ wait: the reverse: ∑sₙ < ∞ (trace class) implies ∑sₙ² < ∞ (Hilbert-Schmidt) implies sₙ → 0 (compact). The inclusions are strict: trace class ⊊ Hilbert-Schmidt ⊊ compact. The diagonal operator T with eigenvalues 1/n is compact, Hilbert-Schmidt (∑1/n² < ∞), but NOT trace class (∑1/n = ∞).",
     distractorExplanations: [
       "The spectral theorem in step 0 applies only to normal compact operators (TT* = T*T), and a general compact operator has a singular value decomposition only in finite dimensions; in infinite dimensions, the SVD requires T to have closed range",
       "The singular values in step 1 need not tend to zero for compact operators on non-separable Hilbert spaces, so the proof's assumption of separability is essential and should be verified for the specific H in question",
@@ -1275,7 +1275,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "Let T: X → X be a measure-preserving transformation on a probability space (X, 𝓑, μ).",
       "Unique ergodicity means there is exactly one T-invariant Borel probability measure on X. We claim μ is the only one.",
       "Suppose ν is another T-invariant probability measure. Define ρ = ½(μ + ν). Then ρ is also T-invariant.",
-      "Since μ is T-invariant and ν is T-invariant, both μ and ν are absolutely continuous with respect to ρ (since μ(A) = 0 implies ρ(A) = ½ν(A) ≥ 0, wait — this goes the wrong way. ρ(A) = 0 implies μ(A) = 0 and ν(A) = 0, so μ ≪ ρ and ν ≪ ρ).",
+      "Since μ is T-invariant and ν is T-invariant, both μ and ν are absolutely continuous with respect to ρ (since μ(A) = 0 implies ρ(A) = ½ν(A) ≥ 0, wait: this goes the wrong way. ρ(A) = 0 implies μ(A) = 0 and ν(A) = 0, so μ ≪ ρ and ν ≪ ρ).",
       "By the Radon-Nikodym theorem, dμ/dρ = f and dν/dρ = g where f + g = 2 (since μ + ν = 2ρ).",
       "Since μ and ν are T-invariant and ρ is T-invariant: f(Tx) = dμ/dρ(Tx) = dμ/dρ(x) = f(x) for ρ-a.e. x. Similarly g ∘ T = g ρ-a.e.",
       "Now, since T preserves ρ, the Birkhoff ergodic theorem gives (1/n)∑f(Tᵏx) → E_ρ[f | ℐ] ρ-a.e., where ℐ is the T-invariant σ-algebra. But f ∘ T = f, so f is already ℐ-measurable, and the limit is f itself: f = E_ρ[f | ℐ]. By the ergodic decomposition, f is constant on ergodic components. Since ∫f dρ = 1 and f = constant on each component, f = 1 ρ-a.e., giving μ = ρ = ν.",
@@ -1286,7 +1286,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
       "The conclusion 'f is constant on ergodic components implies f = 1' is wrong. The ergodic decomposition decomposes X into ergodic components, and f can take DIFFERENT constant values on different components. On one component f might be 2 (and g = 0, meaning μ has all its mass there) and on another f might be 0 (meaning ν has all its mass there). The condition ∫f dρ = 1 only constrains the AVERAGE of f, not that f = 1 everywhere. Multiple T-invariant measures correspond precisely to non-trivial ergodic decompositions where T-invariant functions take different values on different components. The argument would work only if T were already known to be ergodic w.r.t. ρ, which is circular.",
     distractorExplanations: [
       "The Radon-Nikodym theorem in step 4 requires μ and ν to be σ-finite, and while probability measures are finite (hence σ-finite), the density f = dμ/dρ might not be T-invariant because the Radon-Nikodym derivative transforms non-trivially under T",
-      "The Birkhoff ergodic theorem in step 6 requires f ∈ L¹(ρ), and since f = dμ/dρ with μ a probability measure, ∫f dρ = μ(X) = 1, so f ∈ L¹ — but the ergodic theorem gives convergence to E[f|ℐ] only for ergodic T, not for general measure-preserving T",
+      "The Birkhoff ergodic theorem in step 6 requires f ∈ L¹(ρ), and since f = dμ/dρ with μ a probability measure, ∫f dρ = μ(X) = 1, so f ∈ L¹; but the ergodic theorem gives convergence to E[f|ℐ] only for ergodic T, not for general measure-preserving T",
       "Step 3 incorrectly claims ρ(A) = 0 implies μ(A) = 0: this is true, but the converse μ(A) = 0 does not imply ρ(A) = 0 (since ρ(A) = ½ν(A)), and absolute continuity μ ≪ ρ is established but may not give a bounded Radon-Nikodym derivative",
     ],
   },
@@ -1305,7 +1305,7 @@ export const FALLACIOUS_PROOFS_EXT_2: FallaciousProof[] = [
     ],
     errorStep: 7,
     errorExplanation:
-      "The hydrogen Hamiltonian does NOT have compact resolvent. An operator on L²(ℝ³) has compact resolvent only if its domain embeds compactly into L² — this happens for operators on BOUNDED domains (by Rellich-Kondrachov), not on all of ℝ³. The Sobolev embedding H²(ℝ³) ↪ L²(ℝ³) is NOT compact (functions can escape to infinity). The essential spectrum of H = −Δ − 1/|x| is actually σ_ess(H) = [0, ∞), representing the continuous spectrum of unbound (scattering) states. This follows from Weyl's theorem: the essential spectrum is unchanged by compact perturbations, and −1/|x| is relatively compact with respect to −Δ, so σ_ess(H) = σ_ess(−Δ) = [0, ∞).",
+      "The hydrogen Hamiltonian does NOT have compact resolvent. An operator on L²(ℝ³) has compact resolvent only if its domain embeds compactly into L²; this happens for operators on BOUNDED domains (by Rellich-Kondrachov), not on all of ℝ³. The Sobolev embedding H²(ℝ³) ↪ L²(ℝ³) is NOT compact (functions can escape to infinity). The essential spectrum of H = −Δ − 1/|x| is actually σ_ess(H) = [0, ∞), representing the continuous spectrum of unbound (scattering) states. This follows from Weyl's theorem: the essential spectrum is unchanged by compact perturbations, and −1/|x| is relatively compact with respect to −Δ, so σ_ess(H) = σ_ess(−Δ) = [0, ∞).",
     distractorExplanations: [
       "The Kato-Rellich theorem in step 1 requires the Coulomb potential to be infinitesimally form-bounded, not operator-bounded, and the distinction matters for self-adjointness on the natural domain H²(ℝ³)",
       "The eigenvalue formula Eₙ = −1/(4n²) is for the hydrogen atom in atomic units with specific constants; the general formula is Eₙ = −me⁴/(2ℏ²n²), and the discrepancy affects whether the eigenvalues accumulate at 0 or at some other value",

@@ -101,7 +101,7 @@ function countInRange(sorted, low, high) {
     language: "javascript",
     bugLine: 21,
     bugDescription: "countInRange uses findInsertPos(sorted, high) which finds the first position >= high, so it EXCLUDES the value 'high' itself. For an inclusive upper bound, should use findInsertPos(sorted, high + 1) or a separate upperBound function. The range [low, high] misses elements equal to high.",
-    options: ["Line 4: mid calculation can overflow for very large arrays", "Line 3: while condition should be lo <= hi for correctness", "Line 21: high bound is exclusive — misses elements equal to high", "Line 15: unsigned right shift is wrong for negative indices"],
+    options: ["Line 4: mid calculation can overflow for very large arrays", "Line 3: while condition should be lo <= hi for correctness", "Line 21: high bound is exclusive, missing elements equal to high", "Line 15: unsigned right shift is wrong for negative indices"],
     correctOptionIndex: 2,
   },
   {
@@ -158,7 +158,7 @@ function countInRange(sorted, low, high) {
 }`,
     language: "javascript",
     bugLine: 15,
-    bugDescription: "The remaining elements of the non-exhausted array are not appended — after the while loop, any leftover elements in left or right are lost",
+    bugDescription: "The remaining elements of the non-exhausted array are not appended: after the while loop, any leftover elements in left or right are lost",
     options: ["Line 3: mid should use ceil instead of floor", "Line 9: comparison should use <=", "Line 15: missing concat of remaining left and right elements", "Line 2: base case should be length === 0"],
     correctOptionIndex: 2,
   },
@@ -207,7 +207,7 @@ function symmetricDiff(a, b) {
     language: "javascript",
     bugLine: 23,
     bugDescription: "symmetricDiff doesn't deduplicate its output. difference(a,b) preserves all elements from 'a' not in 'b' including duplicates. For example, symmetricDiff([1,1,2],[2,3]) returns [1,1,3] instead of [1,3]. Should wrap result in unique().",
-    options: ["Line 2: slice() doesn't deep-copy nested arrays", "Line 5: spread operator fails on deeply nested arrays", "Line 16: filter creates new array unnecessarily", "Line 23: symmetricDiff doesn't deduplicate — difference preserves duplicate elements from its first argument"],
+    options: ["Line 2: slice() doesn't deep-copy nested arrays", "Line 5: spread operator fails on deeply nested arrays", "Line 16: filter creates new array unnecessarily", "Line 23: symmetricDiff doesn't deduplicate; difference preserves duplicate elements from its first argument"],
     correctOptionIndex: 3,
   },
   {
@@ -272,7 +272,7 @@ function symmetricDiff(a, b) {
     language: "javascript",
     bugLine: 9,
     bugDescription: "clearTimeout happens AFTER the leading invocation check. If the timer fires between the isLeading check (line 5) and the clearTimeout (line 9), isLeading gets reset to true and fn fires again immediately. The clearTimeout should come before the isLeading check to prevent the race condition. In practice, this means rapid calls at exactly the delay boundary cause double-firing.",
-    options: ["Line 6: apply loses the correct 'this' binding in arrow functions", "Line 9: clearTimeout is called after the leading check — timer can fire between lines 5 and 9 causing double invocation", "Line 11: setTimeout should use bind instead of arrow function", "Line 3: isLeading should be initialized to false and set true on first call"],
+    options: ["Line 6: apply loses the correct 'this' binding in arrow functions", "Line 9: clearTimeout is called after the leading check, so the timer can fire between lines 5 and 9 causing double invocation", "Line 11: setTimeout should use bind instead of arrow function", "Line 3: isLeading should be initialized to false and set true on first call"],
     correctOptionIndex: 1,
   },
   {

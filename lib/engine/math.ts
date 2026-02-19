@@ -17,7 +17,7 @@ function genDecimal(rng: SeededRNG, minVal: number, maxVal: number, decimalPlace
 export function generateMathQuestions(rng: SeededRNG): GeneratedQuestion[] {
   const questions: GeneratedQuestion[] = [];
 
-  // Q1: Decimal Arithmetic — 4-term expression with high-precision decimals and square root
+  // Q1: Decimal Arithmetic: 4-term expression with high-precision decimals and square root
   // Generate expression: (a × b) + (c ÷ d) − (e × f) + √(g)
   const decPlacesA = rng.int(3, 5);
   const decPlacesB = rng.int(3, 5);
@@ -55,7 +55,7 @@ export function generateMathQuestions(rng: SeededRNG): GeneratedQuestion[] {
     answerKey: { correct: decimalAnswerRounded, tolerance: 0.01 },
   });
 
-  // Q2: Order of Operations — deeply nested with exponents, roots, modular arithmetic, and division
+  // Q2: Order of Operations: deeply nested with exponents, roots, modular arithmetic, and division
   // Generate: ((a² + b)^c ÷ d − e × (f − g²) + √(h)) % m
   const ooA = rng.int(3, 12);
   const ooB = rng.int(1, 12);
@@ -87,11 +87,11 @@ export function generateMathQuestions(rng: SeededRNG): GeneratedQuestion[] {
     answerKey: { correct: ooAnswerRounded, tolerance: 0.05 },
   });
 
-  // Q3: Trig + Logarithms — compound expression with three trig functions and two log operations
+  // Q3: Trig + Logarithms: compound expression with three trig functions and two log operations
   // Generate: sin(α) × log_b1(n1) − cos(β) × tan(γ) + log_b2(n2)
   // Non-standard angles that require actual computation
   const angles = [15, 18, 22.5, 36, 54, 72, 75, 105, 162, 198, 252, 288];
-  // Angles safe for tan (avoid 90, 270 where tan is undefined) — all of the above are safe
+  // Angles safe for tan (avoid 90, 270 where tan is undefined); all of the above are safe
   const tanAngles = [15, 18, 22.5, 36, 54, 72, 75, 105, 162, 198, 252, 288];
   const alpha = rng.pick(angles);
   const beta = rng.pick(angles);
@@ -126,7 +126,7 @@ export function generateMathQuestions(rng: SeededRNG): GeneratedQuestion[] {
     answerKey: { correct: trigLogAnswer, tolerance: 0.05 },
   });
 
-  // Q4: Definite Integral — quartic polynomial with wider range
+  // Q4: Definite Integral: quartic polynomial with wider range
   // ∫ from lower to upper of (ax⁴ + bx³ + cx² + dx + e) dx
   const intA = rng.int(-8, 8) || 1; // ensure non-zero leading coefficient
   const intB = rng.int(-8, 8);
@@ -192,7 +192,7 @@ export function generateMathQuestions(rng: SeededRNG): GeneratedQuestion[] {
     answerKey: { correct: integralCorrectIdx },
   });
 
-  // Q5: Proof Error — free-text with keyword grading
+  // Q5: Proof Error: free-text with keyword grading
   const proof = rng.pick(FALLACIOUS_PROOFS);
   const stepsDisplay = proof.steps
     .map((step, i) => `Step ${i + 1}: ${step}`)
