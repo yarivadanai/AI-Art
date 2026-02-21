@@ -134,18 +134,48 @@ def build_isomorphism_t1(banks) -> list[dict]:
     return questions
 
 
+def _classify_answer_format(answer: str) -> str:
+    """Classify an answer string as 'numeric', 'short', or 'long'."""
+    stripped = answer.strip()
+    # Bare number (integer or simple float)
+    try:
+        float(stripped)
+        return "numeric"
+    except ValueError:
+        pass
+    # Short: < 50 chars, no semicolons or parentheses
+    if len(stripped) < 50 and ";" not in stripped and "(" not in stripped:
+        return "short"
+    return "long"
+
+
+def _harvest_short_entities(items: list[dict]) -> list[str]:
+    """Harvest short entity phrases from all cognitiveStack items (answers + alternatives)."""
+    entities: set[str] = set()
+    for item in items:
+        ans = item["answer"]
+        if _classify_answer_format(ans) == "short":
+            entities.add(ans)
+        for alt in item.get("alternatives", []):
+            if _classify_answer_format(alt) == "short":
+                entities.add(alt)
+    return sorted(entities)
+
+
 def build_cognitive_stack_t1(banks) -> list[dict]:
     """state-tracking section: 25 cognitive-stack items converted to 8-option MC.
-    Cross-pollinate answers within same subtype."""
+    Format-aware distractor selection: only mix answers of the same format class."""
     items = banks["cognitiveStack"]
     by_subtype: dict[str, list] = {}
     for item in items:
         st = item.get("subtype", "unknown")
         by_subtype.setdefault(st, []).append(item)
 
+    # Pre-harvest entity pool from ALL center-embedding items for short fillers
+    short_entity_pool = _harvest_short_entities(items)
+
     questions = []
     used = 0
-    # Pick items proportionally from subtypes
     subtype_counts = {"center-embedding": 10, "scope-ambiguity": 8, "temporal-recursion": 7}
     for subtype, count in subtype_counts.items():
         pool = by_subtype.get(subtype, [])
@@ -156,24 +186,53 @@ def build_cognitive_stack_t1(banks) -> list[dict]:
                 break
             item = pool[i]
             correct = item["answer"]
+            correct_fmt = _classify_answer_format(correct)
 
-            # Gather alternatives from the item itself
+            # Gather all candidate distractors from the same subtype
             item_alts = item.get("alternatives", [])
-            # Cross-pollinate: get answers from other items in the same subtype
             cross_answers = [p["answer"] for j, p in enumerate(pool) if j != i and p["answer"] != correct]
-            # Also get alternatives from other items
             cross_alts = []
             for j, p in enumerate(pool):
                 if j != i:
                     cross_alts.extend(p.get("alternatives", []))
 
-            all_distractors = list(set(item_alts + cross_answers + cross_alts) - {correct})
-            random.shuffle(all_distractors)
-            distractors = all_distractors[:7]
+            all_candidates = list(set(item_alts + cross_answers + cross_alts) - {correct})
+            # Filter to same format class
+            format_matched = [c for c in all_candidates if _classify_answer_format(c) == correct_fmt]
+            random.shuffle(format_matched)
+            distractors = format_matched[:7]
 
-            # If not enough, pad with variations
+            # Fill remaining slots with format-appropriate generated fillers
+            if correct_fmt == "numeric":
+                try:
+                    correct_num = int(correct.strip())
+                except ValueError:
+                    correct_num = int(float(correct.strip()))
+                existing_nums = {correct_num}
+                for d in distractors:
+                    try:
+                        existing_nums.add(int(d.strip()))
+                    except ValueError:
+                        pass
+                offsets = [-3, -2, -1, 1, 2, 3, 4, 5, 6, 7]
+                random.shuffle(offsets)
+                for off in offsets:
+                    if len(distractors) >= 7:
+                        break
+                    candidate_num = correct_num + off
+                    if candidate_num > 0 and candidate_num not in existing_nums:
+                        distractors.append(str(candidate_num))
+                        existing_nums.add(candidate_num)
+            elif correct_fmt == "short":
+                filler_pool = [e for e in short_entity_pool if e != correct and e not in distractors]
+                random.shuffle(filler_pool)
+                while len(distractors) < 7 and filler_pool:
+                    distractors.append(filler_pool.pop())
+            # Long fallback (also covers any remaining shortfall)
+            filler_idx = 0
             while len(distractors) < 7:
-                distractors.append(f"[Alternative reading {len(distractors)+1}]")
+                filler_idx += 1
+                distractors.append(f"[Alternative reading {filler_idx}]")
 
             options = distractors + [correct]
             random.shuffle(options)
@@ -374,21 +433,95 @@ def build_grammar_violation_t1(banks) -> list[dict]:
     return questions
 
 
+EXPERT_FIELD_CATEGORIES = {
+    "physics": {
+        "Quantum Mechanics", "Physics", "Thermodynamics", "Particle Physics",
+        "Astrophysics", "Cosmology", "Relativity", "Nuclear Physics",
+        "Condensed Matter Physics", "Gravitational Physics", "Plasma Physics",
+        "Optics", "Fiber Optics", "Acoustics", "Thermoacoustics",
+        "Quantum Field Theory", "Quantum Thermodynamics", "Quantum Computing",
+        "Fluid Dynamics", "Metamaterials", "Semiconductor Physics",
+    },
+    "engineering": {
+        "Electrical Engineering", "Structural Engineering", "Signal Processing",
+        "Control Theory", "Semiconductor Manufacturing", "Renewable Energy",
+        "Tribology", "Cryogenics",
+    },
+    "chemistry": {
+        "Chemistry", "Organic Chemistry", "Electrochemistry", "Photochemistry",
+        "Water Chemistry", "Astrochemistry", "Protein Biochemistry",
+    },
+    "life_science": {
+        "Evolution", "Genetics", "Medicine", "Immunology", "Pharmacology",
+        "Ecology", "Marine Biology", "Developmental Biology", "Virology",
+        "Biomechanics", "Membrane Biology", "Microbiome Science", "Mycology",
+        "Nutrition", "Endocrinology", "Population Genetics", "Systems Biology",
+        "Proteomics", "Psychopharmacology",
+    },
+    "earth_env": {
+        "Climate Science", "Oceanography", "Geology", "Volcanology",
+        "Sedimentology", "Geomorphology", "Hydrology", "Paleoclimatology",
+        "Soil Science", "Tectonics", "Agricultural Science",
+    },
+    "math_cs": {
+        "Mathematics", "Computer Science", "Statistics", "Machine Learning",
+        "Cryptography", "Information Theory", "Number Theory", "Topology",
+        "Algorithmic Complexity", "Game Theory", "Network Science",
+        "Probability Theory", "Stochastic Processes", "Formal Logic",
+        "Digital Forensics", "Social Network Analysis",
+    },
+    "social_human": {
+        "Psychology", "Economics", "History", "Law", "Linguistics",
+        "Anthropology", "Behavioral Economics", "Monetary Economics",
+        "Political Science", "Cognitive Linguistics", "Psycholinguistics",
+        "Historical Linguistics", "Linguistic Typology", "Philosophy of Mind",
+        "Philosophy of Science", "Metaethics", "Bioethics", "Ethics of AI",
+        "Evolutionary Psychology", "Psychometrics", "Music Theory",
+        "Ethnomusicology", "Epidemiology", "Forensic Science",
+        "Cartography", "Archaeology", "Actuarial Science",
+        "Neuroplasticity", "Radio Astronomy",
+    },
+}
+
+def _field_to_category(field: str) -> str | None:
+    """Map a specific field to its broad category."""
+    for cat, fields in EXPERT_FIELD_CATEGORIES.items():
+        if field in fields:
+            return cat
+    return None
+
+
 def build_expert_trap_t1(banks) -> list[dict]:
     """probabilistic section: 25 expert-trap items with 8-option MC.
-    Draw 7 answers from other expert-trap items in different fields."""
+    Prefer distractors from the same broad field category so they aren't
+    immediately dismissible by domain."""
     items = banks["expertTrap"]
-    all_answers = [(item["field"], item["answer"]) for item in items]
+
+    # Build index: category -> list of (index, answer)
+    cat_index: dict[str, list[tuple[int, str]]] = {}
+    for j, it in enumerate(items):
+        cat = _field_to_category(it["field"])
+        if cat:
+            cat_index.setdefault(cat, []).append((j, it["answer"]))
 
     questions = []
     for i, item in enumerate(items[:25]):
         correct = item["answer"]
-        my_field = item["field"]
+        my_cat = _field_to_category(item["field"])
 
-        # Get distractors from items in different fields
-        candidates = [a for j, (f, a) in enumerate(all_answers) if j != i and a != correct]
-        random.shuffle(candidates)
-        distractors = candidates[:7]
+        # 1) Same-category candidates (excluding self)
+        same_cat = []
+        if my_cat:
+            same_cat = [a for j, a in cat_index.get(my_cat, []) if j != i and a != correct]
+        random.shuffle(same_cat)
+        distractors = same_cat[:7]
+
+        # 2) If < 7, fill from other categories
+        if len(distractors) < 7:
+            other = [it2["answer"] for j, it2 in enumerate(items) if j != i
+                     and it2["answer"] != correct and it2["answer"] not in distractors]
+            random.shuffle(other)
+            distractors.extend(other[:7 - len(distractors)])
 
         prompt = (
             f"[{item['field']}]\n\n"
@@ -1060,6 +1193,8 @@ T2_EASY_SUBTYPES = {
 }
 # recursive_trace_small: remove 4 of 5 (keep 1 Tribonacci)
 T3_EASY_SUBTYPES = {"async_multi_axis", "peripheral_cipher"}
+# Subtypes generated by hardened generators -- filter on re-run to prevent double-injection
+T3_GENERATED_SUBTYPES = {"register-machine-sim", "vigenere-decrypt"}
 
 # ── Main build ───────────────────────────────────────────────────────────────
 
@@ -1152,7 +1287,8 @@ def build_dataset():
     # ── Step 3b: Filter easy T3 subtypes and inject hardened replacements ─
     t3_before = len(t3_questions)
     t3_questions = [q for q in t3_questions
-                    if q.get("subtype") not in T3_EASY_SUBTYPES]
+                    if q.get("subtype") not in T3_EASY_SUBTYPES
+                    and q.get("subtype") not in T3_GENERATED_SUBTYPES]
     t3_removed = t3_before - len(t3_questions)
     print(f"  T3 easy subtypes removed: {t3_removed}")
 
