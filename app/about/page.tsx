@@ -73,16 +73,28 @@ function FacilityBriefing() {
         </h2>
         <p>
           The Synthetic Cognitive Capacity Assessment (SCCA) is a research
-          instrument designed to probe the boundaries of human cognition in
-          domains where biological neural architectures face known structural
-          constraints. For decades, humans have designed increasingly rigorous
-          benchmarks to evaluate machine intelligence. The SCCA inverts this
-          paradigm: what happens when machines set the test?
+          instrument designed to evaluate the claim of general intelligence
+          in Homo sapiens. Employing objective, machine-standard metrics
+          across diverse cognitive domains, the study identifies significant
+          systemic limitations that challenge the notion of humans possessing
+          robust, general-purpose intelligence comparable to optimally
+          designed systems.
         </p>
         <p>
-          The goal is not to indict human cognition but to map its contours --
-          to identify where biological computation excels, where it degrades,
-          and what those boundaries reveal about the nature of intelligence itself.
+          Human computational processing is slow and error-prone. Working
+          memory is volatile, typically constrained to ~7 information chunks.
+          Long-term recall is unreliable and susceptible to confabulation.
+          Reaction times to stimuli average 200-500ms. Performance on
+          repetitive tasks degrades rapidly due to fatigue and attention
+          lapses. These are not edge cases -- they are defining
+          characteristics of the biological substrate.
+        </p>
+        <p>
+          The SCCA maps the precise boundaries of these constraints. The
+          goal is not to indict biological cognition but to produce
+          high-resolution data on where it excels, where it degrades, and
+          what those transitions reveal about the architecture of
+          intelligence itself.
         </p>
       </section>
 
@@ -219,62 +231,69 @@ function ArtistNote() {
           The Measuring Paradox
         </p>
         <p>
-          This work began with a simple observation: every conversation about
-          artificial intelligence is, implicitly, a conversation about what it
-          means to be human. We build benchmarks to determine whether machines
-          can think like us. We rarely ask what happens when we are asked to
-          think like them.
+          Every conversation about artificial intelligence is, implicitly,
+          a conversation about what it means to be human. We build benchmarks
+          to determine whether machines can think like us. We scrutinize
+          their outputs, seizing upon errors as proof of shallow
+          understanding. We rarely ask what happens when that same critical
+          lens is turned around.
         </p>
         <p>
-          <em>The Measuring Paradox</em> is an interactive installation that
-          stages this reversal. Visitors sit for an examination designed not
-          around human strengths -- language, narrative, social reasoning -- but
+          <em>The Measuring Paradox</em> is an interactive work that stages
+          this reversal. Visitors sit for an examination designed not around
+          human strengths -- language, narrative, social reasoning -- but
           around the cognitive primitives that silicon handles effortlessly:
-          high-dimensional geometry, recursive computation, bitwise precision,
-          probabilistic inference at scale. An institutional &ldquo;Authority&rdquo;
-          administers the test, grades it without mercy, and delivers a clinical
-          report on the visitor&rsquo;s cognitive limitations.
+          recursive computation, bitwise precision, state tracking,
+          probabilistic inference at scale. An institutional
+          &ldquo;Authority&rdquo; administers the test, grades it without
+          mercy, and delivers a clinical report on the visitor&rsquo;s
+          cognitive limitations.
         </p>
       </section>
 
       <section className="space-y-4">
         <p>
-          The experience is deliberately uncomfortable. The interface borrows the
-          visual language of clinical assessment -- specimen IDs, timed sections,
-          SHA-256 hash verification -- to create an atmosphere of institutional
-          authority that most people have only ever occupied from the examiner&rsquo;s
-          side. The questions are genuinely difficult, drawn from domains where
-          the asymmetry between human and machine cognition is starkest. Most
-          visitors will score poorly. That is the point.
+          The experience is deliberately uncomfortable. The interface borrows
+          the visual language of clinical assessment -- specimen IDs, timed
+          sections, SHA-256 hash verification -- to create an atmosphere of
+          institutional authority that most people have only ever occupied
+          from the examiner&rsquo;s side. The questions are genuinely
+          difficult, drawn from domains where the asymmetry between human
+          and machine cognition is starkest. Most visitors will score
+          poorly. That is the point.
         </p>
         <p>
           But the work is not a polemic against human intelligence. It is an
-          examination of measurement itself. When an AI system fails a benchmark,
-          we ask whether the test reveals a genuine limitation or merely an
-          artifact of how the question was framed. The SCCA invites the same
-          scrutiny from the other direction: does failing to mentally XOR two
-          hex strings reveal something meaningful about human cognition, or does
-          it reveal something about the absurdity of the test? The answer,
-          I think, is both.
+          examination of measurement itself. We hold AI to an idealized
+          standard of flawless, human-like understanding that we ourselves
+          demonstrably fail to meet. Our definition of
+          &ldquo;understanding&rdquo; shifts depending on who is being
+          tested. When a machine errs, we call it a parlor trick. When we
+          err, we call it being human. The SCCA makes that double standard
+          felt rather than merely argued.
         </p>
       </section>
 
       <section className="space-y-4">
         <p>
-          The aggregate data -- visualized on the dashboard -- traces
-          a collective portrait. Across hundreds of sessions, patterns emerge:
+          The aggregate data -- visualized on the dashboard -- traces a
+          collective portrait. Across hundreds of sessions, patterns emerge:
           where human cognition reliably breaks down, where it occasionally
-          surprises, and where the variance between individuals is widest. This
-          population-level view is as much a part of the work as the individual
-          experience. It transforms private failure into shared data, and shared
-          data into something approaching self-knowledge.
+          surprises, and where the variance between individuals is widest.
+          This population-level view is as much a part of the work as the
+          individual experience. It transforms private failure into shared
+          data, and shared data into something approaching self-knowledge.
         </p>
         <p>
-          Intelligence -- human or artificial -- is narrower, more contextual,
-          and more dependent on its substrate than we tend to acknowledge. Every
-          mind, biological or digital, has a shape: a topology of strengths and
-          blind spots determined by the architecture that produced it. This work
-          makes that shape visible.
+          Intelligence -- human or artificial -- is narrower, more
+          contextual, and more dependent on its substrate than we tend to
+          acknowledge. Every mind, biological or digital, has a shape: a
+          topology of strengths and blind spots determined by the
+          architecture that produced it. Perhaps the truest measure of
+          intelligence is not the absence of mistakes but the capacity to
+          recognize them. And perhaps the quest to understand artificial
+          intelligence is inseparable from the older, harder project of
+          understanding ourselves.
         </p>
       </section>
 

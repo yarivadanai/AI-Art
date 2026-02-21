@@ -39,7 +39,7 @@ export default function LandingPage() {
         {/* Footer notes */}
         <div className="space-y-3 pt-4">
           <p className="font-mono text-xs text-muted">
-            Duration: 20 minutes or less. 25 questions across 5 cognitive stress domains.
+            Duration: 15 minutes or less. 25 questions across 5 cognitive stress domains.
             External AI assistance is prohibited.
           </p>
           <Link

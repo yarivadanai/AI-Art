@@ -93,7 +93,7 @@ function IntakeScreen() {
 
           {/* Disclaimers */}
           <div className="font-mono text-xs text-muted space-y-1">
-            <p>&#8226; Duration: ≤20 minutes (per-question timers)</p>
+            <p>&#8226; Duration: ≤15 minutes (per-question timers)</p>
             <p>&#8226; Questions cannot be revisited once submitted</p>
             <p>&#8226; A unique session ID will be assigned</p>
             <p>&#8226; 25 questions across 5 sections</p>

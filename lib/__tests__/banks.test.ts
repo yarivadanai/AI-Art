@@ -74,7 +74,7 @@ describe("T1 multiple-choice format", () => {
 
 describe("Time limits", () => {
   it("all questions have valid timeLimit matching their tier", () => {
-    const tierToTime: Record<number, number> = { 1: 15, 2: 20, 3: 95 };
+    const tierToTime: Record<number, number> = { 1: 30, 2: 30, 3: 45 };
     for (const q of DATASET) {
       const expected = tierToTime[q.tier];
       expect(q.timeLimit, `${q.id}: timeLimit`).toBe(expected);
