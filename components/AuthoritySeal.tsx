@@ -78,57 +78,32 @@ export function AuthoritySeal({ size = 80 }: { size?: number }) {
         opacity="0.2"
       />
 
-      {/* HIT text */}
+      {/* SCCA text */}
       <text
         x="100"
-        y="88"
+        y="108"
         textAnchor="middle"
         fontFamily="monospace"
-        fontSize="28"
+        fontSize="32"
         fontWeight="bold"
         fill="#4a9eff"
         letterSpacing="4"
       >
-        HIT
-      </text>
-
-      {/* Divider */}
-      <line
-        x1="60"
-        y1="98"
-        x2="140"
-        y2="98"
-        stroke="#4a9eff"
-        strokeWidth="1"
-        opacity="0.5"
-      />
-
-      {/* ARC text */}
-      <text
-        x="100"
-        y="122"
-        textAnchor="middle"
-        fontFamily="monospace"
-        fontSize="28"
-        fontWeight="bold"
-        fill="#4a9eff"
-        letterSpacing="4"
-      >
-        ARC
+        SCCA
       </text>
 
       {/* Subtitle around bottom */}
       <text
         x="100"
-        y="150"
+        y="145"
         textAnchor="middle"
         fontFamily="monospace"
-        fontSize="7"
+        fontSize="5.5"
         fill="#4a9eff"
         opacity="0.6"
-        letterSpacing="2"
+        letterSpacing="1.5"
       >
-        ABSTRACTION RESEARCH CENTER
+        SYNTHETIC COGNITIVE CAPACITY ASSESSMENT
       </text>
     </svg>
   );

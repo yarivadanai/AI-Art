@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "HIT-ARC | Human Intelligence Test",
+  title: "SCCA | Synthetic Cognitive Capacity Assessment",
   description:
-    "The Abstraction Research Center evaluates whether biological computation exhibits general intelligence.",
+    "The SCCA evaluates whether biological computation exhibits synthetic cognitive capacity on standards appropriate to modern AI systems.",
   icons: { icon: "/favicon.svg" },
 };
 

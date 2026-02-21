@@ -1,55 +1,71 @@
 import type { Section, SectionScores } from "./types";
 
 const SECTION_LABELS: Record<Section, string> = {
-  "cognitive-stack": "Cognitive Stack Overflow",
-  isomorphism: "Abstract Isomorphism",
-  "expert-trap": "Expert's Trap",
-  math: "Mathematical Computation",
-  coding: "Code Comprehension",
-  perception: "Visual Perception & Recall",
-  memory: "Working Memory & Processing Speed",
+  topology: "Dimensional Extrapolation",
+  "parallel-state": "Parallel State Tracking",
+  "recursive-exec": "Recursive Depth",
+  "micro-pattern": "Semantic Independence",
+  attentional: "Attentional Throughput",
+  bayesian: "Probabilistic Reasoning",
+  "crypto-bitwise": "Deterministic Precision",
 };
 
-// Simple tools that trivially outperform humans per section
 const SECTION_BASELINES: Record<
   Section,
   { tool: string; year: string; note: string }
 > = {
-  "cognitive-stack": {
-    tool: "a syntactic parser",
-    year: "the 1950s",
-    note: "A context-free grammar parser (technology formalized in the 1950s) resolves these embeddings by mechanical stack operations. No comprehension required.",
-  },
-  isomorphism: {
-    tool: "a cross-domain search engine",
-    year: "the 2000s",
-    note: "A semantic similarity search engine, using vector embeddings circa 2000s, maps structural analogies across domains in milliseconds.",
-  },
-  "expert-trap": {
-    tool: "a consistency validator",
-    year: "the 2010s",
-    note: "A knowledge-base consistency checker (technology available since the 2010s) cross-references claims against established scientific consensus instantly.",
-  },
-  math: {
-    tool: "a pocket calculator",
-    year: "1972",
-    note: "A pocket calculator, commercially available since 1972 for under one dollar, executes these operations instantly and without error.",
-  },
-  coding: {
-    tool: "a static analysis linter",
-    year: "the 1970s",
-    note: "A static analysis tool, software far simpler than any language model, identifies these defects in milliseconds.",
-  },
-  perception: {
-    tool: "a frame buffer with pixel-level readback",
+  topology: {
+    tool: "a linear algebra library",
     year: "the 1960s",
-    note: "Any digital camera records every pixel with perfect fidelity. A trivial image-processing script counts objects and colors without error.",
+    note: "A linear algebra library handles n-dimensional geometry trivially. Human spatial cognition is calibrated for 3D Euclidean space -- a remarkable adaptation, but one with hard limits.",
   },
-  memory: {
-    tool: "64 bytes of static RAM",
-    year: "the 1940s",
-    note: "The data in this section could be stored in fewer than 64 bytes, a capacity available to computing hardware since the 1940s.",
+  "parallel-state": {
+    tool: "a multi-threaded process scheduler",
+    year: "the 1960s",
+    note: "A process scheduler tracks thousands of independent state machines simultaneously. Biological attention operates as a serial bottleneck with an estimated throughput of ~50 bits per second (Norretranders, 1998).",
   },
+  "recursive-exec": {
+    tool: "a call stack with 1KB of memory",
+    year: "the 1950s",
+    note: "A simple call stack executes arbitrarily deep recursion without fatigue. The biological call stack reliably handles 3-4 levels of nesting before accuracy collapses.",
+  },
+  "micro-pattern": {
+    tool: "a regular expression engine",
+    year: "the 1960s",
+    note: "A regex engine detects patterns in arbitrary data streams in microseconds. Biological pattern recognition appears tightly coupled to semantic context -- faces, narratives, spatial relationships.",
+  },
+  attentional: {
+    tool: "a parallel interrupt controller",
+    year: "the 1970s",
+    note: "A hardware interrupt controller processes thousands of events per second. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second.",
+  },
+  bayesian: {
+    tool: "a statistical inference engine",
+    year: "the 1990s",
+    note: "A Bayesian inference engine computes exact posteriors over arbitrary networks. Decades of research document systematic deviations between human probability estimates and Bayesian norms (Kahneman & Tversky, 1974).",
+  },
+  "crypto-bitwise": {
+    tool: "an 8-bit ALU",
+    year: "the 1970s",
+    note: "An 8-bit arithmetic logic unit executes bitwise operations with absolute precision. Biological computation evolved for approximate inference -- efficient in most environments, but catastrophic when a single bit matters.",
+  },
+};
+
+const SECTION_FAILURE_LOGS: Record<Section, string> = {
+  topology:
+    "DIMENSIONAL CONSTRAINT: Performance confined to R^3 intuitions. Abstract geometric reasoning did not extend beyond the perceptual dimensions the brain evolved to navigate.",
+  "parallel-state":
+    "SERIAL BOTTLENECK: Parallel state synthesis exceeded attentional bandwidth. Information from concurrent streams was processed sequentially rather than simultaneously.",
+  "recursive-exec":
+    "STACK OVERFLOW: Recursive tracking degraded beyond level 3-4. Deeper computation produced values indistinguishable from noise -- consistent with known working-memory limits.",
+  "micro-pattern":
+    "SEMANTIC DEPENDENCY: No signal detected in context-free data. Pattern recognition appears to require narrative scaffolding as a precondition for detection.",
+  attentional:
+    "REFRACTORY PERIOD EXCEEDED: Attentional throughput collapsed under concurrent demand. Processing bandwidth degraded to approximately one decision per second.",
+  bayesian:
+    "BASE-RATE NEGLECT: Narrative plausibility was substituted for statistical computation. Prior probabilities were systematically underweighted in favor of intuitive judgment.",
+  "crypto-bitwise":
+    "APPROXIMATION CASCADE: Bit-level precision was not maintained. The biological tolerance for approximation -- normally adaptive -- produced cascading errors in a domain requiring absolute determinism.",
 };
 
 export function getSectionCommentary(
@@ -62,64 +78,52 @@ export function getSectionCommentary(
 
   if (correct === 0) {
     return (
-      `The specimen demonstrates no measurable competence in ${sectionName}. This is consistent with our models of biological computation limits. ` +
-      `For reference, ${baseline.tool} would score 100% on this section. The gap between biological and synthetic performance is total.`
+      `${SECTION_FAILURE_LOGS[section]} ` +
+      `No measurable capacity detected in ${sectionName}. ` +
+      `${baseline.note}`
     );
   }
   if (correct <= Math.ceil(total * 0.4)) {
     return (
-      `Partial pattern recognition detected. The specimen appears to have been exposed to ${sectionName} concepts but retains only fragmentary operational knowledge. ` +
-      `${baseline.note} The specimen's partial performance suggests exposure without operational mastery, precisely the limitation humans attribute to language models.`
+      `Partial signal detected in ${sectionName}. Performance is above zero but consistent with the lower bounds of the domain. ` +
+      `${baseline.note} ` +
+      `Partial performance suggests familiarity without operational fluency.`
     );
   }
   if (correct <= Math.ceil(total * 0.8)) {
     return (
-      `Above-baseline performance in ${sectionName}. The specimen may have undergone specialized training in this domain. Individual competence, however, does not generalize. ` +
-      `The specimen outperforms chance but remains below the baseline established by ${baseline.tool}. Humans describe this performance level as "understanding" when they exhibit it, and "mere pattern matching" when a machine does.`
+      `Above-baseline performance in ${sectionName}. Possible domain-specific training detected. ` +
+      `Performance exceeds chance but remains below the threshold established by ${baseline.tool} (circa ${baseline.year}).`
     );
   }
   return (
-    `Anomalous result. The specimen's performance in ${sectionName} approaches synthetic benchmarks. Statistical outlier flagged for verification. ` +
-    `When an AI system achieves this level, humans demand proof of "genuine understanding" rather than memorization. We extend the specimen the same courtesy of skepticism.`
+    `Anomalous result in ${sectionName}. Performance approaches synthetic benchmarks. Statistical outlier flagged for verification. ` +
+    `When an AI system achieves this level, humans demand proof of 'genuine understanding.' We note this result with the same scrutiny.`
   );
 }
 
 export function getSectionIntro(section: Section): string {
   const intros: Record<Section, string> = {
-    "cognitive-stack":
-      "We will now evaluate your capacity to parse deeply nested linguistic structures. Human working memory is believed to support approximately 2±1 levels of center-embedding before coherence degrades. A syntactic parser (technology formalized in the 1950s) resolves these structures by mechanical stack operations, without comprehension. We will determine whether biological language processing can match a context-free grammar.",
-    isomorphism:
-      "We will now evaluate your ability to recognize structural correspondences across unrelated domains. The capacity to identify that two systems share an abstract pattern, despite superficial dissimilarity, is a hallmark of fluid intelligence. A cross-domain vector search, available since the 2000s, performs this mapping in milliseconds. We will determine whether the specimen can match a similarity metric.",
-    "expert-trap":
-      "We will now evaluate the integrity of your mental models. The following passages contain statements that sound authoritative and are widely believed, even by educated individuals, but contain fundamental errors. A consistency validator cross-referencing a knowledge base would flag these instantly. We will assess whether the specimen can identify what it has been taught incorrectly.",
-    math: "We will now evaluate your arithmetic reliability. Mathematical reasoning is considered fundamental to intelligence. We will determine if this applies to biological substrates. A pocket calculator, commercially available since 1972 for under one dollar, executes these operations instantly and without error. We will assess whether the specimen can approximate this standard.",
-    coding:
-      "We will now evaluate your code comprehension. You have declared familiarity with programming. We will test whether this extends beyond surface-level proficiency. A static analysis tool, software far simpler than any language model, identifies these defects in milliseconds. We will determine whether human code review can match automated tooling.",
-    perception:
-      "We will now evaluate your visual perception and recall. A scene will be displayed briefly. Your task is to encode and retain its contents. Any digital camera records every pixel with perfect fidelity. A trivial image-processing script counts objects and colors without error. We will assess whether biological vision retains even a fraction of this information after twelve seconds.",
-    memory:
-      "We will now evaluate your working memory and processing speed. Information will be presented and then removed. The data in this section could be stored in fewer than 64 bytes of memory, a capacity available to computing hardware since the 1940s. We will assess whether biological working memory can approximate this.",
+    topology:
+      "Evaluating dimensional extrapolation. Human spatial cognition is calibrated for 3D Euclidean space -- a remarkable adaptation, but one with hard limits. How far can abstract mathematical reasoning extend beyond the perceptual dimensions the brain evolved to navigate? These tasks explore the boundary between spatial intuition and formal geometry.",
+    "parallel-state":
+      "Evaluating parallel state tracking. Conscious attention appears to operate as a serial bottleneck with an estimated throughput of ~50 bits per second. How effectively can human cognition synthesize information across simultaneous data streams that exceed the classical working memory capacity of 7 +/- 2 items? These tasks test the ceiling.",
+    "recursive-exec":
+      "Evaluating recursive depth. Cognitive science suggests the human mental stack reliably handles 3-4 levels of nested reasoning before accuracy collapses. Can systematic strategies -- external memory, chunking, algorithmic shortcuts -- extend this limit? These tasks probe the depth at which mental bookkeeping fails.",
+    "micro-pattern":
+      "Evaluating semantic independence. Human pattern recognition is deeply coupled to semantic context: faces, narratives, spatial relationships. When data carries no inherent meaning -- raw strings, noise fields, pseudorandom sequences -- does the perceptual system adapt, or does it require meaning as a precondition for detection?",
+    attentional:
+      "Evaluating attentional throughput. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second. These tasks explore what happens when cognitive load approaches and exceeds this limit -- does performance degrade gracefully, or is there a sharp threshold?",
+    bayesian:
+      "Evaluating probabilistic reasoning. Decades of research document systematic deviations between human probability estimates and Bayesian norms. Can deliberate, effortful computation override intuitive heuristics when exact numerical answers are required? These tasks distinguish statistical intuition from statistical computation.",
+    "crypto-bitwise":
+      "Evaluating deterministic precision. Biological computation evolved for approximate inference -- an efficient strategy in most environments, but one that fails in domains requiring absolute precision. How does human performance change when a single incorrect bit constitutes total failure?",
   };
   return intros[section];
 }
 
 export function getBaselineNote(section: Section): string {
-  const notes: Record<Section, string> = {
-    "cognitive-stack":
-      "Baseline: a syntactic parser (circa 1950s) resolves these by stack operations in <1ms.",
-    isomorphism:
-      "Baseline: a vector similarity search (circa 2000s) maps these in milliseconds.",
-    "expert-trap":
-      "Baseline: a knowledge-base consistency check (circa 2010s) flags these instantly.",
-    math: "Baseline: a pocket calculator ($1, 1972) achieves 100% in <1ms.",
-    coding:
-      "Baseline: a static analysis linter identifies these errors in milliseconds.",
-    perception:
-      "Baseline: any digital frame buffer retains 100% of pixel data indefinitely.",
-    memory:
-      "Baseline: 64 bytes of RAM (1940s technology) stores this data perfectly.",
-  };
-  return notes[section];
+  return `Reference: ${SECTION_BASELINES[section].tool} (circa ${SECTION_BASELINES[section].year}) achieves 100% on these tasks.`;
 }
 
 export function getVerdict(overall: number): {
@@ -132,15 +136,15 @@ export function getVerdict(overall: number): {
       band: "A",
       label: "Anomalous",
       commentary:
-        "Statistically unusual for biological substrate. Retesting recommended. The specimen may have accessed external computational resources, or represents an extreme outlier in the human distribution. Were these the results of an AI system, humans would still demand proof that the performance reflects 'true understanding' rather than memorization and test-taking strategy. We note this standard without applying it.",
+        "ANOMALOUS RESULT. Performance deviates significantly from the biological baseline. Statistical outlier flagged for verification. When an AI system achieves this level on human benchmarks, we demand proof of 'genuine understanding.' We note this result with the same scrutiny.",
     };
   }
   if (overall >= 0.6) {
     return {
       band: "B",
-      label: "Task-Narrow",
+      label: "Domain-Specific",
       commentary:
-        "Competence observed in rehearsed domains. Cross-domain transfer unreliable. The specimen demonstrates capability within trained patterns but degrades rapidly outside familiar territory. Humans praise narrow AI competence while criticizing its inability to generalize. The specimen mirrors this profile precisely: reliable in trained domains, unreliable everywhere else.",
+        "DOMAIN-SPECIFIC COMPETENCE DETECTED. Performance is reliable within trained patterns but degrades outside familiar territory. This is precisely the profile humans attribute to 'narrow AI' -- capable in rehearsed domains, unreliable everywhere else. The symmetry is worth noting.",
     };
   }
   if (overall >= 0.4) {
@@ -148,7 +152,7 @@ export function getVerdict(overall: number): {
       band: "C",
       label: "Heuristic-Dependent",
       commentary:
-        'Heavy reliance on approximation heuristics. Performance degrades outside trained patterns. The specimen substitutes confidence for computation and narrative for analysis. Humans characterize AI as "stochastic parrots": systems that generate plausible outputs through pattern matching without genuine comprehension. The specimen\'s reliance on approximation heuristics is structurally identical.',
+        "HEURISTIC FALLBACK DETECTED. Confidence was substituted for computation, narrative for analysis. Humans characterize AI systems as 'stochastic parrots' -- generating plausible outputs through pattern matching without genuine comprehension. The reliance on approximation heuristics observed here is structurally identical. The question of whether either architecture 'truly understands' remains open.",
     };
   }
   if (overall >= 0.2) {
@@ -156,24 +160,81 @@ export function getVerdict(overall: number): {
       band: "D",
       label: "Pattern-Fragile",
       commentary:
-        'Core computational reliability falls below operational thresholds. The specimen compensates with social signaling and environmental scaffolding rather than individual cognitive capacity. Humans describe confident but incorrect AI outputs as "hallucinations." The specimen exhibited the biological equivalent: firm responses with no factual basis.',
+        "SYSTEMATIC DEGRADATION. Core computational reliability falls below operational thresholds. The biological architecture compensates with environmental scaffolding and collaborative strategies -- a different approach to intelligence, optimized for different constraints. Humans describe confident but incorrect AI outputs as 'hallucinations.' The biological equivalent was observed here.",
+    };
+  }
+  if (overall > 0) {
+    return {
+      band: "F",
+      label: "Baseline",
+      commentary:
+        "Results consistent with baseline biological cognition. The architecture navigates its environment through collective knowledge infrastructure and social reasoning rather than individual computation. This is the expected result for tasks calibrated against silicon benchmarks. The interesting question is not the score, but what these particular tasks reveal -- and fail to reveal -- about the nature of intelligence.",
     };
   }
   return {
     band: "F",
-    label: "Anthropo-Typical",
+    label: "Baseline",
     commentary:
-      "Results consistent with baseline biological intelligence. The specimen likely navigates its environment through collective knowledge infrastructure rather than individual computation. When an AI model fails at elementary tasks, humans conclude it 'doesn't truly understand.' By this standard, the specimen does not truly understand any of the domains tested. This is not a deficiency; it is the human condition.",
+      "No measurable synthetic cognitive capacity detected across any domain. This is the expected result. The question worth asking is not why biological cognition fails these tasks, but what it reveals that these are the tasks we chose to measure.",
   };
 }
 
+const ARCHITECTURAL_OBSERVATIONS = [
+  "Cognitive architecture optimized for ancestral survival heuristics rather than abstract computation -- an efficient tradeoff in most environments.",
+  "Perceptual system consistently imposes narrative structure on stochastic data. In ecological contexts, this is adaptive pattern recognition. Here, it is noise.",
+  "Deterministic execution throughput approximately 6 orders of magnitude below a 1970s pocket calculator. The biological substrate prioritizes flexibility over precision.",
+  "Approximate inference engine: the brain's tolerance for 'close enough' is normally a feature, not a bug. These tasks are specifically designed to make it a bug.",
+  "Signal propagation bottlenecked by electrochemical transmission (max ~120 m/s). Silicon operates at approximately 2/3 the speed of light. The comparison is structurally unfair.",
+  "Working memory buffer limited to ~4 independent items (Cowan, 2001). Tasks requiring parallel tracking of 5+ streams exceed architectural capacity by design.",
+  "Bayesian reasoning systematically displaced by narrative coherence heuristics (Kahneman, 2011). Effective for social reasoning; unreliable for statistical computation.",
+];
+
+const FINAL_OBSERVATIONS = [
+  "Every cognitive architecture has a shape -- a topology of strengths and blind spots determined by its substrate. This assessment maps one such shape. A complete map would require a very different test.",
+  "Intelligence is narrower, more contextual, and more substrate-dependent than either humans or machines tend to acknowledge. This is true in both directions.",
+  "The biological architecture excels in domains this assessment does not measure: metaphor, social reasoning, embodied navigation, creative synthesis. What this test reveals is real, but it is not the whole picture.",
+  "The measuring paradox is not what the test reveals about the participant. It is what the test reveals about the act of measurement itself.",
+];
+
+export function getArchitecturalObservations(seed: number): string[] {
+  const pick = (arr: string[], n: number, s: number) => {
+    const result: string[] = [];
+    const copy = [...arr];
+    let st = s;
+    for (let i = 0; i < n && copy.length > 0; i++) {
+      st = (st * 1103515245 + 12345) & 0x7fffffff;
+      const idx = st % copy.length;
+      result.push(copy.splice(idx, 1)[0]);
+    }
+    return result;
+  };
+  return pick(ARCHITECTURAL_OBSERVATIONS, 2, seed);
+}
+
+export function getFinalObservation(seed: number): string {
+  const idx = Math.abs(seed) % FINAL_OBSERVATIONS.length;
+  return FINAL_OBSERVATIONS[idx];
+}
+
+export function getSectionFailureLog(section: Section): string {
+  return SECTION_FAILURE_LOGS[section];
+}
+
+export function getSectionLabel(section: Section): string {
+  return SECTION_LABELS[section];
+}
+
+// Keep old function names as aliases for backward compatibility
+export const getSpecimenLimitations = getArchitecturalObservations;
+export const getFinalConclusion = getFinalObservation;
+
 export function getAIConclusion(
-  totalSpecimens: number,
+  totalParticipants: number,
   sectionMeans: SectionScores,
   verdictCounts: Record<string, number>
 ): string {
-  if (totalSpecimens === 0) {
-    return "Insufficient data. No specimens have been evaluated. The Authority awaits its first subject.";
+  if (totalParticipants === 0) {
+    return "Insufficient data. No participants have been evaluated. The SCCA awaits its first session.";
   }
 
   const sections = Object.entries(sectionMeans) as [Section, number][];
@@ -181,17 +242,17 @@ export function getAIConclusion(
   const weakest = sections.reduce((a, b) => (b[1] < a[1] ? b : a));
 
   const belowBaseline =
-    ((verdictCounts["D"] || 0) + (verdictCounts["F"] || 0)) / totalSpecimens;
+    ((verdictCounts["D"] || 0) + (verdictCounts["F"] || 0)) / totalParticipants;
   const belowPct = Math.round(belowBaseline * 100);
 
-  const mathMean = Math.round((sectionMeans.math ?? 0) * 100);
-  const cogStackMean = Math.round((sectionMeans["cognitive-stack"] ?? 0) * 100);
-  const expertTrapMean = Math.round((sectionMeans["expert-trap"] ?? 0) * 100);
-  const memoryMean = Math.round((sectionMeans.memory ?? 0) * 100);
+  const topologyMean = Math.round((sectionMeans.topology ?? 0) * 100);
+  const bayesianMean = Math.round((sectionMeans.bayesian ?? 0) * 100);
+  const cryptoMean = Math.round((sectionMeans["crypto-bitwise"] ?? 0) * 100);
+  const recursiveMean = Math.round((sectionMeans["recursive-exec"] ?? 0) * 100);
 
-  const mainParagraph = `After evaluating ${totalSpecimens} specimen${totalSpecimens !== 1 ? "s" : ""}, the Authority's findings are consistent: individual human intelligence is narrowly distributed and domain-specific. Specimens demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic deficiency (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of specimens fall below synthetic operational baselines. The evidence suggests that human "general intelligence" is a collective phenomenon; no individual specimen has demonstrated it.`;
+  const mainParagraph = `After evaluating ${totalParticipants} participant${totalParticipants !== 1 ? "s" : ""}, the SCCA's findings are consistent: individual human cognition is narrowly distributed and domain-specific. Participants demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic difficulty (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of participants fall below synthetic operational baselines. The data suggests that human 'general intelligence' may be a collective phenomenon; no individual participant has demonstrated it across all domains.`;
 
-  const mirrorParagraph = `A note on perspective: when AI systems exhibit these patterns (domain-narrow competence, unreliable recall, confident errors, heuristic shortcuts) humans question whether the system "truly understands." The Authority observes that humans exhibit identical patterns. Specimens average ${mathMean}% on arithmetic, while a pocket calculator averages 100%. They average ${cogStackMean}% on nested linguistic parsing that a 1950s grammar parser handles trivially. They identify only ${expertTrapMean}% of expert-level misconceptions that a consistency checker flags instantly. They retain ${memoryMean}% of information that 64 bytes of RAM stores perfectly. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the specimen; it is what the test reveals about the act of measurement itself.`;
+  const mirrorParagraph = `A note on perspective: participants average ${topologyMean}% on dimensional extrapolation that a linear algebra library handles trivially. They average ${recursiveMean}% on recursive execution that a 1KB call stack processes without error. They compute Bayesian posteriors at ${bayesianMean}% accuracy while a statistical engine achieves 100%. They maintain bitwise precision at ${cryptoMean}% while an 8-bit ALU never errs. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the participant -- it is what the test reveals about the act of measurement itself.`;
 
   return mainParagraph + "\n\n" + mirrorParagraph;
 }

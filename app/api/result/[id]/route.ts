@@ -2,6 +2,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getVerdict } from "@/lib/commentary";
 
+const SECTION_ORDER = [
+  "topology",
+  "parallel-state",
+  "recursive-exec",
+  "micro-pattern",
+  "attentional",
+  "bayesian",
+  "crypto-bitwise",
+];
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: { id: string } }
@@ -28,24 +38,14 @@ export async function GET(
 
     const verdict = getVerdict(result.overall);
 
-    // Build question results
     const responseMap = new Map(
       result.session.responses.map((r) => [r.questionId, r])
     );
 
     const questionResults = result.session.questions
       .sort((a, b) => {
-        const sectionOrder = [
-          "cognitive-stack",
-          "isomorphism",
-          "expert-trap",
-          "math",
-          "coding",
-          "perception",
-          "memory",
-        ];
         const sectionDiff =
-          sectionOrder.indexOf(a.section) - sectionOrder.indexOf(b.section);
+          SECTION_ORDER.indexOf(a.section) - SECTION_ORDER.indexOf(b.section);
         if (sectionDiff !== 0) return sectionDiff;
         return a.index - b.index;
       })
@@ -59,7 +59,6 @@ export async function GET(
           score: response?.score ?? 0,
           payload: q.payload,
           userAnswer: response?.answer ?? null,
-          correctAnswer: (q.answerKey as { correct: unknown }).correct,
         };
       });
 

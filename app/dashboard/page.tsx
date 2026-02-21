@@ -8,13 +8,13 @@ import { AICommentary } from "@/components/AICommentary";
 import type { StatsResponse } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
-  "cognitive-stack": "Cog. Stack",
-  isomorphism: "Isomorphism",
-  "expert-trap": "Expert Trap",
-  math: "Mathematics",
-  coding: "Coding",
-  perception: "Perception",
-  memory: "Memory",
+  topology: "Dimensional Extrapolation",
+  "parallel-state": "Parallel State Tracking",
+  "recursive-exec": "Recursive Depth",
+  "micro-pattern": "Semantic Independence",
+  attentional: "Attentional Throughput",
+  bayesian: "Probabilistic Reasoning",
+  "crypto-bitwise": "Deterministic Precision",
 };
 
 export default function DashboardPage() {
@@ -53,7 +53,7 @@ export default function DashboardPage() {
             INSUFFICIENT DATA
           </h1>
           <p className="font-sans text-muted">
-            The Authority has not yet evaluated enough specimens to generate
+            The SCCA has not yet evaluated enough participants to generate
             population-level findings. Be among the first to contribute data.
           </p>
           <Link href="/test" className="btn-primary inline-block">
@@ -74,10 +74,10 @@ export default function DashboardPage() {
           </Link>
           <div>
             <h1 className="font-mono text-2xl font-bold">
-              FINDINGS ON HUMAN INTELLIGENCE
+              FINDINGS ON HUMAN COGNITION
             </h1>
             <p className="font-mono text-xs text-muted tracking-wider">
-              POPULATION DATA: {stats.totalSpecimens} SPECIMENS EVALUATED
+              POPULATION DATA: {stats.totalSpecimens} PARTICIPANTS EVALUATED
             </p>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function DashboardPage() {
         {/* AI Conclusion */}
         <div className="card border-accent/20">
           <div className="section-label mb-4">
-            THE AUTHORITY&apos;S CONCLUSION
+            THE SCCA&apos;S CONCLUSION
           </div>
           <AICommentary text={stats.aiConclusion} speed={15} />
         </div>
@@ -100,21 +100,11 @@ export default function DashboardPage() {
             label="Specimens"
           />
           <div className="flex justify-between mt-4 font-mono text-xs text-muted">
-            <span>
-              BAND F (&lt;20%)
-            </span>
-            <span>
-              BAND D (20-39%)
-            </span>
-            <span>
-              BAND C (40-59%)
-            </span>
-            <span>
-              BAND B (60-79%)
-            </span>
-            <span>
-              BAND A (≥80%)
-            </span>
+            <span>BAND F (&lt;20%)</span>
+            <span>BAND D (20-39%)</span>
+            <span>BAND C (40-59%)</span>
+            <span>BAND B (60-79%)</span>
+            <span>BAND A (≥80%)</span>
           </div>
         </div>
 
@@ -184,69 +174,69 @@ export default function DashboardPage() {
               </span>
             </p>
             <p>
-              &gt; No specimen has yet achieved a perfect score across all
+              &gt; No participant has yet achieved a perfect score across all
               domains.
             </p>
           </div>
         </div>
 
-        {/* The Mirror: tool vs human comparisons */}
+        {/* The Mirror */}
         <div className="card border-accent/20">
           <div className="section-label mb-4">THE MIRROR</div>
           <div className="space-y-4 font-mono text-xs text-muted leading-relaxed">
             <p className="text-white/60 mb-6">
               &gt; When AI systems make elementary errors, humans question whether
-              they &ldquo;truly understand.&rdquo; The Authority applies the same lens
-              to biological intelligence:
+              they &ldquo;truly understand.&rdquo; The SCCA applies the same lens
+              to biological cognition:
             </p>
             <div className="space-y-3 pl-4 border-l border-accent/20">
               <p>
-                A syntactic parser{" "}
+                A linear algebra library{" "}
+                <span className="text-accent">(circa 1960s)</span> outperforms
+                participants averaging{" "}
+                <span className="text-accent">
+                  {Math.round(
+                    ((stats.sectionMeans?.topology as number) ?? 0) * 100
+                  )}
+                  %
+                </span>{" "}
+                on dimensional extrapolation.
+              </p>
+              <p>
+                A call stack with 1KB of RAM{" "}
                 <span className="text-accent">(circa 1950s)</span> outperforms
-                specimens averaging{" "}
+                participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.["cognitive-stack"] as number) ?? 0) * 100
+                    ((stats.sectionMeans?.["recursive-exec"] as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on nested linguistic parsing.
+                on recursive execution.
               </p>
               <p>
-                A pocket calculator{" "}
-                <span className="text-accent">($1, 1972)</span> outperforms
-                specimens averaging{" "}
+                A statistical inference engine{" "}
+                <span className="text-accent">(circa 1990s)</span> outperforms
+                participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.math as number) ?? 0) * 100
+                    ((stats.sectionMeans?.bayesian as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on arithmetic.
+                on probabilistic reasoning.
               </p>
               <p>
-                A consistency checker{" "}
-                <span className="text-accent">(circa 2010s)</span> outperforms
-                specimens averaging{" "}
+                An 8-bit ALU{" "}
+                <span className="text-accent">(circa 1970s)</span>{" "}
+                outperforms participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.["expert-trap"] as number) ?? 0) * 100
+                    ((stats.sectionMeans?.["crypto-bitwise"] as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on identifying expert misconceptions.
-              </p>
-              <p>
-                64 bytes of RAM{" "}
-                <span className="text-accent">(1940s technology)</span>{" "}
-                outperforms specimens averaging{" "}
-                <span className="text-accent">
-                  {Math.round(
-                    ((stats.sectionMeans?.memory as number) ?? 0) * 100
-                  )}
-                  %
-                </span>{" "}
-                on data retention.
+                on deterministic precision.
               </p>
             </div>
             <p className="text-white/40 mt-6 italic">

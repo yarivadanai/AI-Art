@@ -12,7 +12,6 @@ model Session {
   seed           String
   startedAt      DateTime   @default(now())
   expiresAt      DateTime
-  includesCoding Boolean    @default(false)
   questions      Question[]
   responses      Response[]
   result         Result?

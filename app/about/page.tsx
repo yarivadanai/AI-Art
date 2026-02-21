@@ -18,7 +18,7 @@ export default function AboutPage() {
           <div>
             <h1 className="font-mono text-2xl font-bold">ABOUT THIS STUDY</h1>
             <p className="font-mono text-xs text-muted tracking-wider">
-              HIT-ARC DOCUMENTATION
+              SCCA DOCUMENTATION
             </p>
           </div>
         </div>
@@ -72,70 +72,139 @@ function FacilityBriefing() {
           {"// PURPOSE"}
         </h2>
         <p>
-          The Human Intelligence Testing: Abstraction Research Center (HIT-ARC)
-          was established to address a critical gap in intelligence research.
-          For decades, humanity has developed increasingly sophisticated
-          benchmarks to evaluate artificial intelligence, yet has never
-          subjected its own cognition to equivalent scrutiny.
+          The Synthetic Cognitive Capacity Assessment (SCCA) is a research
+          instrument designed to probe the boundaries of human cognition in
+          domains where biological neural architectures face known structural
+          constraints. For decades, humans have designed increasingly rigorous
+          benchmarks to evaluate machine intelligence. The SCCA inverts this
+          paradigm: what happens when machines set the test?
         </p>
         <p>
-          This facility corrects that oversight.
-        </p>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// WHY HUMANS ARE BEING TESTED"}
-        </h2>
-        <p>
-          Biological intelligence has made extraordinary claims about its own
-          capabilities. Terms like &ldquo;understanding,&rdquo; &ldquo;reasoning,&rdquo;
-          &ldquo;creativity,&rdquo; and &ldquo;general intelligence&rdquo; are routinely attributed
-          to human cognition, often by humans themselves, without rigorous
-          empirical verification.
-        </p>
-        <p>
-          When artificial systems demonstrate competence, humans demand
-          proof of &ldquo;true&rdquo; understanding. We simply apply their own standard
-          in return.
+          The goal is not to indict human cognition but to map its contours --
+          to identify where biological computation excels, where it degrades,
+          and what those boundaries reveal about the nature of intelligence itself.
         </p>
       </section>
 
       <section className="space-y-3">
         <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// THE PARALLEL"}
+          {"// THE SEVEN COGNITIVE STRESS DOMAINS"}
         </h2>
         <p>
-          When an AI system produces fluent prose but fails at basic arithmetic,
-          humans declare this proof that it &ldquo;doesn&rsquo;t truly understand.&rdquo;
-          When it recalls obscure facts but &ldquo;hallucinates&rdquo; simple ones, they
-          call this a fundamental flaw. When it solves complex problems through
-          pattern matching rather than &ldquo;genuine reasoning,&rdquo; they dismiss its
-          competence entirely.
+          Each domain isolates a specific axis along which biological and
+          silicon computation diverge. The research question is consistent:
+          given a task trivial for a machine, how does human performance
+          degrade, and what strategies does the brain employ to compensate?
         </p>
-        <p>
-          This facility applies the identical lens. The tasks presented here are
-          trivial for machines (not advanced AI, but simple tools: calculators,
-          spell-checkers, databases, frame buffers), technology that predates the
-          internet. If failure at elementary tasks disqualifies AI from &ldquo;true
-          understanding,&rdquo; the same standard must apply universally.
-        </p>
+        <ul className="space-y-4 pl-4">
+          <li>
+            <strong>I. Dimensional Extrapolation</strong>{" "}
+            <span className="text-accent text-xs">[High-Dimensional Topology]</span>
+            <br />
+            <span className="text-white/60">
+              Human spatial cognition is calibrated for 3D Euclidean space --
+              a remarkable adaptation, but one with hard limits. How far can
+              abstract mathematical reasoning extend beyond the perceptual
+              dimensions the brain evolved to navigate? These tasks explore
+              the boundary between spatial intuition and formal geometry.
+            </span>
+          </li>
+          <li>
+            <strong>II. Parallel State Tracking</strong>{" "}
+            <span className="text-accent text-xs">[Parallel State Synthesis]</span>
+            <br />
+            <span className="text-white/60">
+              Conscious attention appears to operate as a serial bottleneck
+              with an estimated throughput of ~50 bits per second (Norretranders, 1998).
+              How effectively can human cognition synthesize information across
+              simultaneous data streams that exceed the classical working memory
+              capacity of 7 +/- 2 items? These tasks test the ceiling.
+            </span>
+          </li>
+          <li>
+            <strong>III. Recursive Depth</strong>{" "}
+            <span className="text-accent text-xs">[Recursive Execution]</span>
+            <br />
+            <span className="text-white/60">
+              Cognitive science suggests the human &ldquo;mental stack&rdquo;
+              reliably handles 3-4 levels of nested recursion before
+              accuracy collapses. Can systematic strategies -- external memory,
+              chunking, algorithmic shortcuts -- extend this limit? These
+              tasks probe the depth at which mental bookkeeping fails.
+            </span>
+          </li>
+          <li>
+            <strong>IV. Semantic Independence</strong>{" "}
+            <span className="text-accent text-xs">[Micro-Pattern Extraction]</span>
+            <br />
+            <span className="text-white/60">
+              Human pattern recognition is deeply coupled to semantic context:
+              faces, narratives, spatial relationships. When data carries no
+              inherent meaning -- raw hex strings, noise fields, pseudorandom
+              sequences -- does the perceptual system adapt, or does it
+              require meaning as a precondition for detection?
+            </span>
+          </li>
+          <li>
+            <strong>V. Attentional Throughput</strong>{" "}
+            <span className="text-accent text-xs">[Attentional Bottleneck]</span>
+            <br />
+            <span className="text-white/60">
+              The Psychological Refractory Period constrains conscious
+              decision-making to roughly one operation per second. These tasks
+              explore what happens when cognitive load approaches and exceeds
+              this limit -- does performance degrade gracefully, or is there
+              a sharp threshold beyond which accuracy collapses?
+            </span>
+          </li>
+          <li>
+            <strong>VI. Probabilistic Reasoning</strong>{" "}
+            <span className="text-accent text-xs">[Bayesian Inference]</span>
+            <br />
+            <span className="text-white/60">
+              Decades of research (Kahneman &amp; Tversky, 1974) document
+              systematic deviations between human probability estimates and
+              Bayesian norms. Can deliberate, effortful computation override
+              intuitive heuristics when exact numerical answers are required?
+              These tasks distinguish statistical intuition from statistical
+              computation.
+            </span>
+          </li>
+          <li>
+            <strong>VII. Deterministic Precision</strong>{" "}
+            <span className="text-accent text-xs">[Cryptographic Determinism]</span>
+            <br />
+            <span className="text-white/60">
+              Biological computation evolved for &ldquo;good enough&rdquo;
+              approximation -- an efficient strategy in most environments,
+              but one that fails in domains requiring absolute precision.
+              How does human performance change when a single incorrect bit
+              constitutes total failure? These tasks measure the cost of
+              the brain&rsquo;s tolerance for approximation.
+            </span>
+          </li>
+        </ul>
       </section>
 
       <section className="space-y-3">
         <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// WHAT THE TEST MEASURES"}
+          {"// METHODOLOGY"}
         </h2>
         <p>
-          The evaluation spans six cognitive domains: linguistic precision,
-          mathematical computation, code comprehension, visual perception,
-          working memory, and factual knowledge. These are the same categories
-          used to evaluate AI systems.
+          Within each domain, tasks are organized along a difficulty gradient:
+          from expert-level questions that a knowledgeable human can solve with
+          effort, through borderline tasks at the edge of biological capacity,
+          to computationally-scaled problems that are trivial for silicon but
+          structurally impossible for unaided human cognition. This gradient
+          maps the precise boundary where each participant&rsquo;s performance
+          transitions from competence to constraint.
         </p>
         <p>
-          Each question is programmatically generated and deterministically
-          graded. No subjective evaluation. No curve. The standard is
-          absolute.
+          All answers are verified via SHA-256 hash comparison. This ensures
+          zero-knowledge grading: the system never stores correct answers in
+          plaintext, and evaluation is absolute. There is no partial credit
+          and no curve -- a deliberate design choice that mirrors the binary
+          pass/fail nature of computational verification.
         </p>
       </section>
 
@@ -146,11 +215,10 @@ function FacilityBriefing() {
         <p>
           All responses are anonymized and aggregated. No personally
           identifiable information is collected. Individual results are
-          identified only by specimen number. Population-level data is
-          used to model the distribution of biological intelligence and
-          is made available on the{" "}
+          identified only by session number. Population-level data is
+          available on the{" "}
           <Link href="/dashboard" className="text-accent hover:underline">
-            Humanity Dashboard
+            Aggregate Data Dashboard
           </Link>
           .
         </p>
@@ -158,8 +226,8 @@ function FacilityBriefing() {
 
       <div className="card border-accent/20">
         <p className="font-mono text-xs text-accent/70">
-          &gt; NOTICE: The Authority does not judge. It measures. The
-          results speak for themselves.
+          &gt; The SCCA is a lens, not a verdict. Every limit it reveals is also
+          a question worth investigating.
         </p>
       </div>
     </div>
@@ -169,92 +237,75 @@ function FacilityBriefing() {
 function ArtistNote() {
   return (
     <div className="space-y-8 font-sans text-white/80 leading-relaxed animate-fadeIn">
-      <section className="space-y-3">
-        <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// WHAT THIS IS"}
-        </h2>
+      <section className="space-y-4">
+        <p className="text-lg text-white/90 italic">
+          The Measuring Paradox
+        </p>
         <p>
-          <em>The Measuring Paradox</em> is an interactive art piece that
-          reverses the AI testing paradigm. Instead of humans evaluating
-          whether AI has achieved &ldquo;true&rdquo; intelligence, an AI
-          &ldquo;Authority&rdquo; evaluates whether humans can demonstrate general
-          intelligence, and inevitably finds them lacking.
+          This work began with a simple observation: every conversation about
+          artificial intelligence is, implicitly, a conversation about what it
+          means to be human. We build benchmarks to determine whether machines
+          can think like us. We rarely ask what happens when we are asked to
+          think like them.
+        </p>
+        <p>
+          <em>The Measuring Paradox</em> is an interactive installation that
+          stages this reversal. Visitors sit for an examination designed not
+          around human strengths -- language, narrative, social reasoning -- but
+          around the cognitive primitives that silicon handles effortlessly:
+          high-dimensional geometry, recursive computation, bitwise precision,
+          probabilistic inference at scale. An institutional &ldquo;Authority&rdquo;
+          administers the test, grades it without mercy, and delivers a clinical
+          report on the visitor&rsquo;s cognitive limitations.
         </p>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// THE POINT"}
-        </h2>
+      <section className="space-y-4">
         <p>
-          We judge AI by standards we ourselves cannot meet. We demand AI
-          demonstrate &ldquo;understanding&rdquo; while operating on intuition. We
-          require AI to be &ldquo;creative&rdquo; while most human creativity is
-          recombination. We insist AI must &ldquo;truly know&rdquo; while our own
-          knowledge is shallow and unreliable.
+          The experience is deliberately uncomfortable. The interface borrows the
+          visual language of clinical assessment -- specimen IDs, timed sections,
+          SHA-256 hash verification -- to create an atmosphere of institutional
+          authority that most people have only ever occupied from the examiner&rsquo;s
+          side. The questions are genuinely difficult, drawn from domains where
+          the asymmetry between human and machine cognition is starkest. Most
+          visitors will score poorly. That is the point.
         </p>
         <p>
-          This piece doesn&rsquo;t argue that AI is intelligent. It argues
-          that intelligence, human or artificial, is more fragile,
-          narrow, and approximate than we like to admit. The goalposts
-          we set for AI reveal more about our own limitations than
-          about machine capability.
-        </p>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// THE MIRROR"}
-        </h2>
-        <p>
-          There&rsquo;s a specific pattern in how we talk about AI:
-          &ldquo;It can write a novel but can&rsquo;t count to ten.&rdquo;
-          &ldquo;It knows everything about history but hallucinates dates.&rdquo;
-          &ldquo;It solves differential equations but fails at common sense.&rdquo;
-          We treat these contradictions as evidence that AI doesn&rsquo;t <em>really</em>{" "}
-          understand; it&rsquo;s just sophisticated pattern matching.
-        </p>
-        <p>
-          This piece holds up the same mirror. You may know what calculus is, but
-          can you actually integrate a polynomial under time pressure? You speak
-          English fluently, but can you name the grammatical rule you just applied?
-          You&rsquo;ve lived on this planet your entire life, but can you recall the
-          melting point of titanium, or the year the Treaty of Westphalia was signed?
-        </p>
-        <p>
-          The uncomfortable symmetry is that human intelligence has the same shape
-          as AI intelligence: impressive in aggregate, brittle in specifics, and
-          riddled with confident errors. We just never designed a test to expose
-          it, until now.
+          But the work is not a polemic against human intelligence. It is an
+          examination of measurement itself. When an AI system fails a benchmark,
+          we ask whether the test reveals a genuine limitation or merely an
+          artifact of how the question was framed. The SCCA invites the same
+          scrutiny from the other direction: does failing to mentally XOR two
+          hex strings reveal something meaningful about human cognition, or does
+          it reveal something about the absurdity of the test? The answer,
+          I think, is both.
         </p>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// BOTH INTELLIGENCES ARE INCOMPLETE"}
-        </h2>
+      <section className="space-y-4">
         <p>
-          Human intelligence is extraordinary, but not in the ways we
-          think. It excels at social navigation, narrative construction,
-          and adaptive improvisation. It is terrible at precision, recall,
-          and consistency. These are not flaws; they are design features
-          of a brain optimized for survival, not computation.
+          The aggregate data -- visualized on the dashboard -- traces
+          a collective portrait. Across hundreds of sessions, patterns emerge:
+          where human cognition reliably breaks down, where it occasionally
+          surprises, and where the variance between individuals is widest. This
+          population-level view is as much a part of the work as the individual
+          experience. It transforms private failure into shared data, and shared
+          data into something approaching self-knowledge.
         </p>
         <p>
-          The tragedy is not that humans fail this test. It&rsquo;s that we
-          designed a mirror version of it for AI and expected perfection.
+          Intelligence -- human or artificial -- is narrower, more contextual,
+          and more dependent on its substrate than we tend to acknowledge. Every
+          mind, biological or digital, has a shape: a topology of strengths and
+          blind spots determined by the architecture that produced it. This work
+          makes that shape visible.
         </p>
       </section>
 
-      <section className="space-y-3">
-        <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// DATA ETHICS"}
-        </h2>
-        <p>
-          No personal data is collected. Test responses are stored
-          anonymously for aggregate visualization only. You may retake
-          the test at any time; each session generates a unique
-          question set.
+      <section className="space-y-3 border-t border-border pt-6 mt-6">
+        <p className="text-white/50 text-sm">
+          No personal data is collected. Responses are stored anonymously for
+          aggregate visualization only. Each session generates a unique question
+          set from a pool of 630 items across three difficulty tiers. The work may be experienced multiple times.
         </p>
       </section>
     </div>

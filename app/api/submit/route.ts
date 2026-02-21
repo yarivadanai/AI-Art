@@ -2,7 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { gradeAnswer } from "@/lib/engine/grader";
 import { getSectionCommentary, getVerdict } from "@/lib/commentary";
-import type { AnswerKey, Section, SectionScores } from "@/lib/types";
+import type { AnswerKey, Section } from "@/lib/types";
+
+const SECTIONS: Section[] = [
+  "topology",
+  "parallel-state",
+  "recursive-exec",
+  "micro-pattern",
+  "attentional",
+  "bayesian",
+  "crypto-bitwise",
+];
+
+const SECTION_WEIGHT = 1 / 7;
 
 export async function POST(req: NextRequest) {
   try {
@@ -16,7 +28,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Fetch session with questions
     const session = await prisma.session.findUnique({
       where: { id: sessionId },
       include: { questions: true },
@@ -29,7 +40,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if result already exists
     const existingResult = await prisma.result.findUnique({
       where: { sessionId },
     });
@@ -43,7 +53,6 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Grade each response
     const questionMap = new Map(session.questions.map((q) => [q.id, q]));
     const gradedResponses: {
       questionId: string;
@@ -59,7 +68,7 @@ export async function POST(req: NextRequest) {
       if (!question) continue;
 
       const answerKey = question.answerKey as unknown as AnswerKey;
-      const { correct, score } = gradeAnswer(resp.answer, answerKey);
+      const { correct, score } = gradeAnswer(String(resp.answer), answerKey);
 
       gradedResponses.push({
         questionId: resp.questionId,
@@ -71,7 +80,6 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Store responses
     await prisma.response.createMany({
       data: gradedResponses.map((r) => ({
         questionId: r.questionId,
@@ -83,21 +91,10 @@ export async function POST(req: NextRequest) {
       })),
     });
 
-    // Compute section scores
-    const sections: Section[] = [
-      "cognitive-stack",
-      "isomorphism",
-      "expert-trap",
-      "math",
-      "coding",
-      "perception",
-      "memory",
-    ];
-
     const sectionScores: Record<string, number> = {};
     const sectionCommentary: Record<string, string> = {};
 
-    for (const section of sections) {
+    for (const section of SECTIONS) {
       const sectionResponses = gradedResponses.filter(
         (r) => r.section === section
       );
@@ -115,40 +112,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Compute overall score with weights
-    const hasCoding = session.includesCoding && sectionScores.coding !== undefined;
-    let weights: Record<string, number>;
-
-    if (hasCoding) {
-      weights = {
-        "cognitive-stack": 0.15,
-        isomorphism: 0.15,
-        "expert-trap": 0.15,
-        math: 0.15,
-        coding: 0.12,
-        perception: 0.14,
-        memory: 0.14,
-      };
-    } else {
-      weights = {
-        "cognitive-stack": 0.17,
-        isomorphism: 0.17,
-        "expert-trap": 0.17,
-        math: 0.17,
-        perception: 0.16,
-        memory: 0.16,
-      };
-    }
-
     let overall = 0;
-    for (const [section, weight] of Object.entries(weights)) {
-      overall += (sectionScores[section] || 0) * weight;
+    for (const section of SECTIONS) {
+      overall += (sectionScores[section] || 0) * SECTION_WEIGHT;
     }
 
     const verdict = getVerdict(overall);
     sectionCommentary.overall = verdict.commentary;
 
-    // Build question results for the response
     const questionResults = gradedResponses.map((r) => {
       const question = questionMap.get(r.questionId)!;
       return {
@@ -159,20 +130,40 @@ export async function POST(req: NextRequest) {
         score: r.score,
         payload: question.payload,
         userAnswer: r.answer,
-        correctAnswer: (question.answerKey as { correct: unknown }).correct,
       };
     });
 
-    // Store result
-    const result = await prisma.result.create({
-      data: {
-        sessionId,
-        sectionScores: sectionScores as object,
-        overall,
-        verdict: verdict.label,
-        commentary: sectionCommentary as object,
-      },
-    });
+    let result;
+    try {
+      result = await prisma.result.create({
+        data: {
+          sessionId,
+          sectionScores: sectionScores as object,
+          overall,
+          verdict: verdict.label,
+          commentary: sectionCommentary as object,
+        },
+      });
+    } catch (createError: unknown) {
+      // Handle race condition: if another request already created the result
+      const isUniqueViolation =
+        createError instanceof Error &&
+        createError.message.includes("Unique constraint");
+      if (isUniqueViolation) {
+        const existing = await prisma.result.findUnique({
+          where: { sessionId },
+        });
+        if (existing) {
+          return NextResponse.json({
+            resultId: existing.id,
+            sectionScores: existing.sectionScores,
+            overall: existing.overall,
+            verdict: existing.verdict,
+          });
+        }
+      }
+      throw createError;
+    }
 
     return NextResponse.json({
       resultId: result.id,

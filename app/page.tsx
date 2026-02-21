@@ -13,16 +13,16 @@ export default function LandingPage() {
         {/* Header */}
         <div className="space-y-6">
           <h1 className="font-mono text-4xl md:text-5xl font-bold tracking-tight">
-            WELCOME, <span className="text-accent">SPECIMEN</span>.
+            WELCOME TO THE <span className="text-accent">SCCA</span>.
           </h1>
           <p className="font-sans text-lg text-white/60 leading-relaxed max-w-lg mx-auto">
-            The Abstraction Research Center evaluates whether biological
-            computation exhibits general intelligence on standards appropriate to
-            modern AI systems.
+            The Synthetic Cognitive Capacity Assessment maps the boundaries
+            of biological cognition in domains where silicon computation
+            faces no structural constraints.
           </p>
           <p className="font-mono text-sm text-white/30 max-w-md mx-auto">
-            The tasks presented here are trivial for machines. We are interested
-            in whether they are trivial for you.
+            The tasks presented here are trivial for machines. The interesting
+            question is what happens when they are not trivial for you.
           </p>
         </div>
 
@@ -39,14 +39,14 @@ export default function LandingPage() {
         {/* Footer notes */}
         <div className="space-y-3 pt-4">
           <p className="font-mono text-xs text-muted">
-            Procedure duration: ≤18 minutes. External AI assistance is
-            prohibited.
+            Duration: 20 minutes or less. 20 questions across 7 cognitive stress domains.
+            External AI assistance is prohibited.
           </p>
           <Link
             href="/dashboard"
             className="font-mono text-xs text-accent/50 hover:text-accent transition-colors"
           >
-            [VIEW HUMAN PERFORMANCE DATA]
+            [VIEW AGGREGATE DATA]
           </Link>
         </div>
       </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -18,16 +17,17 @@ interface RadarChartProps {
   scores: SectionScores;
 }
 
+const RADAR_LABELS: Record<string, string> = {
+  topology: "Topology",
+  "parallel-state": "Parallel",
+  "recursive-exec": "Recursive",
+  "micro-pattern": "Pattern",
+  attentional: "Attention",
+  bayesian: "Bayesian",
+  "crypto-bitwise": "Crypto",
+};
+
 export function RadarChart({ scores }: RadarChartProps) {
-  const RADAR_LABELS: Record<string, string> = {
-    "cognitive-stack": "Cog. Stack",
-    isomorphism: "Isomorphism",
-    "expert-trap": "Expert Trap",
-    math: "Math",
-    coding: "Coding",
-    perception: "Perception",
-    memory: "Memory",
-  };
   const labels = Object.keys(scores).map(
     (s) => RADAR_LABELS[s] || s.charAt(0).toUpperCase() + s.slice(1)
   );

@@ -7,17 +7,17 @@ import { GlobalTimer } from "@/components/GlobalTimer";
 import { QuestionRenderer } from "@/components/QuestionRenderer";
 import { AICommentary } from "@/components/AICommentary";
 import { useTestStore } from "@/lib/store";
-import { getSectionIntro, getSectionCommentary } from "@/lib/commentary";
+import { getSectionIntro } from "@/lib/commentary";
 import type { Section } from "@/lib/types";
 
 const SECTION_NAMES: Record<Section, string> = {
-  "cognitive-stack": "COGNITIVE STACK OVERFLOW",
-  isomorphism: "ABSTRACT ISOMORPHISM",
-  "expert-trap": "EXPERT'S TRAP",
-  math: "MATHEMATICS",
-  coding: "CODE COMPREHENSION",
-  perception: "VISUAL PERCEPTION",
-  memory: "MEMORY & PROCESSING",
+  topology: "DIMENSIONAL EXTRAPOLATION",
+  "parallel-state": "PARALLEL STATE TRACKING",
+  "recursive-exec": "RECURSIVE DEPTH",
+  "micro-pattern": "SEMANTIC INDEPENDENCE",
+  attentional: "ATTENTIONAL THROUGHPUT",
+  bayesian: "PROBABILISTIC REASONING",
+  "crypto-bitwise": "DETERMINISTIC PRECISION",
 };
 
 export default function TestPage() {
@@ -35,7 +35,6 @@ export default function TestPage() {
 }
 
 function IntakeScreen() {
-  const [includesCoding, setIncludesCoding] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const startSession = useTestStore((s) => s.startSession);
@@ -46,7 +45,7 @@ function IntakeScreen() {
       const res = await fetch("/api/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ includesCoding }),
+        body: JSON.stringify({}),
       });
       const data = await res.json();
       startSession({
@@ -54,7 +53,6 @@ function IntakeScreen() {
         specimenId: data.specimenId,
         expiresAt: data.expiresAt,
         questions: data.questions,
-        includesCoding,
       });
     } catch {
       setLoading(false);
@@ -66,35 +64,15 @@ function IntakeScreen() {
       <div className="max-w-lg w-full space-y-8">
         <div className="text-center space-y-4">
           <AuthoritySeal size={80} />
-          <h1 className="font-mono text-2xl font-bold">SPECIMEN INTAKE</h1>
+          <h1 className="font-mono text-2xl font-bold">COGNITIVE INTAKE</h1>
           <p className="font-sans text-sm text-muted">
-            The following evaluation will test your cognitive capabilities
-            across multiple domains. Please configure your session.
+            The Synthetic Cognitive Capacity Assessment will evaluate your
+            performance across 7 cognitive stress domains designed to probe the
+            boundaries of biological computation.
           </p>
         </div>
 
         <div className="space-y-6">
-          {/* Coding toggle */}
-          <div className="card space-y-3">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={includesCoding}
-                onChange={(e) => setIncludesCoding(e.target.checked)}
-                className="w-4 h-4 accent-accent bg-surface border-border"
-              />
-              <div>
-                <span className="font-sans text-sm text-white">
-                  I have programming experience
-                </span>
-                <p className="font-sans text-xs text-muted mt-1">
-                  Enables the Code Comprehension section (4 additional
-                  questions)
-                </p>
-              </div>
-            </label>
-          </div>
-
           {/* AI assistance pledge */}
           <div className="card space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">
@@ -117,15 +95,11 @@ function IntakeScreen() {
 
           {/* Disclaimers */}
           <div className="font-mono text-xs text-muted space-y-1">
-            <p>• Duration: ≤18 minutes (enforced by global timer)</p>
-            <p>• Questions cannot be revisited once submitted</p>
-            <p>• A unique specimen ID will be assigned</p>
-            <p>
-              •{" "}
-              {includesCoding
-                ? "~29 questions across 7 sections"
-                : "~25 questions across 6 sections"}
-            </p>
+            <p>&#8226; Duration: ≤20 minutes (enforced by global timer)</p>
+            <p>&#8226; Questions cannot be revisited once submitted</p>
+            <p>&#8226; A unique session ID will be assigned</p>
+            <p>&#8226; 20 questions across 7 sections</p>
+            <p>&#8226; SHA-256 hash-based grading. No partial credit. No curve.</p>
           </div>
 
           <button
@@ -151,8 +125,6 @@ function TestRunner() {
 
   const currentQ = questions[currentIndex];
 
-  // Show section intro only for the very first section
-  // (subsequent sections show intro via BetweenSections)
   useEffect(() => {
     if (currentIndex === 0) {
       setShowIntro(true);
@@ -160,7 +132,7 @@ function TestRunner() {
   }, [currentIndex]);
 
   const handleSubmit = useCallback(
-    (answer: string | number | string[]) => {
+    (answer: string) => {
       if (!currentQ) return;
       setAnswer(currentQ.id, answer);
       nextQuestion();
@@ -170,7 +142,6 @@ function TestRunner() {
 
   if (!currentQ) return null;
 
-  // Section intro: only for the very first section
   if (showIntro && currentIndex === 0) {
     return (
       <div className="min-h-screen flex flex-col">
@@ -197,7 +168,6 @@ function TestRunner() {
     );
   }
 
-  // Count questions in current section
   const sectionQuestions = questions.filter(
     (q) => q.section === currentQ.section
   );
@@ -210,7 +180,6 @@ function TestRunner() {
 
       <div className="flex-1 flex items-start justify-center px-4 py-8">
         <div className="max-w-2xl w-full space-y-6">
-          {/* Question counter */}
           <div className="flex items-center justify-between">
             <span className="section-label">
               {SECTION_NAMES[currentQ.section]}: Q{sectionIdx}/
@@ -221,7 +190,6 @@ function TestRunner() {
             </span>
           </div>
 
-          {/* Question */}
           <QuestionRenderer
             questionId={currentQ.id}
             payload={currentQ.payload}
@@ -241,14 +209,11 @@ function BetweenSections() {
   const setPhase = useTestStore((s) => s.setPhase);
   const specimenId = useTestStore((s) => s.specimenId);
 
-  // Figure out the previous section
   const currentQ = questions[currentIndex];
   const prevSection = questions[currentIndex - 1]?.section;
 
   if (!prevSection || !currentQ) return null;
 
-  // Count correct in previous section (we don't know correct answers client-side,
-  // so we show a generic transition)
   const prevSectionQs = questions.filter((q) => q.section === prevSection);
   const answeredCount = prevSectionQs.filter((q) => answers[q.id]).length;
 
@@ -290,7 +255,7 @@ function SubmittingScreen() {
     if (!sessionId) return;
 
     const submit = async () => {
-      setStatus("Transmitting data to the Authority...");
+      setStatus("Transmitting data to the SCCA...");
 
       const responses = questions.map((q) => ({
         questionId: q.id,
@@ -308,7 +273,7 @@ function SubmittingScreen() {
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
           setStatus(
-            `Transmission error: ${errData.error || "The Authority encountered an unexpected fault. Please try again."}`
+            `Transmission error: ${errData.error || "The SCCA encountered an unexpected fault. Please try again."}`
           );
           return;
         }
@@ -316,11 +281,11 @@ function SubmittingScreen() {
         const data = await res.json();
 
         if (!data.resultId) {
-          setStatus("The Authority failed to generate a report. Please try again.");
+          setStatus("The SCCA failed to generate a report. Please try again.");
           return;
         }
 
-        setStatus("Analysis complete. Generating report...");
+        setStatus("Analysis complete. Generating Cognitive Autopsy...");
         await new Promise((r) => setTimeout(r, 1500));
 
         router.push(`/result/${data.resultId}`);

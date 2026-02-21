@@ -3,22 +3,14 @@ import { prisma } from "@/lib/db";
 import { generateTestPlan } from "@/lib/engine/test-plan";
 import crypto from "crypto";
 
-export async function POST(req: NextRequest) {
+export async function POST(_req: NextRequest) {
   try {
-    const body = await req.json();
-    const includesCoding = body.includesCoding === true;
-
-    // Generate unique seed
     const seed = crypto.randomBytes(16).toString("hex");
+    const plan = generateTestPlan(seed);
 
-    // Generate test plan
-    const plan = generateTestPlan(seed, includesCoding);
-
-    // Create session with questions in DB
     const session = await prisma.session.create({
       data: {
         seed,
-        includesCoding,
         expiresAt: plan.expiresAt,
         questions: {
           create: plan.questions.map((q) => ({
@@ -33,22 +25,22 @@ export async function POST(req: NextRequest) {
       include: { questions: true },
     });
 
-    // Return session data (WITHOUT answer keys)
+    const sectionOrder = [
+      "topology",
+      "parallel-state",
+      "recursive-exec",
+      "micro-pattern",
+      "attentional",
+      "bayesian",
+      "crypto-bitwise",
+    ];
+
     const response = {
       sessionId: session.id,
       specimenId: session.id,
       expiresAt: session.expiresAt.toISOString(),
       questions: session.questions
         .sort((a, b) => {
-          const sectionOrder = [
-            "cognitive-stack",
-            "isomorphism",
-            "expert-trap",
-            "math",
-            "coding",
-            "perception",
-            "memory",
-          ];
           const sectionDiff =
             sectionOrder.indexOf(a.section) - sectionOrder.indexOf(b.section);
           if (sectionDiff !== 0) return sectionDiff;

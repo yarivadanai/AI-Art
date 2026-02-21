@@ -1,220 +1,189 @@
 import { describe, it, expect } from "vitest";
-import { COGNITIVE_STACK_ITEMS } from "@/lib/banks/cognitive-stack";
-import { ISOMORPHISM_ITEMS } from "@/lib/banks/isomorphisms";
-import { EXPERT_TRAP_ITEMS } from "@/lib/banks/expert-trap";
-import { FALLACIOUS_PROOFS } from "@/lib/banks/proofs";
-import {
-  BUG_TEMPLATES,
-  RECURSIVE_TEMPLATES,
-  ASSEMBLY_TEMPLATES,
-  LONG_FUNCTION_TEMPLATES,
-} from "@/lib/banks/code-templates";
+import { DATASET } from "@/lib/banks/dataset";
+import type { DatasetQuestion } from "@/lib/banks/dataset";
+import { hashAnswer } from "@/lib/banks/shared";
+import { mulberry32 } from "@/lib/engine/rng";
+import parityData from "@/lib/data/mulberry32_parity.json";
 
-// ─── Minimum counts ─────────────────────────────────────────────────────────
+// ── Dataset integrity ───────────────────────────────────────────────────────
 
-describe("Bank minimum counts", () => {
-  it("COGNITIVE_STACK_ITEMS has at least 25 entries", () => {
-    expect(COGNITIVE_STACK_ITEMS.length).toBeGreaterThanOrEqual(25);
+describe("Dataset integrity", () => {
+  it("has exactly 630 questions", () => {
+    expect(DATASET.length).toBe(630);
   });
-  it("ISOMORPHISM_ITEMS has at least 25 entries", () => {
-    expect(ISOMORPHISM_ITEMS.length).toBeGreaterThanOrEqual(25);
-  });
-  it("EXPERT_TRAP_ITEMS has at least 25 entries", () => {
-    expect(EXPERT_TRAP_ITEMS.length).toBeGreaterThanOrEqual(25);
-  });
-  it("FALLACIOUS_PROOFS has at least 145 entries", () => {
-    expect(FALLACIOUS_PROOFS.length).toBeGreaterThanOrEqual(145);
-  });
-  it("BUG_TEMPLATES has at least 75 entries", () => {
-    expect(BUG_TEMPLATES.length).toBeGreaterThanOrEqual(75);
-  });
-  it("RECURSIVE_TEMPLATES has at least 50 entries", () => {
-    expect(RECURSIVE_TEMPLATES.length).toBeGreaterThanOrEqual(50);
-  });
-  it("ASSEMBLY_TEMPLATES has at least 50 entries", () => {
-    expect(ASSEMBLY_TEMPLATES.length).toBeGreaterThanOrEqual(50);
-  });
-  it("LONG_FUNCTION_TEMPLATES has at least 50 entries", () => {
-    expect(LONG_FUNCTION_TEMPLATES.length).toBeGreaterThanOrEqual(50);
-  });
-});
 
-// ─── Cognitive Stack structural integrity ───────────────────────────────────
-
-describe("COGNITIVE_STACK_ITEMS structural integrity", () => {
-  it("every entry has text, question, answer, alternatives, and valid subtype", () => {
-    const validSubtypes = ["center-embedding", "scope-ambiguity", "temporal-recursion"];
-    for (const item of COGNITIVE_STACK_ITEMS) {
-      expect(item.text).toBeTruthy();
-      expect(item.question).toBeTruthy();
-      expect(item.answer).toBeTruthy();
-      expect(Array.isArray(item.alternatives)).toBe(true);
-      expect(item.alternatives.length).toBeGreaterThanOrEqual(1);
-      expect(validSubtypes).toContain(item.subtype);
-      expect(item.explanation).toBeTruthy();
+  it("has 90 questions per section", () => {
+    const sections = [
+      "topology",
+      "parallel-state",
+      "recursive-exec",
+      "micro-pattern",
+      "attentional",
+      "bayesian",
+      "crypto-bitwise",
+    ];
+    for (const section of sections) {
+      const count = DATASET.filter((q) => q.section === section).length;
+      expect(count, `${section} should have 90`).toBe(90);
     }
   });
-  it("has no duplicate questions", () => {
-    const qs = COGNITIVE_STACK_ITEMS.map((i) => i.question.toLowerCase().trim());
-    expect(new Set(qs).size).toBe(qs.length);
-  });
-  it("has all three subtypes represented", () => {
-    const subtypes = new Set(COGNITIVE_STACK_ITEMS.map((i) => i.subtype));
-    expect(subtypes.has("center-embedding")).toBe(true);
-    expect(subtypes.has("scope-ambiguity")).toBe(true);
-    expect(subtypes.has("temporal-recursion")).toBe(true);
-  });
-});
 
-// ─── Isomorphism structural integrity ───────────────────────────────────────
-
-describe("ISOMORPHISM_ITEMS structural integrity", () => {
-  it("every entry has sourceField, sourceConcept, sourceDescription, targetField, answer, and keywords", () => {
-    for (const item of ISOMORPHISM_ITEMS) {
-      expect(item.sourceField).toBeTruthy();
-      expect(item.sourceConcept).toBeTruthy();
-      expect(item.sourceDescription).toBeTruthy();
-      expect(item.targetField).toBeTruthy();
-      expect(item.answer).toBeTruthy();
-      expect(Array.isArray(item.keywords)).toBe(true);
-      expect(item.keywords.length).toBeGreaterThanOrEqual(1);
-      expect(item.explanation).toBeTruthy();
+  it("has correct tier distribution per section", () => {
+    const sections = [
+      "topology",
+      "parallel-state",
+      "recursive-exec",
+      "micro-pattern",
+      "attentional",
+      "bayesian",
+      "crypto-bitwise",
+    ];
+    for (const section of sections) {
+      const sectionQs = DATASET.filter((q) => q.section === section);
+      const t1 = sectionQs.filter((q) => q.tier === 1).length;
+      const t2 = sectionQs.filter((q) => q.tier === 2).length;
+      const t3 = sectionQs.filter((q) => q.tier === 3).length;
+      expect(t1, `${section} tier 1`).toBe(25);
+      expect(t2, `${section} tier 2`).toBe(15);
+      expect(t3, `${section} tier 3`).toBe(50);
     }
   });
-  it("has no duplicate sourceConcepts", () => {
-    const concepts = ISOMORPHISM_ITEMS.map((i) => i.sourceConcept.toLowerCase().trim());
-    expect(new Set(concepts).size).toBe(concepts.length);
+
+  it("has no duplicate IDs", () => {
+    const ids = DATASET.map((q) => q.id);
+    expect(new Set(ids).size).toBe(ids.length);
   });
 });
 
-// ─── Expert Trap structural integrity ───────────────────────────────────────
+// ── Hash format & roundtrip ─────────────────────────────────────────────────
 
-describe("EXPERT_TRAP_ITEMS structural integrity", () => {
-  it("every entry has field, text, answer, and keywords", () => {
-    for (const item of EXPERT_TRAP_ITEMS) {
-      expect(item.field).toBeTruthy();
-      expect(item.text).toBeTruthy();
-      expect(item.answer).toBeTruthy();
-      expect(Array.isArray(item.keywords)).toBe(true);
-      expect(item.keywords.length).toBeGreaterThanOrEqual(1);
-      expect(item.explanation).toBeTruthy();
+describe("Hash validation", () => {
+  it("all hashes are valid 64-char hex strings", () => {
+    for (const q of DATASET) {
+      expect(q.answerHash).toMatch(/^[0-9a-f]{64}$/);
     }
   });
-  it("has no duplicate fields combined with first 50 chars of text", () => {
-    const keys = EXPERT_TRAP_ITEMS.map(
-      (i) => `${i.field}::${i.text.slice(0, 50)}`.toLowerCase()
-    );
-    expect(new Set(keys).size).toBe(keys.length);
-  });
-});
 
-// ─── Fallacious Proofs structural integrity ─────────────────────────────────
-
-describe("FALLACIOUS_PROOFS structural integrity", () => {
-  it("every proof has claim, steps (6+), errorStep, and explanations", () => {
-    for (const p of FALLACIOUS_PROOFS) {
-      expect(p.title).toBeTruthy();
-      expect(p.steps.length).toBeGreaterThanOrEqual(6);
-      expect(p.errorStep).toBeGreaterThanOrEqual(0);
-      expect(p.errorStep).toBeLessThan(p.steps.length);
-      expect(p.errorExplanation).toBeTruthy();
-      expect(p.distractorExplanations).toHaveLength(3);
+  it("_verifiedAnswer hashes to answerHash for every question", () => {
+    for (const q of DATASET) {
+      const computed = hashAnswer(
+        q._verifiedAnswer,
+        q.normalization,
+        q.decimalPlaces
+      );
+      expect(computed, `${q.id}: hash mismatch`).toBe(q.answerHash);
     }
   });
 });
 
-// ─── Code Templates structural integrity ────────────────────────────────────
+// ── Structural integrity ────────────────────────────────────────────────────
 
-describe("BUG_TEMPLATES structural integrity", () => {
-  it("every template has code, bugLine, and 4 options", () => {
-    for (const t of BUG_TEMPLATES) {
-      expect(t.code).toBeTruthy();
-      expect(t.bugLine).toBeGreaterThan(0);
-      expect(t.options).toHaveLength(4);
-      expect(t.correctOptionIndex).toBeGreaterThanOrEqual(0);
-      expect(t.correctOptionIndex).toBeLessThan(4);
+describe("Structural integrity", () => {
+  it("every question has required fields", () => {
+    for (const q of DATASET) {
+      expect(q.id).toBeTruthy();
+      expect(q.section).toBeTruthy();
+      expect(q.subtype).toBeTruthy();
+      expect(q.prompt).toBeTruthy();
+      expect(q.inputType).toBeTruthy();
+      expect(q.answerHash).toBeTruthy();
+      expect(q.normalization).toBeTruthy();
+      expect(q._verifiedAnswer).toBeDefined();
     }
   });
-});
 
-describe("ASSEMBLY_TEMPLATES structural integrity", () => {
-  it("every template has code, expectedEax, and 4 options", () => {
-    for (const t of ASSEMBLY_TEMPLATES) {
-      expect(t.code).toBeTruthy();
-      expect(typeof t.expectedEax).toBe("number");
-      expect(t.options).toHaveLength(4);
-      expect(t.correctOptionIndex).toBeGreaterThanOrEqual(0);
-      expect(t.correctOptionIndex).toBeLessThan(4);
+  const validInputTypes = ["multiple-choice", "numeric", "text", "interactive-canvas"];
+  it("all inputTypes are valid", () => {
+    for (const q of DATASET) {
+      expect(validInputTypes).toContain(q.inputType);
     }
   });
-  it("expectedEax matches the option at correctOptionIndex", () => {
-    for (const t of ASSEMBLY_TEMPLATES) {
-      expect(t.options[t.correctOptionIndex]).toBe(t.expectedEax);
+
+  const validNorms = ["exact", "trimmed-lowercase", "hex-lowercase", "numeric-rounded"];
+  it("all normalizations are valid", () => {
+    for (const q of DATASET) {
+      expect(validNorms).toContain(q.normalization);
     }
   });
-});
 
-describe("LONG_FUNCTION_TEMPLATES structural integrity", () => {
-  it("every template has code (30+ lines), input, expected output, and 4 options", () => {
-    for (const t of LONG_FUNCTION_TEMPLATES) {
-      expect(t.code).toBeTruthy();
-      const lineCount = t.code.split("\n").length;
-      expect(lineCount).toBeGreaterThanOrEqual(25);
-      expect(t.expectedOutput).toBeTruthy();
-      expect(t.options).toHaveLength(4);
-      expect(t.correctOptionIndex).toBeGreaterThanOrEqual(0);
-      expect(t.correctOptionIndex).toBeLessThan(4);
+  it("numeric-rounded questions have decimalPlaces defined", () => {
+    for (const q of DATASET) {
+      if (q.normalization === "numeric-rounded") {
+        expect(q.decimalPlaces, `${q.id}`).not.toBeNull();
+        expect(q.decimalPlaces!).toBeGreaterThanOrEqual(0);
+      }
     }
   });
-  it("expectedOutput matches the option at correctOptionIndex", () => {
-    for (const t of LONG_FUNCTION_TEMPLATES) {
-      expect(t.options[t.correctOptionIndex]).toBe(t.expectedOutput);
+
+  it("clientSeed questions have integer seeds", () => {
+    for (const q of DATASET) {
+      if (q.clientSeed != null) {
+        expect(Number.isInteger(q.clientSeed), `${q.id}: non-integer seed`).toBe(true);
+      }
     }
   });
-});
 
-// ─── Correctness: Recursive templates ────────────────────────────────────────
+  it("all tiers are valid (1, 2, or 3)", () => {
+    for (const q of DATASET) {
+      expect([1, 2, 3]).toContain(q.tier);
+    }
+  });
 
-describe("RECURSIVE_TEMPLATES correctness", () => {
-  it("every template's expectedOutput matches actual execution", () => {
-    for (let i = 0; i < RECURSIVE_TEMPLATES.length; i++) {
-      const t = RECURSIVE_TEMPLATES[i];
-      try {
-        // Execute the code to define the function(s), then call f(inputN)
-        const fn = new Function(t.code + `\nreturn f(${t.inputN});`);
-        const result = fn();
-        expect(result).toBe(t.expectedOutput);
-      } catch (e) {
-        // If execution fails, the template has a syntax or runtime error
-        throw new Error(
-          `RECURSIVE_TEMPLATES[${i}] (inputN=${t.inputN}): execution failed — ${e}`
-        );
+  it("multiple-choice questions have options and valid answer index", () => {
+    for (const q of DATASET) {
+      if (q.inputType === "multiple-choice") {
+        expect(q.options, `${q.id}: MC missing options`).toBeTruthy();
+        expect(q.options!.length, `${q.id}: MC needs >= 2 options`).toBeGreaterThanOrEqual(2);
+        const idx = parseInt(q._verifiedAnswer);
+        expect(idx, `${q.id}: answer not a valid index`).toBeGreaterThanOrEqual(0);
+        expect(idx, `${q.id}: answer index out of range`).toBeLessThan(q.options!.length);
       }
     }
   });
 });
 
-// ─── Correctness: Long function templates ────────────────────────────────────
+// ── mulberry32 parity test ──────────────────────────────────────────────────
 
-describe("LONG_FUNCTION_TEMPLATES correctness", () => {
-  it("every template's expectedOutput matches actual execution", () => {
-    for (let i = 0; i < LONG_FUNCTION_TEMPLATES.length; i++) {
-      const t = LONG_FUNCTION_TEMPLATES[i];
-      try {
-        // Build a function call expression
-        const fnName = t.code.match(/function\s+(\w+)/)?.[1];
-        if (!fnName) throw new Error("Could not extract function name");
-        const fn = new Function(
-          t.code + `\nreturn ${fnName}(${t.inputValue});`
-        );
-        const raw = fn();
-        const result = typeof raw === "string" ? raw : JSON.stringify(raw);
-        expect(result).toBe(t.expectedOutput);
-      } catch (e) {
-        throw new Error(
-          `LONG_FUNCTION_TEMPLATES[${i}]: execution failed — ${e}`
-        );
+describe("mulberry32 parity", () => {
+  const parity = parityData as Record<string, number[]>;
+
+  for (const [seedStr, expectedValues] of Object.entries(parity)) {
+    it(`seed ${seedStr} matches Python output`, () => {
+      const rng = mulberry32(parseInt(seedStr));
+      for (let i = 0; i < expectedValues.length; i++) {
+        const tsVal = rng();
+        const pyVal = expectedValues[i];
+        // Must match to at least 15 decimal places
+        expect(Math.abs(tsVal - pyVal)).toBeLessThan(1e-15);
       }
-    }
+    });
+  }
+});
+
+// ── Hash normalization tests ────────────────────────────────────────────────
+
+describe("Hash normalization", () => {
+  it("' 0.109109 ' with numeric-rounded/6 hashes same as '0.109109'", () => {
+    const h1 = hashAnswer(" 0.109109 ", "numeric-rounded", 6);
+    const h2 = hashAnswer("0.109109", "numeric-rounded", 6);
+    expect(h1).toBe(h2);
+  });
+
+  it("'B9F9B96A' with hex-lowercase hashes same as 'b9f9b96a'", () => {
+    const h1 = hashAnswer("B9F9B96A", "hex-lowercase");
+    const h2 = hashAnswer("b9f9b96a", "hex-lowercase");
+    expect(h1).toBe(h2);
+  });
+
+  it("exact normalization preserves case", () => {
+    const h1 = hashAnswer("ABC", "exact");
+    const h2 = hashAnswer("abc", "exact");
+    expect(h1).not.toBe(h2);
+  });
+
+  it("trimmed-lowercase trims and lowercases", () => {
+    const h1 = hashAnswer("  Hello World  ", "trimmed-lowercase");
+    const h2 = hashAnswer("hello world", "trimmed-lowercase");
+    expect(h1).toBe(h2);
   });
 });

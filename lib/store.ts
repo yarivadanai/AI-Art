@@ -1,13 +1,13 @@
 "use client";
 
 import { create } from "zustand";
-import type { Section, QuestionPayload, QuestionType } from "./types";
+import type { Section, QuestionPayload } from "./types";
 
 export interface QuestionState {
   id: string;
   section: Section;
   index: number;
-  type: QuestionType;
+  type: string;
   payload: QuestionPayload;
 }
 
@@ -16,13 +16,12 @@ interface TestStore {
   sessionId: string | null;
   specimenId: string | null;
   expiresAt: number | null;
-  includesCoding: boolean;
 
   // Test state
   questions: QuestionState[];
   currentIndex: number;
   currentSection: Section | null;
-  answers: Record<string, { answer: string | number | string[]; timeMs: number }>;
+  answers: Record<string, { answer: string; timeMs: number }>;
   sectionStartTime: number;
   questionStartTime: number;
 
@@ -31,14 +30,9 @@ interface TestStore {
   sectionCommentary: string | null;
   previousSectionScore: { section: string; correct: number; total: number } | null;
 
-  // Perception
-  sceneVisible: boolean;
-  sceneCountdown: number;
-
-  // Memory flash
-  flashActive: boolean;
-  flashContent: string[] | null;
-  flashIndex: number;
+  // Interactive component state
+  interactivePhase: "idle" | "running" | "complete";
+  interactiveResult: string | null;
 
   // Actions
   startSession: (data: {
@@ -46,17 +40,13 @@ interface TestStore {
     specimenId: string;
     expiresAt: string;
     questions: QuestionState[];
-    includesCoding: boolean;
   }) => void;
-  setAnswer: (questionId: string, answer: string | number | string[]) => void;
+  setAnswer: (questionId: string, answer: string) => void;
   nextQuestion: () => void;
   setPhase: (phase: TestStore["phase"]) => void;
   setSectionCommentary: (commentary: string, score: { section: string; correct: number; total: number }) => void;
-  setSceneVisible: (visible: boolean) => void;
-  setSceneCountdown: (n: number) => void;
-  setFlashActive: (active: boolean) => void;
-  setFlashContent: (content: string[] | null) => void;
-  setFlashIndex: (index: number) => void;
+  setInteractivePhase: (phase: TestStore["interactivePhase"]) => void;
+  setInteractiveResult: (result: string | null) => void;
   reset: () => void;
 }
 
@@ -64,7 +54,6 @@ const initialState = {
   sessionId: null,
   specimenId: null,
   expiresAt: null,
-  includesCoding: false,
   questions: [],
   currentIndex: 0,
   currentSection: null as Section | null,
@@ -74,11 +63,8 @@ const initialState = {
   phase: "idle" as const,
   sectionCommentary: null,
   previousSectionScore: null,
-  sceneVisible: false,
-  sceneCountdown: 0,
-  flashActive: false,
-  flashContent: null,
-  flashIndex: 0,
+  interactivePhase: "idle" as const,
+  interactiveResult: null,
 };
 
 export const useTestStore = create<TestStore>((set, get) => ({
@@ -90,7 +76,6 @@ export const useTestStore = create<TestStore>((set, get) => ({
       specimenId: data.specimenId,
       expiresAt: new Date(data.expiresAt).getTime(),
       questions: data.questions,
-      includesCoding: data.includesCoding,
       currentIndex: 0,
       currentSection: data.questions[0]?.section || null,
       phase: "testing",
@@ -123,7 +108,6 @@ export const useTestStore = create<TestStore>((set, get) => ({
     const nextQ = questions[nextIdx];
 
     if (currentQ.section !== nextQ.section) {
-      // Moving to a new section — show between-sections screen
       set({
         phase: "between-sections",
         currentIndex: nextIdx,
@@ -142,11 +126,8 @@ export const useTestStore = create<TestStore>((set, get) => ({
   setPhase: (phase) => set({ phase }),
   setSectionCommentary: (commentary, score) =>
     set({ sectionCommentary: commentary, previousSectionScore: score }),
-  setSceneVisible: (visible) => set({ sceneVisible: visible }),
-  setSceneCountdown: (n) => set({ sceneCountdown: n }),
-  setFlashActive: (active) => set({ flashActive: active }),
-  setFlashContent: (content) => set({ flashContent: content }),
-  setFlashIndex: (index) => set({ flashIndex: index }),
+  setInteractivePhase: (interactivePhase) => set({ interactivePhase }),
+  setInteractiveResult: (interactiveResult) => set({ interactiveResult }),
 
   reset: () => set(initialState),
 }));
