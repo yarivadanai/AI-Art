@@ -8,50 +8,77 @@ import parityData from "@/lib/data/mulberry32_parity.json";
 // ── Dataset integrity ───────────────────────────────────────────────────────
 
 describe("Dataset integrity", () => {
-  it("has exactly 630 questions", () => {
-    expect(DATASET.length).toBe(630);
+  it("has exactly 605 questions", () => {
+    expect(DATASET.length).toBe(605);
   });
 
-  it("has 90 questions per section", () => {
-    const sections = [
-      "topology",
-      "parallel-state",
-      "recursive-exec",
-      "micro-pattern",
-      "attentional",
-      "bayesian",
-      "crypto-bitwise",
-    ];
-    for (const section of sections) {
-      const count = DATASET.filter((q) => q.section === section).length;
-      expect(count, `${section} should have 90`).toBe(90);
+  it("has correct question counts per section", () => {
+    const expected: Record<string, number> = {
+      structural: 90,
+      "state-tracking": 155,
+      "sequential-depth": 180,
+      "signal-detection": 90,
+      probabilistic: 90,
+    };
+    for (const [section, count] of Object.entries(expected)) {
+      const actual = DATASET.filter((q) => q.section === section).length;
+      expect(actual, `${section} should have ${count}`).toBe(count);
     }
   });
 
   it("has correct tier distribution per section", () => {
-    const sections = [
-      "topology",
-      "parallel-state",
-      "recursive-exec",
-      "micro-pattern",
-      "attentional",
-      "bayesian",
-      "crypto-bitwise",
-    ];
-    for (const section of sections) {
+    const expected: Record<string, { t1: number; t2: number; t3: number }> = {
+      structural: { t1: 25, t2: 15, t3: 50 },
+      "state-tracking": { t1: 25, t2: 30, t3: 100 },
+      "sequential-depth": { t1: 50, t2: 30, t3: 100 },
+      "signal-detection": { t1: 25, t2: 15, t3: 50 },
+      probabilistic: { t1: 25, t2: 15, t3: 50 },
+    };
+    for (const [section, tiers] of Object.entries(expected)) {
       const sectionQs = DATASET.filter((q) => q.section === section);
       const t1 = sectionQs.filter((q) => q.tier === 1).length;
       const t2 = sectionQs.filter((q) => q.tier === 2).length;
       const t3 = sectionQs.filter((q) => q.tier === 3).length;
-      expect(t1, `${section} tier 1`).toBe(25);
-      expect(t2, `${section} tier 2`).toBe(15);
-      expect(t3, `${section} tier 3`).toBe(50);
+      expect(t1, `${section} tier 1`).toBe(tiers.t1);
+      expect(t2, `${section} tier 2`).toBe(tiers.t2);
+      expect(t3, `${section} tier 3`).toBe(tiers.t3);
     }
   });
 
   it("has no duplicate IDs", () => {
     const ids = DATASET.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+});
+
+// ── T1 8-option MC ──────────────────────────────────────────────────────────
+
+describe("T1 multiple-choice format", () => {
+  const t1Items = DATASET.filter((q) => q.tier === 1);
+
+  it("all T1 have inputType multiple-choice", () => {
+    for (const q of t1Items) {
+      expect(q.inputType, `${q.id}`).toBe("multiple-choice");
+    }
+  });
+
+  it("all T1 have exactly 8 options", () => {
+    for (const q of t1Items) {
+      expect(q.options, `${q.id}: missing options`).toBeTruthy();
+      expect(q.options!.length, `${q.id}: expected 8 options`).toBe(8);
+    }
+  });
+});
+
+// ── Time limits ─────────────────────────────────────────────────────────────
+
+describe("Time limits", () => {
+  it("all questions have valid timeLimit matching their tier", () => {
+    const tierToTime: Record<number, number> = { 1: 15, 2: 20, 3: 95 };
+    for (const q of DATASET) {
+      const expected = tierToTime[q.tier];
+      expect(q.timeLimit, `${q.id}: timeLimit`).toBe(expected);
+    }
   });
 });
 

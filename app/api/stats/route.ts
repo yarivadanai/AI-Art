@@ -6,13 +6,11 @@ import type { SectionScores } from "@/lib/types";
 export const dynamic = "force-dynamic";
 
 const EMPTY_SECTION_MEANS: SectionScores = {
-  topology: 0,
-  "parallel-state": 0,
-  "recursive-exec": 0,
-  "micro-pattern": 0,
-  attentional: 0,
-  bayesian: 0,
-  "crypto-bitwise": 0,
+  structural: 0,
+  "state-tracking": 0,
+  "sequential-depth": 0,
+  "signal-detection": 0,
+  probabilistic: 0,
 };
 
 export async function GET() {

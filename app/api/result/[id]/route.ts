@@ -3,13 +3,11 @@ import { prisma } from "@/lib/db";
 import { getVerdict } from "@/lib/commentary";
 
 const SECTION_ORDER = [
-  "topology",
-  "parallel-state",
-  "recursive-exec",
-  "micro-pattern",
-  "attentional",
-  "bayesian",
-  "crypto-bitwise",
+  "structural",
+  "state-tracking",
+  "sequential-depth",
+  "signal-detection",
+  "probabilistic",
 ];
 
 export async function GET(

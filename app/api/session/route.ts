@@ -26,13 +26,11 @@ export async function POST(_req: NextRequest) {
     });
 
     const sectionOrder = [
-      "topology",
-      "parallel-state",
-      "recursive-exec",
-      "micro-pattern",
-      "attentional",
-      "bayesian",
-      "crypto-bitwise",
+      "structural",
+      "state-tracking",
+      "sequential-depth",
+      "signal-detection",
+      "probabilistic",
     ];
 
     const response = {

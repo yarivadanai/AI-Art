@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
-import { GlobalTimer } from "@/components/GlobalTimer";
+import { QuestionTimer } from "@/components/QuestionTimer";
 import { QuestionRenderer } from "@/components/QuestionRenderer";
 import { AICommentary } from "@/components/AICommentary";
 import { useTestStore } from "@/lib/store";
@@ -11,13 +11,11 @@ import { getSectionIntro } from "@/lib/commentary";
 import type { Section } from "@/lib/types";
 
 const SECTION_NAMES: Record<Section, string> = {
-  topology: "DIMENSIONAL EXTRAPOLATION",
-  "parallel-state": "PARALLEL STATE TRACKING",
-  "recursive-exec": "RECURSIVE DEPTH",
-  "micro-pattern": "SEMANTIC INDEPENDENCE",
-  attentional: "ATTENTIONAL THROUGHPUT",
-  bayesian: "PROBABILISTIC REASONING",
-  "crypto-bitwise": "DETERMINISTIC PRECISION",
+  structural: "ABSTRACT STRUCTURE",
+  "state-tracking": "STATE TRACKING",
+  "sequential-depth": "SEQUENTIAL DEPTH",
+  "signal-detection": "SIGNAL DETECTION",
+  probabilistic: "PROBABILISTIC INFERENCE",
 };
 
 export default function TestPage() {
@@ -67,7 +65,7 @@ function IntakeScreen() {
           <h1 className="font-mono text-2xl font-bold">COGNITIVE INTAKE</h1>
           <p className="font-sans text-sm text-muted">
             The Synthetic Cognitive Capacity Assessment will evaluate your
-            performance across 7 cognitive stress domains designed to probe the
+            performance across 5 cognitive domains designed to probe the
             boundaries of biological computation.
           </p>
         </div>
@@ -95,10 +93,10 @@ function IntakeScreen() {
 
           {/* Disclaimers */}
           <div className="font-mono text-xs text-muted space-y-1">
-            <p>&#8226; Duration: ≤20 minutes (enforced by global timer)</p>
+            <p>&#8226; Duration: ≤20 minutes (per-question timers)</p>
             <p>&#8226; Questions cannot be revisited once submitted</p>
             <p>&#8226; A unique session ID will be assigned</p>
-            <p>&#8226; 20 questions across 7 sections</p>
+            <p>&#8226; 25 questions across 5 sections</p>
             <p>&#8226; SHA-256 hash-based grading. No partial credit. No curve.</p>
           </div>
 
@@ -140,12 +138,23 @@ function TestRunner() {
     [currentQ, setAnswer, nextQuestion]
   );
 
+  const handleTimerExpire = useCallback(() => {
+    if (!currentQ) return;
+    // Auto-submit current answer (or blank) on expiry
+    const store = useTestStore.getState();
+    const existing = store.answers[currentQ.id];
+    if (!existing) {
+      setAnswer(currentQ.id, "");
+    }
+    nextQuestion();
+  }, [currentQ, setAnswer, nextQuestion]);
+
   if (!currentQ) return null;
 
   if (showIntro && currentIndex === 0) {
     return (
       <div className="min-h-screen flex flex-col">
-        <TopBar section={currentQ.section} specimenId={specimenId} />
+        <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} timeLimit={null} onExpire={() => {}} />
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="max-w-xl space-y-8 text-center">
             <div className="section-label">
@@ -174,9 +183,17 @@ function TestRunner() {
   const sectionIdx =
     sectionQuestions.findIndex((q) => q.id === currentQ.id) + 1;
 
+  const timeLimit = currentQ.payload.timeLimit ?? 20;
+
   return (
     <div className="min-h-screen flex flex-col">
-      <TopBar section={currentQ.section} specimenId={specimenId} />
+      <TopBar
+        section={currentQ.section}
+        specimenId={specimenId}
+        questionId={currentQ.id}
+        timeLimit={timeLimit}
+        onExpire={handleTimerExpire}
+      />
 
       <div className="flex-1 flex items-start justify-center px-4 py-8">
         <div className="max-w-2xl w-full space-y-6">
@@ -221,7 +238,7 @@ function BetweenSections() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <TopBar section={currentQ.section} specimenId={specimenId} />
+      <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} timeLimit={null} onExpire={() => {}} />
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="max-w-xl space-y-8 text-center">
           <div className="section-label">SECTION TRANSITION</div>
@@ -313,9 +330,15 @@ function SubmittingScreen() {
 function TopBar({
   section,
   specimenId,
+  questionId,
+  timeLimit,
+  onExpire,
 }: {
   section: Section;
   specimenId: string | null;
+  questionId: string | null;
+  timeLimit: number | null;
+  onExpire: () => void;
 }) {
   return (
     <div className="sticky top-0 z-50 bg-bg/95 backdrop-blur border-b border-border px-4 py-3">
@@ -326,7 +349,15 @@ function TopBar({
             {SECTION_NAMES[section]}
           </span>
         </div>
-        <GlobalTimer />
+        {questionId && timeLimit ? (
+          <QuestionTimer
+            timeLimit={timeLimit}
+            onExpire={onExpire}
+            questionId={questionId}
+          />
+        ) : (
+          <div className="font-mono text-lg tabular-nums text-accent">--</div>
+        )}
         <div className="font-mono text-xs text-muted">
           {specimenId ? `#${specimenId.slice(0, 8).toUpperCase()}` : ""}
         </div>

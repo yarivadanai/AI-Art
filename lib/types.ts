@@ -1,11 +1,9 @@
 export type Section =
-  | "topology"
-  | "parallel-state"
-  | "recursive-exec"
-  | "micro-pattern"
-  | "attentional"
-  | "bayesian"
-  | "crypto-bitwise";
+  | "structural"
+  | "state-tracking"
+  | "sequential-depth"
+  | "signal-detection"
+  | "probabilistic";
 
 export type InputType =
   | "multiple-choice"
@@ -39,6 +37,7 @@ export interface QuestionPayload {
   dataPayload?: string;
   clientSeed?: number;
   interactiveConfig?: InteractiveConfig;
+  timeLimit?: number;
 }
 
 export interface GeneratedQuestion {
@@ -50,13 +49,11 @@ export interface GeneratedQuestion {
 }
 
 export interface SectionScores {
-  topology: number;
-  "parallel-state": number;
-  "recursive-exec": number;
-  "micro-pattern": number;
-  attentional: number;
-  bayesian: number;
-  "crypto-bitwise": number;
+  structural: number;
+  "state-tracking": number;
+  "sequential-depth": number;
+  "signal-detection": number;
+  probabilistic: number;
 }
 
 export interface VerdictBand {

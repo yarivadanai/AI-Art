@@ -5,16 +5,14 @@ import { getSectionCommentary, getVerdict } from "@/lib/commentary";
 import type { AnswerKey, Section } from "@/lib/types";
 
 const SECTIONS: Section[] = [
-  "topology",
-  "parallel-state",
-  "recursive-exec",
-  "micro-pattern",
-  "attentional",
-  "bayesian",
-  "crypto-bitwise",
+  "structural",
+  "state-tracking",
+  "sequential-depth",
+  "signal-detection",
+  "probabilistic",
 ];
 
-const SECTION_WEIGHT = 1 / 7;
+const SECTION_WEIGHT = 1 / 5;
 
 export async function POST(req: NextRequest) {
   try {

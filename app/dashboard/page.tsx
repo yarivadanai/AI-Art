@@ -8,13 +8,11 @@ import { AICommentary } from "@/components/AICommentary";
 import type { StatsResponse } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
-  topology: "Dimensional Extrapolation",
-  "parallel-state": "Parallel State Tracking",
-  "recursive-exec": "Recursive Depth",
-  "micro-pattern": "Semantic Independence",
-  attentional: "Attentional Throughput",
-  bayesian: "Probabilistic Reasoning",
-  "crypto-bitwise": "Deterministic Precision",
+  structural: "Abstract Structure",
+  "state-tracking": "State Tracking",
+  "sequential-depth": "Sequential Depth",
+  "signal-detection": "Signal Detection",
+  probabilistic: "Probabilistic Inference",
 };
 
 export default function DashboardPage() {
@@ -196,11 +194,11 @@ export default function DashboardPage() {
                 participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.topology as number) ?? 0) * 100
+                    ((stats.sectionMeans?.structural as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on dimensional extrapolation.
+                on abstract structure.
               </p>
               <p>
                 A call stack with 1KB of RAM{" "}
@@ -208,11 +206,11 @@ export default function DashboardPage() {
                 participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.["recursive-exec"] as number) ?? 0) * 100
+                    ((stats.sectionMeans?.["sequential-depth"] as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on recursive execution.
+                on sequential depth.
               </p>
               <p>
                 A statistical inference engine{" "}
@@ -220,23 +218,23 @@ export default function DashboardPage() {
                 participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.bayesian as number) ?? 0) * 100
+                    ((stats.sectionMeans?.probabilistic as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on probabilistic reasoning.
+                on probabilistic inference.
               </p>
               <p>
-                An 8-bit ALU{" "}
-                <span className="text-accent">(circa 1970s)</span>{" "}
+                A regex engine{" "}
+                <span className="text-accent">(circa 1960s)</span>{" "}
                 outperforms participants averaging{" "}
                 <span className="text-accent">
                   {Math.round(
-                    ((stats.sectionMeans?.["crypto-bitwise"] as number) ?? 0) * 100
+                    ((stats.sectionMeans?.["signal-detection"] as number) ?? 0) * 100
                   )}
                   %
                 </span>{" "}
-                on deterministic precision.
+                on signal detection.
               </p>
             </div>
             <p className="text-white/40 mt-6 italic">

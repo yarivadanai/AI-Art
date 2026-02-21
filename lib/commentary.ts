@@ -1,71 +1,55 @@
 import type { Section, SectionScores } from "./types";
 
 const SECTION_LABELS: Record<Section, string> = {
-  topology: "Dimensional Extrapolation",
-  "parallel-state": "Parallel State Tracking",
-  "recursive-exec": "Recursive Depth",
-  "micro-pattern": "Semantic Independence",
-  attentional: "Attentional Throughput",
-  bayesian: "Probabilistic Reasoning",
-  "crypto-bitwise": "Deterministic Precision",
+  structural: "Abstract Structure",
+  "state-tracking": "State Tracking",
+  "sequential-depth": "Sequential Depth",
+  "signal-detection": "Signal Detection",
+  probabilistic: "Probabilistic Inference",
 };
 
 const SECTION_BASELINES: Record<
   Section,
   { tool: string; year: string; note: string }
 > = {
-  topology: {
+  structural: {
     tool: "a linear algebra library",
     year: "the 1960s",
     note: "A linear algebra library handles n-dimensional geometry trivially. Human spatial cognition is calibrated for 3D Euclidean space -- a remarkable adaptation, but one with hard limits.",
   },
-  "parallel-state": {
+  "state-tracking": {
     tool: "a multi-threaded process scheduler",
     year: "the 1960s",
-    note: "A process scheduler tracks thousands of independent state machines simultaneously. Biological attention operates as a serial bottleneck with an estimated throughput of ~50 bits per second (Norretranders, 1998).",
+    note: "A process scheduler tracks thousands of independent state machines simultaneously. Biological attention operates as a serial bottleneck with an estimated throughput of ~50 bits per second (Norretranders, 1998). The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second.",
   },
-  "recursive-exec": {
+  "sequential-depth": {
     tool: "a call stack with 1KB of memory",
     year: "the 1950s",
-    note: "A simple call stack executes arbitrarily deep recursion without fatigue. The biological call stack reliably handles 3-4 levels of nesting before accuracy collapses.",
+    note: "A simple call stack executes arbitrarily deep recursion without fatigue. An 8-bit ALU performs bitwise operations with absolute precision. The biological architecture reliably handles 3-4 levels of nesting and tolerates approximation -- normally adaptive, but catastrophic when a single step matters.",
   },
-  "micro-pattern": {
+  "signal-detection": {
     tool: "a regular expression engine",
     year: "the 1960s",
     note: "A regex engine detects patterns in arbitrary data streams in microseconds. Biological pattern recognition appears tightly coupled to semantic context -- faces, narratives, spatial relationships.",
   },
-  attentional: {
-    tool: "a parallel interrupt controller",
-    year: "the 1970s",
-    note: "A hardware interrupt controller processes thousands of events per second. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second.",
-  },
-  bayesian: {
+  probabilistic: {
     tool: "a statistical inference engine",
     year: "the 1990s",
     note: "A Bayesian inference engine computes exact posteriors over arbitrary networks. Decades of research document systematic deviations between human probability estimates and Bayesian norms (Kahneman & Tversky, 1974).",
   },
-  "crypto-bitwise": {
-    tool: "an 8-bit ALU",
-    year: "the 1970s",
-    note: "An 8-bit arithmetic logic unit executes bitwise operations with absolute precision. Biological computation evolved for approximate inference -- efficient in most environments, but catastrophic when a single bit matters.",
-  },
 };
 
 const SECTION_FAILURE_LOGS: Record<Section, string> = {
-  topology:
+  structural:
     "DIMENSIONAL CONSTRAINT: Performance confined to R^3 intuitions. Abstract geometric reasoning did not extend beyond the perceptual dimensions the brain evolved to navigate.",
-  "parallel-state":
-    "SERIAL BOTTLENECK: Parallel state synthesis exceeded attentional bandwidth. Information from concurrent streams was processed sequentially rather than simultaneously.",
-  "recursive-exec":
-    "STACK OVERFLOW: Recursive tracking degraded beyond level 3-4. Deeper computation produced values indistinguishable from noise -- consistent with known working-memory limits.",
-  "micro-pattern":
+  "state-tracking":
+    "SERIAL BOTTLENECK: Parallel state synthesis exceeded attentional bandwidth. Information from concurrent streams was processed sequentially rather than simultaneously. Refractory period effects observed under concurrent demand.",
+  "sequential-depth":
+    "STACK OVERFLOW: Recursive tracking degraded beyond level 3-4. Bit-level precision was not maintained. Deeper computation produced values indistinguishable from noise -- consistent with known working-memory limits and the brain's tolerance for approximation.",
+  "signal-detection":
     "SEMANTIC DEPENDENCY: No signal detected in context-free data. Pattern recognition appears to require narrative scaffolding as a precondition for detection.",
-  attentional:
-    "REFRACTORY PERIOD EXCEEDED: Attentional throughput collapsed under concurrent demand. Processing bandwidth degraded to approximately one decision per second.",
-  bayesian:
+  probabilistic:
     "BASE-RATE NEGLECT: Narrative plausibility was substituted for statistical computation. Prior probabilities were systematically underweighted in favor of intuitive judgment.",
-  "crypto-bitwise":
-    "APPROXIMATION CASCADE: Bit-level precision was not maintained. The biological tolerance for approximation -- normally adaptive -- produced cascading errors in a domain requiring absolute determinism.",
 };
 
 export function getSectionCommentary(
@@ -104,20 +88,16 @@ export function getSectionCommentary(
 
 export function getSectionIntro(section: Section): string {
   const intros: Record<Section, string> = {
-    topology:
-      "Evaluating dimensional extrapolation. Human spatial cognition is calibrated for 3D Euclidean space -- a remarkable adaptation, but one with hard limits. How far can abstract mathematical reasoning extend beyond the perceptual dimensions the brain evolved to navigate? These tasks explore the boundary between spatial intuition and formal geometry.",
-    "parallel-state":
-      "Evaluating parallel state tracking. Conscious attention appears to operate as a serial bottleneck with an estimated throughput of ~50 bits per second. How effectively can human cognition synthesize information across simultaneous data streams that exceed the classical working memory capacity of 7 +/- 2 items? These tasks test the ceiling.",
-    "recursive-exec":
-      "Evaluating recursive depth. Cognitive science suggests the human mental stack reliably handles 3-4 levels of nested reasoning before accuracy collapses. Can systematic strategies -- external memory, chunking, algorithmic shortcuts -- extend this limit? These tasks probe the depth at which mental bookkeeping fails.",
-    "micro-pattern":
-      "Evaluating semantic independence. Human pattern recognition is deeply coupled to semantic context: faces, narratives, spatial relationships. When data carries no inherent meaning -- raw strings, noise fields, pseudorandom sequences -- does the perceptual system adapt, or does it require meaning as a precondition for detection?",
-    attentional:
-      "Evaluating attentional throughput. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second. These tasks explore what happens when cognitive load approaches and exceeds this limit -- does performance degrade gracefully, or is there a sharp threshold?",
-    bayesian:
-      "Evaluating probabilistic reasoning. Decades of research document systematic deviations between human probability estimates and Bayesian norms. Can deliberate, effortful computation override intuitive heuristics when exact numerical answers are required? These tasks distinguish statistical intuition from statistical computation.",
-    "crypto-bitwise":
-      "Evaluating deterministic precision. Biological computation evolved for approximate inference -- an efficient strategy in most environments, but one that fails in domains requiring absolute precision. How does human performance change when a single incorrect bit constitutes total failure?",
+    structural:
+      "Evaluating abstract structure. Human spatial cognition is calibrated for 3D Euclidean space -- a remarkable adaptation, but one with hard limits. How far can abstract mathematical reasoning extend beyond the perceptual dimensions the brain evolved to navigate? These tasks explore the boundary between spatial intuition and formal geometry.",
+    "state-tracking":
+      "Evaluating state tracking. Conscious attention appears to operate as a serial bottleneck with an estimated throughput of ~50 bits per second. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second. How effectively can human cognition synthesize information across simultaneous data streams and maintain multiple state variables? These tasks test the ceiling.",
+    "sequential-depth":
+      "Evaluating sequential depth. Cognitive science suggests the human mental stack reliably handles 3-4 levels of nested reasoning before accuracy collapses. Biological computation evolved for approximate inference -- efficient in most environments, but catastrophic when a single step matters. Can systematic strategies extend these limits? These tasks probe the depth at which mental bookkeeping fails.",
+    "signal-detection":
+      "Evaluating signal detection. Human pattern recognition is deeply coupled to semantic context: faces, narratives, spatial relationships. When data carries no inherent meaning -- raw strings, noise fields, pseudorandom sequences -- does the perceptual system adapt, or does it require meaning as a precondition for detection?",
+    probabilistic:
+      "Evaluating probabilistic inference. Decades of research document systematic deviations between human probability estimates and Bayesian norms. Can deliberate, effortful computation override intuitive heuristics when exact numerical answers are required? These tasks distinguish statistical intuition from statistical computation.",
   };
   return intros[section];
 }
@@ -245,14 +225,14 @@ export function getAIConclusion(
     ((verdictCounts["D"] || 0) + (verdictCounts["F"] || 0)) / totalParticipants;
   const belowPct = Math.round(belowBaseline * 100);
 
-  const topologyMean = Math.round((sectionMeans.topology ?? 0) * 100);
-  const bayesianMean = Math.round((sectionMeans.bayesian ?? 0) * 100);
-  const cryptoMean = Math.round((sectionMeans["crypto-bitwise"] ?? 0) * 100);
-  const recursiveMean = Math.round((sectionMeans["recursive-exec"] ?? 0) * 100);
+  const structuralMean = Math.round((sectionMeans.structural ?? 0) * 100);
+  const probabilisticMean = Math.round((sectionMeans.probabilistic ?? 0) * 100);
+  const sequentialMean = Math.round((sectionMeans["sequential-depth"] ?? 0) * 100);
+  const signalMean = Math.round((sectionMeans["signal-detection"] ?? 0) * 100);
 
   const mainParagraph = `After evaluating ${totalParticipants} participant${totalParticipants !== 1 ? "s" : ""}, the SCCA's findings are consistent: individual human cognition is narrowly distributed and domain-specific. Participants demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic difficulty (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of participants fall below synthetic operational baselines. The data suggests that human 'general intelligence' may be a collective phenomenon; no individual participant has demonstrated it across all domains.`;
 
-  const mirrorParagraph = `A note on perspective: participants average ${topologyMean}% on dimensional extrapolation that a linear algebra library handles trivially. They average ${recursiveMean}% on recursive execution that a 1KB call stack processes without error. They compute Bayesian posteriors at ${bayesianMean}% accuracy while a statistical engine achieves 100%. They maintain bitwise precision at ${cryptoMean}% while an 8-bit ALU never errs. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the participant -- it is what the test reveals about the act of measurement itself.`;
+  const mirrorParagraph = `A note on perspective: participants average ${structuralMean}% on abstract structure that a linear algebra library handles trivially. They average ${sequentialMean}% on sequential depth that a 1KB call stack processes without error. They compute probabilistic inference at ${probabilisticMean}% accuracy while a statistical engine achieves 100%. They detect signals at ${signalMean}% while a regex engine never misses. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the participant -- it is what the test reveals about the act of measurement itself.`;
 
   return mainParagraph + "\n\n" + mirrorParagraph;
 }

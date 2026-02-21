@@ -88,7 +88,7 @@ function FacilityBriefing() {
 
       <section className="space-y-3">
         <h2 className="font-mono text-accent text-sm tracking-widest">
-          {"// THE SEVEN COGNITIVE STRESS DOMAINS"}
+          {"// THE FIVE COGNITIVE STRESS DOMAINS"}
         </h2>
         <p>
           Each domain isolates a specific axis along which biological and
@@ -98,8 +98,8 @@ function FacilityBriefing() {
         </p>
         <ul className="space-y-4 pl-4">
           <li>
-            <strong>I. Dimensional Extrapolation</strong>{" "}
-            <span className="text-accent text-xs">[High-Dimensional Topology]</span>
+            <strong>I. Abstract Structure</strong>{" "}
+            <span className="text-accent text-xs">[Structural Isomorphism]</span>
             <br />
             <span className="text-white/60">
               Human spatial cognition is calibrated for 3D Euclidean space --
@@ -110,31 +110,33 @@ function FacilityBriefing() {
             </span>
           </li>
           <li>
-            <strong>II. Parallel State Tracking</strong>{" "}
-            <span className="text-accent text-xs">[Parallel State Synthesis]</span>
+            <strong>II. State Tracking</strong>{" "}
+            <span className="text-accent text-xs">[Parallel State &amp; Attentional Load]</span>
             <br />
             <span className="text-white/60">
               Conscious attention appears to operate as a serial bottleneck
               with an estimated throughput of ~50 bits per second (Norretranders, 1998).
-              How effectively can human cognition synthesize information across
-              simultaneous data streams that exceed the classical working memory
-              capacity of 7 +/- 2 items? These tasks test the ceiling.
+              The Psychological Refractory Period constrains conscious
+              decision-making to roughly one operation per second. How effectively
+              can human cognition synthesize information across simultaneous data
+              streams and maintain multiple state variables? These tasks test the ceiling.
             </span>
           </li>
           <li>
-            <strong>III. Recursive Depth</strong>{" "}
-            <span className="text-accent text-xs">[Recursive Execution]</span>
+            <strong>III. Sequential Depth</strong>{" "}
+            <span className="text-accent text-xs">[Recursive Execution &amp; Deterministic Precision]</span>
             <br />
             <span className="text-white/60">
               Cognitive science suggests the human &ldquo;mental stack&rdquo;
               reliably handles 3-4 levels of nested recursion before
-              accuracy collapses. Can systematic strategies -- external memory,
-              chunking, algorithmic shortcuts -- extend this limit? These
-              tasks probe the depth at which mental bookkeeping fails.
+              accuracy collapses. Biological computation evolved for approximate
+              inference -- efficient in most environments, but catastrophic when a
+              single step matters. Can systematic strategies extend these limits?
+              These tasks probe the depth at which mental bookkeeping fails.
             </span>
           </li>
           <li>
-            <strong>IV. Semantic Independence</strong>{" "}
+            <strong>IV. Signal Detection</strong>{" "}
             <span className="text-accent text-xs">[Micro-Pattern Extraction]</span>
             <br />
             <span className="text-white/60">
@@ -146,20 +148,8 @@ function FacilityBriefing() {
             </span>
           </li>
           <li>
-            <strong>V. Attentional Throughput</strong>{" "}
-            <span className="text-accent text-xs">[Attentional Bottleneck]</span>
-            <br />
-            <span className="text-white/60">
-              The Psychological Refractory Period constrains conscious
-              decision-making to roughly one operation per second. These tasks
-              explore what happens when cognitive load approaches and exceeds
-              this limit -- does performance degrade gracefully, or is there
-              a sharp threshold beyond which accuracy collapses?
-            </span>
-          </li>
-          <li>
-            <strong>VI. Probabilistic Reasoning</strong>{" "}
-            <span className="text-accent text-xs">[Bayesian Inference]</span>
+            <strong>V. Probabilistic Inference</strong>{" "}
+            <span className="text-accent text-xs">[Bayesian Reasoning]</span>
             <br />
             <span className="text-white/60">
               Decades of research (Kahneman &amp; Tversky, 1974) document
@@ -168,19 +158,6 @@ function FacilityBriefing() {
               intuitive heuristics when exact numerical answers are required?
               These tasks distinguish statistical intuition from statistical
               computation.
-            </span>
-          </li>
-          <li>
-            <strong>VII. Deterministic Precision</strong>{" "}
-            <span className="text-accent text-xs">[Cryptographic Determinism]</span>
-            <br />
-            <span className="text-white/60">
-              Biological computation evolved for &ldquo;good enough&rdquo;
-              approximation -- an efficient strategy in most environments,
-              but one that fails in domains requiring absolute precision.
-              How does human performance change when a single incorrect bit
-              constitutes total failure? These tasks measure the cost of
-              the brain&rsquo;s tolerance for approximation.
             </span>
           </li>
         </ul>
@@ -305,7 +282,7 @@ function ArtistNote() {
         <p className="text-white/50 text-sm">
           No personal data is collected. Responses are stored anonymously for
           aggregate visualization only. Each session generates a unique question
-          set from a pool of 630 items across three difficulty tiers. The work may be experienced multiple times.
+          set from a pool of 605 items across three difficulty tiers. The work may be experienced multiple times.
         </p>
       </section>
     </div>

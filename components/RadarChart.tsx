@@ -18,13 +18,11 @@ interface RadarChartProps {
 }
 
 const RADAR_LABELS: Record<string, string> = {
-  topology: "Topology",
-  "parallel-state": "Parallel",
-  "recursive-exec": "Recursive",
-  "micro-pattern": "Pattern",
-  attentional: "Attention",
-  bayesian: "Bayesian",
-  "crypto-bitwise": "Crypto",
+  structural: "Structure",
+  "state-tracking": "State",
+  "sequential-depth": "Depth",
+  "signal-detection": "Signal",
+  probabilistic: "Inference",
 };
 
 export function RadarChart({ scores }: RadarChartProps) {

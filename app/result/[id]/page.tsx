@@ -213,7 +213,7 @@ export default function ResultPage() {
           <div className="text-xs text-green-600 mb-3">[THE MEASURING PARADOX]</div>
           <div className="text-xs text-green-500/70 leading-relaxed space-y-3">
             <p>
-              &gt; This assessment measured 7 axes along which silicon computation faces
+              &gt; This assessment measured 5 axes along which silicon computation faces
               no structural constraints. It did not measure metaphor, social reasoning,
               embodied navigation, creative synthesis, or any of the domains where
               biological cognition faces no structural constraints.

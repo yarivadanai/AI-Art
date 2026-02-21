@@ -15,6 +15,7 @@ export interface DatasetQuestion {
   answerHash: string;
   normalization: Normalization;
   decimalPlaces: number | null;
+  timeLimit: number;
   _verifiedAnswer: string;
 }
 

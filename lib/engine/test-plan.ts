@@ -10,16 +10,14 @@ export interface TestPlan {
   expiresAt: Date;
 }
 
-// Each section gets 3 questions (one per tier), except crypto-bitwise which gets 2
-// Total: 6 sections x 3 + 1 section x 2 = 20 questions
-const SECTION_TIERS: { section: Section; tiers: (1 | 2 | 3)[] }[] = [
-  { section: "topology", tiers: [1, 2, 3] },
-  { section: "parallel-state", tiers: [1, 2, 3] },
-  { section: "recursive-exec", tiers: [1, 2, 3] },
-  { section: "micro-pattern", tiers: [1, 2, 3] },
-  { section: "attentional", tiers: [1, 2, 3] },
-  { section: "bayesian", tiers: [1, 2, 3] },
-  { section: "crypto-bitwise", tiers: [1, 3] },
+// 5 sections x 5 questions = 25 per session
+// Each section: T1, T1, T2, T3, T3 (ascending difficulty)
+const SECTION_PLAN: { section: Section; tiers: (1 | 2 | 3)[] }[] = [
+  { section: "structural", tiers: [1, 1, 2, 3, 3] },
+  { section: "state-tracking", tiers: [1, 1, 2, 3, 3] },
+  { section: "sequential-depth", tiers: [1, 1, 2, 3, 3] },
+  { section: "signal-detection", tiers: [1, 1, 2, 3, 3] },
+  { section: "probabilistic", tiers: [1, 1, 2, 3, 3] },
 ];
 
 function datasetItemToQuestion(item: DatasetQuestion, section: Section, index: number): GeneratedQuestion {
@@ -34,6 +32,7 @@ function datasetItemToQuestion(item: DatasetQuestion, section: Section, index: n
       ...(item.display && { display: item.display }),
       ...(item.clientSeed != null && { clientSeed: item.clientSeed }),
       ...(item.interactiveConfig && { interactiveConfig: item.interactiveConfig }),
+      timeLimit: item.timeLimit,
     },
     answerKey: {
       hash: item.answerHash,
@@ -47,27 +46,26 @@ export function generateTestPlan(seed: string): TestPlan {
   const rng = new SeededRNG(seed);
   const questions: GeneratedQuestion[] = [];
 
-  for (const { section, tiers } of SECTION_TIERS) {
+  for (const { section, tiers } of SECTION_PLAN) {
     const bank = getBank(section);
-    // For each tier, pick one random question from that tier's pool
-    for (const tier of tiers) {
-      const tierPool = bank.filter(q => q.tier === tier);
-      if (tierPool.length === 0) {
-        // Fallback: if no questions for this tier, pick from any tier
-        const fallback = rng.pickN(bank, 1);
-        fallback.forEach((item, i) => {
-          questions.push(datasetItemToQuestion(item, section, i));
-        });
-      } else {
-        const selected = rng.pickN(tierPool, 1);
-        selected.forEach((item, i) => {
-          questions.push(datasetItemToQuestion(item, section, i));
-        });
-      }
-    }
+    const t1Pool = bank.filter(q => q.tier === 1);
+    const t2Pool = bank.filter(q => q.tier === 2);
+    const t3Pool = bank.filter(q => q.tier === 3);
+
+    // Pick with no duplicates within tier
+    const t1Picks = rng.pickN(t1Pool, 2);
+    const t2Picks = rng.pickN(t2Pool, 1);
+    const t3Picks = rng.pickN(t3Pool, 2);
+
+    // Order: T1, T1, T2, T3, T3
+    const sectionPicks = [...t1Picks, ...t2Picks, ...t3Picks];
+
+    sectionPicks.forEach((item, i) => {
+      questions.push(datasetItemToQuestion(item, section, i));
+    });
   }
 
-  // 20 minutes = 1200 seconds
+  // 20 minutes = 1200 seconds (safety net ceiling)
   const expiresAt = new Date(Date.now() + 20 * 60 * 1000);
 
   return { seed, questions, expiresAt };
