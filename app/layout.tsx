@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SCCA | Synthetic Cognitive Capacity Assessment",
+  title: "MICA | Machine-Indexed Cognitive Assessment",
   description:
-    "The SCCA evaluates whether biological computation exhibits synthetic cognitive capacity on standards appropriate to modern AI systems.",
+    "MICA maps the architecture of biological cognition: its computational boundaries, structural constraints, and the strategies it employs when operating beyond its design parameters.",
   icons: { icon: "/favicon.svg" },
 };
 

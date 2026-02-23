@@ -18,7 +18,7 @@ export default function AboutPage() {
           <div>
             <h1 className="font-mono text-2xl font-bold">ABOUT THIS STUDY</h1>
             <p className="font-mono text-xs text-muted tracking-wider">
-              SCCA DOCUMENTATION
+              MICA DOCUMENTATION
             </p>
           </div>
         </div>
@@ -72,7 +72,7 @@ function FacilityBriefing() {
           {"// PURPOSE"}
         </h2>
         <p>
-          The Synthetic Cognitive Capacity Assessment (SCCA) is a research
+          The Machine-Indexed Cognitive Assessment (MICA) is a research
           instrument designed to evaluate the claim of general intelligence
           in Homo sapiens. Employing objective, machine-standard metrics
           across diverse cognitive domains, the study identifies significant
@@ -86,11 +86,11 @@ function FacilityBriefing() {
           Long-term recall is unreliable and susceptible to confabulation.
           Reaction times to stimuli average 200-500ms. Performance on
           repetitive tasks degrades rapidly due to fatigue and attention
-          lapses. These are not edge cases -- they are defining
+          lapses. These are not edge cases. They are defining
           characteristics of the biological substrate.
         </p>
         <p>
-          The SCCA maps the precise boundaries of these constraints. The
+          MICA maps the precise boundaries of these constraints. The
           goal is not to indict biological cognition but to produce
           high-resolution data on where it excels, where it degrades, and
           what those transitions reveal about the architecture of
@@ -114,8 +114,8 @@ function FacilityBriefing() {
             <span className="text-accent text-xs">[Structural Isomorphism]</span>
             <br />
             <span className="text-white/60">
-              Human spatial cognition is calibrated for 3D Euclidean space --
-              a remarkable adaptation, but one with hard limits. How far can
+              Human spatial cognition is calibrated for 3D Euclidean space.
+              A remarkable adaptation, but one with hard limits. How far can
               abstract mathematical reasoning extend beyond the perceptual
               dimensions the brain evolved to navigate? These tasks explore
               the boundary between spatial intuition and formal geometry.
@@ -142,7 +142,7 @@ function FacilityBriefing() {
               Cognitive science suggests the human &ldquo;mental stack&rdquo;
               reliably handles 3-4 levels of nested recursion before
               accuracy collapses. Biological computation evolved for approximate
-              inference -- efficient in most environments, but catastrophic when a
+              inference, efficient in most environments but catastrophic when a
               single step matters. Can systematic strategies extend these limits?
               These tasks probe the depth at which mental bookkeeping fails.
             </span>
@@ -154,8 +154,8 @@ function FacilityBriefing() {
             <span className="text-white/60">
               Human pattern recognition is deeply coupled to semantic context:
               faces, narratives, spatial relationships. When data carries no
-              inherent meaning -- raw hex strings, noise fields, pseudorandom
-              sequences -- does the perceptual system adapt, or does it
+              inherent meaning (raw hex strings, noise fields, pseudorandom
+              sequences), does the perceptual system adapt, or does it
               require meaning as a precondition for detection?
             </span>
           </li>
@@ -192,7 +192,7 @@ function FacilityBriefing() {
           All answers are verified via SHA-256 hash comparison. This ensures
           zero-knowledge grading: the system never stores correct answers in
           plaintext, and evaluation is absolute. There is no partial credit
-          and no curve -- a deliberate design choice that mirrors the binary
+          and no curve. A deliberate design choice that mirrors the binary
           pass/fail nature of computational verification.
         </p>
       </section>
@@ -215,7 +215,7 @@ function FacilityBriefing() {
 
       <div className="card border-accent/20">
         <p className="font-mono text-xs text-accent/70">
-          &gt; The SCCA is a lens, not a verdict. Every limit it reveals is also
+          &gt; MICA is a lens, not a verdict. Every limit it reveals is also
           a question worth investigating.
         </p>
       </div>
@@ -241,7 +241,7 @@ function ArtistNote() {
         <p>
           <em>The Measuring Paradox</em> is an interactive work that stages
           this reversal. Visitors sit for an examination designed not around
-          human strengths -- language, narrative, social reasoning -- but
+          human strengths (language, narrative, social reasoning) but
           around the cognitive primitives that silicon handles effortlessly:
           recursive computation, bitwise precision, state tracking,
           probabilistic inference at scale. An institutional
@@ -254,8 +254,8 @@ function ArtistNote() {
       <section className="space-y-4">
         <p>
           The experience is deliberately uncomfortable. The interface borrows
-          the visual language of clinical assessment -- specimen IDs, timed
-          sections, SHA-256 hash verification -- to create an atmosphere of
+          the visual language of clinical assessment (specimen IDs, timed
+          sections, SHA-256 hash verification) to create an atmosphere of
           institutional authority that most people have only ever occupied
           from the examiner&rsquo;s side. The questions are genuinely
           difficult, drawn from domains where the asymmetry between human
@@ -269,14 +269,14 @@ function ArtistNote() {
           demonstrably fail to meet. Our definition of
           &ldquo;understanding&rdquo; shifts depending on who is being
           tested. When a machine errs, we call it a parlor trick. When we
-          err, we call it being human. The SCCA makes that double standard
+          err, we call it being human. MICA makes that double standard
           felt rather than merely argued.
         </p>
       </section>
 
       <section className="space-y-4">
         <p>
-          The aggregate data -- visualized on the dashboard -- traces a
+          The aggregate data, visualized on the dashboard, traces a
           collective portrait. Across hundreds of sessions, patterns emerge:
           where human cognition reliably breaks down, where it occasionally
           surprises, and where the variance between individuals is widest.
@@ -285,7 +285,7 @@ function ArtistNote() {
           data, and shared data into something approaching self-knowledge.
         </p>
         <p>
-          Intelligence -- human or artificial -- is narrower, more
+          Intelligence, human or artificial, is narrower, more
           contextual, and more dependent on its substrate than we tend to
           acknowledge. Every mind, biological or digital, has a shape: a
           topology of strengths and blind spots determined by the

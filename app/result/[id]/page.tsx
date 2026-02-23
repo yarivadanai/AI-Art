@@ -72,7 +72,7 @@ export default function ResultPage() {
         {/* Terminal Header */}
         <div className="border border-green-900 p-6 bg-black">
           <div className="text-green-600 text-xs mb-2">
-            SCCA://cognitive-profile/session/{String(params.id).slice(0, 12).toUpperCase()}
+            MICA://cognitive-profile/session/{String(params.id).slice(0, 12).toUpperCase()}
           </div>
           <div className="flex items-center gap-4 mb-4">
             <AuthoritySeal size={60} />

@@ -2,7 +2,7 @@
 
 An interactive art piece that reverses the lens we apply to artificial intelligence and turns it on human cognition.
 
-Visitors sit for the **Synthetic Cognitive Capacity Assessment (SCCA)** -- a timed examination designed not around human strengths (language, narrative, social reasoning) but around cognitive primitives that silicon handles effortlessly: recursive computation, bitwise precision, state tracking, and probabilistic inference. An institutional "Authority" administers the test, grades it without mercy, and delivers a clinical report on the visitor's cognitive limitations.
+Visitors sit for the **Machine-Indexed Cognitive Assessment (MICA)** -- a timed examination designed not around human strengths (language, narrative, social reasoning) but around cognitive primitives that silicon handles effortlessly: recursive computation, bitwise precision, state tracking, and probabilistic inference. An institutional "Authority" administers the test, grades it without mercy, and delivers a clinical report on the visitor's cognitive limitations.
 
 The experience stages a question: we routinely judge AI by idealized human-like standards it can never fully meet. What happens when we apply machine-standard metrics to ourselves?
 

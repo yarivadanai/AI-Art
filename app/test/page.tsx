@@ -64,7 +64,7 @@ function IntakeScreen() {
           <AuthoritySeal size={80} />
           <h1 className="font-mono text-2xl font-bold">COGNITIVE INTAKE</h1>
           <p className="font-sans text-sm text-muted">
-            The Synthetic Cognitive Capacity Assessment will evaluate your
+            The Machine-Indexed Cognitive Assessment will evaluate your
             performance across 5 cognitive domains designed to probe the
             boundaries of biological computation.
           </p>
@@ -272,7 +272,7 @@ function SubmittingScreen() {
     if (!sessionId) return;
 
     const submit = async () => {
-      setStatus("Transmitting data to the SCCA...");
+      setStatus("Transmitting data to MICA...");
 
       const responses = questions.map((q) => ({
         questionId: q.id,
@@ -290,7 +290,7 @@ function SubmittingScreen() {
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
           setStatus(
-            `Transmission error: ${errData.error || "The SCCA encountered an unexpected fault. Please try again."}`
+            `Transmission error: ${errData.error || "MICA encountered an unexpected fault. Please try again."}`
           );
           return;
         }
@@ -298,7 +298,7 @@ function SubmittingScreen() {
         const data = await res.json();
 
         if (!data.resultId) {
-          setStatus("The SCCA failed to generate a report. Please try again.");
+          setStatus("MICA failed to generate a report. Please try again.");
           return;
         }
 

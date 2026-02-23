@@ -32,7 +32,7 @@ export async function GET() {
         weakestSection: "unknown",
         strongestSection: "unknown",
         aiConclusion:
-          "Insufficient data. No specimens have been evaluated. The SCCA awaits its first subject.",
+          "Insufficient data. No specimens have been evaluated. MICA awaits its first subject.",
       });
     }
 

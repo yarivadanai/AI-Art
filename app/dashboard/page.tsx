@@ -51,7 +51,7 @@ export default function DashboardPage() {
             INSUFFICIENT DATA
           </h1>
           <p className="font-sans text-muted">
-            The SCCA has not yet evaluated enough participants to generate
+            MICA has not yet evaluated enough participants to generate
             population-level findings. Be among the first to contribute data.
           </p>
           <Link href="/test" className="btn-primary inline-block">
@@ -83,7 +83,7 @@ export default function DashboardPage() {
         {/* AI Conclusion */}
         <div className="card border-accent/20">
           <div className="section-label mb-4">
-            THE SCCA&apos;S CONCLUSION
+            MICA&apos;S CONCLUSION
           </div>
           <AICommentary text={stats.aiConclusion} speed={15} />
         </div>
@@ -184,7 +184,7 @@ export default function DashboardPage() {
           <div className="space-y-4 font-mono text-xs text-muted leading-relaxed">
             <p className="text-white/60 mb-6">
               &gt; When AI systems make elementary errors, humans question whether
-              they &ldquo;truly understand.&rdquo; The SCCA applies the same lens
+              they &ldquo;truly understand.&rdquo; MICA applies the same lens
               to biological cognition:
             </p>
             <div className="space-y-3 pl-4 border-l border-accent/20">

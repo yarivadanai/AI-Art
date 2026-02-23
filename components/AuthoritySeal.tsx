@@ -78,7 +78,7 @@ export function AuthoritySeal({ size = 80 }: { size?: number }) {
         opacity="0.2"
       />
 
-      {/* SCCA text */}
+      {/* MICA text */}
       <text
         x="100"
         y="108"
@@ -89,7 +89,7 @@ export function AuthoritySeal({ size = 80 }: { size?: number }) {
         fill="#4a9eff"
         letterSpacing="4"
       >
-        SCCA
+        MICA
       </text>
 
       {/* Subtitle around bottom */}
@@ -103,7 +103,7 @@ export function AuthoritySeal({ size = 80 }: { size?: number }) {
         opacity="0.6"
         letterSpacing="1.5"
       >
-        SYNTHETIC COGNITIVE CAPACITY ASSESSMENT
+        MACHINE-INDEXED COGNITIVE ASSESSMENT
       </text>
     </svg>
   );

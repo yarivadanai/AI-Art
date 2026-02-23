@@ -337,7 +337,7 @@ function HashAnomalyDisplay({ clientSeed }: { clientSeed: number }) {
     <div className="space-y-2">
       <div className="text-green-400/50 font-mono text-[10px] px-4">
         10,000 hex strings [seed {clientSeed}]. One string&apos;s SHA-256 hash begins with &apos;00000&apos;.
-        Note: the planted string was modified by the generator -- the index is the answer.
+        Note: the planted string was modified by the generator. The index is the answer.
       </div>
       <ScrollableGrid headers={headers} rows={rows} />
     </div>
