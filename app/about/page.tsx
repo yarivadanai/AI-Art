@@ -297,12 +297,6 @@ function ArtistNote() {
         </p>
       </section>
 
-      <section className="space-y-4">
-        <p>
-          Artist: <a href="https://www.linkedin.com/in/yariv-adan/">Yariv Adan</a>
-         </p>
-      </section>
-
       <section className="space-y-3 border-t border-border pt-6 mt-6">
         <p className="text-white/50 text-sm">
           No personal data is collected. Responses are stored anonymously for
@@ -310,6 +304,13 @@ function ArtistNote() {
           set from a pool of 605 items across three difficulty tiers. The work may be experienced multiple times.
         </p>
       </section>
+      
+      <section className="space-y-4">
+        <p>
+          Artist: <a href="https://www.linkedin.com/in/yariv-adan/">Yariv Adan</a>
+         </p>
+      </section>
+      
     </div>
   );
 }
