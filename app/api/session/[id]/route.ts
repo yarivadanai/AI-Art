@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { progressOf, readState, toServed } from "@/lib/engine/adaptive";
+import { finalizeAdaptive, progressOf, readState, toServed } from "@/lib/engine/adaptive";
 
 /**
  * GET /api/session/:id - recovery: the current item and progress of an
@@ -15,8 +15,9 @@ export async function GET(_req: NextRequest, { params }: { params: { id: string 
     if (!session) return NextResponse.json({ error: "Session not found" }, { status: 404 });
     const state = readState(session);
     if (!state) return NextResponse.json({ error: "Not an adaptive session" }, { status: 409 });
-    if (session.result) {
-      return NextResponse.json({ done: { resultId: session.result.id }, progress: progressOf(state) });
+    if (session.result || state.done) {
+      const resultId = session.result?.id ?? (await finalizeAdaptive(session.id, state));
+      return NextResponse.json({ done: { resultId }, progress: progressOf(state) });
     }
     const current = state.currentQuestionId ? session.questions.find((q) => q.id === state.currentQuestionId) : null;
     return NextResponse.json({

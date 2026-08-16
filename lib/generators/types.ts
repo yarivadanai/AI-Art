@@ -14,7 +14,13 @@ export type Difficulty = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
  */
 export type GraderSpec =
   | { kind: "exact" } // case-insensitive, whitespace-collapsed
-  | { kind: "numeric"; decimalPlaces: number; tolerance?: number }
+  | {
+      kind: "numeric";
+      decimalPlaces: number;
+      /** Exact (unrounded) value; when present the submission is compared to this within half a unit of the last shown place. */
+      exact?: number;
+      tolerance?: number;
+    }
   | { kind: "hex" }
   | { kind: "set"; separator?: string } // order-insensitive list of tokens
   | { kind: "sequence"; separator?: string } // order-sensitive list, partial credit

@@ -47,10 +47,13 @@ export function gradeTyped(userAnswer: string, reference: string, spec: GraderSp
     }
     case "numeric": {
       const n = parseNumber(u);
-      const r = parseNumber(reference);
+      // Compare against the exact value when the generator supplied one, so a
+      // reference that rounds to "0.037" (3/80 = 0.0375) still accepts the
+      // visitor's correctly rounded "0.038"; otherwise against the shown string.
+      const r = typeof spec.exact === "number" && Number.isFinite(spec.exact) ? spec.exact : parseNumber(reference);
       if (n === null || r === null) return { correct: false, score: 0 };
       const tol = spec.tolerance ?? 0.5 * Math.pow(10, -spec.decimalPlaces);
-      const correct = Math.abs(n - r) <= tol + 1e-12;
+      const correct = Math.abs(n - r) <= tol + 1e-9;
       return { correct, score: correct ? 1 : 0 };
     }
     case "set": {

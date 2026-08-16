@@ -27,7 +27,7 @@ function projection(rng: SeededRNG, d: Difficulty): GeneratedItem {
     display: `V = [${v.join(", ")}]\nU = [${u.join(", ")}]`,
     inputType: "numeric",
     reference: fmt(comp, 3),
-    grader: { kind: "numeric", decimalPlaces: 3 },
+    grader: { kind: "numeric", decimalPlaces: 3, exact: comp },
     timeLimit: 30 + 5 * d,
   };
 }

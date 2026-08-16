@@ -30,7 +30,7 @@ function conditionalTable(rng: SeededRNG, d: Difficulty): GeneratedItem {
     display: `${header}\n${body}`,
     inputType: "numeric",
     reference: fmt(p, 3),
-    grader: { kind: "numeric", decimalPlaces: 3 },
+    grader: { kind: "numeric", decimalPlaces: 3, exact: p },
     timeLimit: 30 + 5 * d,
   };
 }
@@ -60,7 +60,7 @@ function bayesChain(rng: SeededRNG, d: Difficulty): GeneratedItem {
     display: lines.join("\n"),
     inputType: "numeric",
     reference: fmt(pH, 3),
-    grader: { kind: "numeric", decimalPlaces: 3 },
+    grader: { kind: "numeric", decimalPlaces: 3, exact: pH },
     timeLimit: 35 + 5 * d,
   };
 }
@@ -103,7 +103,7 @@ function markovSteady(rng: SeededRNG, d: Difficulty): GeneratedItem {
     display: `${header}\n${body}`,
     inputType: "numeric",
     reference: fmt(pi[state], 3),
-    grader: { kind: "numeric", decimalPlaces: 3 },
+    grader: { kind: "numeric", decimalPlaces: 3, exact: pi[state] },
     timeLimit: 35 + 5 * d,
   };
 }

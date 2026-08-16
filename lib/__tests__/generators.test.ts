@@ -64,6 +64,14 @@ describe("typed graders accept human formatting", () => {
     expect(gradeTyped("ab", "0AB", { kind: "hex" }).correct).toBe(true);
     expect(gradeTyped("ac", "AB", { kind: "hex" }).correct).toBe(false);
   });
+  it("numeric: compares to the exact value when supplied (half-way references)", () => {
+    // 3/80 = 0.0375 renders as "0.037" (binary float below the half); "0.038" and "0.037" must both pass.
+    const spec = { kind: "numeric" as const, decimalPlaces: 3, exact: 3 / 80 };
+    expect(gradeTyped("0.038", "0.037", spec).correct).toBe(true);
+    expect(gradeTyped("0.037", "0.037", spec).correct).toBe(true);
+    expect(gradeTyped("0.0375", "0.037", spec).correct).toBe(true);
+    expect(gradeTyped("0.039", "0.037", spec).correct).toBe(false);
+  });
   it("numeric: rounding tolerance and separators", () => {
     expect(gradeTyped("0.1235", "0.123", { kind: "numeric", decimalPlaces: 3 }).correct).toBe(true);
     expect(gradeTyped("0.1236", "0.123", { kind: "numeric", decimalPlaces: 3 }).correct).toBe(false);

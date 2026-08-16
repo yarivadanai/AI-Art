@@ -152,7 +152,7 @@ await page.locator("[role=button][title]").first().click().catch(() => {});
 await page.waitForFunction(() => /frontier|level cleared|no level cleared/i.test(document.body.innerText), null, { timeout: 15000 }).catch(() => {});
 const transitionText = await page.locator("main").innerText();
 check(/FRONTIER \d\/8/.test(transitionText), "frontier strip shown");
-check(/of 7 correct/.test(transitionText), "Authority feedback shows the graded count over 7 items");
+check(/of 7 (items )?correct/.test(transitionText), "Authority feedback shows the graded count over 7 items");
 check(/abstention/.test(transitionText), "Authority acknowledges the abstention");
 await page.waitForTimeout(2500);
 await page.getByRole("button", { name: /PROCEED/ }).click();

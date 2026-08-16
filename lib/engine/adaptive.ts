@@ -184,8 +184,10 @@ export async function answerAdaptive(
   if (!target) throw new Error("unknown question");
 
   if (state.done) {
-    const result = await prisma.result.findUnique({ where: { sessionId: session.id } });
-    return { replay: true, question: null, state, done: result ? { resultId: result.id } : undefined };
+    // Idempotent: a done session always resolves to its result (created if a
+    // previous attempt failed between grading and finalizing).
+    const resultId = await finalizeAdaptive(session.id, state);
+    return { replay: true, question: null, state, done: { resultId } };
   }
   if (target.id !== state.currentQuestionId) {
     // Already advanced past this item: replay the current one.
@@ -227,10 +229,12 @@ export async function answerAdaptive(
   }
 
   if (state.sectionIndex >= SECTION_ORDER.length) {
-    state.done = true;
+    // Finalize first, then mark done: if result creation fails the state still
+    // points at the last item and the client's retry re-enters here.
     state.currentQuestionId = null;
-    await prisma.session.update({ where: { id: session.id }, data: { state: state as unknown as object } });
     const resultId = await finalizeAdaptive(session.id, state);
+    state.done = true;
+    await prisma.session.update({ where: { id: session.id }, data: { state: state as unknown as object } });
     return { graded, sectionComplete, state, done: { resultId } };
   }
 
