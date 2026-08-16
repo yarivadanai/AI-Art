@@ -120,10 +120,42 @@ describe("T1 multiple-choice format", () => {
     }
   });
 
-  it("all T1 have exactly 8 options", () => {
+  // Rebuilt in Phase 3 (scripts/phase3_t1_rebuild.py): four options authored per item.
+  const REBUILT_T1_LIST = ["grammar-violation", "cognitive-stack", "expert-trap"];
+  const REBUILT_T1 = new Set(REBUILT_T1_LIST);
+
+  it("T1 option counts: 8 for the legacy families, 4 for the rebuilt ones", () => {
     for (const q of t1Items) {
       expect(q.options, `${q.id}: missing options`).toBeTruthy();
-      expect(q.options!.length, `${q.id}: expected 8 options`).toBe(8);
+      const expected = REBUILT_T1.has(q.subtype) ? 4 : 8;
+      expect(q.options!.length, `${q.id}: expected ${expected} options`).toBe(expected);
+    }
+  });
+
+  it("rebuilt T1 families use within-item distractors: no option text is shared with another item of the family", () => {
+    for (const subtype of REBUILT_T1_LIST) {
+      const items = t1Items.filter((q) => q.subtype === subtype);
+      expect(items.length, subtype).toBe(25);
+      const owner = new Map<string, string>();
+      for (const q of items) {
+        expect(new Set(q.options).size, `${q.id}: duplicate options`).toBe(q.options!.length);
+        for (const o of q.options!) {
+          const key = o.trim().toLowerCase();
+          if (/^\d+$/.test(key)) continue; // bare numbers ("2", "10") legitimately recur across counting items
+          const seen = owner.get(key);
+          expect(seen, `${q.id}: option "${o.slice(0, 40)}" also appears in ${seen}`).toBeUndefined();
+          owner.set(key, q.id);
+        }
+        const idx = Number(q._verifiedAnswer);
+        expect(Number.isInteger(idx) && idx >= 0 && idx < q.options!.length, `${q.id}: answer index`).toBe(true);
+      }
+    }
+  });
+
+  it("rebuilt T1 answers are not always in the same position", () => {
+    for (const subtype of REBUILT_T1_LIST) {
+      const positions = new Set(t1Items.filter((q) => q.subtype === subtype).map((q) => q._verifiedAnswer));
+      expect(positions.size, subtype).toBeGreaterThan(1);
     }
   });
 });
@@ -133,8 +165,10 @@ describe("T1 multiple-choice format", () => {
 describe("Time limits", () => {
   it("all questions have valid timeLimit matching their tier", () => {
     const tierToTime: Record<number, number> = { 1: 30, 2: 30, 3: 45 };
+    // A sentence or passage plus four anchored options: 45 s (Phase 3 T1 rebuild).
+    const longerT1 = new Set(["grammar-violation", "expert-trap"]);
     for (const q of DATASET) {
-      const expected = tierToTime[q.tier];
+      const expected = q.tier === 1 && longerT1.has(q.subtype) ? 45 : tierToTime[q.tier];
       expect(q.timeLimit, `${q.id}: timeLimit`).toBe(expected);
     }
   });
