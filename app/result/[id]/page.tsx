@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
-import { RadarChart } from "@/components/RadarChart";
+import { Topology } from "@/components/Topology";
+import { ShareCard } from "@/components/ShareCard";
+import { topologyInputFromResult } from "@/lib/topology";
 import { AICommentary } from "@/components/AICommentary";
 import {
   REPORT_COPY,
@@ -71,6 +73,10 @@ export default function ResultPage() {
 
   const mirror = useMemo(
     () => (result ? getMirrorLines(result.metrics, result.beliefs, result.sectionScores) : []),
+    [result]
+  );
+  const topology = useMemo(
+    () => (result ? topologyInputFromResult(result.sectionScores as unknown as Record<string, number>, result.metrics) : null),
     [result]
   );
 
@@ -195,10 +201,12 @@ export default function ResultPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="card">
             <div className="section-label mb-4">COGNITIVE TOPOLOGY</div>
-            <RadarChart scores={result.sectionScores} showReference />
-            <p className="font-mono text-[10px] text-muted mt-3 text-center">
-              {metrics?.mode === "adaptive" ? REPORT_COPY.topologyNoteAdaptive : REPORT_COPY.topologyNote}
-            </p>
+            {topology && (
+              <div className="w-full max-w-md mx-auto aspect-square">
+                <Topology input={topology} size={400} />
+              </div>
+            )}
+            <p className="font-mono text-[10px] text-muted mt-3 text-center">{REPORT_COPY.topologyLegend}</p>
           </div>
           <div className="card space-y-4">
             <div className="section-label">OBSERVATIONS</div>
@@ -252,7 +260,7 @@ export default function ResultPage() {
               {metrics && (
                 <div>
                   <dt className="text-muted">ABSTENTIONS</dt>
-                  <dd className="text-white">{metrics.abstained} of 25</dd>
+                  <dd className="text-white">{metrics.abstained} of {result.questionResults.length}</dd>
                 </div>
               )}
               {fastestCorrect && (
@@ -297,6 +305,18 @@ export default function ResultPage() {
             );
           })}
         </section>
+
+        {/* Share */}
+        {topology && (
+          <ShareCard
+            resultId={result.resultId}
+            specimen={specimen}
+            band={result.verdictBand}
+            verdict={result.verdict}
+            topology={topology}
+            metrics={metrics}
+          />
+        )}
 
         {/* Closing */}
         <section className="card border-border">

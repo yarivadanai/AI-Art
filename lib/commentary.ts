@@ -372,6 +372,10 @@ export const REPORT_COPY = {
   referenceHeadline: "Reference implementation on the same 25 items: 100%, in under a tenth of a second.",
   referenceHeadlineAdaptive: "Reference implementation on the same ladders: level 8 on every axis, then the machine-scale item, in under a tenth of a second.",
   topologyNoteAdaptive: "Dashed ring: reference implementation (level 8, the top of every ladder).",
+  topologyLegend:
+    "Filled shape: your frontiers. Dashed ring: the reference implementation. Red dots: answers marked SURE that were wrong. Hollow rings: abstentions. Inner ticks: latency (one per 10 s). Ring marker: the machine-scale item (filled = answered correctly, red = answered wrongly, hollow = declined).",
+  shareTitle: "SPECIMEN CARD",
+  shareBlurb: "This shape is yours: derived from where each ladder broke, how sure you were when you were wrong, when you declined, and how long you took. Every mind has a shape. Share yours; the link opens the full profile.",
   mirrorSubhead: "Your own numbers, described the way you describe machines.",
   topologyNote: "Dashed ring: reference implementation (100% on every axis).",
   observationsReference: "reference: microseconds to milliseconds",
