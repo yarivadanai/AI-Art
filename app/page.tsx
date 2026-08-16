@@ -5,21 +5,21 @@ import { LiveFindings } from "@/components/LiveFindings";
 const RESEARCH_DOMAINS = [
   {
     number: "I",
-    name: "Abstract Structure",
+    name: "Structural Insight",
     question:
-      "How far can biological spatial reasoning extend beyond the perceptual dimensions the brain evolved to navigate?",
+      "When a problem has a shape, does the specimen see it, or compute until the clock runs out?",
   },
   {
     number: "II",
-    name: "State Tracking",
+    name: "Working Memory",
     question:
-      "What is the effective bandwidth of conscious attention when maintaining parallel state variables?",
+      "How many things can be held at once, and for how many steps, before the count is lost?",
   },
   {
     number: "III",
-    name: "Sequential Depth",
+    name: "Exact Computation",
     question:
-      "How deep can biological working memory maintain deterministic execution before accuracy collapses?",
+      "How many exact steps can be executed before a single slip makes the whole result wrong?",
   },
   {
     number: "IV",
@@ -158,18 +158,20 @@ export default function LandingPage() {
           </h2>
           <div className="space-y-4 font-sans text-white/60 leading-relaxed">
             <p>
-              All responses are verified via SHA-256 hash comparison, ensuring
-              zero-knowledge grading: the system never stores correct answers in
-              plaintext. Evaluation is absolute. There is no partial
-              credit and no curve.
+              In each domain the instrument climbs or descends a ladder of eight
+              difficulty levels with the specimen&rsquo;s own answers, locating the
+              frontier at which performance breaks, then poses one item at machine
+              scale. Every answer is recorded together with the specimen&rsquo;s
+              stated confidence; &ldquo;I cannot determine this&rdquo; is always
+              available and is recorded as abstention, not error.
             </p>
             <p>
-              Within each domain, tasks are organized along a three-tier
-              difficulty gradient, from expert-accessible through
-              borderline-biological to computationally-scaled. A seeded PRNG
-              generates unique question sets per session, ensuring statistical
-              independence across participants while maintaining
-              reproducibility.
+              Reference answers never leave the server; grading is exact and
+              absolute, with no curve. Items are generated per session from a seeded
+              PRNG, ensuring statistical independence across specimens while
+              maintaining reproducibility. Every item is revealed, with its
+              reference answer and the method a plain program would use, once the
+              session is graded.
             </p>
           </div>
         </div>
