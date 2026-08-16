@@ -42,7 +42,7 @@ export interface AxisGeometry {
   outer: Point; // point on the reference ring
   frontier: Point; // point at the domain's score
   label: Point; // label anchor just outside the ring
-  /** Small ticks along the axis representing latency: one per 10 s of mean time, max 6. */
+  /** Small ticks along the axis representing latency: one per 10 s of mean time, max 6 (the legend says so). */
   latencyTicks: Point[];
   /** Red dots for confident errors, spread around the frontier point. */
   errorDots: Point[];
@@ -81,20 +81,64 @@ function polygonArea(pts: Point[]): number {
   return Math.abs(a) / 2;
 }
 
-/** Build the input from a result's scores and metrics. */
+/** Per-domain counts of the marks drawn along an axis (ladder items only). */
+export type LadderMarks = Partial<Record<Section, { sureWrong: number; abstained: number }>>;
+
+/** The slice of a graded item the marks need. */
+export interface MarkRow {
+  section: Section;
+  /** payload.meta.kind; items without meta (fixed mode) count as ladder items. */
+  kind?: "ladder" | "finale" | null;
+  correct: boolean;
+  confidence: string | null;
+  abstained: boolean;
+}
+
+/**
+ * Count confident errors and abstentions per domain over the ladder items
+ * only. The finale is drawn once, as the marker on the reference ring, so it
+ * must not also add a dot or a ring at the frontier (metrics.perSection
+ * includes it, which is why the figure does not read counts from there).
+ */
+export function ladderMarks(rows: MarkRow[]): LadderMarks {
+  const out: LadderMarks = {};
+  for (const section of SECTION_ORDER) out[section] = { sureWrong: 0, abstained: 0 };
+  for (const r of rows) {
+    if (r.kind === "finale") continue;
+    const m = out[r.section];
+    if (!m) continue;
+    if (r.abstained) m.abstained += 1;
+    else if (r.confidence === "sure" && !r.correct) m.sureWrong += 1;
+  }
+  return out;
+}
+
+/** Items per domain in an adaptive session (6 ladder rungs + the finale); the drawing never caps below this. */
+export const MAX_MARKS_PER_DOMAIN = 7;
+
+/**
+ * Build the input from a result's scores and metrics. Pass `marks` (from
+ * ladderMarks over the graded items) so dots and rings count ladder items
+ * only; without it, the finale's abstention is subtracted from the metrics
+ * count (exact) but a SURE-wrong finale cannot be told apart from a ladder
+ * one, so callers with the rows should always pass them.
+ */
 export function topologyInputFromResult(
   sectionScores: Record<string, number>,
-  metrics: SessionMetrics | null
+  metrics: SessionMetrics | null,
+  marks?: LadderMarks
 ): TopologyInput {
   const domains: TopologyDomain[] = SECTION_ORDER.map((section) => {
     const per = metrics?.perSection?.[section];
+    const finale = metrics?.finales?.[section] ?? null;
+    const m = marks?.[section];
     return {
       section,
       score: Math.max(0, Math.min(1, sectionScores[section] ?? 0)),
       meanTimeMs: per?.meanTimeMs ?? 0,
-      sureWrong: per?.sureWrong ?? 0,
-      abstained: per?.abstained ?? 0,
-      finale: metrics?.finales?.[section] ?? null,
+      sureWrong: m ? m.sureWrong : per?.sureWrong ?? 0,
+      abstained: m ? m.abstained : Math.max(0, (per?.abstained ?? 0) - (finale === "abstained" ? 1 : 0)),
+      finale,
     };
   });
   return {
@@ -119,16 +163,17 @@ export function computeTopology(input: TopologyInput, size = 400): TopologyGeome
     const nTicks = Math.min(6, Math.round(d.meanTimeMs / 10_000));
     // Latency ticks sit just inside the ring, marching inward.
     const latencyTicks = Array.from({ length: nTicks }, (_, k) => polar(cx, cy, R - size * 0.012 * (k + 1), angle));
-    // Error dots fan out perpendicular to the axis at the frontier point.
+    // Error dots fan out perpendicular to the axis at the frontier point, one per confident error.
     const perp = angle + Math.PI / 2;
     const spread = size * 0.014;
-    const errorDots = Array.from({ length: Math.min(6, d.sureWrong) }, (_, k) => {
-      const off = (k - (Math.min(6, d.sureWrong) - 1) / 2) * spread;
+    const nDots = Math.min(MAX_MARKS_PER_DOMAIN, d.sureWrong);
+    const errorDots = Array.from({ length: nDots }, (_, k) => {
+      const off = (k - (nDots - 1) / 2) * spread;
       return { x: frontier.x + off * Math.cos(perp), y: frontier.y + off * Math.sin(perp) };
     });
-    // Abstain rings sit on the axis just outside the frontier point.
-    const abstainRings = Array.from({ length: Math.min(4, d.abstained) }, (_, k) =>
-      polar(cx, cy, R * d.score + size * 0.02 * (k + 1), angle)
+    // Abstain rings sit on the axis just outside the frontier point, one per abstention.
+    const abstainRings = Array.from({ length: Math.min(MAX_MARKS_PER_DOMAIN, d.abstained) }, (_, k) =>
+      polar(cx, cy, R * d.score + size * 0.016 * (k + 1), angle)
     );
     return { section: d.section, angle, outer, frontier, label, latencyTicks, errorDots, abstainRings, finale: d.finale };
   });

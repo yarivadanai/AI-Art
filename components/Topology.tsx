@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { computeTopology, polygonPath, DOMAIN_SHORT, type TopologyInput } from "@/lib/topology";
+import { REPORT_COPY } from "@/lib/commentary";
 
 interface TopologyProps {
   input: TopologyInput;
@@ -32,7 +33,9 @@ export function Topology({ input, size = 400, labels = true, className }: Topolo
       height="100%"
       className={className}
       role="img"
-      aria-label={`Cognitive topology: ${g.axes.map((a) => `${DOMAIN_SHORT[a.section]} ${Math.round(a.frontier.x === g.cx && a.frontier.y === g.cy ? 0 : 100 * Math.hypot(a.frontier.x - g.cx, a.frontier.y - g.cy) / g.R)}%`).join(", ")}`}
+      aria-label={`Cognitive topology: ${input.domains
+        .map((d) => `${DOMAIN_SHORT[d.section]} ${input.levels ? `${Math.round(d.score * 8)}/8` : `${Math.round(d.score * 100)}%`}`)
+        .join(", ")}`}
     >
       <defs>
         <pattern id={hatchId} width={hatchGap} height={hatchGap} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
@@ -113,7 +116,7 @@ export function Topology({ input, size = 400, labels = true, className }: Topolo
           fill={MUTED}
           letterSpacing="0.15em"
         >
-          {g.levels ? "RINGS: LEVELS 1-8 · DASHED: REFERENCE" : "RINGS: 12.5% STEPS · DASHED: REFERENCE"}
+          {g.levels ? REPORT_COPY.figureCaptionAdaptive : REPORT_COPY.figureCaptionFixed}
         </text>
       )}
     </svg>

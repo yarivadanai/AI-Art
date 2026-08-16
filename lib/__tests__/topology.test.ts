@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { computeTopology, polygonPath, topologyInputFromResult, type TopologyInput } from "@/lib/topology";
+import { computeTopology, ladderMarks, polygonPath, topologyInputFromResult, type TopologyInput } from "@/lib/topology";
+import { describeSpecimen } from "@/lib/commentary";
 import { SECTION_ORDER, type SessionMetrics } from "@/lib/types";
 
 const scores = { structural: 0.5, "state-tracking": 0.25, "sequential-depth": 1, "signal-detection": 0, probabilistic: 0.75 };
@@ -64,11 +65,12 @@ describe("topology geometry", () => {
     const g = computeTopology(topologyInputFromResult(scores, metrics()), 400);
     for (const a of g.axes) {
       expect(a.errorDots.length).toBe(2);
-      expect(a.abstainRings.length).toBe(1);
       expect(a.latencyTicks.length).toBe(3); // 25 s -> round(2.5) = 3
     }
+    // Without ladder marks, an abstained finale is not drawn twice: metrics count 1, finale abstained -> 0 rings.
+    expect(g.axes.map((a) => a.abstainRings.length)).toEqual([1, 1, 0, 1, 0]);
     expect(g.axes.map((a) => a.finale)).toEqual(["correct", "wrong", "abstained", "unanswered", "abstained"]);
-    // caps: never more than 6 error dots / 4 abstain rings / 6 latency ticks
+    // caps: one mark per event up to the 7 items a domain has; latency ticks stop at 6
     const heavy = topologyInputFromResult(
       scores,
       metrics({
@@ -79,10 +81,45 @@ describe("topology geometry", () => {
     );
     const h = computeTopology(heavy, 400);
     for (const a of h.axes) {
-      expect(a.errorDots.length).toBe(6);
-      expect(a.abstainRings.length).toBe(4);
+      expect(a.errorDots.length).toBe(7);
+      expect(a.abstainRings.length).toBe(7);
       expect(a.latencyTicks.length).toBe(6);
     }
+  });
+
+  it("draws dots and rings from ladder items only when the graded rows are supplied", () => {
+    const rows = [
+      { section: "structural" as const, kind: "ladder" as const, correct: false, confidence: "sure", abstained: false },
+      { section: "structural" as const, kind: "ladder" as const, correct: true, confidence: "sure", abstained: false },
+      { section: "structural" as const, kind: "ladder" as const, correct: false, confidence: null, abstained: true },
+      { section: "structural" as const, kind: "finale" as const, correct: false, confidence: "sure", abstained: false }, // finale: marker only
+      { section: "state-tracking" as const, kind: null, correct: false, confidence: "sure", abstained: false }, // fixed mode: no meta = ladder
+      { section: "state-tracking" as const, kind: "finale" as const, correct: false, confidence: null, abstained: true },
+    ];
+    const marks = ladderMarks(rows);
+    expect(marks.structural).toEqual({ sureWrong: 1, abstained: 1 });
+    expect(marks["state-tracking"]).toEqual({ sureWrong: 1, abstained: 0 });
+    expect(marks.probabilistic).toEqual({ sureWrong: 0, abstained: 0 });
+    const g = computeTopology(topologyInputFromResult(scores, metrics(), marks), 400);
+    expect(g.axes[0].errorDots.length).toBe(1);
+    expect(g.axes[0].abstainRings.length).toBe(1);
+    expect(g.axes[0].finale).toBe("correct");
+    expect(g.axes[4].errorDots.length).toBe(0);
+  });
+
+  it("describeSpecimen speaks in levels for adaptive results and percentages otherwise", () => {
+    const d = describeSpecimen({ sessionId: "cmabcdefgh12345", overall: 0.5, sectionScores: scores, metrics: metrics() });
+    expect(d.specimen).toBe("CMABCDEF");
+    expect(d.band).toBe("C");
+    expect(d.adaptive).toBe(true);
+    expect(d.summary).toBe("Insight 4/8 · Memory 2/8 · Exact 8/8 · Signal 0/8 · Inference 6/8");
+    expect(d.title).toBe("MICA | Specimen #CMABCDEF: Band C, Heuristic-Dependent");
+    expect(d.description).toContain(d.summary);
+    expect(d.shareText).toContain("Band C");
+    const legacy = describeSpecimen({ sessionId: "x", overall: 0.1, sectionScores: { structural: 1.4 }, metrics: null });
+    expect(legacy.adaptive).toBe(false);
+    expect(legacy.rows[0]).toMatchObject({ value: "100%", frac: 1 });
+    expect(legacy.rows[1]).toMatchObject({ value: "0%", frac: 0 });
   });
 
   it("copes with a legacy result (no metrics) and clamps scores", () => {

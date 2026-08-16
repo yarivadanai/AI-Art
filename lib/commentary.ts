@@ -371,13 +371,24 @@ export function getSectionPendingRemark(section: Section, deferred: boolean): st
 export const REPORT_COPY = {
   referenceHeadline: "Reference implementation on the same 25 items: 100%, in under a tenth of a second.",
   referenceHeadlineAdaptive: "Reference implementation on the same ladders: level 8 on every axis, then the machine-scale item, in under a tenth of a second.",
-  topologyNoteAdaptive: "Dashed ring: reference implementation (level 8, the top of every ladder).",
+  /** Legend under the topology figure for adaptive results (marks are one per event on the ladder items). */
   topologyLegend:
-    "Filled shape: your frontiers. Dashed ring: the reference implementation. Red dots: answers marked SURE that were wrong. Hollow rings: abstentions. Inner ticks: latency (one per 10 s). Ring marker: the machine-scale item (filled = answered correctly, red = answered wrongly, hollow = declined).",
+    "Filled shape: your frontiers. Dashed ring: the reference implementation (level 8, the top of every ladder). Red dots: ladder answers marked SURE that were wrong, one per answer. Hollow rings: ladder abstentions, one per abstention. Inner ticks: latency (one per 10 s, up to six). Ring marker: the machine-scale item (filled = answered correctly, red = answered wrongly, hollow = declined).",
+  /** Legend for fixed-mode and legacy results (percent axes, no finale marker). */
+  topologyLegendFixed:
+    "Filled shape: your score per domain. Dashed ring: the reference implementation (100% on every axis). Red dots: answers marked SURE that were wrong, one per answer. Hollow rings: abstentions, one per abstention. Inner ticks: latency (one per 10 s, up to six).",
   shareTitle: "SPECIMEN CARD",
   shareBlurb: "This shape is yours: derived from where each ladder broke, how sure you were when you were wrong, when you declined, and how long you took. Every mind has a shape. Share yours; the link opens the full profile.",
   mirrorSubhead: "Your own numbers, described the way you describe machines.",
-  topologyNote: "Dashed ring: reference implementation (100% on every axis).",
+  tagline: "Every mind has a shape.",
+  subtitle: "THE MEASURING PARADOX · MACHINE-INDEXED COGNITIVE ASSESSMENT",
+  ogHeader: "MICA · COGNITIVE PROFILE",
+  ogScaleAdaptive: "LEVEL CLEARED OF 8 · DASHED RING = REFERENCE IMPLEMENTATION",
+  ogScaleFixed: "SCORE · DASHED RING = REFERENCE IMPLEMENTATION",
+  figureCaptionAdaptive: "RINGS: LEVELS 1-8 · DASHED: REFERENCE",
+  figureCaptionFixed: "RINGS: 12.5% STEPS · DASHED: REFERENCE",
+  metaTitleDefault: "MICA | Cognitive Profile",
+  metaDescriptionDefault: "The Measuring Paradox: a cognitive profile from the Machine-Indexed Cognitive Assessment.",
   observationsReference: "reference: microseconds to milliseconds",
   calibrationBlurb:
     "Confident error is what specimens call hallucination when a machine produces it. Declining to answer is what they demand of machines and rarely practise. Both are now measured on the specimens themselves.",
@@ -386,6 +397,81 @@ export const REPORT_COPY = {
 
 export function getBaselineNote(section: Section): string {
   return `Reference: ${SECTION_BASELINES[section].tool} (circa ${SECTION_BASELINES[section].year}) achieves 100% on these tasks.`;
+}
+
+/** One row per domain of the specimen's headline figures, in section order. */
+export interface SpecimenRow {
+  section: Section;
+  /** Short domain name (Insight, Memory, ...). */
+  short: string;
+  /** "4/8" for adaptive results, "50%" otherwise. */
+  value: string;
+  /** 0..1, clamped. */
+  frac: number;
+}
+
+export interface SpecimenDescription {
+  /** First eight characters of the session id, upper-cased. */
+  specimen: string;
+  band: string;
+  label: string;
+  adaptive: boolean;
+  rows: SpecimenRow[];
+  /** "Insight 4/8 · Memory 2/8 · ..." */
+  summary: string;
+  /** Page / OG title. */
+  title: string;
+  /** OG description. */
+  description: string;
+  /** Web Share text. */
+  shareText: string;
+}
+
+const DOMAIN_SHORT_NAMES: Record<Section, string> = {
+  structural: "Insight",
+  "state-tracking": "Memory",
+  "sequential-depth": "Exact",
+  "signal-detection": "Signal",
+  probabilistic: "Inference",
+};
+
+/**
+ * The one description of a result that every sharing surface uses (report
+ * specimen card, Open Graph metadata, OG image), so they cannot drift apart.
+ * Data-bound: nothing here is seeded or invented.
+ */
+export function describeSpecimen(input: {
+  sessionId: string;
+  overall: number;
+  sectionScores: Record<string, number>;
+  metrics: SessionMetrics | null;
+}): SpecimenDescription {
+  const adaptive = input.metrics?.mode === "adaptive";
+  const verdict = getVerdict(input.overall);
+  const specimen = input.sessionId.slice(0, 8).toUpperCase();
+  const rows: SpecimenRow[] = SECTION_ORDER.map((section) => {
+    const score = Math.max(0, Math.min(1, input.sectionScores[section] ?? 0));
+    const level = input.metrics?.frontiers?.[section] ?? 0;
+    return {
+      section,
+      short: DOMAIN_SHORT_NAMES[section],
+      value: adaptive ? `${level}/8` : `${Math.round(score * 100)}%`,
+      frac: adaptive ? Math.max(0, Math.min(1, level / 8)) : score,
+    };
+  });
+  const summary = rows.map((r) => `${r.short} ${r.value}`).join(" · ");
+  const title = `MICA | Specimen #${specimen}: Band ${verdict.band}, ${verdict.label}`;
+  return {
+    specimen,
+    band: verdict.band,
+    label: verdict.label,
+    adaptive,
+    rows,
+    summary,
+    title,
+    description: `Cognitive topology - ${summary}. ${REPORT_COPY.tagline}`,
+    shareText: `MICA cognitive profile #${specimen}: Band ${verdict.band}, ${verdict.label}. ${summary}. ${REPORT_COPY.tagline}`,
+  };
 }
 
 export function getVerdict(overall: number): {

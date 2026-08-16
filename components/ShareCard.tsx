@@ -2,17 +2,14 @@
 
 import { useState } from "react";
 import { Topology } from "./Topology";
-import { REPORT_COPY } from "@/lib/commentary";
-import { DOMAIN_SHORT, type TopologyInput } from "@/lib/topology";
-import { SECTION_ORDER, type SessionMetrics } from "@/lib/types";
+import { REPORT_COPY, type SpecimenDescription } from "@/lib/commentary";
+import type { TopologyInput } from "@/lib/topology";
 
 interface ShareCardProps {
   resultId: string;
-  specimen: string;
-  band: string;
-  verdict: string;
+  /** From describeSpecimen: the same text the OG metadata and image use. */
+  description: SpecimenDescription;
   topology: TopologyInput;
-  metrics: SessionMetrics | null;
 }
 
 /**
@@ -20,14 +17,10 @@ interface ShareCardProps {
  * frontier line, and share actions. The link's Open Graph image is rendered
  * by /api/og/:id from the same geometry.
  */
-export function ShareCard({ resultId, specimen, band, verdict, topology, metrics }: ShareCardProps) {
+export function ShareCard({ resultId, description, topology }: ShareCardProps) {
   const [copied, setCopied] = useState(false);
   const url = typeof window !== "undefined" ? `${window.location.origin}/result/${resultId}` : `/result/${resultId}`;
-  const adaptive = metrics?.mode === "adaptive";
-  const summary = SECTION_ORDER.map((s) =>
-    adaptive ? `${DOMAIN_SHORT[s]} ${metrics?.frontiers?.[s] ?? 0}/8` : `${DOMAIN_SHORT[s]} ${Math.round((topology.domains.find((d) => d.section === s)?.score ?? 0) * 100)}%`
-  ).join(" · ");
-  const shareText = `MICA cognitive profile #${specimen}: Band ${band}, ${verdict}. ${summary}. Every mind has a shape.`;
+  const { specimen, band, label: verdict, summary, shareText } = description;
 
   const copy = async () => {
     try {
@@ -47,8 +40,10 @@ export function ShareCard({ resultId, specimen, band, verdict, topology, metrics
           url,
         });
         return;
-      } catch {
-        /* cancelled */
+      } catch (e) {
+        // The visitor dismissed the native sheet: do nothing (do not touch the clipboard).
+        if ((e as DOMException)?.name === "AbortError") return;
+        // Sharing failed for another reason (e.g. not allowed): fall back to copying the link.
       }
     }
     copy();

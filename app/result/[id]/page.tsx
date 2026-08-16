@@ -6,10 +6,11 @@ import Link from "next/link";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
 import { Topology } from "@/components/Topology";
 import { ShareCard } from "@/components/ShareCard";
-import { topologyInputFromResult } from "@/lib/topology";
+import { ladderMarks, topologyInputFromResult } from "@/lib/topology";
 import { AICommentary } from "@/components/AICommentary";
 import {
   REPORT_COPY,
+  describeSpecimen,
   getBaselineNote,
   getFinalObservation,
   getMirrorLines,
@@ -75,8 +76,29 @@ export default function ResultPage() {
     () => (result ? getMirrorLines(result.metrics, result.beliefs, result.sectionScores) : []),
     [result]
   );
-  const topology = useMemo(
-    () => (result ? topologyInputFromResult(result.sectionScores as unknown as Record<string, number>, result.metrics) : null),
+  const topology = useMemo(() => {
+    if (!result) return null;
+    const marks = ladderMarks(
+      result.questionResults.map((q) => ({
+        section: q.section,
+        kind: q.payload.meta?.kind ?? null,
+        correct: q.correct,
+        confidence: q.confidence,
+        abstained: q.abstained,
+      }))
+    );
+    return topologyInputFromResult(result.sectionScores as unknown as Record<string, number>, result.metrics, marks);
+  }, [result]);
+  const description = useMemo(
+    () =>
+      result
+        ? describeSpecimen({
+            sessionId: result.specimenId,
+            overall: result.overall,
+            sectionScores: result.sectionScores as unknown as Record<string, number>,
+            metrics: result.metrics,
+          })
+        : null,
     [result]
   );
 
@@ -206,7 +228,9 @@ export default function ResultPage() {
                 <Topology input={topology} size={400} />
               </div>
             )}
-            <p className="font-mono text-[10px] text-muted mt-3 text-center">{REPORT_COPY.topologyLegend}</p>
+            <p className="font-mono text-[10px] text-muted mt-3 text-center">
+              {metrics?.mode === "adaptive" ? REPORT_COPY.topologyLegend : REPORT_COPY.topologyLegendFixed}
+            </p>
           </div>
           <div className="card space-y-4">
             <div className="section-label">OBSERVATIONS</div>
@@ -260,7 +284,9 @@ export default function ResultPage() {
               {metrics && (
                 <div>
                   <dt className="text-muted">ABSTENTIONS</dt>
-                  <dd className="text-white">{metrics.abstained} of {result.questionResults.length}</dd>
+                  <dd className="text-white">
+                    {metrics.abstained} of {metrics.answered + metrics.abstained} items met
+                  </dd>
                 </div>
               )}
               {fastestCorrect && (
@@ -307,16 +333,7 @@ export default function ResultPage() {
         </section>
 
         {/* Share */}
-        {topology && (
-          <ShareCard
-            resultId={result.resultId}
-            specimen={specimen}
-            band={result.verdictBand}
-            verdict={result.verdict}
-            topology={topology}
-            metrics={metrics}
-          />
-        )}
+        {topology && description && <ShareCard resultId={result.resultId} description={description} topology={topology} />}
 
         {/* Closing */}
         <section className="card border-border">
