@@ -20,9 +20,9 @@ interface RadarChartProps {
 }
 
 const RADAR_LABELS: Record<string, string> = {
-  structural: "Structure",
-  "state-tracking": "State",
-  "sequential-depth": "Depth",
+  structural: "Insight",
+  "state-tracking": "Memory",
+  "sequential-depth": "Exact",
   "signal-detection": "Signal",
   probabilistic: "Inference",
 };

@@ -1,11 +1,11 @@
-import type { Beliefs, Section, SectionScores, SectionSummary, SessionMetrics } from "./types";
+import { SECTION_ORDER, type Beliefs, type FinaleOutcome, type Section, type SectionScores, type SectionSummary, type SessionMetrics } from "./types";
 import { beliefWord } from "./beliefs";
 import { referenceNote, timeClassCeilingMs } from "./reference";
 
 const SECTION_LABELS: Record<Section, string> = {
-  structural: "Abstract Structure",
-  "state-tracking": "State Tracking",
-  "sequential-depth": "Sequential Depth",
+  structural: "Structural Insight",
+  "state-tracking": "Working Memory",
+  "sequential-depth": "Exact Computation",
   "signal-detection": "Signal Detection",
   probabilistic: "Probabilistic Inference",
 };
@@ -91,11 +91,11 @@ export function getSectionCommentary(
 export function getSectionIntro(section: Section): string {
   const intros: Record<Section, string> = {
     structural:
-      "Evaluating abstract structure. Human spatial cognition is calibrated for 3D Euclidean space. A remarkable adaptation, but one with hard limits. How far can abstract mathematical reasoning extend beyond the perceptual dimensions the brain evolved to navigate? These tasks explore the boundary between spatial intuition and formal geometry.",
+      "Evaluating structural insight. Human spatial cognition is calibrated for 3D Euclidean space. A remarkable adaptation, but one with hard limits. How far can abstract mathematical reasoning extend beyond the perceptual dimensions the brain evolved to navigate? These tasks explore the boundary between spatial intuition and formal geometry.",
     "state-tracking":
-      "Evaluating state tracking. Conscious attention appears to operate as a serial bottleneck with an estimated throughput of ~50 bits per second. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second. How effectively can human cognition synthesize information across simultaneous data streams and maintain multiple state variables? These tasks test the ceiling.",
+      "Evaluating working memory. Conscious attention appears to operate as a serial bottleneck with an estimated throughput of ~50 bits per second. The Psychological Refractory Period constrains conscious decision-making to roughly one operation per second. How effectively can human cognition synthesize information across simultaneous data streams and maintain multiple state variables? These tasks test the ceiling.",
     "sequential-depth":
-      "Evaluating sequential depth. Cognitive science suggests the human mental stack reliably handles 3-4 levels of nested reasoning before accuracy collapses. Biological computation evolved for approximate inference, efficient in most environments but catastrophic when a single step matters. Can systematic strategies extend these limits? These tasks probe the depth at which mental bookkeeping fails.",
+      "Evaluating exact computation. Cognitive science suggests the human mental stack reliably handles 3-4 levels of nested reasoning before accuracy collapses. Biological computation evolved for approximate inference, efficient in most environments but catastrophic when a single step matters. Can systematic strategies extend these limits? These tasks probe the depth at which mental bookkeeping fails.",
     "signal-detection":
       "Evaluating signal detection. Human pattern recognition is deeply coupled to semantic context: faces, narratives, spatial relationships. When data carries no inherent meaning (raw strings, noise fields, pseudorandom sequences), does the perceptual system adapt, or does it require meaning as a precondition for detection?",
     probabilistic:
@@ -107,9 +107,9 @@ export function getSectionIntro(section: Section): string {
 /** One-line teaser for the next section, used at transitions (the full intro is only read once, before section 1). */
 export function getSectionTeaser(section: Section): string {
   const teasers: Record<Section, string> = {
-    structural: "Next: abstract structure. Geometry beyond the three dimensions the specimen evolved to navigate.",
-    "state-tracking": "Next: state tracking. Several things at once, for longer than attention is built to hold them.",
-    "sequential-depth": "Next: sequential depth. Many small exact steps, where one slip is total.",
+    structural: "Next: structural insight. See the shape, or compute until the clock runs out.",
+    "state-tracking": "Next: working memory. Several things at once, for longer than attention is built to hold them.",
+    "sequential-depth": "Next: exact computation. Many small exact steps, where one slip is total.",
     "signal-detection": "Next: signal detection. Patterns in data that carry no meaning to help find them.",
     probabilistic: "Next: probabilistic inference. Exact numbers where intuition offers only a feeling.",
   };
@@ -136,14 +136,15 @@ export function getSectionFeedback(
   summary: SectionSummary,
   running: RunningTotals,
   transitionIndex: number,
-  specimenId: string | null
+  specimenId: string | null,
+  withLabel = true
 ): string {
   const label = SECTION_LABELS[section];
   const ref = referenceNote("", section);
   const secs = (summary.meanTimeMs / 1000).toFixed(1);
   const parts: string[] = [];
 
-  parts.push(`${label}: ${summary.correct} of ${summary.total} correct.`);
+  parts.push(withLabel ? `${label}: ${summary.correct} of ${summary.total} correct.` : `${summary.correct} of ${summary.total} items correct.`);
 
   if (summary.abstained > 0) {
     parts.push(
@@ -185,6 +186,26 @@ export function getSectionFeedback(
   return parts.join(" ");
 }
 
+/** Opening remark at a transition in an adaptive session: where the frontier was found and what the finale showed. */
+export function getFrontierRemark(section: Section, frontier: number, finale: FinaleOutcome): string {
+  const label = SECTION_LABELS[section];
+  const where =
+    frontier === 0
+      ? `${label}: no level cleared. The frontier lies below level 1 of this ladder.`
+      : frontier >= 8
+        ? `${label}: level 8 cleared. The ladder ran out before the specimen did; the frontier lies beyond it.`
+        : `${label}: frontier located at level ${frontier} of 8.`;
+  const fin =
+    finale === "abstained"
+      ? "At machine scale the specimen declined to answer. Recorded as abstention."
+      : finale === "correct"
+        ? "At machine scale the specimen answered correctly. Statistical outlier flagged for verification."
+        : finale === "wrong"
+          ? "At machine scale the specimen produced an answer anyway. Recorded as such."
+          : "The machine-scale item was not answered.";
+  return `${where} ${fin}`;
+}
+
 export interface MirrorLine {
   label: string;
   text: string;
@@ -201,6 +222,43 @@ export function getMirrorLines(
 ): MirrorLine[] {
   const lines: MirrorLine[] = [];
   if (!metrics) return lines;
+
+  // Frontiers (adaptive sessions)
+  if (metrics.mode === "adaptive" && metrics.frontiers) {
+    const fr = metrics.frontiers;
+    const secs = SECTION_ORDER.filter((s) => s in fr);
+    const parts = secs.map((s) => `${SECTION_LABELS[s]} ${fr[s]}/8`);
+    const maxed = secs.filter((s) => fr[s] >= 8);
+    const none = secs.filter((s) => fr[s] === 0);
+    const joinNames = (xs: Section[]) => xs.map((s) => SECTION_LABELS[s]).join(", ");
+    const maxedNote =
+      maxed.length === secs.length
+        ? "Every ladder was exceeded; the frontiers lie beyond this instrument. "
+        : maxed.length
+          ? `${joinNames(maxed)}: ladder exceeded. `
+          : "";
+    const noneNote =
+      none.length === secs.length
+        ? "No level was cleared in any domain. "
+        : none.length
+          ? `${joinNames(none)}: level 1 not cleared. `
+          : "";
+    lines.push({
+      label: "FRONTIERS",
+      text: `Levels cleared: ${parts.join(", ")}. ${maxedNote}${noneNote}The reference implementation's frontier on every axis is bounded by memory, not attention; on this ladder it does not exist.`,
+    });
+    if (metrics.finales) {
+      const f = metrics.finales;
+      const keys = Object.keys(f) as Section[];
+      const abst = keys.filter((s) => f[s] === "abstained").length;
+      const wrong = keys.filter((s) => f[s] === "wrong").length;
+      const right = keys.filter((s) => f[s] === "correct").length;
+      lines.push({
+        label: "MACHINE SCALE",
+        text: `Five items were posed at machine scale (a plain script resolves each in milliseconds). The specimen abstained on ${abst}, answered wrongly on ${wrong}${right ? `, and answered correctly on ${right}` : ""}. ${wrong > abst ? "Producing an answer to a question one cannot answer is, in the specimen's own vocabulary, hallucination." : abst > 0 ? "Declining is the behaviour most demanded of language models and least practised by their critics; here it was practised." : ""}`,
+      });
+    }
+  }
 
   // Speed
   const secs = metrics.meanTimeMs / 1000;
@@ -244,7 +302,12 @@ export function getMirrorLines(
   // Beliefs quoted back
   if (beliefs) {
     const w = (id: string) => beliefWord(beliefs[id]);
-    const seq = Math.round((sectionScores["sequential-depth"] ?? 0) * 100);
+    const seqLabel = SECTION_LABELS["sequential-depth"];
+    const seq =
+      metrics.mode === "adaptive" && metrics.frontiers
+        ? `${seqLabel}: level ${metrics.frontiers["sequential-depth"]} of 8`
+        : `${seqLabel}: ${Math.round((sectionScores["sequential-depth"] ?? 0) * 100)}%`;
+    const refScore = metrics.mode === "adaptive" ? "level 8 on the same ladder" : "100% on the same items";
 
     const understands = w("llm_understands");
     if (understands) {
@@ -265,10 +328,10 @@ export function getMirrorLines(
         label: "AT INTAKE",
         text:
           trust === "agreed"
-            ? `You agreed you would trust a machine over yourself for an exact calculation. Sequential depth: ${seq}%. The trust is well placed. The question the piece asks is why the same trust is withheld everywhere else.`
+            ? `You agreed you would trust a machine over yourself for an exact calculation. ${seq}. The trust is well placed. The question the piece asks is why the same trust is withheld everywhere else.`
             : trust === "disagreed"
-              ? `You disagreed that you would trust a machine over yourself for an exact calculation. Sequential depth: ${seq}%. The reference implementation scores 100% on the same items in microseconds. The disagreement is recorded.`
-              : `You were neutral on trusting a machine over yourself for an exact calculation. Sequential depth: ${seq}%. The reference implementation scores 100%. Neutrality is now a choice rather than an absence of data.`,
+              ? `You disagreed that you would trust a machine over yourself for an exact calculation. ${seq}. The reference implementation scores ${refScore} in microseconds. The disagreement is recorded.`
+              : `You were neutral on trusting a machine over yourself for an exact calculation. ${seq}. The reference implementation scores ${refScore}. Neutrality is now a choice rather than an absence of data.`,
       });
     }
 
@@ -307,6 +370,8 @@ export function getSectionPendingRemark(section: Section, deferred: boolean): st
 /** Fixed Authority copy used by the report and dashboard, kept here so voice edits happen in one place. */
 export const REPORT_COPY = {
   referenceHeadline: "Reference implementation on the same 25 items: 100%, in under a tenth of a second.",
+  referenceHeadlineAdaptive: "Reference implementation on the same ladders: level 8 on every axis, then the machine-scale item, in under a tenth of a second.",
+  topologyNoteAdaptive: "Dashed ring: reference implementation (level 8, the top of every ladder).",
   mirrorSubhead: "Your own numbers, described the way you describe machines.",
   topologyNote: "Dashed ring: reference implementation (100% on every axis).",
   observationsReference: "reference: microseconds to milliseconds",

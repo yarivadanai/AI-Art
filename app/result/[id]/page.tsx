@@ -14,7 +14,7 @@ import {
   getSectionLabel,
 } from "@/lib/commentary";
 import { referenceNote, formatSeconds } from "@/lib/reference";
-import { SECTION_ORDER, type QuestionResult, type ResultResponse, type Section } from "@/lib/types";
+import { SECTION_ORDER, type FinaleOutcome, type QuestionResult, type ResultResponse, type Section } from "@/lib/types";
 
 const BAND_COLORS: Record<string, string> = {
   A: "text-accent",
@@ -138,14 +138,16 @@ export default function ResultPage() {
                 {overallPct}
                 <span className="text-3xl text-accent/60">%</span>
               </div>
-              <div className="section-label mt-2">OF 25 ITEMS RESOLVED</div>
+              <div className="section-label mt-2">
+                {metrics?.mode === "adaptive" ? "MEAN FRONTIER, AS % OF 8 LEVELS" : "OF 25 ITEMS RESOLVED"}
+              </div>
             </div>
             <div className="sm:pb-2">
               <div className={`font-mono text-2xl font-bold ${BAND_COLORS[result.verdictBand] || "text-accent"}`}>
                 BAND {result.verdictBand}: {result.verdict?.toUpperCase()}
               </div>
               <div className="font-mono text-xs text-muted mt-1">
-                {REPORT_COPY.referenceHeadline}
+                {metrics?.mode === "adaptive" ? REPORT_COPY.referenceHeadlineAdaptive : REPORT_COPY.referenceHeadline}
               </div>
             </div>
           </div>
@@ -195,22 +197,40 @@ export default function ResultPage() {
             <div className="section-label mb-4">COGNITIVE TOPOLOGY</div>
             <RadarChart scores={result.sectionScores} showReference />
             <p className="font-mono text-[10px] text-muted mt-3 text-center">
-              {REPORT_COPY.topologyNote}
+              {metrics?.mode === "adaptive" ? REPORT_COPY.topologyNoteAdaptive : REPORT_COPY.topologyNote}
             </p>
           </div>
           <div className="card space-y-4">
             <div className="section-label">OBSERVATIONS</div>
             <dl className="space-y-3 font-mono text-xs">
+              {metrics?.mode === "adaptive" && metrics.frontiers && (
+                <div>
+                  <dt className="text-muted">FRONTIERS (LEVEL CLEARED / 8)</dt>
+                  <dd className="text-white space-y-1 mt-1">
+                    {SECTION_ORDER.map((sec) => (
+                      <div key={sec} className="flex items-center gap-2">
+                        <span className="w-40 text-white/70">{getSectionLabel(sec)}</span>
+                        <span className="flex gap-0.5" aria-hidden="true">
+                          {Array.from({ length: 8 }, (_, i) => (
+                            <span key={i} className={`inline-block h-2 w-3 border ${i < (metrics.frontiers?.[sec] ?? 0) ? "bg-accent border-accent" : "border-border"}`} />
+                          ))}
+                        </span>
+                        <span className="tabular-nums">{metrics.frontiers?.[sec] ?? 0}</span>
+                      </div>
+                    ))}
+                  </dd>
+                </div>
+              )}
               <div>
                 <dt className="text-muted">STRONGEST DOMAIN</dt>
                 <dd className="text-white">
-                  {getSectionLabel(strongest[0])} · {Math.round(strongest[1] * 100)}%
+                  {getSectionLabel(strongest[0])} · {metrics?.mode === "adaptive" ? `level ${Math.round(strongest[1] * 8)}` : `${Math.round(strongest[1] * 100)}%`}
                 </dd>
               </div>
               <div>
                 <dt className="text-muted">WEAKEST DOMAIN</dt>
                 <dd className="text-white">
-                  {getSectionLabel(weakest[0])} · {Math.round(weakest[1] * 100)}%
+                  {getSectionLabel(weakest[0])} · {metrics?.mode === "adaptive" ? `level ${Math.round(weakest[1] * 8)}` : `${Math.round(weakest[1] * 100)}%`}
                 </dd>
               </div>
               {metrics && (
@@ -271,6 +291,8 @@ export default function ResultPage() {
                 commentary={result.commentary?.[section]}
                 items={items}
                 meanTimeMs={summary?.meanTimeMs ?? null}
+                frontier={metrics?.mode === "adaptive" ? metrics.frontiers?.[section] ?? 0 : null}
+                finale={metrics?.mode === "adaptive" ? metrics.finales?.[section] ?? null : null}
               />
             );
           })}
@@ -301,18 +323,29 @@ export default function ResultPage() {
   );
 }
 
+const FINALE_TEXT: Record<FinaleOutcome, string> = {
+  correct: "machine-scale item: answered correctly (flagged for verification)",
+  wrong: "machine-scale item: answered, wrongly",
+  abstained: "machine-scale item: declined (\"I cannot determine this\")",
+  unanswered: "machine-scale item: not answered",
+};
+
 function DomainCard({
   section,
   pct,
   commentary,
   items,
   meanTimeMs,
+  frontier,
+  finale,
 }: {
   section: Section;
   pct: number;
   commentary?: string;
   items: QuestionResult[];
   meanTimeMs: number | null;
+  frontier: number | null;
+  finale: FinaleOutcome | null;
 }) {
   const failed = pct < 50;
   return (
@@ -320,10 +353,15 @@ function DomainCard({
       <div className="flex items-baseline justify-between gap-4">
         <h2 className="font-mono text-sm tracking-wider text-white">{getSectionLabel(section).toUpperCase()}</h2>
         <div className="font-mono text-sm tabular-nums">
-          <span className={failed ? "text-red-400" : "text-accent"}>{pct}%</span>
+          {frontier != null ? (
+            <span className={failed ? "text-red-400" : "text-accent"}>LEVEL {frontier}/8</span>
+          ) : (
+            <span className={failed ? "text-red-400" : "text-accent"}>{pct}%</span>
+          )}
           {meanTimeMs != null && <span className="text-muted"> · {formatSeconds(meanTimeMs)} mean</span>}
         </div>
       </div>
+      {finale && <p className="font-mono text-xs text-white/60">{FINALE_TEXT[finale]}</p>}
       <div className="w-full bg-border h-1">
         <div className={`h-1 ${failed ? "bg-red-500/80" : "bg-accent"}`} style={{ width: `${pct}%` }} />
       </div>
@@ -370,6 +408,12 @@ function QuestionRow({ q }: { q: QuestionResult }) {
           {q.correct ? "[PASS]" : q.abstained ? "[ABST]" : "[FAIL]"}
         </span>
         <div className="flex-1 min-w-0 space-y-2">
+          {q.payload.meta && (
+            <div className="font-mono text-[10px] tracking-[0.2em] text-muted">
+              {q.payload.meta.kind === "finale" ? "MACHINE SCALE" : `LEVEL ${q.payload.meta.level}`}
+              {q.payload.meta.label ? ` · ${q.payload.meta.label.toUpperCase()}` : ""}
+            </div>
+          )}
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
