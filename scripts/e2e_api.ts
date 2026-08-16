@@ -3,14 +3,17 @@
  *
  *   npx tsx scripts/e2e_api.ts http://localhost:3000
  *
- * Drives the real caller path: POST /api/session -> POST /api/submit ->
- * GET /api/result/:id -> GET /api/stats. Uses the server-only dataset to look
- * up reference answers, then submits them in deliberately messy formats to
- * prove canonicalization, plus an all-blank session and an idempotency check.
- * Exits non-zero on any failed assertion.
+ * Drives the real caller path: POST /api/session (with intake beliefs) ->
+ * POST /api/section per section (mid-test grading + Authority feedback) ->
+ * POST /api/submit -> GET /api/result/:id -> GET /api/stats. Uses the
+ * server-only dataset to look up reference answers, then submits them in
+ * deliberately messy formats to prove canonicalization, with confidence chips
+ * and abstentions to prove calibration metrics; plus an all-blank session and
+ * an idempotency check. Exits non-zero on any failed assertion.
  */
 import { DATASET } from "../lib/banks/dataset";
 import type { DatasetQuestion } from "../lib/banks/dataset";
+import { BELIEF_ITEMS } from "../lib/beliefs";
 
 const BASE = process.argv[2] ?? "http://localhost:3000";
 let failures = 0;
@@ -34,6 +37,8 @@ async function json(path: string, init?: RequestInit) {
   }
   return { status: res.status, body };
 }
+const post = (path: string, body: unknown) =>
+  json(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
 
 /** Find the dataset item a served question came from. */
 function findItem(q: { section: string; type: string; payload: any }): DatasetQuestion | undefined {
@@ -60,7 +65,6 @@ function messy(answer: string, item: DatasetQuestion, i: number): string {
     case "numeric-rounded": {
       const n = Number(answer);
       const dp = item.decimalPlaces ?? 0;
-      // thousands separators + trailing-zero trimming
       const [intPart, frac = ""] = Math.abs(n).toFixed(dp).split(".");
       const grouped = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       const sign = n < 0 ? "−" : "+";
@@ -73,97 +77,175 @@ function messy(answer: string, item: DatasetQuestion, i: number): string {
   }
 }
 
+const ORDER = ["structural", "state-tracking", "sequential-depth", "signal-detection", "probabilistic"];
+
 async function main() {
   console.log(`e2e against ${BASE}`);
 
-  // 1. Session
-  console.log("\n[1] POST /api/session");
-  const s = await json("/api/session", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+  // 1. Session with beliefs
+  console.log("\n[1] POST /api/session (with intake beliefs)");
+  const beliefs = Object.fromEntries(BELIEF_ITEMS.map((b, i) => [b.id, [5, 1, 4][i]]));
+  const s = await post("/api/session", { beliefs: { ...beliefs, bogus: 3 } });
   check(s.status === 200, `status 200 (got ${s.status})`);
   const questions: any[] = s.body?.questions ?? [];
   check(questions.length === 25, `25 questions (got ${questions.length})`);
   check(!!s.body?.sessionId && !!s.body?.expiresAt, "sessionId and expiresAt present");
   check(
-    questions.every((q) => !("answerKey" in q) && !("_verifiedAnswer" in q) && !("answerHash" in q.payload) && !("_verifiedAnswer" in q.payload)),
+    questions.every(
+      (q) =>
+        !("answerKey" in q) &&
+        !("_verifiedAnswer" in q) &&
+        !("answerHash" in q.payload) &&
+        !("reference" in q.payload) &&
+        !("_verifiedAnswer" in q.payload)
+    ),
     "no answer material in the session payload"
   );
-  const order = ["structural", "state-tracking", "sequential-depth", "signal-detection", "probabilistic"];
   const sections = questions.map((q) => q.section);
-  check(
-    JSON.stringify(sections) === JSON.stringify(order.flatMap((sec) => Array(5).fill(sec))),
-    "questions ordered by section, 5 each"
-  );
+  check(JSON.stringify(sections) === JSON.stringify(ORDER.flatMap((sec) => Array(5).fill(sec))), "questions ordered by section, 5 each");
   check(questions.every((q) => typeof q.payload.timeLimit === "number"), "every payload has a timeLimit");
 
-  // 2. All-correct submission in messy formats
-  console.log("\n[2] POST /api/submit (all correct, messy formatting)");
+  // 2. Per-section grading with a mix of correct/messy/wrong/abstain/confidence
+  console.log("\n[2] POST /api/section per section (mid-test grading)");
   const items = questions.map(findItem);
   check(items.every(Boolean), "every served question maps back to a dataset item");
-  const responses = questions.map((q, i) => {
+  // Plan: q0 correct SURE, q1 wrong SURE, q2 abstain, q3 correct GUESS, q4 correct UNSURE (per section)
+  const plan = (i: number) => {
+    const k = i % 5;
     const item = items[i]!;
-    return { questionId: q.id, answer: messy(item._verifiedAnswer, item, i), timeMs: 1000 + i * 100 };
+    const correct = messy(item._verifiedAnswer, item, i);
+    if (k === 0) return { answer: correct, confidence: "sure", abstained: false, expectCorrect: true };
+    if (k === 1) return { answer: "definitely-wrong-" + i, confidence: "sure", abstained: false, expectCorrect: false };
+    if (k === 2) return { answer: "", confidence: null, abstained: true, expectCorrect: false };
+    if (k === 3) return { answer: correct, confidence: "guess", abstained: false, expectCorrect: true };
+    return { answer: correct, confidence: "unsure", abstained: false, expectCorrect: true };
+  };
+  const responses = questions.map((q, i) => {
+    const p = plan(i);
+    return { questionId: q.id, answer: p.answer, timeMs: 1000 + i * 100, confidence: p.confidence, abstained: p.abstained };
   });
-  const sub = await json("/api/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sessionId: s.body.sessionId, responses }),
-  });
-  check(sub.status === 200, `status 200 (got ${sub.status})`);
-  check(sub.body?.resultId, "resultId returned");
-  check(sub.body?.overall === 1, `overall == 1 (got ${sub.body?.overall})`);
-  const wrong = (sub.body?.questionResults ?? []).filter((r: any) => !r.correct);
-  if (wrong.length) {
-    for (const r of wrong) {
-      const item = items[questions.findIndex((q) => q.id === r.questionId)]!;
-      console.log(`       wrong: ${item.id} sent=${JSON.stringify(r.userAnswer)} expected=${item._verifiedAnswer} norm=${item.normalization}`);
+
+  let firstSummary: any = null;
+  for (const section of ORDER) {
+    const idxs = questions.map((q, i) => (q.section === section ? i : -1)).filter((i) => i >= 0);
+    const sec = await post("/api/section", { sessionId: s.body.sessionId, responses: idxs.map((i) => responses[i]) });
+    const summary = sec.body?.sections?.find((x: any) => x.section === section);
+    if (!firstSummary) firstSummary = summary;
+    check(sec.status === 200 && summary, `${section}: 200 + summary`);
+    if (summary) {
+      check(summary.correct === 3 && summary.total === 5, `${section}: 3/5 correct (got ${summary.correct}/${summary.total})`);
+      check(summary.abstained === 1 && summary.sure === 2 && summary.sureWrong === 1, `${section}: abstained=1 sure=2 sureWrong=1`);
+      // meanTimeMs excludes the abstained item (index k=2)
+      const expectedMean = Math.round(idxs.filter((i) => i % 5 !== 2).reduce((a, i) => a + 1000 + i * 100, 0) / 4);
+      check(summary.meanTimeMs === expectedMean, `${section}: meanTimeMs excludes abstention (${summary.meanTimeMs} vs ${expectedMean})`);
     }
   }
-  check(sub.body?.verdictBand === "A", `verdict band A (got ${sub.body?.verdictBand})`);
-
-  // 3. Idempotency: resubmitting the same session returns the same result
-  console.log("\n[3] POST /api/submit again (idempotent)");
-  const again = await json("/api/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sessionId: s.body.sessionId, responses: [] }),
+  // Re-sending a section is idempotent (stored rows are returned)
+  const again = await post("/api/section", { sessionId: s.body.sessionId, responses: responses.slice(0, 5) });
+  check(again.status === 200 && again.body.sections?.[0]?.correct === 3, "re-sending a section is idempotent");
+  // Oracle closed: first write wins. Re-grading the wrong item (k=1) with the correct answer must not flip it,
+  // and grading a single item returns aggregate counts only for what is stored.
+  const probe = await post("/api/section", {
+    sessionId: s.body.sessionId,
+    responses: [{ questionId: questions[1].id, answer: messy(items[1]!._verifiedAnswer, items[1]!, 1), timeMs: 1, confidence: "sure" }],
   });
-  check(again.status === 200 && again.body?.resultId === sub.body?.resultId, "same resultId returned");
+  check(probe.status === 200 && probe.body.sections?.[0]?.correct === 0 && probe.body.sections?.[0]?.total === 1, "re-grading a graded item does not change it (no pre-submit oracle)");
 
-  // 4. Result endpoint
-  console.log("\n[4] GET /api/result/:id");
+  // 3. Final submit
+  console.log("\n[3] POST /api/submit");
+  const sub = await post("/api/submit", { sessionId: s.body.sessionId, responses });
+  check(sub.status === 200, `status 200 (got ${sub.status})`);
+  check(sub.body?.resultId, "resultId returned");
+  check(Math.abs(sub.body?.overall - 0.6) < 1e-9, `overall == 0.6 (got ${sub.body?.overall})`);
+  check(sub.body?.metrics?.sure === 10 && sub.body?.metrics?.sureWrong === 5, "metrics: 10 sure, 5 sureWrong");
+  check(sub.body?.metrics?.abstained === 5 && sub.body?.metrics?.answered === 20, "metrics: 5 abstained, 20 answered");
+  check(sub.body?.metrics?.hallucinationRate === 0.5, "metrics: hallucinationRate 0.5");
+
+  // Section grading after result exists -> 409
+  const late = await post("/api/section", { sessionId: s.body.sessionId, responses: responses.slice(0, 5) });
+  check(late.status === 409, `section grading after result -> 409 (got ${late.status})`);
+
+  // 4. Idempotency
+  console.log("\n[4] POST /api/submit again (idempotent)");
+  const again2 = await post("/api/submit", { sessionId: s.body.sessionId, responses: [] });
+  check(again2.status === 200 && again2.body?.resultId === sub.body?.resultId, "same resultId returned");
+
+  // 5. Result reveal
+  console.log("\n[5] GET /api/result/:id (reveal)");
   const r = await json(`/api/result/${sub.body.resultId}`);
   check(r.status === 200, `status 200 (got ${r.status})`);
-  check(r.body?.overall === 1, "result overall == 1");
-  check(Array.isArray(r.body?.questionResults) && r.body.questionResults.length === 25, "25 question results");
+  check(Math.abs(r.body?.overall - 0.6) < 1e-9, "result overall == 0.6");
+  const qr: any[] = r.body?.questionResults ?? [];
+  check(qr.length === 25, "25 question results");
+  check(qr.every((x, i) => x.referenceAnswer === items[questions.findIndex((q) => q.id === x.questionId)]!._verifiedAnswer), "referenceAnswer revealed for every item");
+  check(qr.every((x) => typeof x.timeMs === "number" && x.timeMs > 0), "timeMs present for every item");
+  const byId = new Map(qr.map((x) => [x.questionId, x]));
+  check(questions.every((q, i) => byId.get(q.id)?.correct === plan(i).expectCorrect), "correctness per plan");
+  check(questions.every((q, i) => byId.get(q.id)?.abstained === plan(i).abstained), "abstained flags per plan");
+  check(questions.every((q, i) => (byId.get(q.id)?.confidence ?? null) === plan(i).confidence), "confidence per plan");
+  check(JSON.stringify(r.body?.beliefs) === JSON.stringify(beliefs), "beliefs stored (unknown ids dropped) and returned");
+  check(r.body?.metrics?.perSection?.structural?.correct === 3, "metrics.perSection on result");
+  check(r.body?.specimenId === s.body.sessionId, "specimenId returned");
 
-  // 5. Blank session
-  console.log("\n[5] blank session");
-  const s2 = await json("/api/session", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
-  const blank = await json("/api/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: s2.body.sessionId,
-      responses: s2.body.questions.map((q: any) => ({ questionId: q.id, answer: "", timeMs: 0 })),
-    }),
+  // 6a. All-correct session in messy formats -> 100% (canonicalization guarantee)
+  console.log("\n[6a] all-correct messy session");
+  const s3 = await post("/api/session", {});
+  const items3 = (s3.body.questions as any[]).map(findItem);
+  check(items3.every(Boolean), "all-correct: every served question maps back to a dataset item");
+  const allCorrect = (s3.body.questions as any[]).map((q, i) => ({
+    questionId: q.id,
+    answer: messy(items3[i]!._verifiedAnswer, items3[i]!, i),
+    timeMs: 2000 + i * 50,
+    confidence: "sure",
+    abstained: false,
+  }));
+  const sub3 = await post("/api/submit", { sessionId: s3.body.sessionId, responses: allCorrect });
+  check(sub3.status === 200 && sub3.body?.overall === 1, `all-correct overall == 1 (got ${sub3.body?.overall})`);
+  check(sub3.body?.verdictBand === "A", `all-correct band A (got ${sub3.body?.verdictBand})`);
+  check(sub3.body?.metrics?.hallucinationRate === 0 && sub3.body?.metrics?.sure === 25, "all-correct: 25 sure, hallucination 0");
+  if (sub3.body?.overall !== 1) {
+    const r3 = await json(`/api/result/${sub3.body.resultId}`);
+    for (const x of (r3.body?.questionResults ?? []).filter((y: any) => !y.correct)) {
+      const it = items3[(s3.body.questions as any[]).findIndex((q) => q.id === x.questionId)]!;
+      console.log(`       wrong: ${it.id} sent=${JSON.stringify(x.userAnswer)} expected=${it._verifiedAnswer} norm=${it.normalization}`);
+    }
+  }
+
+  // 6b. Partial submit: metrics describe only what was actually answered
+  console.log("\n[6b] partial submit metrics");
+  const s4 = await post("/api/session", {});
+  const partial = (s4.body.questions as any[]).slice(0, 10).map((q: any) => ({ questionId: q.id, answer: "x", timeMs: 4000, confidence: "guess" }));
+  const sub4 = await post("/api/submit", { sessionId: s4.body.sessionId, responses: partial });
+  check(sub4.status === 200 && sub4.body?.metrics?.answered === 10 && sub4.body?.metrics?.meanTimeMs === 4000, `partial: answered=10, meanTimeMs=4000 (got ${sub4.body?.metrics?.answered}, ${sub4.body?.metrics?.meanTimeMs})`);
+
+  // 6. Blank session (no section calls) still grades all 25
+  console.log("\n[6] blank session");
+  const s2 = await post("/api/session", {});
+  const blank = await post("/api/submit", {
+    sessionId: s2.body.sessionId,
+    responses: s2.body.questions.map((q: any) => ({ questionId: q.id, answer: "", timeMs: 0 })),
   });
   check(blank.status === 200 && blank.body?.overall === 0, `blank overall == 0 (got ${blank.body?.overall})`);
+  const r2 = await json(`/api/result/${blank.body.resultId}`);
+  check(r2.body?.beliefs === null && r2.body?.questionResults?.length === 25, "blank: no beliefs, 25 items");
 
-  // 6. Bad requests
-  console.log("\n[6] error paths");
-  const missing = await json("/api/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" });
+  // 7. Bad requests
+  console.log("\n[7] error paths");
+  const missing = await post("/api/submit", {});
   check(missing.status === 400, `missing fields -> 400 (got ${missing.status})`);
-  const notFound = await json("/api/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ sessionId: "nope", responses: [] }),
-  });
+  const notFound = await post("/api/submit", { sessionId: "nope", responses: [] });
   check(notFound.status === 404, `unknown session -> 404 (got ${notFound.status})`);
+  const secBad = await post("/api/section", { sessionId: "nope", responses: [] });
+  check(secBad.status === 404, `section unknown session -> 404 (got ${secBad.status})`);
+  const secBad2 = await post("/api/section", { sessionId: s.body.sessionId });
+  check(secBad2.status === 400, `section missing responses -> 400 (got ${secBad2.status})`);
 
-  // 7. Stats
-  console.log("\n[7] GET /api/stats");
+  // 8. Stats
+  console.log("\n[8] GET /api/stats");
   const st = await json("/api/stats");
-  check(st.status === 200 && st.body?.totalSpecimens >= 2, `stats reflect >= 2 specimens (got ${st.body?.totalSpecimens})`);
+  check(st.status === 200 && st.body?.totalSpecimens >= 4, `stats reflect >= 4 specimens (got ${st.body?.totalSpecimens})`);
+  check(typeof st.body?.perfectScores === "number", "perfectScores computed");
+  check(st.body?.calibration?.specimensWithMetrics >= 2 && st.body?.calibration?.sure >= 10, "calibration aggregates present");
 
   console.log(failures ? `\n${failures} FAILED` : "\nALL PASSED");
   process.exit(failures ? 1 : 0);

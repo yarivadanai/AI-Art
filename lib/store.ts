@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import { persist, createJSONStorage, type StateStorage } from "zustand/middleware";
-import type { Section, QuestionPayload } from "./types";
+import type { Beliefs, Confidence, Section, SectionSummary, QuestionPayload } from "./types";
 
 /**
  * localStorage that never throws. Storage can be blocked (cookies disabled,
@@ -59,6 +59,13 @@ export interface QuestionState {
   payload: QuestionPayload;
 }
 
+export interface StoredAnswer {
+  answer: string;
+  timeMs: number;
+  confidence: Confidence | null;
+  abstained: boolean;
+}
+
 export type TestPhase =
   | "idle"
   | "intake"
@@ -78,7 +85,7 @@ interface TestStore {
   questions: QuestionState[];
   currentIndex: number;
   currentSection: Section | null;
-  answers: Record<string, { answer: string; timeMs: number }>;
+  answers: Record<string, StoredAnswer>;
   /** Wall-clock ms when the current question's timer started. Timer deadline = this + timeLimit. */
   questionStartTime: number;
   sectionStartTime: number;
@@ -86,6 +93,12 @@ interface TestStore {
   introShown: boolean;
   /** Typed-but-not-submitted answer for the current question; flushed on timer expiry. */
   draft: string;
+  /** Confidence chip selected for the current question (cleared on every transition). */
+  draftConfidence: Confidence | null;
+  /** Intake belief answers, sent with the session request and quoted back on the report. */
+  beliefs: Beliefs | null;
+  /** Server-graded summaries per completed section (from POST /api/section), keyed by section. */
+  sectionSummaries: Partial<Record<Section, SectionSummary>>;
 
   // UI state
   phase: TestPhase;
@@ -110,9 +123,14 @@ interface TestStore {
   /** (Re)start the wall clock for the current question. Call when a question actually becomes visible. */
   beginQuestion: () => void;
   setDraft: (draft: string) => void;
-  setAnswer: (questionId: string, answer: string) => void;
+  setDraftConfidence: (confidence: Confidence | null) => void;
+  setBeliefs: (beliefs: Beliefs | null) => void;
+  setSectionSummary: (summary: SectionSummary) => void;
+  setAnswer: (questionId: string, answer: string, confidence?: Confidence | null, abstained?: boolean) => void;
   /** Timer ran out: record whatever was typed (possibly nothing) for the current question and advance. */
   expireQuestion: () => void;
+  /** "I cannot determine this": record an abstention for the current question and advance. */
+  abstainQuestion: () => void;
   nextQuestion: () => void;
   setPhase: (phase: TestPhase) => void;
   setIntroShown: () => void;
@@ -136,6 +154,9 @@ const initialState = {
   sectionStartTime: 0,
   introShown: false,
   draft: "",
+  draftConfidence: null as Confidence | null,
+  beliefs: null as Beliefs | null,
+  sectionSummaries: {} as Partial<Record<Section, SectionSummary>>,
   phase: "idle" as TestPhase,
   sectionCommentary: null,
   previousSectionScore: null,
@@ -171,25 +192,31 @@ export const useTestStore = create<TestStore>()(
           currentIndex: 0,
           currentSection: data.questions[0]?.section || null,
           answers: {},
+          sectionSummaries: {},
           introShown: false,
           draft: "",
+          draftConfidence: null,
           phase: "testing",
           questionStartTime: now,
           sectionStartTime: now,
         });
       },
 
-      beginQuestion: () => set({ questionStartTime: Date.now(), draft: "" }),
+      beginQuestion: () => set({ questionStartTime: Date.now(), draft: "", draftConfidence: null }),
 
       setDraft: (draft) => set({ draft }),
+      setDraftConfidence: (draftConfidence) => set({ draftConfidence }),
+      setBeliefs: (beliefs) => set({ beliefs }),
+      setSectionSummary: (summary) =>
+        set((state) => ({ sectionSummaries: { ...state.sectionSummaries, [summary.section]: summary } })),
 
-      setAnswer: (questionId, answer) => {
+      setAnswer: (questionId, answer, confidence = null, abstained = false) => {
         const now = Date.now();
         const timeMs = Math.max(0, now - get().questionStartTime);
         set((state) => ({
           answers: {
             ...state.answers,
-            [questionId]: { answer, timeMs },
+            [questionId]: { answer, timeMs, confidence, abstained },
           },
         }));
       },
@@ -199,8 +226,16 @@ export const useTestStore = create<TestStore>()(
         const q = questions[currentIndex];
         if (!q) return;
         if (!answers[q.id]) {
-          get().setAnswer(q.id, draft ?? "");
+          get().setAnswer(q.id, draft ?? "", "expired", false);
         }
+        get().nextQuestion();
+      },
+
+      abstainQuestion: () => {
+        const { questions, currentIndex } = get();
+        const q = questions[currentIndex];
+        if (!q) return;
+        get().setAnswer(q.id, "", null, true);
         get().nextQuestion();
       },
 
@@ -209,7 +244,7 @@ export const useTestStore = create<TestStore>()(
         const nextIdx = currentIndex + 1;
 
         if (nextIdx >= questions.length) {
-          set({ phase: "submitting", draft: "" });
+          set({ phase: "submitting", draft: "", draftConfidence: null });
           return;
         }
 
@@ -224,12 +259,14 @@ export const useTestStore = create<TestStore>()(
             currentIndex: nextIdx,
             currentSection: nextQ.section,
             draft: "",
+            draftConfidence: null,
           });
         } else {
           set({
             currentIndex: nextIdx,
             questionStartTime: Date.now(),
             draft: "",
+            draftConfidence: null,
           });
         }
       },

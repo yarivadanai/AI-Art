@@ -40,6 +40,9 @@ function datasetItemToQuestion(item: DatasetQuestion, section: Section, index: n
       hash: item.answerHash,
       normalization: item.normalization,
       ...(item.decimalPlaces != null && { decimalPlaces: item.decimalPlaces }),
+      // Server-only (Question.answerKey is never returned by /api/session);
+      // revealed on the report after grading.
+      reference: item._verifiedAnswer,
     },
   };
 }

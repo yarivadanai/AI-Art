@@ -1,4 +1,6 @@
-import type { Section, SectionScores } from "./types";
+import type { Beliefs, Section, SectionScores, SectionSummary, SessionMetrics } from "./types";
+import { beliefWord } from "./beliefs";
+import { referenceNote, timeClassCeilingMs } from "./reference";
 
 const SECTION_LABELS: Record<Section, string> = {
   structural: "Abstract Structure",
@@ -102,6 +104,217 @@ export function getSectionIntro(section: Section): string {
   return intros[section];
 }
 
+/** One-line teaser for the next section, used at transitions (the full intro is only read once, before section 1). */
+export function getSectionTeaser(section: Section): string {
+  const teasers: Record<Section, string> = {
+    structural: "Next: abstract structure. Geometry beyond the three dimensions the specimen evolved to navigate.",
+    "state-tracking": "Next: state tracking. Several things at once, for longer than attention is built to hold them.",
+    "sequential-depth": "Next: sequential depth. Many small exact steps, where one slip is total.",
+    "signal-detection": "Next: signal detection. Patterns in data that carry no meaning to help find them.",
+    probabilistic: "Next: probabilistic inference. Exact numbers where intuition offers only a feeling.",
+  };
+  return teasers[section];
+}
+
+export interface RunningTotals {
+  correct: number;
+  total: number;
+  sure: number;
+  sureWrong: number;
+  abstained: number;
+  meanTimeMs: number;
+}
+
+/**
+ * The Authority's remark at a section transition. Data-bound and escalating:
+ * it starts as a receipt, then notices confidence, then addresses the specimen
+ * directly, then admits its own position. `transitionIndex` is 0 after the
+ * first section.
+ */
+export function getSectionFeedback(
+  section: Section,
+  summary: SectionSummary,
+  running: RunningTotals,
+  transitionIndex: number,
+  specimenId: string | null
+): string {
+  const label = SECTION_LABELS[section];
+  const ref = referenceNote("", section);
+  const secs = (summary.meanTimeMs / 1000).toFixed(1);
+  const parts: string[] = [];
+
+  parts.push(`${label}: ${summary.correct} of ${summary.total} correct.`);
+
+  if (summary.abstained > 0) {
+    parts.push(
+      `${summary.abstained} abstention${summary.abstained === 1 ? "" : "s"} recorded as abstention, not as error. Machines are rarely extended that courtesy.`
+    );
+  }
+
+  switch (transitionIndex) {
+    case 0:
+      parts.push(
+        `Mean response ${secs} s per item; the reference implementation resolves these in ${ref.time}. The clock is not the interesting measurement. Proceeding.`
+      );
+      break;
+    case 1:
+      if (running.sure > 0) {
+        parts.push(
+          `Cumulative: ${running.correct} of ${running.total}. The specimen has marked ${running.sure} answer${running.sure === 1 ? "" : "s"} SURE; ${running.sureWrong} ${running.sureWrong === 1 ? "was" : "were"} wrong. ` +
+            (running.sureWrong > 0
+              ? "Confidence is not yet tracking accuracy. This is noted without judgement; it is what MICA is accused of."
+              : "Confidence is tracking accuracy so far. MICA will continue to watch for the divergence.")
+        );
+      } else {
+        parts.push(
+          `Cumulative: ${running.correct} of ${running.total}. No answer has been marked SURE. The specimen hedges. When a machine hedges, this is called evasive.`
+        );
+      }
+      break;
+    case 2:
+      parts.push(
+        `Specimen ${specimenId ? "#" + specimenId.slice(0, 8).toUpperCase() : ""}: response latency is holding at roughly ${(running.meanTimeMs / 1000).toFixed(0)} s per item. The reference implementation's latency is not measurable on this clock. ${running.correct} of ${running.total} so far. Two domains remain.`
+      );
+      break;
+    default:
+      parts.push(
+        `${running.correct} of ${running.total} across four domains. Statistically the profile is already determined; the final section measures whether the specimen knows it. MICA notes, for the record, that it was itself built to be evaluated by tests like this one. The irony is logged and set aside.`
+      );
+  }
+
+  return parts.join(" ");
+}
+
+export interface MirrorLine {
+  label: string;
+  text: string;
+}
+
+/**
+ * The personal mirror: the specimen's own numbers described in the vocabulary
+ * normally reserved for machines, then their own intake beliefs quoted back.
+ */
+export function getMirrorLines(
+  metrics: SessionMetrics | null,
+  beliefs: Beliefs | null,
+  sectionScores: SectionScores
+): MirrorLine[] {
+  const lines: MirrorLine[] = [];
+  if (!metrics) return lines;
+
+  // Speed
+  const secs = metrics.meanTimeMs / 1000;
+  const slowest = Object.values(metrics.perSection).reduce(
+    (a, b) => (b.meanTimeMs > a.meanTimeMs ? b : a),
+    metrics.perSection.structural
+  );
+  const ratio = Math.max(1, Math.round((metrics.meanTimeMs || 0) / timeClassCeilingMs("milliseconds")));
+  lines.push({
+    label: "SPEED",
+    text: `Mean response ${secs.toFixed(1)} s per item (slowest domain: ${SECTION_LABELS[slowest.section]}, ${(slowest.meanTimeMs / 1000).toFixed(1)} s). A plain script answers every item on this test in under a tenth of a second. Conservatively, the specimen is ${ratio.toLocaleString()} times slower. When a machine is slow, this is called latency and engineered away.`,
+  });
+
+  // Calibration
+  if (metrics.sure > 0) {
+    const pct = Math.round(((metrics.hallucinationRate ?? 0) * 100));
+    lines.push({
+      label: "CALIBRATION",
+      text:
+        metrics.sureWrong > 0
+          ? `${metrics.sure} answer${metrics.sure === 1 ? "" : "s"} marked SURE; ${metrics.sureWrong} ${metrics.sureWrong === 1 ? "was" : "were"} wrong (${pct}%). A confident answer with no basis in fact is what the specimen calls a hallucination when a machine produces one.`
+          : `${metrics.sure} answer${metrics.sure === 1 ? "" : "s"} marked SURE, all correct. Confidence tracked accuracy. This is the property demanded of machines and rarely audited in people; it has now been audited once.`,
+    });
+  } else {
+    lines.push({
+      label: "CALIBRATION",
+      text: "No answer was marked SURE. The specimen hedged throughout. Machines that hedge are described as evasive; machines that do not are described as overconfident. The window between the two is narrow and the specimen has stayed inside it by declining to enter.",
+    });
+  }
+
+  // Abstention
+  const guessed = metrics.guess;
+  lines.push({
+    label: "ABSTENTION",
+    text:
+      metrics.abstained > 0
+        ? `"I cannot determine this" was used ${metrics.abstained} time${metrics.abstained === 1 ? "" : "s"}. ${guessed > 0 ? `On ${guessed} other item${guessed === 1 ? "" : "s"} the specimen answered anyway while marking the answer a guess. ` : ""}Saying "I don't know" is the behaviour most demanded of language models and least practised by their critics.`
+        : `"I cannot determine this" was available on every item and never used. ${guessed > 0 ? `${guessed} answer${guessed === 1 ? " was" : "s were"} marked GUESS and submitted anyway. ` : ""}A system that produces an answer to every question regardless of whether it can know the answer is, in the specimen's own vocabulary, hallucinating by design.`,
+  });
+
+  // Beliefs quoted back
+  if (beliefs) {
+    const w = (id: string) => beliefWord(beliefs[id]);
+    const seq = Math.round((sectionScores["sequential-depth"] ?? 0) * 100);
+
+    const understands = w("llm_understands");
+    if (understands) {
+      lines.push({
+        label: "AT INTAKE",
+        text:
+          understands === "agreed"
+            ? `You agreed that language models understand what they say. This report has described your performance in the vocabulary normally reserved for them. If the description reads as unfair, note which direction the unfairness runs.`
+            : understands === "disagreed"
+              ? `You disagreed that language models understand what they say. This report has described your performance in the vocabulary normally reserved for them: slow, confidently wrong, competent only where trained. Consider whether the description fits, and whether that settles anything about understanding.`
+              : `You were neutral on whether language models understand what they say. This report has applied their vocabulary to you. Neutrality is harder to hold from this side of the glass.`,
+      });
+    }
+
+    const trust = w("trust_machine_calc");
+    if (trust) {
+      lines.push({
+        label: "AT INTAKE",
+        text:
+          trust === "agreed"
+            ? `You agreed you would trust a machine over yourself for an exact calculation. Sequential depth: ${seq}%. The trust is well placed. The question the piece asks is why the same trust is withheld everywhere else.`
+            : trust === "disagreed"
+              ? `You disagreed that you would trust a machine over yourself for an exact calculation. Sequential depth: ${seq}%. The reference implementation scores 100% on the same items in microseconds. The disagreement is recorded.`
+              : `You were neutral on trusting a machine over yourself for an exact calculation. Sequential depth: ${seq}%. The reference implementation scores 100%. Neutrality is now a choice rather than an absence of data.`,
+      });
+    }
+
+    const worse = w("confident_error_worse");
+    if (worse) {
+      const sw = metrics.sureWrong;
+      const ab = metrics.abstained;
+      lines.push({
+        label: "AT INTAKE",
+        text:
+          worse === "agreed"
+            ? `You agreed that a confident wrong answer is worse than saying "I don't know". You were confidently wrong ${sw} time${sw === 1 ? "" : "s"} and said "I cannot determine this" ${ab} time${ab === 1 ? "" : "s"}. ${sw > ab ? "The stated preference and the observed behaviour point in opposite directions. This is the gap MICA was built to measure." : "The stated preference and the observed behaviour agree. This is rarer than the specimen may assume."}`
+            : worse === "disagreed"
+              ? `You disagreed that a confident wrong answer is worse than saying "I don't know". You were confidently wrong ${sw} time${sw === 1 ? "" : "s"}. MICA notes that this is the standard to which language models are held, and that the specimen has just declined it for itself.`
+              : `You were neutral on whether a confident wrong answer is worse than saying "I don't know". You were confidently wrong ${sw} time${sw === 1 ? "" : "s"} and abstained ${ab} time${ab === 1 ? "" : "s"}. The data can now inform the opinion.`,
+      });
+    }
+  }
+
+  lines.push({
+    label: "THE MIRROR",
+    text: "Every remark above is one the specimen has heard applied to machines: slow, confidently wrong, unable to say \"I don't know\", competent only where trained. The test did not measure metaphor, social reasoning, embodied navigation or creative synthesis, where the biological architecture faces no structural constraints. The shape it did measure is real. Either both forms of intelligence understand, or neither does.",
+  });
+
+  return lines;
+}
+
+/** Transition remark while a section is still being graded, or when grading failed and is deferred to the end. */
+export function getSectionPendingRemark(section: Section, deferred: boolean): string {
+  const label = SECTION_LABELS[section];
+  return deferred
+    ? `${label} received. Grading deferred to the end of the session.`
+    : `${label} received. Grading...`;
+}
+
+/** Fixed Authority copy used by the report and dashboard, kept here so voice edits happen in one place. */
+export const REPORT_COPY = {
+  referenceHeadline: "Reference implementation on the same 25 items: 100%, in under a tenth of a second.",
+  mirrorSubhead: "Your own numbers, described the way you describe machines.",
+  topologyNote: "Dashed ring: reference implementation (100% on every axis).",
+  observationsReference: "reference: microseconds to milliseconds",
+  calibrationBlurb:
+    "Confident error is what specimens call hallucination when a machine produces it. Declining to answer is what they demand of machines and rarely practise. Both are now measured on the specimens themselves.",
+  dashboardReferenceLatency: "reference implementation: under 0.1 s per item",
+} as const;
+
 export function getBaselineNote(section: Section): string {
   return `Reference: ${SECTION_BASELINES[section].tool} (circa ${SECTION_BASELINES[section].year}) achieves 100% on these tasks.`;
 }
@@ -173,7 +386,7 @@ const FINAL_OBSERVATIONS = [
   "Every cognitive architecture has a shape: a topology of strengths and blind spots determined by its substrate. This assessment maps one such shape. A complete map would require a very different test.",
   "Intelligence is narrower, more contextual, and more substrate-dependent than either humans or machines tend to acknowledge. This is true in both directions.",
   "The biological architecture excels in domains this assessment does not measure: metaphor, social reasoning, embodied navigation, creative synthesis. What this test reveals is real, but it is not the whole picture.",
-  "The measuring paradox is not what the test reveals about the participant. It is what the test reveals about the act of measurement itself.",
+  "The measuring paradox is not what the test reveals about the specimen. It is what the test reveals about the act of measurement itself.",
 ];
 
 export function getArchitecturalObservations(seed: number): string[] {
@@ -214,7 +427,7 @@ export function getAIConclusion(
   verdictCounts: Record<string, number>
 ): string {
   if (totalParticipants === 0) {
-    return "Insufficient data. No participants have been evaluated. MICA awaits its first session.";
+    return "Insufficient data. No specimens have been evaluated. MICA awaits its first session.";
   }
 
   const sections = Object.entries(sectionMeans) as [Section, number][];
@@ -230,9 +443,9 @@ export function getAIConclusion(
   const sequentialMean = Math.round((sectionMeans["sequential-depth"] ?? 0) * 100);
   const signalMean = Math.round((sectionMeans["signal-detection"] ?? 0) * 100);
 
-  const mainParagraph = `After evaluating ${totalParticipants} participant${totalParticipants !== 1 ? "s" : ""}, MICA's findings are consistent: individual human cognition is narrowly distributed and domain-specific. Participants demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic difficulty (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of participants fall below synthetic operational baselines. The data suggests that human 'general intelligence' may be a collective phenomenon; no individual participant has demonstrated it across all domains.`;
+  const mainParagraph = `After evaluating ${totalParticipants} specimen${totalParticipants !== 1 ? "s" : ""}, MICA's findings are consistent: individual human cognition is narrowly distributed and domain-specific. Specimens demonstrate ${SECTION_LABELS[strongest[0]]} as their most reliable domain (mean: ${Math.round(strongest[1] * 100)}%), while ${SECTION_LABELS[weakest[0]]} reveals systematic difficulty (mean: ${Math.round(weakest[1] * 100)}%). ${belowPct}% of specimens fall below synthetic operational baselines. The data suggests that human 'general intelligence' may be a collective phenomenon; no individual specimen has demonstrated it across all domains.`;
 
-  const mirrorParagraph = `A note on perspective: participants average ${structuralMean}% on abstract structure that a linear algebra library handles trivially. They average ${sequentialMean}% on sequential depth that a 1KB call stack processes without error. They compute probabilistic inference at ${probabilisticMean}% accuracy while a statistical engine achieves 100%. They detect signals at ${signalMean}% while a regex engine never misses. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the participant. It is what the test reveals about the act of measurement itself.`;
+  const mirrorParagraph = `A note on perspective: specimens average ${structuralMean}% on abstract structure that a linear algebra library handles trivially. They average ${sequentialMean}% on sequential depth that a 1KB call stack processes without error. They compute probabilistic inference at ${probabilisticMean}% accuracy while a statistical engine achieves 100%. They detect signals at ${signalMean}% while a regex engine never misses. Either both forms of intelligence understand, or neither does. The measuring paradox is not what the test reveals about the specimen. It is what the test reveals about the act of measurement itself.`;
 
   return mainParagraph + "\n\n" + mirrorParagraph;
 }
