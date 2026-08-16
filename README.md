@@ -24,7 +24,7 @@ The experience stages a question: we routinely judge AI by idealized human-like 
 | **Signal Detection** | Grammar violation identification in syntactically complex sentences |
 | **Probabilistic Inference** | Expert-level misconception detection across 100+ academic fields |
 
-Each session draws 25 questions (5 per section) from a pool of 605 items across three difficulty tiers:
+Each session draws 25 questions (5 per section) from a pool of 525 items across three difficulty tiers:
 
 - **T1** (8-option multiple choice, 30s) -- Expert-level but solvable
 - **T2** (free-response, 30s) -- At the edge of biological capacity
@@ -56,7 +56,7 @@ The question bank is built from raw source material by a Python generator:
 python3 scripts/build_dataset_v2.py
 ```
 
-This produces `lib/data/scca_master_dataset.json` with 605 questions. The generator includes built-in validation (unique IDs, section counts, hash roundtrip checks, 8-option MC verification for all T1 items).
+This produces `lib/data/scca_master_dataset.json` with the question bank (605 items at the time; 80 unanswerable items were later removed by `scripts/phase0_bank_repair.py`, leaving 525). The generator includes built-in validation (unique IDs, section counts, hash roundtrip checks, 8-option MC verification for all T1 items).
 
 ## Testing
 
@@ -92,7 +92,7 @@ lib/
   store.ts              # Zustand client state
   commentary.ts         # Section intro text
 scripts/
-  build_dataset_v2.py   # Dataset generator (605 questions)
+  build_dataset_v2.py   # Original dataset generator (not reproducible from a clean checkout)
 prisma/
   schema.prisma         # Database schema
 ```
