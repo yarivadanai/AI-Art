@@ -2,11 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+/* Fonts are loaded via next/font in app/layout.tsx (CSS variables --font-inter, --font-jetbrains-mono). */
 
 @layer base {
   body {
     @apply bg-bg text-white antialiased;
+  }
+
+  /* Respect reduced-motion: keep state changes, drop the blinking/pulsing/typing motion. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 
   ::selection {
@@ -50,14 +62,6 @@
 
   .card {
     @apply bg-surface border border-border p-6;
-  }
-
-  .typewriter {
-    overflow: hidden;
-    white-space: nowrap;
-    border-right: 2px solid;
-    @apply border-accent;
-    animation: typewriter 2s steps(40) forwards, blink 1s step-end infinite;
   }
 
   .section-label {

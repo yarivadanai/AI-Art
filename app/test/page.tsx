@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
 import { QuestionTimer } from "@/components/QuestionTimer";
 import { QuestionRenderer } from "@/components/QuestionRenderer";
 import { AICommentary } from "@/components/AICommentary";
 import { useTestStore } from "@/lib/store";
 import { getSectionIntro } from "@/lib/commentary";
+import { SUBMIT_GRACE_MS } from "@/lib/engine/limits";
 import type { Section } from "@/lib/types";
 
 const SECTION_NAMES: Record<Section, string> = {
@@ -18,16 +20,54 @@ const SECTION_NAMES: Record<Section, string> = {
   probabilistic: "PROBABILISTIC INFERENCE",
 };
 
+/** Fallback per-question limit if a payload lacks one (all bank items set it). */
+const DEFAULT_TIME_LIMIT = 30;
+
 export default function TestPage() {
   const phase = useTestStore((s) => s.phase);
+  const hydrated = useTestStore((s) => s.hydrated);
+  const expiresAt = useTestStore((s) => s.expiresAt);
+  const setPhase = useTestStore((s) => s.setPhase);
+  const setHydrated = useTestStore((s) => s.setHydrated);
+
+  // Never strand a visitor on the restoring screen: if persistence has not
+  // reported in after 2s (exotic storage failures), proceed with a fresh state.
+  useEffect(() => {
+    if (hydrated) return;
+    const t = setTimeout(() => setHydrated(true), 2000);
+    return () => clearTimeout(t);
+  }, [hydrated, setHydrated]);
+
+  // A session past its ceiling (+ the same grace the server applies) will be
+  // refused by /api/submit; say so at the next transition instead of letting
+  // the visitor finish and fail at the end. Inside the grace window we let the
+  // visitor continue and the server grades normally.
+  useEffect(() => {
+    if (!hydrated) return;
+    if (
+      (phase === "testing" || phase === "between-sections") &&
+      expiresAt &&
+      Date.now() > expiresAt + SUBMIT_GRACE_MS
+    ) {
+      setPhase("expired");
+    }
+  }, [hydrated, phase, expiresAt, setPhase]);
+
+  if (!hydrated) {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <div className="font-mono text-xs text-muted tracking-widest">RESTORING SESSION STATE</div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen">
-      {phase === "idle" && <IntakeScreen />}
-      {phase === "intake" && <IntakeScreen />}
+      {(phase === "idle" || phase === "intake" || phase === "complete") && <IntakeScreen />}
       {phase === "testing" && <TestRunner />}
       {phase === "between-sections" && <BetweenSections />}
       {phase === "submitting" && <SubmittingScreen />}
+      {phase === "expired" && <ExpiredScreen />}
     </main>
   );
 }
@@ -35,24 +75,39 @@ export default function TestPage() {
 function IntakeScreen() {
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const startSession = useTestStore((s) => s.startSession);
+  const lastResultId = useTestStore((s) => s.lastResultId);
+  const phase = useTestStore((s) => s.phase);
 
   const handleBegin = async () => {
     setLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({}),
       });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || `MICA returned status ${res.status}`);
+      }
       const data = await res.json();
+      if (!data?.sessionId || !Array.isArray(data.questions) || data.questions.length === 0) {
+        throw new Error("MICA returned an empty session");
+      }
       startSession({
         sessionId: data.sessionId,
         specimenId: data.specimenId,
         expiresAt: data.expiresAt,
         questions: data.questions,
       });
-    } catch {
+    } catch (e) {
+      console.error("Session creation failed", e);
+      setError(
+        "MICA could not open a session. The facility's data store is unreachable. Retry in a moment; no data was recorded."
+      );
       setLoading(false);
     }
   };
@@ -69,6 +124,15 @@ function IntakeScreen() {
             boundaries of biological computation.
           </p>
         </div>
+
+        {phase === "complete" && lastResultId && (
+          <div className="card font-mono text-xs text-muted space-y-1">
+            <p>Your previous session has been graded.</p>
+            <Link href={`/result/${lastResultId}`} className="text-accent underline underline-offset-4">
+              View cognitive profile #{lastResultId.slice(0, 8).toUpperCase()}
+            </Link>
+          </div>
+        )}
 
         <div className="space-y-6">
           {/* AI assistance pledge */}
@@ -100,12 +164,18 @@ function IntakeScreen() {
             <p>&#8226; SHA-256 hash-based grading. No partial credit. No curve.</p>
           </div>
 
+          {error && (
+            <div role="alert" className="border border-red-900/60 bg-red-950/20 p-3 font-mono text-xs text-red-400">
+              {error}
+            </div>
+          )}
+
           <button
             onClick={handleBegin}
             disabled={!agreed || loading}
             className="btn-primary w-full disabled:opacity-30 disabled:cursor-not-allowed"
           >
-            {loading ? "INITIALIZING..." : "BEGIN TEST"}
+            {loading ? "INITIALIZING..." : error ? "RETRY" : "BEGIN TEST"}
           </button>
         </div>
       </div>
@@ -117,17 +187,15 @@ function TestRunner() {
   const questions = useTestStore((s) => s.questions);
   const currentIndex = useTestStore((s) => s.currentIndex);
   const specimenId = useTestStore((s) => s.specimenId);
+  const questionStartTime = useTestStore((s) => s.questionStartTime);
+  const introShown = useTestStore((s) => s.introShown);
+  const setIntroShown = useTestStore((s) => s.setIntroShown);
+  const beginQuestion = useTestStore((s) => s.beginQuestion);
   const setAnswer = useTestStore((s) => s.setAnswer);
   const nextQuestion = useTestStore((s) => s.nextQuestion);
-  const [showIntro, setShowIntro] = useState(true);
+  const expireQuestion = useTestStore((s) => s.expireQuestion);
 
   const currentQ = questions[currentIndex];
-
-  useEffect(() => {
-    if (currentIndex === 0) {
-      setShowIntro(true);
-    }
-  }, [currentIndex]);
 
   const handleSubmit = useCallback(
     (answer: string) => {
@@ -138,23 +206,17 @@ function TestRunner() {
     [currentQ, setAnswer, nextQuestion]
   );
 
+  // Clock ran out: the store records the draft (possibly empty) and advances.
   const handleTimerExpire = useCallback(() => {
-    if (!currentQ) return;
-    // Auto-submit current answer (or blank) on expiry
-    const store = useTestStore.getState();
-    const existing = store.answers[currentQ.id];
-    if (!existing) {
-      setAnswer(currentQ.id, "");
-    }
-    nextQuestion();
-  }, [currentQ, setAnswer, nextQuestion]);
+    expireQuestion();
+  }, [expireQuestion]);
 
   if (!currentQ) return null;
 
-  if (showIntro && currentIndex === 0) {
+  if (!introShown && currentIndex === 0) {
     return (
       <div className="min-h-screen flex flex-col">
-        <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} timeLimit={null} onExpire={() => {}} />
+        <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} deadline={null} onExpire={() => {}} />
         <div className="flex-1 flex items-center justify-center px-4">
           <div className="max-w-xl space-y-8 text-center">
             <div className="section-label">
@@ -166,7 +228,10 @@ function TestRunner() {
               onComplete={() => {}}
             />
             <button
-              onClick={() => setShowIntro(false)}
+              onClick={() => {
+                setIntroShown();
+                beginQuestion();
+              }}
               className="btn-primary mt-8"
             >
               PROCEED
@@ -183,7 +248,8 @@ function TestRunner() {
   const sectionIdx =
     sectionQuestions.findIndex((q) => q.id === currentQ.id) + 1;
 
-  const timeLimit = currentQ.payload.timeLimit ?? 20;
+  const timeLimit = currentQ.payload.timeLimit ?? DEFAULT_TIME_LIMIT;
+  const deadline = questionStartTime + timeLimit * 1000;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -191,7 +257,7 @@ function TestRunner() {
         section={currentQ.section}
         specimenId={specimenId}
         questionId={currentQ.id}
-        timeLimit={timeLimit}
+        deadline={deadline}
         onExpire={handleTimerExpire}
       />
 
@@ -208,6 +274,7 @@ function TestRunner() {
           </div>
 
           <QuestionRenderer
+            key={currentQ.id}
             questionId={currentQ.id}
             payload={currentQ.payload}
             questionType={currentQ.type}
@@ -224,6 +291,7 @@ function BetweenSections() {
   const currentIndex = useTestStore((s) => s.currentIndex);
   const answers = useTestStore((s) => s.answers);
   const setPhase = useTestStore((s) => s.setPhase);
+  const beginQuestion = useTestStore((s) => s.beginQuestion);
   const specimenId = useTestStore((s) => s.specimenId);
 
   const currentQ = questions[currentIndex];
@@ -232,13 +300,13 @@ function BetweenSections() {
   if (!prevSection || !currentQ) return null;
 
   const prevSectionQs = questions.filter((q) => q.section === prevSection);
-  const answeredCount = prevSectionQs.filter((q) => answers[q.id]).length;
+  const answeredCount = prevSectionQs.filter((q) => answers[q.id]?.answer).length;
 
   const commentary = `Section complete. ${answeredCount} of ${prevSectionQs.length} questions received responses. Proceeding to next evaluation domain.`;
 
   return (
     <div className="min-h-screen flex flex-col">
-      <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} timeLimit={null} onExpire={() => {}} />
+      <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} deadline={null} onExpire={() => {}} />
       <div className="flex-1 flex items-center justify-center px-4">
         <div className="max-w-xl space-y-8 text-center">
           <div className="section-label">SECTION TRANSITION</div>
@@ -252,7 +320,13 @@ function BetweenSections() {
               speed={20}
             />
           </div>
-          <button onClick={() => setPhase("testing")} className="btn-primary">
+          <button
+            onClick={() => {
+              beginQuestion();
+              setPhase("testing");
+            }}
+            className="btn-primary"
+          >
             PROCEED
           </button>
         </div>
@@ -265,11 +339,19 @@ function SubmittingScreen() {
   const sessionId = useTestStore((s) => s.sessionId);
   const answers = useTestStore((s) => s.answers);
   const questions = useTestStore((s) => s.questions);
+  const completeSession = useTestStore((s) => s.completeSession);
+  const reset = useTestStore((s) => s.reset);
+  const setPhase = useTestStore((s) => s.setPhase);
   const router = useRouter();
   const [status, setStatus] = useState("Compiling responses...");
+  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState(0);
+  const inFlight = useRef(false);
 
   useEffect(() => {
-    if (!sessionId) return;
+    if (!sessionId || inFlight.current) return;
+    inFlight.current = true;
+    setFailed(false);
 
     const submit = async () => {
       setStatus("Transmitting data to MICA...");
@@ -287,41 +369,89 @@ function SubmittingScreen() {
           body: JSON.stringify({ sessionId, responses }),
         });
 
+        if (res.status === 410) {
+          // Past the ceiling + grace: retrying can never succeed.
+          setPhase("expired");
+          return;
+        }
+
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
           setStatus(
-            `Transmission error: ${errData.error || "MICA encountered an unexpected fault. Please try again."}`
+            `Transmission error: ${errData.error || "MICA encountered an unexpected fault."} Your responses are retained locally.`
           );
+          setFailed(true);
           return;
         }
 
         const data = await res.json();
 
         if (!data.resultId) {
-          setStatus("MICA failed to generate a report. Please try again.");
+          setStatus("MICA failed to generate a report. Your responses are retained locally.");
+          setFailed(true);
           return;
         }
 
         setStatus("Analysis complete. Generating Cognitive Autopsy...");
         await new Promise((r) => setTimeout(r, 1500));
 
+        completeSession(data.resultId);
         router.push(`/result/${data.resultId}`);
-      } catch {
-        setStatus("Transmission error. Please try again.");
+      } catch (e) {
+        console.error("Submit failed", e);
+        setStatus("Transmission error: the facility is unreachable. Your responses are retained locally.");
+        setFailed(true);
+      } finally {
+        inFlight.current = false;
       }
     };
 
     submit();
-  }, [sessionId, answers, questions, router]);
+  }, [sessionId, answers, questions, router, completeSession, setPhase, attempt]);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="max-w-md text-center space-y-6">
         <AuthoritySeal size={80} />
-        <div className="font-mono text-xl text-accent animate-pulse_accent">
-          PROCESSING
+        <div className={`font-mono text-xl ${failed ? "text-red-400" : "text-accent animate-pulse_accent"}`}>
+          {failed ? "TRANSMISSION FAULT" : "PROCESSING"}
         </div>
         <AICommentary text={status} speed={30} />
+        {failed && (
+          <div className="flex items-center justify-center gap-4 pt-2">
+            <button onClick={() => setAttempt((a) => a + 1)} className="btn-primary">
+              RETRY TRANSMISSION
+            </button>
+            <button
+              onClick={() => {
+                reset();
+                router.push("/");
+              }}
+              className="font-mono text-xs text-muted underline underline-offset-4"
+            >
+              ABANDON SESSION
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ExpiredScreen() {
+  const reset = useTestStore((s) => s.reset);
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="max-w-md text-center space-y-6">
+        <AuthoritySeal size={80} />
+        <div className="font-mono text-xl text-accent">SESSION EXPIRED</div>
+        <p className="font-sans text-sm text-muted">
+          The session ceiling elapsed before all responses were received. Partial
+          sessions are not graded. A new session may be opened at any time.
+        </p>
+        <button onClick={reset} className="btn-primary">
+          OPEN A NEW SESSION
+        </button>
       </div>
     </div>
   );
@@ -331,13 +461,13 @@ function TopBar({
   section,
   specimenId,
   questionId,
-  timeLimit,
+  deadline,
   onExpire,
 }: {
   section: Section;
   specimenId: string | null;
   questionId: string | null;
-  timeLimit: number | null;
+  deadline: number | null;
   onExpire: () => void;
 }) {
   return (
@@ -349,9 +479,9 @@ function TopBar({
             {SECTION_NAMES[section]}
           </span>
         </div>
-        {questionId && timeLimit ? (
+        {questionId && deadline ? (
           <QuestionTimer
-            timeLimit={timeLimit}
+            deadline={deadline}
             onExpire={onExpire}
             questionId={questionId}
           />

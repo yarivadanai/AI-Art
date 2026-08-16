@@ -4,6 +4,8 @@ import { getBank } from '@/lib/banks/dataset';
 import type { DatasetQuestion } from '@/lib/banks/dataset';
 import type { Section } from '@/lib/types';
 
+import { SESSION_CEILING_MS } from './limits';
+
 export interface TestPlan {
   seed: string;
   questions: GeneratedQuestion[];
@@ -65,8 +67,9 @@ export function generateTestPlan(seed: string): TestPlan {
     });
   }
 
-  // 20 minutes = 1200 seconds (safety net ceiling)
-  const expiresAt = new Date(Date.now() + 20 * 60 * 1000);
+  // Session ceiling (see lib/engine/limits.ts); the client checks it at
+  // transitions and /api/submit refuses sessions past it + grace.
+  const expiresAt = new Date(Date.now() + SESSION_CEILING_MS);
 
   return { seed, questions, expiresAt };
 }

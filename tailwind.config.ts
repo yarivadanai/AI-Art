@@ -17,8 +17,8 @@ const config: Config = {
         muted: "#666666",
       },
       fontFamily: {
-        mono: ['"JetBrains Mono"', "monospace"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains-mono)", '"JetBrains Mono"', "ui-monospace", "monospace"],
+        sans: ["var(--font-inter)", "Inter", "system-ui", "sans-serif"],
       },
       keyframes: {
         typewriter: {

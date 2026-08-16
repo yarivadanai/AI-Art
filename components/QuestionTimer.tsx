@@ -3,48 +3,50 @@
 import { useEffect, useState, useRef } from "react";
 
 interface QuestionTimerProps {
-  timeLimit: number;
+  /** Absolute wall-clock deadline (ms since epoch). */
+  deadline: number;
   onExpire: () => void;
   questionId: string;
 }
 
-export function QuestionTimer({ timeLimit, onExpire, questionId }: QuestionTimerProps) {
-  const [remaining, setRemaining] = useState(timeLimit);
-  const expiredRef = useRef(false);
+function secondsLeft(deadline: number): number {
+  return Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+}
+
+/**
+ * Countdown driven by wall-clock time rather than interval ticks, so it keeps
+ * running (and expires correctly) when the tab is backgrounded or the page is
+ * reloaded mid-question. Fires onExpire exactly once per questionId.
+ */
+export function QuestionTimer({ deadline, onExpire, questionId }: QuestionTimerProps) {
+  const [remaining, setRemaining] = useState(() => secondsLeft(deadline));
+  const expiredForRef = useRef<string | null>(null);
+  const onExpireRef = useRef(onExpire);
+  onExpireRef.current = onExpire;
 
   useEffect(() => {
-    // Reset on question change
-    setRemaining(timeLimit);
-    expiredRef.current = false;
-  }, [questionId, timeLimit]);
+    setRemaining(secondsLeft(deadline));
 
-  useEffect(() => {
-    if (remaining <= 0 && !expiredRef.current) {
-      expiredRef.current = true;
-      onExpire();
-      return;
-    }
+    const tick = () => {
+      const left = secondsLeft(deadline);
+      setRemaining(left);
+      if (left <= 0 && expiredForRef.current !== questionId) {
+        expiredForRef.current = questionId;
+        clearInterval(interval);
+        onExpireRef.current();
+      }
+    };
 
-    const interval = setInterval(() => {
-      setRemaining((prev) => {
-        const next = prev - 1;
-        if (next <= 0 && !expiredRef.current) {
-          expiredRef.current = true;
-          // Call onExpire in next tick to avoid state update during render
-          setTimeout(() => onExpire(), 0);
-        }
-        return Math.max(0, next);
-      });
-    }, 1000);
-
+    const interval = setInterval(tick, 250);
+    tick();
     return () => clearInterval(interval);
-  }, [remaining, onExpire, questionId]);
+  }, [deadline, questionId]);
 
   const isUrgent = remaining <= 5;
   const isCritical = remaining <= 3;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" role="timer" aria-live={isUrgent ? "assertive" : "off"} aria-atomic="true">
       {isCritical && (
         <span className="font-mono text-xs text-red-500 animate-pulse_accent tracking-wider">
           TIME CRITICAL
@@ -58,6 +60,7 @@ export function QuestionTimer({ timeLimit, onExpire, questionId }: QuestionTimer
               ? "text-orange-400"
               : "text-accent"
         }`}
+        aria-label={`${remaining} seconds remaining`}
       >
         {remaining}s
       </div>

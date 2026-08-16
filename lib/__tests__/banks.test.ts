@@ -3,22 +3,23 @@ import { DATASET } from "@/lib/banks/dataset";
 import type { DatasetQuestion } from "@/lib/banks/dataset";
 import { hashAnswer } from "@/lib/banks/shared";
 import { mulberry32 } from "@/lib/engine/rng";
+import { SEED_RENDERER_TYPES } from "@/components/SeedDataDisplay";
 import parityData from "@/lib/data/mulberry32_parity.json";
 
 // ── Dataset integrity ───────────────────────────────────────────────────────
 
 describe("Dataset integrity", () => {
-  it("has exactly 605 questions", () => {
-    expect(DATASET.length).toBe(605);
+  it("has exactly 525 questions", () => {
+    expect(DATASET.length).toBe(525);
   });
 
   it("has correct question counts per section", () => {
     const expected: Record<string, number> = {
-      structural: 90,
+      structural: 80,
       "state-tracking": 155,
-      "sequential-depth": 180,
-      "signal-detection": 90,
-      probabilistic: 90,
+      "sequential-depth": 160,
+      "signal-detection": 60,
+      probabilistic: 70,
     };
     for (const [section, count] of Object.entries(expected)) {
       const actual = DATASET.filter((q) => q.section === section).length;
@@ -28,11 +29,11 @@ describe("Dataset integrity", () => {
 
   it("has correct tier distribution per section", () => {
     const expected: Record<string, { t1: number; t2: number; t3: number }> = {
-      structural: { t1: 25, t2: 15, t3: 50 },
+      structural: { t1: 25, t2: 15, t3: 40 },
       "state-tracking": { t1: 25, t2: 30, t3: 100 },
-      "sequential-depth": { t1: 50, t2: 30, t3: 100 },
-      "signal-detection": { t1: 25, t2: 15, t3: 50 },
-      probabilistic: { t1: 25, t2: 15, t3: 50 },
+      "sequential-depth": { t1: 50, t2: 30, t3: 80 },
+      "signal-detection": { t1: 25, t2: 15, t3: 20 },
+      probabilistic: { t1: 25, t2: 15, t3: 30 },
     };
     for (const [section, tiers] of Object.entries(expected)) {
       const sectionQs = DATASET.filter((q) => q.section === section);
@@ -48,6 +49,63 @@ describe("Dataset integrity", () => {
   it("has no duplicate IDs", () => {
     const ids = DATASET.map((q) => q.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("every section has enough items per tier for a test plan (2 T1, 1 T2, 2 T3)", () => {
+    for (const section of ["structural", "state-tracking", "sequential-depth", "signal-detection", "probabilistic"]) {
+      const s = DATASET.filter((q) => q.section === section);
+      expect(s.filter((q) => q.tier === 1).length, `${section} T1`).toBeGreaterThanOrEqual(2);
+      expect(s.filter((q) => q.tier === 2).length, `${section} T2`).toBeGreaterThanOrEqual(1);
+      expect(s.filter((q) => q.tier === 3).length, `${section} T3`).toBeGreaterThanOrEqual(2);
+    }
+  });
+});
+
+// ── Answerability ───────────────────────────────────────────────────────────
+// A question whose answer depends on generated data must actually show that
+// data: either inline in the prompt/display, or via a client renderer keyed by
+// subtype. Families removed in the 2026-08 repair violated this.
+
+describe("Answerability", () => {
+  const REMOVED_SUBTYPES = [
+    "affine_transform",
+    "kl_divergence",
+    "markov_100x100",
+    "bit_shift_matrix",
+    "variance_drift",
+    "taylor_series",
+    "deep_fsm",
+    "hash_anomaly",
+  ];
+
+  it("contains none of the removed no-data families", () => {
+    for (const q of DATASET) {
+      expect(REMOVED_SUBTYPES, `${q.id} (${q.subtype})`).not.toContain(q.subtype);
+    }
+  });
+
+  it("every T3 item with a clientSeed has a client renderer for its subtype", () => {
+    for (const q of DATASET) {
+      if (q.tier === 3 && q.clientSeed != null) {
+        expect(SEED_RENDERER_TYPES, `${q.id}: no renderer for ${q.subtype}`).toContain(q.subtype);
+      }
+    }
+  });
+
+  it("no prompt cites a seed as the only source of its data", () => {
+    // "(Seed: 1234)" in a prompt with no display and no clientSeed means the
+    // examinee is asked to compute from data that is never shown.
+    for (const q of DATASET) {
+      if (/\(Seed:\s*\d+\)/.test(q.prompt) && !q.display && q.clientSeed == null) {
+        throw new Error(`${q.id}: prompt references a seed but shows no data`);
+      }
+    }
+  });
+
+  it("massive_lcg items have distinct answers", () => {
+    const answers = DATASET.filter((q) => q.subtype === "massive_lcg").map((q) => q._verifiedAnswer);
+    expect(answers.length).toBe(10);
+    expect(new Set(answers).size).toBe(10);
   });
 });
 
@@ -202,10 +260,23 @@ describe("Hash normalization", () => {
     expect(h1).toBe(h2);
   });
 
-  it("exact normalization preserves case", () => {
-    const h1 = hashAnswer("ABC", "exact");
-    const h2 = hashAnswer("abc", "exact");
-    expect(h1).not.toBe(h2);
+  it("exact normalization is case-insensitive but content-sensitive", () => {
+    // No bank answer relies on letter case (see canonicalize.ts), so typing
+    // 'tx_000145' for 'TX_000145' must not be graded wrong.
+    expect(hashAnswer("ABC", "exact")).toBe(hashAnswer("abc", "exact"));
+    expect(hashAnswer("ABC", "exact")).not.toBe(hashAnswer("ABD", "exact"));
+  });
+
+  it("no two distinct verified answers within a subtype collapse to one canonical form", () => {
+    const seen = new Map<string, string>();
+    for (const q of DATASET) {
+      const key = `${q.subtype}|${q.answerHash}`;
+      const prev = seen.get(key);
+      if (prev !== undefined && prev !== q._verifiedAnswer) {
+        throw new Error(`${q.subtype}: '${prev}' and '${q._verifiedAnswer}' hash identically`);
+      }
+      seen.set(key, q._verifiedAnswer);
+    }
   });
 
   it("trimmed-lowercase trims and lowercases", () => {
