@@ -29,12 +29,19 @@ export type Normalization =
 export type Confidence = "sure" | "unsure" | "guess" | "expired";
 export const CONFIDENCE_VALUES: Confidence[] = ["sure", "unsure", "guess", "expired"];
 
+import type { GraderSpec } from "./generators/types";
+
+/**
+ * Server-only answer key stored on Question.answerKey. Bank items grade by
+ * hash (+ normalization); generated items grade by typed comparison against
+ * `reference` using `grader`. `reference` is revealed on the report after grading.
+ */
 export interface AnswerKey {
   hash: string;
   normalization: Normalization;
   decimalPlaces?: number;
-  /** Plaintext reference answer. Server-only: stored in the DB, revealed on the report after grading. */
   reference?: string;
+  grader?: GraderSpec;
 }
 
 export interface InteractiveConfig {
