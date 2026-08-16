@@ -16,6 +16,10 @@ model Session {
   beliefs        Json?
   /// "human" for visitors; reserved for machine cohorts (e.g. "llm", "reference") on the dashboard.
   cohort         String     @default("human")
+  /// "fixed" = 25 pre-generated bank items (pre-Phase-2); "adaptive" = staircase per domain (lib/engine/adaptive.ts).
+  mode           String     @default("fixed")
+  /// Adaptive engine state (AdaptiveState in lib/engine/adaptive.ts); null for fixed sessions.
+  state          Json?
   questions      Question[]
   responses      Response[]
   result         Result?

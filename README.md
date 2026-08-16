@@ -11,24 +11,20 @@ The experience stages a question: we routinely judge AI by idealized human-like 
 - **Frontend**: Next.js 14 + React 18 + Tailwind CSS + Zustand
 - **Backend**: Next.js API routes + Prisma ORM
 - **Database**: PostgreSQL (Neon recommended for Vercel deployment)
-- **Grading**: SHA-256 hash comparison (zero-knowledge; correct answers never stored in plaintext)
-- **Question generation**: Python dataset builder + TypeScript seeded PRNG (mulberry32)
+- **Grading**: server-side, exact and typed (numeric tolerance, hex, sets, sequences); reference answers never leave the server and are revealed on the report after grading
+- **Question generation**: TypeScript parametric generators (`lib/generators/`, 15 families with a difficulty dial 1..8) for the adaptive ladders; a legacy hashed bank (`lib/data/`) supplies the machine-scale finales
 
 ## The Five Cognitive Stress Domains
 
 | Section | Tests |
 |---|---|
-| **Abstract Structure** | Structural isomorphism across mathematical/scientific domains |
-| **State Tracking** | Center-embedding parsing, parallel state maintenance, cipher chains |
-| **Sequential Depth** | Proof error detection, assembly tracing, recursive computation |
-| **Signal Detection** | Grammar violation identification in syntactically complex sentences |
-| **Probabilistic Inference** | Expert-level misconception detection across 100+ academic fields |
+| **Structural Insight** | Hyperplane projection, Ackermann patterns, sequence rules |
+| **Working Memory** | n-back, register-machine traces, cipher chains |
+| **Exact Computation** | XOR chains, modular recurrences, bit operations |
+| **Signal Detection** | Palindrome search, drift blocks, duplicate streams |
+| **Probabilistic Inference** | Conditional tables, Bayesian update chains, Markov steady states |
 
-Each session draws 25 questions (5 per section) from a pool of 525 items across three difficulty tiers:
-
-- **T1** (8-option multiple choice, 30s) -- Expert-level but solvable
-- **T2** (free-response, 30s) -- At the edge of biological capacity
-- **T3** (free-response, 45s) -- Trivial for machines, structurally hard for humans
+Each session is adaptive: in every domain, six items climb or descend a ladder of eight difficulty levels with the visitor's own answers (start at level 3, +1 on a correct answer, -1 on a wrong one); the highest level cleared is the domain's *frontier*. A seventh item is then posed at machine scale (a bank item whose data is rendered in the browser from a seed). Every answer carries a stated confidence (sure / unsure / guess) or an explicit abstention ("I cannot determine this"), so the report can describe calibration and abstention the way we describe them for machines. The pre-Phase-2 fixed 25-item flow remains available with `{ "mode": "fixed" }` on `POST /api/session`.
 
 ## Setup
 

@@ -110,8 +110,8 @@ function FacilityBriefing() {
         </p>
         <ul className="space-y-4 pl-4">
           <li>
-            <strong>I. Abstract Structure</strong>{" "}
-            <span className="text-accent text-xs">[Structural Isomorphism]</span>
+            <strong>I. Structural Insight</strong>{" "}
+            <span className="text-accent text-xs">[Projection, Recursion Patterns, Sequence Rules]</span>
             <br />
             <span className="text-white/60">
               Human spatial cognition is calibrated for 3D Euclidean space.
@@ -122,8 +122,8 @@ function FacilityBriefing() {
             </span>
           </li>
           <li>
-            <strong>II. State Tracking</strong>{" "}
-            <span className="text-accent text-xs">[Parallel State &amp; Attentional Load]</span>
+            <strong>II. Working Memory</strong>{" "}
+            <span className="text-accent text-xs">[n-back, Register Traces, Cipher Chains]</span>
             <br />
             <span className="text-white/60">
               Conscious attention appears to operate as a serial bottleneck
@@ -135,8 +135,8 @@ function FacilityBriefing() {
             </span>
           </li>
           <li>
-            <strong>III. Sequential Depth</strong>{" "}
-            <span className="text-accent text-xs">[Recursive Execution &amp; Deterministic Precision]</span>
+            <strong>III. Exact Computation</strong>{" "}
+            <span className="text-accent text-xs">[XOR Chains, Modular Recurrences, Bit Operations]</span>
             <br />
             <span className="text-white/60">
               Cognitive science suggests the human &ldquo;mental stack&rdquo;
@@ -149,7 +149,7 @@ function FacilityBriefing() {
           </li>
           <li>
             <strong>IV. Signal Detection</strong>{" "}
-            <span className="text-accent text-xs">[Micro-Pattern Extraction]</span>
+            <span className="text-accent text-xs">[Palindrome Search, Drift Blocks, Duplicate Streams]</span>
             <br />
             <span className="text-white/60">
               Human pattern recognition is deeply coupled to semantic context:
@@ -161,7 +161,7 @@ function FacilityBriefing() {
           </li>
           <li>
             <strong>V. Probabilistic Inference</strong>{" "}
-            <span className="text-accent text-xs">[Bayesian Reasoning]</span>
+            <span className="text-accent text-xs">[Conditional Tables, Bayesian Updates, Markov Chains]</span>
             <br />
             <span className="text-white/60">
               Decades of research (Kahneman &amp; Tversky, 1974) document
@@ -180,20 +180,25 @@ function FacilityBriefing() {
           {"// METHODOLOGY"}
         </h2>
         <p>
-          Within each domain, tasks are organized along a difficulty gradient:
-          from expert-level questions that a knowledgeable human can solve with
-          effort, through borderline tasks at the edge of biological capacity,
-          to computationally-scaled problems that are trivial for silicon but
-          structurally impossible for unaided human cognition. This gradient
-          maps the precise boundary where each participant&rsquo;s performance
-          transitions from competence to constraint.
+          Within each domain the instrument runs a staircase: six items whose
+          difficulty (level 1 to 8) rises after a correct answer and falls after
+          an incorrect one, so that the session converges on the level at which
+          the specimen&rsquo;s performance breaks. That level is the domain&rsquo;s
+          frontier and is what the profile reports. A seventh item is then posed at
+          machine scale: trivial for a program, structurally hostile to attention.
+          It does not move the frontier; it records what the specimen does when it
+          cannot know the answer.
         </p>
         <p>
-          All answers are verified via SHA-256 hash comparison. This ensures
-          zero-knowledge grading: the system never stores correct answers in
-          plaintext, and evaluation is absolute. There is no partial credit
-          and no curve. A deliberate design choice that mirrors the binary
-          pass/fail nature of computational verification.
+          Every answer is submitted with a stated confidence (sure, unsure,
+          guess) or replaced by &ldquo;I cannot determine this&rdquo;, which is
+          recorded as abstention rather than error. Reference answers never leave
+          the server; grading is exact and absolute, with no curve. Once the
+          session is graded, every item is revealed with the specimen&rsquo;s
+          answer, the reference answer, the stated confidence, the time taken and
+          the method a plain program uses. This is a deliberate design choice: the
+          specimen is graded on the axes normally reserved for machines, namely
+          correctness, calibration, abstention and latency.
         </p>
       </section>
 
@@ -255,7 +260,7 @@ function ArtistNote() {
         <p>
           The experience is deliberately uncomfortable. The interface borrows
           the visual language of clinical assessment (specimen IDs, timed
-          sections, SHA-256 hash verification) to create an atmosphere of
+          items, absolute grading) to create an atmosphere of
           institutional authority that most people have only ever occupied
           from the examiner&rsquo;s side. The questions are genuinely
           difficult, drawn from domains where the asymmetry between human
@@ -300,8 +305,9 @@ function ArtistNote() {
       <section className="space-y-3 border-t border-border pt-6 mt-6">
         <p className="text-white/50 text-sm">
           No personal data is collected. Responses are stored anonymously for
-          aggregate visualization only. Each session generates a unique question
-          set from a pool of 605 items across three difficulty tiers. The work may be experienced multiple times.
+          aggregate visualization only. Each session generates its own items from
+          a seeded generator (five domains, six adaptive levels and one machine-scale
+          item each). The work may be experienced multiple times.
         </p>
       </section>
       

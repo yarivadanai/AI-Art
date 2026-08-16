@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { SUBMIT_GRACE_MS } from "@/lib/engine/limits";
 import { buildResult, gradeAndStore, loadGradedRows } from "@/lib/engine/grade-session";
+import { finalizeAdaptive, readState } from "@/lib/engine/adaptive";
 
 /**
  * POST /api/submit - final grading. Upserts every submitted answer (so this
@@ -59,6 +60,21 @@ export async function POST(req: NextRequest) {
         { error: "Session ceiling elapsed. Partial sessions are not graded." },
         { status: 410 }
       );
+    }
+
+    // Adaptive sessions grade per item via /api/answer; /api/submit finalizes
+    // whatever has been answered (used when a session ends early).
+    const adaptiveState = readState(session);
+    if (adaptiveState) {
+      const resultId = await finalizeAdaptive(sessionId, adaptiveState);
+      const r = await prisma.result.findUnique({ where: { id: resultId } });
+      return NextResponse.json({
+        resultId,
+        sectionScores: r?.sectionScores,
+        overall: r?.overall,
+        verdict: r?.verdict,
+        metrics: r?.metrics,
+      });
     }
 
     await gradeAndStore(sessionId, session.questions, responses);

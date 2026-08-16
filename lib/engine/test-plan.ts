@@ -22,7 +22,7 @@ const SECTION_PLAN: { section: Section; tiers: (1 | 2 | 3)[] }[] = [
   { section: "probabilistic", tiers: [1, 1, 2, 3, 3] },
 ];
 
-function datasetItemToQuestion(item: DatasetQuestion, section: Section, index: number): GeneratedQuestion {
+export function datasetItemToQuestion(item: DatasetQuestion, section: Section, index: number): GeneratedQuestion {
   return {
     section,
     index,

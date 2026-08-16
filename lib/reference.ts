@@ -1,4 +1,5 @@
 import type { Section } from "./types";
+import { getFamily } from "./generators";
 
 /**
  * How a plain program solves each question family, and roughly how long it
@@ -91,6 +92,10 @@ const BY_SECTION: Record<Section, ReferenceNote> = {
 };
 
 export function referenceNote(subtype: string, section: Section): ReferenceNote {
+  if (subtype.startsWith("gen_")) {
+    const fam = getFamily(subtype);
+    if (fam) return { method: fam.method, time: "microseconds" };
+  }
   return BY_SUBTYPE[subtype] ?? BY_SECTION[section];
 }
 

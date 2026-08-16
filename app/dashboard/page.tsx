@@ -9,9 +9,9 @@ import { REPORT_COPY } from "@/lib/commentary";
 import type { StatsResponse } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
-  structural: "Abstract Structure",
-  "state-tracking": "State Tracking",
-  "sequential-depth": "Sequential Depth",
+  structural: "Structural Insight",
+  "state-tracking": "Working Memory",
+  "sequential-depth": "Exact Computation",
   "signal-detection": "Signal Detection",
   probabilistic: "Probabilistic Inference",
 };
@@ -240,7 +240,7 @@ export default function DashboardPage() {
                   )}
                   %
                 </span>{" "}
-                on abstract structure.
+                on structural insight.
               </p>
               <p>
                 A call stack with 1KB of RAM{" "}
@@ -252,7 +252,7 @@ export default function DashboardPage() {
                   )}
                   %
                 </span>{" "}
-                on sequential depth.
+                on exact computation.
               </p>
               <p>
                 A statistical inference engine{" "}

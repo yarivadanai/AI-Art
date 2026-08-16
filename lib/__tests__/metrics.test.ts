@@ -100,7 +100,7 @@ describe("Authority voice", () => {
     const all = lines.map((l) => l.text).join("\n");
     expect(all).toContain("1 was wrong");
     expect(all).toContain("used 1 time");
-    expect(all).toContain("Sequential depth: 60%");
+    expect(all).toContain("Exact Computation: 60%");
     expect(all).not.toMatch(/undefined|NaN/);
     expect(lines[lines.length - 1].text).toMatch(/Either both forms of intelligence understand, or neither does/);
   });

@@ -1,5 +1,6 @@
 /**
- * End-to-end API check against a running server (dev or preview).
+ * End-to-end API check of the FIXED (pre-Phase-2, 25-item batch) session mode
+ * against a running server. The adaptive flow is covered by e2e_adaptive.ts.
  *
  *   npx tsx scripts/e2e_api.ts http://localhost:3000
  *
@@ -85,7 +86,7 @@ async function main() {
   // 1. Session with beliefs
   console.log("\n[1] POST /api/session (with intake beliefs)");
   const beliefs = Object.fromEntries(BELIEF_ITEMS.map((b, i) => [b.id, [5, 1, 4][i]]));
-  const s = await post("/api/session", { beliefs: { ...beliefs, bogus: 3 } });
+  const s = await post("/api/session", { mode: "fixed", beliefs: { ...beliefs, bogus: 3 } });
   check(s.status === 200, `status 200 (got ${s.status})`);
   const questions: any[] = s.body?.questions ?? [];
   check(questions.length === 25, `25 questions (got ${questions.length})`);
@@ -189,7 +190,7 @@ async function main() {
 
   // 6a. All-correct session in messy formats -> 100% (canonicalization guarantee)
   console.log("\n[6a] all-correct messy session");
-  const s3 = await post("/api/session", {});
+  const s3 = await post("/api/session", { mode: "fixed" });
   const items3 = (s3.body.questions as any[]).map(findItem);
   check(items3.every(Boolean), "all-correct: every served question maps back to a dataset item");
   const allCorrect = (s3.body.questions as any[]).map((q, i) => ({
@@ -213,14 +214,14 @@ async function main() {
 
   // 6b. Partial submit: metrics describe only what was actually answered
   console.log("\n[6b] partial submit metrics");
-  const s4 = await post("/api/session", {});
+  const s4 = await post("/api/session", { mode: "fixed" });
   const partial = (s4.body.questions as any[]).slice(0, 10).map((q: any) => ({ questionId: q.id, answer: "x", timeMs: 4000, confidence: "guess" }));
   const sub4 = await post("/api/submit", { sessionId: s4.body.sessionId, responses: partial });
   check(sub4.status === 200 && sub4.body?.metrics?.answered === 10 && sub4.body?.metrics?.meanTimeMs === 4000, `partial: answered=10, meanTimeMs=4000 (got ${sub4.body?.metrics?.answered}, ${sub4.body?.metrics?.meanTimeMs})`);
 
   // 6. Blank session (no section calls) still grades all 25
   console.log("\n[6] blank session");
-  const s2 = await post("/api/session", {});
+  const s2 = await post("/api/session", { mode: "fixed" });
   const blank = await post("/api/submit", {
     sessionId: s2.body.sessionId,
     responses: s2.body.questions.map((q: any) => ({ questionId: q.id, answer: "", timeMs: 0 })),

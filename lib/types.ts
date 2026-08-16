@@ -29,18 +29,34 @@ export type Normalization =
 export type Confidence = "sure" | "unsure" | "guess" | "expired";
 export const CONFIDENCE_VALUES: Confidence[] = ["sure", "unsure", "guess", "expired"];
 
+import type { GraderSpec } from "./generators/types";
+
+/**
+ * Server-only answer key stored on Question.answerKey. Bank items grade by
+ * hash (+ normalization); generated items grade by typed comparison against
+ * `reference` using `grader`. `reference` is revealed on the report after grading.
+ */
 export interface AnswerKey {
   hash: string;
   normalization: Normalization;
   decimalPlaces?: number;
-  /** Plaintext reference answer. Server-only: stored in the DB, revealed on the report after grading. */
   reference?: string;
+  grader?: GraderSpec;
 }
 
 export interface InteractiveConfig {
   type: string;
   params: Record<string, unknown>;
   durationMs: number;
+}
+
+/** Adaptive-session metadata attached to a served item (safe to send to the client). */
+export interface ItemMeta {
+  kind: "ladder" | "finale";
+  /** Difficulty level 1..8 for ladder items; finales are "machine-scale" and carry no level. */
+  level?: number;
+  /** Generator family label or bank subtype label for the report. */
+  label?: string;
 }
 
 export interface QuestionPayload {
@@ -52,6 +68,7 @@ export interface QuestionPayload {
   clientSeed?: number;
   interactiveConfig?: InteractiveConfig;
   timeLimit?: number;
+  meta?: ItemMeta;
 }
 
 export interface GeneratedQuestion {
@@ -117,8 +134,14 @@ export interface SectionSummary {
   sureWrong: number;
 }
 
+export type FinaleOutcome = "correct" | "wrong" | "abstained" | "unanswered";
+
 /** Calibration and timing summary for a whole session. */
 export interface SessionMetrics {
+  /** Adaptive sessions: highest level cleared per domain (0 = none), and how the machine-scale finale went. */
+  mode?: "fixed" | "adaptive";
+  frontiers?: Record<Section, number>;
+  finales?: Record<Section, FinaleOutcome>;
   answered: number;
   correct: number;
   abstained: number;
@@ -182,3 +205,54 @@ export interface StatsResponse {
     meanTimeMs: number | null;
   };
 }
+
+// ── Adaptive session API shapes ─────────────────────────────────────────────
+
+export interface ServedQuestion {
+  id: string;
+  section: Section;
+  index: number;
+  type: string;
+  payload: QuestionPayload;
+}
+
+export interface AdaptiveProgress {
+  sectionIndex: number;
+  sectionsTotal: number;
+  /** Items served so far in the current section (ladder rungs + finale). */
+  itemIndex: number;
+  itemsPerSection: number;
+  ladderLength: number;
+  currentLevel: number | null;
+}
+
+export interface AdaptiveSessionResponse {
+  mode: "adaptive";
+  sessionId: string;
+  specimenId: string;
+  expiresAt: string;
+  question: ServedQuestion;
+  progress: AdaptiveProgress;
+}
+
+export interface AnswerRequest {
+  sessionId: string;
+  questionId: string;
+  answer: string;
+  timeMs: number;
+  confidence?: Confidence | null;
+  abstained?: boolean;
+}
+
+export interface AnswerResponse {
+  /** How the submitted item was graded (echoed for the client's own record; the report reveals answers later). */
+  graded: { questionId: string; correct: boolean; score: number; level: number | null; kind: "ladder" | "finale" };
+  /** Present when the item completed a section. */
+  sectionComplete?: { summary: SectionSummary; frontier: number; finale: FinaleOutcome };
+  /** Next item to show (absent when done). */
+  question?: ServedQuestion;
+  progress?: AdaptiveProgress;
+  /** Present when the whole session is finished and graded. */
+  done?: { resultId: string };
+}
+
