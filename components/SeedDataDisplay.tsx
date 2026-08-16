@@ -173,74 +173,7 @@ function LedgerDisplay({ clientSeed }: { clientSeed: number }) {
   return <ScrollableGrid headers={headers} rows={rows} />;
 }
 
-// ── Section 3: Recursive Exec ───────────────────────────────────────────────
-
-function FSMDisplay({ clientSeed }: { clientSeed: number }) {
-  const text = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    const i = clientSeed - 3300;
-    const numInputs = 25000 + i;
-    const inputs: number[] = [];
-    for (let j = 0; j < numInputs; j++) {
-      inputs.push(rngInt(rng, 0, 255));
-    }
-    const lines = [
-      `FSM: 50 states, rule: state = (state + input%7) % 50`,
-      `Total inputs: ${numInputs}`,
-      ``,
-      "First 100 inputs:",
-      inputs.slice(0, 100).join(", "),
-      "",
-      "Last 100 inputs:",
-      inputs.slice(-100).join(", "),
-    ];
-    return lines.join("\n");
-  }, [clientSeed]);
-  return <ScrollableText text={text} />;
-}
-
 // ── Section 4: Micro Pattern ────────────────────────────────────────────────
-
-function VarianceDriftDisplay({ clientSeed }: { clientSeed: number }) {
-  const text = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    const numFloats = 100000;
-    const blockSize = 15;
-    // Pick plant start from stream (matches Python exactly)
-    const plantStart = rngInt(rng, 1000, numFloats - blockSize - 1000);
-    // Generate all floats via Box-Muller (matching Python)
-    const floats: number[] = [];
-    for (let k = 0; k < Math.floor(numFloats / 2) + 1; k++) {
-      const u1 = Math.max(rng(), 1e-10);
-      const u2 = rng();
-      floats.push(Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2));
-      floats.push(Math.sqrt(-2 * Math.log(u1)) * Math.sin(2 * Math.PI * u2));
-    }
-    floats.length = numFloats;
-    // Plant drift block
-    for (let j = plantStart; j < plantStart + blockSize; j++) {
-      floats[j] *= 1.05;
-    }
-    // Render: show surrounding region of plant + head/tail
-    const lines: string[] = [];
-    lines.push(`100,000 N(0,1) floats [seed ${clientSeed}]`);
-    lines.push(`One block of ${blockSize} consecutive values has variance drift (x1.05).`);
-    lines.push("");
-    lines.push("--- Indices 0-99 ---");
-    for (let j = 0; j < 100; j++) {
-      lines.push(`[${String(j).padStart(6)}] ${floats[j].toFixed(8)}`);
-    }
-    lines.push("");
-    lines.push(`--- Indices ${numFloats - 100}-${numFloats - 1} ---`);
-    for (let j = numFloats - 100; j < numFloats; j++) {
-      lines.push(`[${String(j).padStart(6)}] ${floats[j].toFixed(8)}`);
-    }
-    lines.push("");
-    lines.push(`Total values: ${numFloats}. Full data reconstructable from seed ${clientSeed}.`);
-    return lines.join("\n");
-  }, [clientSeed]);
-  return <ScrollableText text={text} />;
-}
 
 function BitwisePalindromeDisplay({ clientSeed }: { clientSeed: number }) {
   const text = useMemo(() => {
@@ -270,78 +203,6 @@ function BitwisePalindromeDisplay({ clientSeed }: { clientSeed: number }) {
     return lines.join("\n");
   }, [clientSeed]);
   return <ScrollableText text={text} />;
-}
-
-function TaylorSeriesDisplay({ clientSeed }: { clientSeed: number }) {
-  const text = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    const numFloats = 250000;
-    const target = [0.0, 1.0, 0.0, -1.0 / 6.0, 0.0, 1.0 / 120.0, 0.0];
-    // Generate float stream [-1, 1]
-    const floats: number[] = [];
-    for (let k = 0; k < numFloats; k++) {
-      floats.push(rng() * 2 - 1);
-    }
-    // Plant target at deterministic index
-    const plantIdx = rngInt(rng, 10000, numFloats - 8);
-    for (let j = 0; j < 7; j++) {
-      floats[plantIdx + j] = target[j];
-    }
-    // Render first 500 + last 500 with line numbers
-    const lines: string[] = [];
-    lines.push(`250,000 floats in [-1, 1] [seed ${clientSeed}]`);
-    lines.push("Target: 7 consecutive values matching sin(x) Maclaurin: [0, 1, 0, -1/6, 0, 1/120, 0]");
-    lines.push("");
-    lines.push("--- Indices 0-499 ---");
-    for (let j = 0; j < 500; j++) {
-      lines.push(`[${String(j).padStart(6)}] ${floats[j].toFixed(8)}`);
-    }
-    lines.push("");
-    lines.push(`--- Indices ${numFloats - 500}-${numFloats - 1} ---`);
-    for (let j = numFloats - 500; j < numFloats; j++) {
-      lines.push(`[${String(j).padStart(6)}] ${floats[j].toFixed(8)}`);
-    }
-    lines.push("");
-    lines.push(`Total values: ${numFloats}. Full data reconstructable from seed ${clientSeed}.`);
-    return lines.join("\n");
-  }, [clientSeed]);
-  return <ScrollableText text={text} />;
-}
-
-function HashAnomalyDisplay({ clientSeed }: { clientSeed: number }) {
-  const { headers, rows } = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    const numStrings = 10000;
-    // Generate 10000 hex strings (64 chars = 32 bytes each), matching Python
-    const strings: string[] = [];
-    for (let k = 0; k < numStrings; k++) {
-      strings.push(rngHexString(rng, 64));
-    }
-    // Pick plant index from stream
-    const plantIdx = rngInt(rng, 0, numStrings - 1);
-    // The Python brute-forces a suffix for the planted string.
-    // We can't run SHA-256 client-side in useMemo synchronously for 1M attempts,
-    // but we CAN reconstruct the base string for display. The planted string
-    // was modified by Python and stored in the JSON answer. Show the strings as-is
-    // (pre-modification) so the user sees the full dataset.
-    // Mark the planted index string with a note.
-    const r: string[][] = strings.map((s, i) => [
-      String(i).padStart(5), s,
-    ]);
-    return {
-      headers: ["Index", "32-byte Hex String"],
-      rows: r,
-    };
-  }, [clientSeed]);
-  return (
-    <div className="space-y-2">
-      <div className="text-green-400/50 font-mono text-[10px] px-4">
-        10,000 hex strings [seed {clientSeed}]. One string&apos;s SHA-256 hash begins with &apos;00000&apos;.
-        Note: the planted string was modified by the generator. The index is the answer.
-      </div>
-      <ScrollableGrid headers={headers} rows={rows} />
-    </div>
-  );
 }
 
 function SteganCanvas({ clientSeed }: { clientSeed: number }) {
@@ -406,18 +267,6 @@ function SteganCanvas({ clientSeed }: { clientSeed: number }) {
 
 // ── Section 5: Attentional ──────────────────────────────────────────────────
 
-function DigitStream({ clientSeed }: { clientSeed: number }) {
-  const text = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    const digits: string[] = [];
-    for (let i = 0; i < 15; i++) {
-      digits.push(String(rngInt(rng, 0, 9)));
-    }
-    return `Target 15-digit sequence:\n\n${digits.join(" ")}`;
-  }, [clientSeed]);
-  return <ScrollableText text={text} />;
-}
-
 function BooleanGrid({ clientSeed }: { clientSeed: number }) {
   const { headers, rows } = useMemo(() => {
     const rng = mulberry32(clientSeed);
@@ -470,31 +319,6 @@ function NodeGraph({ clientSeed }: { clientSeed: number }) {
     return { headers: ["Node", "X", "Y"], rows: r };
   }, [clientSeed]);
   return <ScrollableGrid headers={headers} rows={rows} />;
-}
-
-function CipherDisplay({ clientSeed }: { clientSeed: number }) {
-  const text = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    const plaintext: string[] = [];
-    for (let i = 0; i < 20; i++) {
-      plaintext.push(alpha[Math.floor(rng() * 26)]);
-    }
-    const key = [...alpha];
-    for (let j = 25; j > 0; j--) {
-      const k = rngInt(rng, 0, j);
-      [key[j], key[k]] = [key[k], key[j]];
-    }
-    const lines = [
-      "Plaintext:  " + plaintext.join(""),
-      "",
-      "Substitution key:",
-      "  " + alpha.join(" "),
-      "  " + key.join(" "),
-    ];
-    return lines.join("\n");
-  }, [clientSeed]);
-  return <ScrollableText text={text} />;
 }
 
 // ── Section 6: Bayesian ─────────────────────────────────────────────────────
@@ -602,14 +426,6 @@ function AESDisplay({ clientSeed }: { clientSeed: number }) {
   return <ScrollableText text={text} />;
 }
 
-function BitShiftDisplay({ clientSeed }: { clientSeed: number }) {
-  const text = useMemo(() => {
-    const rng = mulberry32(clientSeed);
-    return `256-bit initial value:\n\n${rngHexString(rng, 64).toUpperCase()}`;
-  }, [clientSeed]);
-  return <ScrollableText text={text} />;
-}
-
 function Sha256ChDisplay({ clientSeed }: { clientSeed: number }) {
   const text = useMemo(() => {
     const rng = mulberry32(clientSeed);
@@ -631,6 +447,9 @@ function Sha256ChDisplay({ clientSeed }: { clientSeed: number }) {
 
 // ── Router ──────────────────────────────────────────────────────────────────
 
+// Every T3 dataset item with a clientSeed must have an entry here: the answer
+// is derived from the data this renderer shows, so a missing renderer makes
+// the question unanswerable. lib/__tests__/banks.test.ts enforces this.
 const RENDERER_MAP: Record<string, React.FC<{ clientSeed: number }>> = {
   // Section 2: Parallel State
   n_body_collision: ParticleField,
@@ -638,29 +457,24 @@ const RENDERER_MAP: Record<string, React.FC<{ clientSeed: number }>> = {
   prime_matrix_async: PrimeMatrix,
   frequency_phase: FrequencyDisplay,
   ledger_anomaly: LedgerDisplay,
-  // Section 3: Recursive Exec
-  deep_fsm: FSMDisplay,
   // Section 4: Micro Pattern
-  variance_drift: VarianceDriftDisplay,
   bitwise_palindrome: BitwisePalindromeDisplay,
-  taylor_series: TaylorSeriesDisplay,
-  hash_anomaly: HashAnomalyDisplay,
   lsb_steganography: SteganCanvas,
   // Section 5: Attentional
-  async_multi_axis: DigitStream,
   quad_logic_inversion: BooleanGrid,
   n_back_desync: NBackDisplay,
   trajectory_spline: NodeGraph,
-  peripheral_cipher: CipherDisplay,
   // Section 6: Bayesian
   hmm_viterbi: HMMDisplay,
   gmm_update: GMMDisplay,
   // Section 7: Crypto Bitwise
   xor_1024bit: XorDisplay,
   aes_state_matrix: AESDisplay,
-  bit_shift_matrix: BitShiftDisplay,
   sha256_mental: Sha256ChDisplay,
 };
+
+/** Question subtypes that have a client-side data renderer (exported for tests). */
+export const SEED_RENDERER_TYPES: readonly string[] = Object.keys(RENDERER_MAP);
 
 export function SeedDataDisplay({
   clientSeed,
