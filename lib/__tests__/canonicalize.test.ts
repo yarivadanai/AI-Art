@@ -47,6 +47,10 @@ describe("canonicalize: numeric-rounded", () => {
     expect(accepts("584368244.067120", "584 368 244.06712", "numeric-rounded", 6)).toBe(true);
     expect(accepts("-4.000000", "−4", "numeric-rounded", 6)).toBe(true);
     expect(accepts("0.047210", "0,047210", "numeric-rounded", 6)).toBe(true);
+    expect(accepts("0.125000", "0,125", "numeric-rounded", 6)).toBe(true);
+    expect(accepts("-0.047000", "-0,047", "numeric-rounded", 6)).toBe(true);
+    expect(accepts("3.141590", "3,14159", "numeric-rounded", 6)).toBe(true);
+    expect(accepts("1500.000000", "1,500", "numeric-rounded", 6)).toBe(true);
     expect(accepts("0.047210", "+0.04721", "numeric-rounded", 6)).toBe(true);
     expect(accepts("0.109109", " 0.109109 ", "numeric-rounded", 6)).toBe(true);
   });

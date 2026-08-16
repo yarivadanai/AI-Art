@@ -15,13 +15,21 @@ Applies targeted, auditable edits to lib/data/scca_master_dataset.json:
 3. Rewords hyperplane_projection T3 ("onto the plane with normal vector U",
    which is what the stored answers compute) and torus_geodesic (states the
    period). Answers unchanged.
+4. Switches free-response subtypes whose every answer is a plain integer from
+   normalization "exact" to "numeric-rounded" (decimalPlaces 0), so "42,201",
+   "+5" or "5.0" grade correctly.
+
+Hashes are NOT computed here. There is exactly one definition of the answer
+hash (lib/engine/canonicalize.ts via lib/banks/shared.ts); this script edits
+prompts/answers/normalization and then runs `npx tsx scripts/rehash_dataset.ts`.
 
 Idempotent: re-running on repaired data is a no-op.
 """
 
-import hashlib
 import json
 import re
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -43,10 +51,6 @@ LCG_A = 1664525
 LCG_C = 1013904223
 LCG_M = 1 << 128
 LCG_STEPS = 1_000_000
-
-
-def sha256_hex_lower(answer: str) -> str:
-    return hashlib.sha256(answer.strip().lower().encode()).hexdigest()
 
 
 def lcg_state(seed: int) -> str:
@@ -76,7 +80,6 @@ def main() -> None:
             ans = lcg_state(seed)
             if q["_verifiedAnswer"] != ans:
                 q["_verifiedAnswer"] = ans
-                q["answerHash"] = sha256_hex_lower(ans)
                 lcg_fixed += 1
             assert q["normalization"] == "hex-lowercase"
 
@@ -100,18 +103,39 @@ def main() -> None:
                 q["prompt"] = new
                 reworded += 1
 
-    # Sanity: hash roundtrip for every touched family
-    for q in kept:
-        if q["subtype"] in {"massive_lcg"}:
-            assert q["answerHash"] == sha256_hex_lower(q["_verifiedAnswer"]), q["id"]
-
     lcg_answers = {q["_verifiedAnswer"] for q in kept if q["subtype"] == "massive_lcg"}
     assert len(lcg_answers) == 10, "massive_lcg answers must be distinct"
+
+    # 4. Integer-valued free-response subtypes -> numeric-rounded (dp 0).
+    by_subtype: dict[str, list[dict]] = {}
+    for q in kept:
+        by_subtype.setdefault(q["subtype"], []).append(q)
+    int_re = re.compile(r"^-?\d+$")
+    to_numeric = 0
+    for subtype, qs in by_subtype.items():
+        if any(q["inputType"] == "multiple-choice" for q in qs):
+            continue
+        if not all(q["normalization"] == "exact" and int_re.match(q["_verifiedAnswer"]) for q in qs):
+            continue
+        for q in qs:
+            q["normalization"] = "numeric-rounded"
+            q["decimalPlaces"] = 0
+            to_numeric += 1
 
     json.dump(kept, open(PATH, "w"), indent=2, ensure_ascii=False)
     with open(PATH, "a") as f:
         f.write("\n")
-    print(f"items: {before} -> {len(kept)} (removed {removed}); lcg answers fixed: {lcg_fixed}; reworded: {reworded}")
+    print(
+        f"items: {before} -> {len(kept)} (removed {removed}); lcg answers fixed: {lcg_fixed}; "
+        f"reworded: {reworded}; exact->numeric-rounded: {to_numeric}"
+    )
+
+    # Recompute every hash with the canonical TS definition.
+    print("running scripts/rehash_dataset.ts ...")
+    r = subprocess.run(["npx", "tsx", "scripts/rehash_dataset.ts"], cwd=ROOT)
+    if r.returncode != 0:
+        print("rehash failed; hashes may be stale", file=sys.stderr)
+        sys.exit(r.returncode)
 
 
 if __name__ == "__main__":

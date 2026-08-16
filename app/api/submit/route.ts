@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { gradeAnswer } from "@/lib/engine/grader";
 import { getSectionCommentary, getVerdict } from "@/lib/commentary";
-import { SUBMIT_GRACE_MS } from "@/lib/engine/test-plan";
+import { SUBMIT_GRACE_MS } from "@/lib/engine/limits";
 import type { AnswerKey, Section } from "@/lib/types";
 
 const SECTIONS: Section[] = [

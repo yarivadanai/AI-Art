@@ -1,26 +1,30 @@
 // @vitest-environment node
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
-// Minimal localStorage shim so zustand/persist works under node.
-class MemoryStorage {
-  private m = new Map<string, string>();
-  getItem(k: string) {
-    return this.m.get(k) ?? null;
+// Minimal window.localStorage shim, installed before lib/store is imported
+// (vi.hoisted runs ahead of the static imports below).
+const { storage } = vi.hoisted(() => {
+  class MemoryStorage {
+    private m = new Map<string, string>();
+    getItem(k: string) {
+      return this.m.get(k) ?? null;
+    }
+    setItem(k: string, v: string) {
+      this.m.set(k, v);
+    }
+    removeItem(k: string) {
+      this.m.delete(k);
+    }
+    clear() {
+      this.m.clear();
+    }
   }
-  setItem(k: string, v: string) {
-    this.m.set(k, v);
-  }
-  removeItem(k: string) {
-    this.m.delete(k);
-  }
-  clear() {
-    this.m.clear();
-  }
-}
-const storage = new MemoryStorage();
-Object.defineProperty(globalThis, "localStorage", { value: storage, configurable: true });
+  const storage = new MemoryStorage();
+  (globalThis as any).window = { localStorage: storage };
+  return { storage };
+});
 
-const { useTestStore, STORE_KEY } = await import("@/lib/store");
+import { useTestStore, STORE_KEY } from "@/lib/store";
 
 const questions = [
   { id: "a1", section: "structural" as const, index: 0, type: "x", payload: { prompt: "p", inputType: "text" as const, timeLimit: 30 } },
@@ -53,16 +57,28 @@ describe("test store", () => {
     expect(s.introShown).toBe(false);
   });
 
-  it("keeps the typed draft so a timer expiry can submit it", () => {
+  it("expireQuestion submits the typed draft and advances", () => {
     start();
     useTestStore.getState().setDraft("224, 378");
-    // What TestRunner.handleTimerExpire does:
-    const st = useTestStore.getState();
-    st.setAnswer("a1", st.draft);
-    st.nextQuestion();
+    useTestStore.getState().expireQuestion();
     expect(useTestStore.getState().answers["a1"].answer).toBe("224, 378");
     expect(useTestStore.getState().draft).toBe("");
     expect(useTestStore.getState().currentIndex).toBe(1);
+  });
+
+  it("expireQuestion with nothing typed records an empty answer", () => {
+    start();
+    useTestStore.getState().expireQuestion();
+    expect(useTestStore.getState().answers["a1"].answer).toBe("");
+    expect(useTestStore.getState().currentIndex).toBe(1);
+  });
+
+  it("expireQuestion does not overwrite an answer already recorded for the question", () => {
+    start();
+    useTestStore.getState().setAnswer("a1", "final");
+    useTestStore.getState().setDraft("stale");
+    useTestStore.getState().expireQuestion();
+    expect(useTestStore.getState().answers["a1"].answer).toBe("final");
   });
 
   it("does not count intro/transition reading time toward the question clock", () => {
@@ -134,6 +150,28 @@ describe("test store", () => {
     expect(s.currentIndex).toBe(1);
     expect(s.draft).toBe("half typed");
     expect(s.questions.length).toBe(3);
+  });
+
+  it("hydrates (and clears the key) when the persisted value is corrupt at module load", async () => {
+    // This is the real browser scenario: with synchronous storage, hydration
+    // runs inside create(), before the exported store constant exists.
+    storage.setItem(STORE_KEY, "{not json");
+    vi.resetModules();
+    const fresh = await import("@/lib/store");
+    await Promise.resolve(); // recovery runs on a microtask after create()
+    expect(fresh.useTestStore.getState().hydrated).toBe(true);
+    expect(fresh.useTestStore.getState().phase).toBe("idle");
+    expect(storage.getItem(STORE_KEY)).not.toBe("{not json");
+  });
+
+  it("recovers from a corrupt persisted value instead of staying unhydrated", async () => {
+    storage.setItem(STORE_KEY, "{not json");
+    useTestStore.setState({ ...useTestStore.getInitialState(), hydrated: false } as any, true);
+    storage.setItem(STORE_KEY, "{not json"); // setState above re-persisted; corrupt it again
+    await useTestStore.persist.rehydrate();
+    const s = useTestStore.getState();
+    expect(s.hydrated).toBe(true);
+    expect(s.phase).toBe("idle");
   });
 
   it("completeSession clears the session but remembers the result id", () => {

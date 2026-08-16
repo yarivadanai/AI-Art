@@ -9,6 +9,7 @@ import { QuestionRenderer } from "@/components/QuestionRenderer";
 import { AICommentary } from "@/components/AICommentary";
 import { useTestStore } from "@/lib/store";
 import { getSectionIntro } from "@/lib/commentary";
+import { SUBMIT_GRACE_MS } from "@/lib/engine/limits";
 import type { Section } from "@/lib/types";
 
 const SECTION_NAMES: Record<Section, string> = {
@@ -27,12 +28,27 @@ export default function TestPage() {
   const hydrated = useTestStore((s) => s.hydrated);
   const expiresAt = useTestStore((s) => s.expiresAt);
   const setPhase = useTestStore((s) => s.setPhase);
+  const setHydrated = useTestStore((s) => s.setHydrated);
 
-  // A resumed session past its ceiling cannot be submitted; say so instead of
-  // letting the visitor finish and fail at the end.
+  // Never strand a visitor on the restoring screen: if persistence has not
+  // reported in after 2s (exotic storage failures), proceed with a fresh state.
+  useEffect(() => {
+    if (hydrated) return;
+    const t = setTimeout(() => setHydrated(true), 2000);
+    return () => clearTimeout(t);
+  }, [hydrated, setHydrated]);
+
+  // A session past its ceiling (+ the same grace the server applies) will be
+  // refused by /api/submit; say so at the next transition instead of letting
+  // the visitor finish and fail at the end. Inside the grace window we let the
+  // visitor continue and the server grades normally.
   useEffect(() => {
     if (!hydrated) return;
-    if ((phase === "testing" || phase === "between-sections") && expiresAt && Date.now() > expiresAt) {
+    if (
+      (phase === "testing" || phase === "between-sections") &&
+      expiresAt &&
+      Date.now() > expiresAt + SUBMIT_GRACE_MS
+    ) {
       setPhase("expired");
     }
   }, [hydrated, phase, expiresAt, setPhase]);
@@ -177,6 +193,7 @@ function TestRunner() {
   const beginQuestion = useTestStore((s) => s.beginQuestion);
   const setAnswer = useTestStore((s) => s.setAnswer);
   const nextQuestion = useTestStore((s) => s.nextQuestion);
+  const expireQuestion = useTestStore((s) => s.expireQuestion);
 
   const currentQ = questions[currentIndex];
 
@@ -189,15 +206,10 @@ function TestRunner() {
     [currentQ, setAnswer, nextQuestion]
   );
 
+  // Clock ran out: the store records the draft (possibly empty) and advances.
   const handleTimerExpire = useCallback(() => {
-    if (!currentQ) return;
-    // Submit whatever was typed (possibly nothing) when the clock runs out.
-    const store = useTestStore.getState();
-    if (!store.answers[currentQ.id]) {
-      setAnswer(currentQ.id, store.draft ?? "");
-    }
-    nextQuestion();
-  }, [currentQ, setAnswer, nextQuestion]);
+    expireQuestion();
+  }, [expireQuestion]);
 
   if (!currentQ) return null;
 
@@ -329,6 +341,7 @@ function SubmittingScreen() {
   const questions = useTestStore((s) => s.questions);
   const completeSession = useTestStore((s) => s.completeSession);
   const reset = useTestStore((s) => s.reset);
+  const setPhase = useTestStore((s) => s.setPhase);
   const router = useRouter();
   const [status, setStatus] = useState("Compiling responses...");
   const [failed, setFailed] = useState(false);
@@ -355,6 +368,12 @@ function SubmittingScreen() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ sessionId, responses }),
         });
+
+        if (res.status === 410) {
+          // Past the ceiling + grace: retrying can never succeed.
+          setPhase("expired");
+          return;
+        }
 
         if (!res.ok) {
           const errData = await res.json().catch(() => ({}));
@@ -388,7 +407,7 @@ function SubmittingScreen() {
     };
 
     submit();
-  }, [sessionId, answers, questions, router, completeSession, attempt]);
+  }, [sessionId, answers, questions, router, completeSession, setPhase, attempt]);
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">

@@ -58,11 +58,15 @@ export function canonicalize(raw: string, normalization: Normalization, decimalP
 export function parseNumber(raw: string): number | null {
   let s = raw.trim().replace(/[−‒–]/g, "-").replace(/^\+/, "");
   if (s === "") return null;
-  if (/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) {
-    // 1,234,567.89 -> thousands commas
+  if (/^-?0,\d+$/.test(s)) {
+    // "0,047" / "0,125": a zero integer part is never thousands grouping.
+    s = s.replace(",", ".");
+  } else if (/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) {
+    // 1,234,567.89 -> thousands commas. ("1,500" is genuinely ambiguous; we
+    // read it as one thousand five hundred.)
     s = s.replace(/,/g, "");
   } else if (/^-?\d+,\d+$/.test(s)) {
-    // 0,047210 -> decimal comma (single comma, no dot)
+    // 3,14159 -> decimal comma (single comma, no dot, not a 3-digit group)
     s = s.replace(",", ".");
   }
   s = s.replace(/[\s_]/g, "");

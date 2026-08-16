@@ -1,8 +1,55 @@
 "use client";
 
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { persist, createJSONStorage, type StateStorage } from "zustand/middleware";
 import type { Section, QuestionPayload } from "./types";
+
+/**
+ * localStorage that never throws. Storage can be blocked (cookies disabled,
+ * partitioned iframes), full (quota), or absent (SSR/tests); in every such
+ * case we degrade to an in-memory map so the test still runs, just without
+ * reload-resume. Without this, persist would skip hydration entirely (no
+ * storage) or throw out of setState (setItem quota errors).
+ */
+function safeStorage(): StateStorage {
+  const memory = new Map<string, string>();
+  const ls = (): Storage | null => {
+    try {
+      if (typeof window === "undefined") return null;
+      const s = window.localStorage;
+      // Some browsers expose localStorage but throw on access.
+      s.getItem("__mica_probe__");
+      return s;
+    } catch {
+      return null;
+    }
+  };
+  return {
+    getItem: (name) => {
+      try {
+        return ls()?.getItem(name) ?? memory.get(name) ?? null;
+      } catch {
+        return memory.get(name) ?? null;
+      }
+    },
+    setItem: (name, value) => {
+      memory.set(name, value);
+      try {
+        ls()?.setItem(name, value);
+      } catch {
+        /* quota or blocked: memory copy is enough for this page's lifetime */
+      }
+    },
+    removeItem: (name) => {
+      memory.delete(name);
+      try {
+        ls()?.removeItem(name);
+      } catch {
+        /* ignore */
+      }
+    },
+  };
+}
 
 export interface QuestionState {
   id: string;
@@ -64,6 +111,8 @@ interface TestStore {
   beginQuestion: () => void;
   setDraft: (draft: string) => void;
   setAnswer: (questionId: string, answer: string) => void;
+  /** Timer ran out: record whatever was typed (possibly nothing) for the current question and advance. */
+  expireQuestion: () => void;
   nextQuestion: () => void;
   setPhase: (phase: TestPhase) => void;
   setIntroShown: () => void;
@@ -97,9 +146,18 @@ const initialState = {
 
 export const STORE_KEY = "mica-test-session";
 
+// The initializer's `set`, captured so onRehydrateStorage can recover from a
+// hydration error. With synchronous storage, hydration runs inside create()
+// (before `useTestStore` is assigned, and create() then installs the
+// initializer's state, discarding any set() made during hydration), so the
+// recovery must run on a microtask after create() has returned.
+let recoverFromHydrationError: (() => void) | null = null;
+
 export const useTestStore = create<TestStore>()(
   persist(
-    (set, get) => ({
+    (set, get) => {
+      recoverFromHydrationError = () => queueMicrotask(() => set({ ...initialState, hydrated: true }));
+      return {
       ...initialState,
       hydrated: false,
 
@@ -134,6 +192,16 @@ export const useTestStore = create<TestStore>()(
             [questionId]: { answer, timeMs },
           },
         }));
+      },
+
+      expireQuestion: () => {
+        const { questions, currentIndex, answers, draft } = get();
+        const q = questions[currentIndex];
+        if (!q) return;
+        if (!answers[q.id]) {
+          get().setAnswer(q.id, draft ?? "");
+        }
+        get().nextQuestion();
       },
 
       nextQuestion: () => {
@@ -177,16 +245,29 @@ export const useTestStore = create<TestStore>()(
       setHydrated: (hydrated) => set({ hydrated }),
 
       reset: () => set({ ...initialState, lastResultId: get().lastResultId }),
-    }),
+      };
+    },
     {
       name: STORE_KEY,
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(safeStorage),
       // Persist everything except transient flags.
       partialize: (state) => {
         const { hydrated: _h, ...rest } = state;
         return rest;
       },
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => (state, error) => {
+        if (error) {
+          // Corrupt/unreadable persisted value: drop it and start clean rather
+          // than staying on the "restoring" screen forever.
+          console.warn("MICA: discarding unreadable persisted session", error);
+          try {
+            safeStorage().removeItem(STORE_KEY);
+          } catch {
+            /* ignore */
+          }
+          recoverFromHydrationError?.();
+          return;
+        }
         state?.setHydrated(true);
       },
     }

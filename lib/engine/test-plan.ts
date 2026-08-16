@@ -4,9 +4,7 @@ import { getBank } from '@/lib/banks/dataset';
 import type { DatasetQuestion } from '@/lib/banks/dataset';
 import type { Section } from '@/lib/types';
 
-export const SESSION_CEILING_MS = 30 * 60 * 1000;
-/** Submissions are accepted this long past expiresAt (last question in flight, clock skew). */
-export const SUBMIT_GRACE_MS = 5 * 60 * 1000;
+import { SESSION_CEILING_MS } from './limits';
 
 export interface TestPlan {
   seed: string;
@@ -69,9 +67,8 @@ export function generateTestPlan(seed: string): TestPlan {
     });
   }
 
-  // Session ceiling. Worst case is 15 min of question time (10x30s + 5x30s +
-  // 10x45s) plus five untimed section intros; the client checks this at
-  // transitions and /api/submit refuses sessions past it (+ grace).
+  // Session ceiling (see lib/engine/limits.ts); the client checks it at
+  // transitions and /api/submit refuses sessions past it + grace.
   const expiresAt = new Date(Date.now() + SESSION_CEILING_MS);
 
   return { seed, questions, expiresAt };
