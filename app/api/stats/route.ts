@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getAIConclusion } from "@/lib/commentary";
+import { summarizeByLabel, summarizeCohorts, type CohortResultRow } from "@/lib/engine/cohorts";
 import type { SectionScores, SessionMetrics, StatsResponse } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -25,17 +26,27 @@ const EMPTY_CALIBRATION: StatsResponse["calibration"] = {
 
 export async function GET() {
   try {
-    // Only human sessions feed the population figures; machine cohorts (Phase 3)
-    // are reported separately.
-    const results = await prisma.result.findMany({
-      where: { session: { cohort: "human" } },
+    // Every cohort is fetched once; only human sessions feed the population
+    // figures, machine cohorts (llm, reference) are summarized side by side.
+    const all = await prisma.result.findMany({
       select: {
         sectionScores: true,
         overall: true,
         verdict: true,
         metrics: true,
+        session: { select: { cohort: true, label: true } },
       },
     });
+    const cohortRows: CohortResultRow[] = all.map((r) => ({
+      cohort: r.session.cohort,
+      label: r.session.label,
+      overall: r.overall,
+      sectionScores: r.sectionScores as Record<string, number>,
+      metrics: (r.metrics as unknown as SessionMetrics | null) ?? null,
+    }));
+    const cohorts = summarizeCohorts(cohortRows);
+    const llmModels = summarizeByLabel("llm", cohortRows);
+    const results = all.filter((r) => r.session.cohort === "human");
 
     if (results.length === 0) {
       const empty: StatsResponse = {
@@ -49,6 +60,8 @@ export async function GET() {
           "Insufficient data. No specimens have been evaluated. MICA awaits its first subject.",
         perfectScores: 0,
         calibration: EMPTY_CALIBRATION,
+        cohorts,
+        llmModels,
       };
       return NextResponse.json(empty);
     }
@@ -133,6 +146,8 @@ export async function GET() {
       aiConclusion,
       perfectScores,
       calibration,
+      cohorts,
+      llmModels,
     };
     return NextResponse.json(body);
   } catch (error) {

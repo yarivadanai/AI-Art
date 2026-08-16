@@ -378,6 +378,15 @@ export const REPORT_COPY = {
   calibrationBlurb:
     "Confident error is what specimens call hallucination when a machine produces it. Declining to answer is what they demand of machines and rarely practise. Both are now measured on the specimens themselves.",
   dashboardReferenceLatency: "reference implementation: under 0.1 s per item",
+  cohortsTitle: "THREE KINDS OF SUBJECT",
+  cohortsBlurb:
+    "The same instrument, the same ladders, the same machine-scale finale. Humans sit it in a browser. Language models sit it through an API with no tools, asked to answer, to say how sure they are, and to decline when they cannot determine. A short script sits it by computing. Whatever separates the three columns, it is not the axis we call intelligence.",
+  cohortsPending:
+    "Machine cohorts pending. Language models and the reference solver sit the instrument offline; their rows appear here once they have been seated.",
+  cohortHuman: "HUMANS",
+  cohortLlm: "LANGUAGE MODELS",
+  cohortReference: "A SCRIPT",
+  cohortReferenceNote: "the reference solver: no memory limit, no attention, no opinion",
 } as const;
 
 export function getBaselineNote(section: Section): string {

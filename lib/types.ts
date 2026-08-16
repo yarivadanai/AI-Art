@@ -204,6 +204,30 @@ export interface StatsResponse {
     answered: number;
     meanTimeMs: number | null;
   };
+  /** Phase 3: the same instrument on three kinds of subject (humans, language models, a script). */
+  cohorts: Record<CohortId, CohortSummary>;
+  /** One row per language model that has sat the test. */
+  llmModels: CohortSummary[];
+}
+
+/** Who sat the session: visitors, language models via the API, or the reference solver. */
+export type CohortId = "human" | "llm" | "reference";
+
+export interface CohortSummary {
+  cohort: CohortId;
+  n: number;
+  /** Distinct Session.label values in the cohort (model ids / solver name). */
+  labels: string[];
+  meanOverall: number | null;
+  /** Mean highest level cleared per domain over adaptive sessions; null when none. */
+  meanFrontiers: Record<Section, number> | null;
+  hallucinationRate: number | null;
+  abstentionRate: number | null;
+  meanTimeMs: number | null;
+  sure: number;
+  sureWrong: number;
+  answered: number;
+  abstained: number;
 }
 
 // ── Adaptive session API shapes ─────────────────────────────────────────────
