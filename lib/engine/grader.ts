@@ -1,24 +1,10 @@
 import { createHash } from "crypto";
 import type { AnswerKey, Normalization } from "@/lib/types";
+import { canonicalize } from "./canonicalize";
 
+/** @deprecated use canonicalize(); kept for callers that import the old name. */
 export function normalizeAnswer(raw: string, normalization: Normalization, decimalPlaces?: number): string {
-  const trimmed = raw.trim();
-  switch (normalization) {
-    case "exact":
-      return trimmed;
-    case "trimmed-lowercase":
-      return trimmed.toLowerCase();
-    case "hex-lowercase":
-      return trimmed.toLowerCase().replace(/^0x/, "");
-    case "numeric-rounded": {
-      const n = parseFloat(trimmed);
-      if (isNaN(n)) return trimmed;
-      const dp = decimalPlaces ?? 0;
-      return n.toFixed(dp);
-    }
-    default:
-      return trimmed;
-  }
+  return canonicalize(raw, normalization, decimalPlaces);
 }
 
 export function sha256(str: string): string {
@@ -29,7 +15,7 @@ export function gradeAnswer(
   userAnswer: string,
   answerKey: AnswerKey
 ): { correct: boolean; score: number } {
-  const normalized = normalizeAnswer(
+  const normalized = canonicalize(
     String(userAnswer),
     answerKey.normalization,
     answerKey.decimalPlaces

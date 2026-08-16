@@ -260,10 +260,23 @@ describe("Hash normalization", () => {
     expect(h1).toBe(h2);
   });
 
-  it("exact normalization preserves case", () => {
-    const h1 = hashAnswer("ABC", "exact");
-    const h2 = hashAnswer("abc", "exact");
-    expect(h1).not.toBe(h2);
+  it("exact normalization is case-insensitive but content-sensitive", () => {
+    // No bank answer relies on letter case (see canonicalize.ts), so typing
+    // 'tx_000145' for 'TX_000145' must not be graded wrong.
+    expect(hashAnswer("ABC", "exact")).toBe(hashAnswer("abc", "exact"));
+    expect(hashAnswer("ABC", "exact")).not.toBe(hashAnswer("ABD", "exact"));
+  });
+
+  it("no two distinct verified answers within a subtype collapse to one canonical form", () => {
+    const seen = new Map<string, string>();
+    for (const q of DATASET) {
+      const key = `${q.subtype}|${q.answerHash}`;
+      const prev = seen.get(key);
+      if (prev !== undefined && prev !== q._verifiedAnswer) {
+        throw new Error(`${q.subtype}: '${prev}' and '${q._verifiedAnswer}' hash identically`);
+      }
+      seen.set(key, q._verifiedAnswer);
+    }
   });
 
   it("trimmed-lowercase trims and lowercases", () => {
