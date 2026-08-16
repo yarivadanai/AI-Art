@@ -31,6 +31,9 @@ export async function POST(req: NextRequest) {
     if (session.result) {
       return NextResponse.json({ error: "Session already graded" }, { status: 409 });
     }
+    if (session.mode === "adaptive") {
+      return NextResponse.json({ error: "Adaptive sessions grade per item via /api/answer" }, { status: 409 });
+    }
     if (Date.now() > session.expiresAt.getTime() + SUBMIT_GRACE_MS) {
       return NextResponse.json({ error: "Session ceiling elapsed." }, { status: 410 });
     }
