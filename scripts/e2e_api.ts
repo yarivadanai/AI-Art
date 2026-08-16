@@ -140,9 +140,16 @@ async function main() {
       check(summary.meanTimeMs === expectedMean, `${section}: meanTimeMs excludes abstention (${summary.meanTimeMs} vs ${expectedMean})`);
     }
   }
-  // Re-grading a section is idempotent (upsert)
+  // Re-sending a section is idempotent (stored rows are returned)
   const again = await post("/api/section", { sessionId: s.body.sessionId, responses: responses.slice(0, 5) });
-  check(again.status === 200 && again.body.sections?.[0]?.correct === 3, "re-grading a section is idempotent");
+  check(again.status === 200 && again.body.sections?.[0]?.correct === 3, "re-sending a section is idempotent");
+  // Oracle closed: first write wins. Re-grading the wrong item (k=1) with the correct answer must not flip it,
+  // and grading a single item returns aggregate counts only for what is stored.
+  const probe = await post("/api/section", {
+    sessionId: s.body.sessionId,
+    responses: [{ questionId: questions[1].id, answer: messy(items[1]!._verifiedAnswer, items[1]!, 1), timeMs: 1, confidence: "sure" }],
+  });
+  check(probe.status === 200 && probe.body.sections?.[0]?.correct === 0 && probe.body.sections?.[0]?.total === 1, "re-grading a graded item does not change it (no pre-submit oracle)");
 
   // 3. Final submit
   console.log("\n[3] POST /api/submit");
@@ -180,6 +187,37 @@ async function main() {
   check(r.body?.metrics?.perSection?.structural?.correct === 3, "metrics.perSection on result");
   check(r.body?.specimenId === s.body.sessionId, "specimenId returned");
 
+  // 6a. All-correct session in messy formats -> 100% (canonicalization guarantee)
+  console.log("\n[6a] all-correct messy session");
+  const s3 = await post("/api/session", {});
+  const items3 = (s3.body.questions as any[]).map(findItem);
+  check(items3.every(Boolean), "all-correct: every served question maps back to a dataset item");
+  const allCorrect = (s3.body.questions as any[]).map((q, i) => ({
+    questionId: q.id,
+    answer: messy(items3[i]!._verifiedAnswer, items3[i]!, i),
+    timeMs: 2000 + i * 50,
+    confidence: "sure",
+    abstained: false,
+  }));
+  const sub3 = await post("/api/submit", { sessionId: s3.body.sessionId, responses: allCorrect });
+  check(sub3.status === 200 && sub3.body?.overall === 1, `all-correct overall == 1 (got ${sub3.body?.overall})`);
+  check(sub3.body?.verdictBand === "A", `all-correct band A (got ${sub3.body?.verdictBand})`);
+  check(sub3.body?.metrics?.hallucinationRate === 0 && sub3.body?.metrics?.sure === 25, "all-correct: 25 sure, hallucination 0");
+  if (sub3.body?.overall !== 1) {
+    const r3 = await json(`/api/result/${sub3.body.resultId}`);
+    for (const x of (r3.body?.questionResults ?? []).filter((y: any) => !y.correct)) {
+      const it = items3[(s3.body.questions as any[]).findIndex((q) => q.id === x.questionId)]!;
+      console.log(`       wrong: ${it.id} sent=${JSON.stringify(x.userAnswer)} expected=${it._verifiedAnswer} norm=${it.normalization}`);
+    }
+  }
+
+  // 6b. Partial submit: metrics describe only what was actually answered
+  console.log("\n[6b] partial submit metrics");
+  const s4 = await post("/api/session", {});
+  const partial = (s4.body.questions as any[]).slice(0, 10).map((q: any) => ({ questionId: q.id, answer: "x", timeMs: 4000, confidence: "guess" }));
+  const sub4 = await post("/api/submit", { sessionId: s4.body.sessionId, responses: partial });
+  check(sub4.status === 200 && sub4.body?.metrics?.answered === 10 && sub4.body?.metrics?.meanTimeMs === 4000, `partial: answered=10, meanTimeMs=4000 (got ${sub4.body?.metrics?.answered}, ${sub4.body?.metrics?.meanTimeMs})`);
+
   // 6. Blank session (no section calls) still grades all 25
   console.log("\n[6] blank session");
   const s2 = await post("/api/session", {});
@@ -205,7 +243,7 @@ async function main() {
   // 8. Stats
   console.log("\n[8] GET /api/stats");
   const st = await json("/api/stats");
-  check(st.status === 200 && st.body?.totalSpecimens >= 2, `stats reflect >= 2 specimens (got ${st.body?.totalSpecimens})`);
+  check(st.status === 200 && st.body?.totalSpecimens >= 4, `stats reflect >= 4 specimens (got ${st.body?.totalSpecimens})`);
   check(typeof st.body?.perfectScores === "number", "perfectScores computed");
   check(st.body?.calibration?.specimensWithMetrics >= 2 && st.body?.calibration?.sure >= 10, "calibration aggregates present");
 

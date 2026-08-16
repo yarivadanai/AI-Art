@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
 import { ScoreDistribution } from "@/components/ScoreDistribution";
 import { AICommentary } from "@/components/AICommentary";
+import { REPORT_COPY } from "@/lib/commentary";
 import type { StatsResponse } from "@/lib/types";
 
 const SECTION_LABELS: Record<string, string> = {
@@ -211,14 +212,11 @@ export default function DashboardPage() {
                 </div>
                 <div className="font-mono text-xs text-muted mt-1">
                   MEAN RESPONSE PER ITEM
-                  <span className="block text-white/40">reference implementation: under 0.1 s per item</span>
+                  <span className="block text-white/40">{REPORT_COPY.dashboardReferenceLatency}</span>
                 </div>
               </div>
             </div>
-            <p className="font-sans text-xs text-white/50 mt-6 leading-relaxed">
-              Confident error is what specimens call hallucination when a machine produces it. Declining to answer is what
-              they demand of machines and rarely practise. Both are now measured on the specimens themselves.
-            </p>
+            <p className="font-sans text-xs text-white/50 mt-6 leading-relaxed">{REPORT_COPY.calibrationBlurb}</p>
           </div>
         )}
 

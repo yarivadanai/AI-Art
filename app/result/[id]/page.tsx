@@ -7,6 +7,7 @@ import { AuthoritySeal } from "@/components/AuthoritySeal";
 import { RadarChart } from "@/components/RadarChart";
 import { AICommentary } from "@/components/AICommentary";
 import {
+  REPORT_COPY,
   getBaselineNote,
   getFinalObservation,
   getMirrorLines,
@@ -144,7 +145,7 @@ export default function ResultPage() {
                 BAND {result.verdictBand}: {result.verdict?.toUpperCase()}
               </div>
               <div className="font-mono text-xs text-muted mt-1">
-                Reference implementation on the same 25 items: 100%, in under a tenth of a second.
+                {REPORT_COPY.referenceHeadline}
               </div>
             </div>
           </div>
@@ -163,7 +164,7 @@ export default function ResultPage() {
             <div>
               <div className="section-label">THE MIRROR</div>
               <p className="font-sans text-sm text-white/70 mt-1">
-                Your own numbers, described the way you describe machines.
+                {REPORT_COPY.mirrorSubhead}
               </p>
             </div>
             <div className="space-y-5">
@@ -194,7 +195,7 @@ export default function ResultPage() {
             <div className="section-label mb-4">COGNITIVE TOPOLOGY</div>
             <RadarChart scores={result.sectionScores} showReference />
             <p className="font-mono text-[10px] text-muted mt-3 text-center">
-              Dashed ring: reference implementation (100% on every axis).
+              {REPORT_COPY.topologyNote}
             </p>
           </div>
           <div className="card space-y-4">
@@ -216,7 +217,7 @@ export default function ResultPage() {
                 <div>
                   <dt className="text-muted">MEAN RESPONSE</dt>
                   <dd className="text-white">
-                    {formatSeconds(metrics.meanTimeMs)} per item · reference: microseconds to milliseconds
+                    {formatSeconds(metrics.meanTimeMs)} per item · {REPORT_COPY.observationsReference}
                   </dd>
                 </div>
               )}

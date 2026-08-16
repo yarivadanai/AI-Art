@@ -296,6 +296,25 @@ export function getMirrorLines(
   return lines;
 }
 
+/** Transition remark while a section is still being graded, or when grading failed and is deferred to the end. */
+export function getSectionPendingRemark(section: Section, deferred: boolean): string {
+  const label = SECTION_LABELS[section];
+  return deferred
+    ? `${label} received. Grading deferred to the end of the session.`
+    : `${label} received. Grading...`;
+}
+
+/** Fixed Authority copy used by the report and dashboard, kept here so voice edits happen in one place. */
+export const REPORT_COPY = {
+  referenceHeadline: "Reference implementation on the same 25 items: 100%, in under a tenth of a second.",
+  mirrorSubhead: "Your own numbers, described the way you describe machines.",
+  topologyNote: "Dashed ring: reference implementation (100% on every axis).",
+  observationsReference: "reference: microseconds to milliseconds",
+  calibrationBlurb:
+    "Confident error is what specimens call hallucination when a machine produces it. Declining to answer is what they demand of machines and rarely practise. Both are now measured on the specimens themselves.",
+  dashboardReferenceLatency: "reference implementation: under 0.1 s per item",
+} as const;
+
 export function getBaselineNote(section: Section): string {
   return `Reference: ${SECTION_BASELINES[section].tool} (circa ${SECTION_BASELINES[section].year}) achieves 100% on these tasks.`;
 }

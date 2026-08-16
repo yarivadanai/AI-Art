@@ -124,6 +124,21 @@ await page.waitForTimeout(300);
 s = await store(page);
 check(s.currentIndex === 3 && s.answers[q3.id]?.abstained === true && s.answers[q3.id]?.answer === "", "abstention recorded and advanced");
 
+console.log("[F2] Q4: keyboard-only: focus a chip, Enter selects it, Enter again submits");
+const q4 = s.questions[3];
+if (q4.payload.inputType === "multiple-choice") await page.keyboard.press("A");
+else await input.fill("7");
+const chip = page.getByRole("radio", { name: "UNSURE", exact: true });
+await chip.focus();
+await page.keyboard.press("Enter");
+await page.waitForTimeout(150);
+s = await store(page);
+check(s.currentIndex === 3 && s.draftConfidence === "unsure", "Enter on an unselected chip selects it without submitting");
+await page.keyboard.press("Enter");
+await page.waitForTimeout(300);
+s = await store(page);
+check(s.currentIndex === 4 && s.answers[q4.id]?.confidence === "unsure", "Enter on the selected chip submits");
+
 async function answerQuick(i, conf = "GUESS") {
   const q = s.questions[i];
   if (q.payload.inputType === "multiple-choice") await page.keyboard.press("A");
@@ -135,7 +150,7 @@ async function answerQuick(i, conf = "GUESS") {
 }
 
 console.log("[G] finish section 1; transition shows graded feedback and does not charge the clock");
-for (let i = 3; i < 5; i++) await answerQuick(i);
+for (let i = 4; i < 5; i++) await answerQuick(i);
 check(s.phase === "between-sections" && s.currentIndex === 5, `between-sections after 5 answers (phase=${s.phase})`);
 const beforeRead = s.questionStartTime;
 // wait for grading + feedback text

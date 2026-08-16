@@ -42,19 +42,30 @@ export function QuestionRenderer({
   const confidence = useTestStore((s) => s.draftConfidence);
   const setConfidence = useTestStore((s) => s.setDraftConfidence);
   const [nudge, setNudge] = useState(false);
+  // Set once an answer/abstention has been sent; the component remounts on the
+  // next question (key=questionId), so this also swallows double-taps that would
+  // otherwise land on the next question's buttons.
+  const [locked, setLocked] = useState(false);
 
   const hasAnswer = answer !== "";
   const canSubmit = hasAnswer && confidence !== null;
 
   const trySubmit = () => {
-    if (!hasAnswer) return;
+    if (locked || !hasAnswer) return;
     if (confidence === null) {
       // One more click: state your confidence. The chips pulse to say so.
       setNudge(true);
       setTimeout(() => setNudge(false), 900);
       return;
     }
+    setLocked(true);
     onSubmit(answer, confidence);
+  };
+
+  const tryAbstain = () => {
+    if (locked) return;
+    setLocked(true);
+    onAbstain();
   };
 
   const handleSubmit = (e?: FormEvent) => {
@@ -67,15 +78,18 @@ export function QuestionRenderer({
   useEffect(() => {
     if (!isMC) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        trySubmit();
-      }
+      if (e.key !== "Enter") return;
+      // Let a focused chip / abstain button (data-enter="self") or text field
+      // handle Enter itself; a focused MC option still submits.
+      const t = e.target as HTMLElement | null;
+      if (t && (t.closest('[data-enter="self"]') || t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.tagName === "A")) return;
+      e.preventDefault();
+      trySubmit();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isMC, answer, confidence, questionId]);
+  }, [isMC, answer, confidence, questionId, locked]);
 
   const input = (
     <>
@@ -111,6 +125,15 @@ export function QuestionRenderer({
               aria-checked={active}
               title={chip.hint}
               onClick={() => setConfidence(chip.value)}
+              onKeyDown={(e) => {
+                // Enter on the already-selected chip submits (mouse users who
+                // clicked a chip and then hit Enter); on another chip it selects.
+                if (e.key === "Enter" && active) {
+                  e.preventDefault();
+                  trySubmit();
+                }
+              }}
+              data-enter="self"
               className={`px-3 py-1.5 font-mono text-xs tracking-widest border transition-colors
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/60
                 ${active ? "border-accent bg-accent/15 text-white" : "border-border text-white/70 hover:border-accent/50 hover:text-white"}
@@ -133,8 +156,10 @@ export function QuestionRenderer({
     <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-2 border-t border-border/60">
       <button
         type="button"
-        onClick={onAbstain}
-        className="font-mono text-xs tracking-wider text-muted hover:text-white underline underline-offset-4 decoration-border hover:decoration-white text-left"
+        onClick={tryAbstain}
+        disabled={locked}
+        data-enter="self"
+        className="font-mono text-xs tracking-wider text-muted hover:text-white underline underline-offset-4 decoration-border hover:decoration-white text-left disabled:opacity-40"
         title="Recorded as an abstention, not as a wrong answer"
       >
         I CANNOT DETERMINE THIS

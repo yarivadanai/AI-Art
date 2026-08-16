@@ -9,7 +9,7 @@ import { QuestionRenderer } from "@/components/QuestionRenderer";
 import { AICommentary } from "@/components/AICommentary";
 import { BeliefIntake } from "@/components/BeliefIntake";
 import { useTestStore } from "@/lib/store";
-import { getSectionFeedback, getSectionIntro, getSectionTeaser, type RunningTotals } from "@/lib/commentary";
+import { getSectionFeedback, getSectionIntro, getSectionPendingRemark, getSectionTeaser, type RunningTotals } from "@/lib/commentary";
 import { BELIEF_ITEMS } from "@/lib/beliefs";
 import { SUBMIT_GRACE_MS } from "@/lib/engine/limits";
 import { SECTION_ORDER, type Beliefs, type Confidence, type Section, type SectionSummary } from "@/lib/types";
@@ -321,12 +321,17 @@ function BetweenSections() {
   const prevSection = questions[currentIndex - 1]?.section;
   const summary = prevSection ? sectionSummaries[prevSection] : undefined;
 
-  // Grade the section just completed so the Authority can react to it. The
-  // final submit re-sends everything, so a failure here costs only the remark.
+  // Grade every completed section that has no summary yet (normally just the
+  // one just finished; also any earlier one whose grading call failed) so the
+  // Authority's cumulative remarks stay truthful. The server grades each item
+  // once (first write wins), and the final submit re-sends everything, so a
+  // failure here costs only the remark.
   useEffect(() => {
     if (!prevSection || !sessionId || summary || requested.current === prevSection) return;
     requested.current = prevSection;
-    const sectionQs = questions.filter((q) => q.section === prevSection);
+    const completed = SECTION_ORDER.slice(0, SECTION_ORDER.indexOf(prevSection) + 1);
+    const pending = completed.filter((sec) => !sectionSummaries[sec]);
+    const sectionQs = questions.filter((q) => pending.includes(q.section));
     const responses = sectionQs.map((q) => ({
       questionId: q.id,
       answer: answers[q.id]?.answer ?? "",
@@ -342,34 +347,36 @@ function BetweenSections() {
       .then(async (res) => {
         if (!res.ok) throw new Error(`section grading ${res.status}`);
         const data = await res.json();
-        const s = (data.sections as SectionSummary[] | undefined)?.find((x) => x.section === prevSection);
-        if (s) setSectionSummary(s);
-        else throw new Error("no summary");
+        const got = (data.sections as SectionSummary[] | undefined) ?? [];
+        for (const sec of got) setSectionSummary(sec);
+        if (!got.find((x) => x.section === prevSection)) throw new Error("no summary");
       })
       .catch((e) => {
         console.warn("Section grading unavailable; continuing without feedback", e);
         setGradingFailed(true);
       });
-  }, [prevSection, sessionId, summary, questions, answers, setSectionSummary]);
+  }, [prevSection, sessionId, summary, questions, answers, sectionSummaries, setSectionSummary]);
 
   if (!prevSection || !currentQ) return null;
 
   const transitionIndex = SECTION_ORDER.indexOf(prevSection);
   const graded = SECTION_ORDER.map((s) => sectionSummaries[s]).filter((s): s is SectionSummary => !!s);
+  // Mean time weighted by answered (non-abstained) items per section.
+  const answeredCount = graded.reduce((n, s) => n + (s.total - s.abstained), 0);
   const running: RunningTotals = {
     correct: graded.reduce((n, s) => n + s.correct, 0),
     total: graded.reduce((n, s) => n + s.total, 0),
     sure: graded.reduce((n, s) => n + s.sure, 0),
     sureWrong: graded.reduce((n, s) => n + s.sureWrong, 0),
     abstained: graded.reduce((n, s) => n + s.abstained, 0),
-    meanTimeMs: graded.length ? Math.round(graded.reduce((n, s) => n + s.meanTimeMs, 0) / graded.length) : 0,
+    meanTimeMs: answeredCount
+      ? Math.round(graded.reduce((n, s) => n + s.meanTimeMs * (s.total - s.abstained), 0) / answeredCount)
+      : 0,
   };
 
   const feedback = summary
     ? getSectionFeedback(prevSection, summary, running, transitionIndex, specimenId)
-    : gradingFailed
-      ? `${SECTION_NAMES[prevSection]} received. Grading deferred to the end of the session.`
-      : `${SECTION_NAMES[prevSection]} received. Grading...`;
+    : getSectionPendingRemark(prevSection, gradingFailed);
 
   const commentary = `${feedback}\n\n${getSectionTeaser(currentQ.section)}`;
 

@@ -83,14 +83,19 @@ export function AICommentary({
       }}
       role={done ? undefined : "button"}
       tabIndex={done ? -1 : 0}
-      aria-live="polite"
       title={done ? undefined : "Click to show the full text"}
     >
-      <span className="text-muted text-xs mr-2 select-none">&gt;</span>
-      {displayed}
-      {!done && (
-        <span className="inline-block w-2 h-4 bg-accent/80 ml-0.5 animate-blink align-text-bottom" aria-hidden="true" />
-      )}
+      {/* Screen readers get the full text once; the animated copy is decorative. */}
+      <span className="sr-only" aria-live="polite">
+        {text}
+      </span>
+      <span aria-hidden="true">
+        <span className="text-muted text-xs mr-2 select-none">&gt;</span>
+        {displayed}
+        {!done && (
+          <span className="inline-block w-2 h-4 bg-accent/80 ml-0.5 animate-blink align-text-bottom" />
+        )}
+      </span>
     </div>
   );
 }

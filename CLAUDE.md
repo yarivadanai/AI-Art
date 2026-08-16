@@ -48,12 +48,12 @@ Answers for seed-driven questions were computed offline in Python (`scripts/*.py
 
 ## Verification
 
-Unit/type/lint: `npm test`, `npx tsc --noEmit`, `npm run lint`. End-to-end: point `.env` at any Postgres (an embedded one is fine), `npx prisma migrate deploy`, `npx next dev -p <port>`, then `npx tsx scripts/e2e_api.ts http://localhost:<port>` (creates sessions, submits messy-but-correct answers expecting 100%, blank session expecting 0, idempotent resubmit, 400/404 paths, stats). For client behaviour run `scripts/e2e_browser.mjs` (Playwright, ad hoc install; walks intake -> 25 items -> report -> dashboard on a phone-width viewport, including reload resume, timer expiry, abstain, transition feedback) or drive `/test` by hand and inspect `localStorage["mica-test-session"]`.
+Unit/type/lint: `npm test`, `npx tsc --noEmit`, `npm run lint`. End-to-end: point `.env` at any Postgres (an embedded one is fine), `npx prisma migrate deploy`, `npx next dev -p <port>`, then `npx tsx scripts/e2e_api.ts http://localhost:<port>` (session with beliefs -> per-section grading with a fixed correct/wrong/abstain/confidence plan -> submit -> reveal; an all-correct messy-format session expecting 100%; partial and blank sessions; oracle/idempotency checks; 400/404/409 paths; stats). Grading is first-write-wins per (session, question) on both `/api/section` and `/api/submit`: that is what makes re-sends idempotent and closes any pre-submit answer probing. For client behaviour run `scripts/e2e_browser.mjs` (Playwright, ad hoc install; walks intake -> 25 items -> report -> dashboard on a phone-width viewport, including reload resume, timer expiry, abstain, transition feedback) or drive `/test` by hand and inspect `localStorage["mica-test-session"]`.
 
 ## Conventions
 
 - Path alias `@/*` maps to repo root (tsconfig + vitest).
-- Section keys are the string literals in `lib/types.ts` (`structural`, `state-tracking`, `sequential-depth`, `signal-detection`, `probabilistic`); the same fixed order is hard-coded in `app/api/session/route.ts`, `app/api/submit/route.ts`, and `lib/engine/test-plan.ts`.
+- Section keys are the string literals in `lib/types.ts` (`structural`, `state-tracking`, `sequential-depth`, `signal-detection`, `probabilistic`); the canonical order is `SECTION_ORDER` there (the test plan in `lib/engine/test-plan.ts` and the client's `SECTION_NAMES` mirror it).
 - User-visible copy avoids em/en dashes (an earlier commit removed them all); use hyphens. Use "specimen" consistently in Authority voice.
 - Fonts come from `next/font` in `app/layout.tsx` (CSS vars `--font-inter`, `--font-jetbrains-mono`, wired in `tailwind.config.ts`); don't reintroduce a Google Fonts `@import`.
 - Voice: the Authority calls visitors "specimens"; new copy goes in `lib/commentary.ts` and must be data-bound (no seeded pseudo-personalization).

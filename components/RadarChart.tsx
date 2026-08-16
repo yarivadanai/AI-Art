@@ -27,7 +27,15 @@ const RADAR_LABELS: Record<string, string> = {
   probabilistic: "Inference",
 };
 
+/** Canvas fonts cannot use CSS variables; resolve next/font's family name at render time. */
+function monoFamily(): string {
+  if (typeof window === "undefined") return "monospace";
+  const v = getComputedStyle(document.documentElement).getPropertyValue("--font-jetbrains-mono").trim();
+  return v ? `${v}, monospace` : "monospace";
+}
+
 export function RadarChart({ scores, showReference = true }: RadarChartProps) {
+  const family = monoFamily();
   const labels = Object.keys(scores).map(
     (s) => RADAR_LABELS[s] || s.charAt(0).toUpperCase() + s.slice(1)
   );
@@ -74,13 +82,13 @@ export function RadarChart({ scores, showReference = true }: RadarChartProps) {
           stepSize: 20,
           color: "#666",
           backdropColor: "transparent",
-          font: { family: "var(--font-jetbrains-mono), monospace", size: 10 },
+          font: { family, size: 10 },
         },
         grid: { color: "rgba(255,255,255,0.06)" },
         angleLines: { color: "rgba(255,255,255,0.06)" },
         pointLabels: {
           color: "#ccc",
-          font: { family: "var(--font-jetbrains-mono), monospace", size: 12 },
+          font: { family, size: 12 },
         },
       },
     },
