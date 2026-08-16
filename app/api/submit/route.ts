@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { gradeAnswer } from "@/lib/engine/grader";
 import { getSectionCommentary, getVerdict } from "@/lib/commentary";
+import { SUBMIT_GRACE_MS } from "@/lib/engine/test-plan";
 import type { AnswerKey, Section } from "@/lib/types";
 
 const SECTIONS: Section[] = [
@@ -49,6 +50,24 @@ export async function POST(req: NextRequest) {
         overall: existingResult.overall,
         verdict: existingResult.verdict,
       });
+    }
+
+    if (Date.now() > session.expiresAt.getTime() + SUBMIT_GRACE_MS) {
+      console.warn("Submit rejected: session past ceiling", {
+        sessionId,
+        expiresAt: session.expiresAt.toISOString(),
+      });
+      return NextResponse.json(
+        { error: "Session ceiling elapsed. Partial sessions are not graded." },
+        { status: 410 }
+      );
+    }
+
+    if (!Array.isArray(responses)) {
+      return NextResponse.json(
+        { error: "responses must be an array" },
+        { status: 400 }
+      );
     }
 
     const questionMap = new Map(session.questions.map((q) => [q.id, q]));
