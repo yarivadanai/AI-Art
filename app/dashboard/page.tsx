@@ -51,7 +51,7 @@ export default function DashboardPage() {
             INSUFFICIENT DATA
           </h1>
           <p className="font-sans text-muted">
-            MICA has not yet evaluated enough participants to generate
+            MICA has not yet evaluated enough specimens to generate
             population-level findings. Be among the first to contribute data.
           </p>
           <Link href="/test" className="btn-primary inline-block">
@@ -75,7 +75,7 @@ export default function DashboardPage() {
               FINDINGS ON HUMAN COGNITION
             </h1>
             <p className="font-mono text-xs text-muted tracking-wider">
-              POPULATION DATA: {stats.totalSpecimens} PARTICIPANTS EVALUATED
+              POPULATION DATA: {stats.totalSpecimens} SPECIMENS EVALUATED
             </p>
           </div>
         </div>
@@ -97,17 +97,13 @@ export default function DashboardPage() {
             distribution={stats.overallDistribution}
             label="Specimens"
           />
-          <div className="flex justify-between mt-4 font-mono text-xs text-muted">
-            <span>BAND F (&lt;20%)</span>
-            <span>BAND D (20-39%)</span>
-            <span>BAND C (40-59%)</span>
-            <span>BAND B (60-79%)</span>
-            <span>BAND A (≥80%)</span>
+          <div className="mt-4 font-mono text-[10px] text-muted tracking-wider text-center">
+            BANDS · F &lt;20% · D 20-39% · C 40-59% · B 60-79% · A ≥80%
           </div>
         </div>
 
         {/* Key stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-4">
           {Object.entries(stats.verdictCounts).map(([band, count]) => (
             <div key={band} className="card text-center">
               <div className="font-mono text-3xl font-bold text-accent">
@@ -172,11 +168,59 @@ export default function DashboardPage() {
               </span>
             </p>
             <p>
-              &gt; No participant has yet achieved a perfect score across all
-              domains.
+              &gt;{" "}
+              {stats.perfectScores === 0
+                ? "No specimen has yet achieved a perfect score across all domains."
+                : `${stats.perfectScores} specimen${stats.perfectScores === 1 ? " has" : "s have"} achieved a perfect score across all domains. Flagged for verification.`}
             </p>
           </div>
         </div>
+
+        {/* Calibration */}
+        {stats.calibration.specimensWithMetrics > 0 && (
+          <div className="card border-accent/10">
+            <div className="section-label mb-4">CALIBRATION AND ABSTENTION</div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div>
+                <div className="font-mono text-3xl font-bold text-accent">
+                  {stats.calibration.hallucinationRate == null
+                    ? "n/a"
+                    : `${Math.round(stats.calibration.hallucinationRate * 100)}%`}
+                </div>
+                <div className="font-mono text-xs text-muted mt-1">
+                  OF ANSWERS MARKED &quot;SURE&quot; WERE WRONG
+                  <span className="block text-white/40">
+                    {stats.calibration.sureWrong} of {stats.calibration.sure} across {stats.calibration.specimensWithMetrics} specimens
+                  </span>
+                </div>
+              </div>
+              <div>
+                <div className="font-mono text-3xl font-bold text-accent">
+                  {stats.calibration.answered + stats.calibration.abstained > 0
+                    ? `${Math.round((stats.calibration.abstained / (stats.calibration.answered + stats.calibration.abstained)) * 100)}%`
+                    : "n/a"}
+                </div>
+                <div className="font-mono text-xs text-muted mt-1">
+                  OF ITEMS MET WITH &quot;I CANNOT DETERMINE THIS&quot;
+                  <span className="block text-white/40">{stats.calibration.abstained} abstentions</span>
+                </div>
+              </div>
+              <div>
+                <div className="font-mono text-3xl font-bold text-accent">
+                  {stats.calibration.meanTimeMs == null ? "n/a" : `${(stats.calibration.meanTimeMs / 1000).toFixed(1)}s`}
+                </div>
+                <div className="font-mono text-xs text-muted mt-1">
+                  MEAN RESPONSE PER ITEM
+                  <span className="block text-white/40">reference implementation: under 0.1 s per item</span>
+                </div>
+              </div>
+            </div>
+            <p className="font-sans text-xs text-white/50 mt-6 leading-relaxed">
+              Confident error is what specimens call hallucination when a machine produces it. Declining to answer is what
+              they demand of machines and rarely practise. Both are now measured on the specimens themselves.
+            </p>
+          </div>
+        )}
 
         {/* The Mirror */}
         <div className="card border-accent/20">
@@ -191,7 +235,7 @@ export default function DashboardPage() {
               <p>
                 A linear algebra library{" "}
                 <span className="text-accent">(circa 1960s)</span> outperforms
-                participants averaging{" "}
+                specimens averaging{" "}
                 <span className="text-accent">
                   {Math.round(
                     ((stats.sectionMeans?.structural as number) ?? 0) * 100
@@ -203,7 +247,7 @@ export default function DashboardPage() {
               <p>
                 A call stack with 1KB of RAM{" "}
                 <span className="text-accent">(circa 1950s)</span> outperforms
-                participants averaging{" "}
+                specimens averaging{" "}
                 <span className="text-accent">
                   {Math.round(
                     ((stats.sectionMeans?.["sequential-depth"] as number) ?? 0) * 100
@@ -215,7 +259,7 @@ export default function DashboardPage() {
               <p>
                 A statistical inference engine{" "}
                 <span className="text-accent">(circa 1990s)</span> outperforms
-                participants averaging{" "}
+                specimens averaging{" "}
                 <span className="text-accent">
                   {Math.round(
                     ((stats.sectionMeans?.probabilistic as number) ?? 0) * 100
@@ -227,7 +271,7 @@ export default function DashboardPage() {
               <p>
                 A regex engine{" "}
                 <span className="text-accent">(circa 1960s)</span>{" "}
-                outperforms participants averaging{" "}
+                outperforms specimens averaging{" "}
                 <span className="text-accent">
                   {Math.round(
                     ((stats.sectionMeans?.["signal-detection"] as number) ?? 0) * 100

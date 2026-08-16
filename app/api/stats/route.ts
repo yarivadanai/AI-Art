@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { getAIConclusion } from "@/lib/commentary";
-import type { SectionScores } from "@/lib/types";
+import type { SectionScores, SessionMetrics, StatsResponse } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -13,18 +13,32 @@ const EMPTY_SECTION_MEANS: SectionScores = {
   probabilistic: 0,
 };
 
+const EMPTY_CALIBRATION: StatsResponse["calibration"] = {
+  specimensWithMetrics: 0,
+  sure: 0,
+  sureWrong: 0,
+  hallucinationRate: null,
+  abstained: 0,
+  answered: 0,
+  meanTimeMs: null,
+};
+
 export async function GET() {
   try {
+    // Only human sessions feed the population figures; machine cohorts (Phase 3)
+    // are reported separately.
     const results = await prisma.result.findMany({
+      where: { session: { cohort: "human" } },
       select: {
         sectionScores: true,
         overall: true,
         verdict: true,
+        metrics: true,
       },
     });
 
     if (results.length === 0) {
-      return NextResponse.json({
+      const empty: StatsResponse = {
         totalSpecimens: 0,
         overallDistribution: Array(10).fill(0),
         sectionMeans: EMPTY_SECTION_MEANS,
@@ -33,7 +47,10 @@ export async function GET() {
         strongestSection: "unknown",
         aiConclusion:
           "Insufficient data. No specimens have been evaluated. MICA awaits its first subject.",
-      });
+        perfectScores: 0,
+        calibration: EMPTY_CALIBRATION,
+      };
+      return NextResponse.json(empty);
     }
 
     const overallDistribution = Array(10).fill(0);
@@ -69,25 +86,36 @@ export async function GET() {
       Baseline: "F",
     };
 
-    const verdictCounts: Record<string, number> = {
-      A: 0,
-      B: 0,
-      C: 0,
-      D: 0,
-      F: 0,
-    };
+    const verdictCounts: Record<string, number> = { A: 0, B: 0, C: 0, D: 0, F: 0 };
     for (const r of results) {
       const band = verdictMap[r.verdict] || "F";
       verdictCounts[band]++;
     }
 
     const sectionEntries = Object.entries(sectionMeans);
-    const strongest = sectionEntries.reduce((a, b) =>
-      b[1] > a[1] ? b : a
-    )[0];
-    const weakest = sectionEntries.reduce((a, b) =>
-      b[1] < a[1] ? b : a
-    )[0];
+    const strongest = sectionEntries.reduce((a, b) => (b[1] > a[1] ? b : a))[0];
+    const weakest = sectionEntries.reduce((a, b) => (b[1] < a[1] ? b : a))[0];
+
+    const perfectScores = results.filter((r) => r.overall >= 1).length;
+
+    // Population calibration over results that carry metrics (Phase 1+).
+    const withMetrics = results
+      .map((r) => r.metrics as SessionMetrics | null)
+      .filter((m): m is SessionMetrics => !!m && typeof m.answered === "number");
+    const sure = withMetrics.reduce((s, m) => s + m.sure, 0);
+    const sureWrong = withMetrics.reduce((s, m) => s + m.sureWrong, 0);
+    const answered = withMetrics.reduce((s, m) => s + m.answered, 0);
+    const abstained = withMetrics.reduce((s, m) => s + m.abstained, 0);
+    const timeSum = withMetrics.reduce((s, m) => s + m.meanTimeMs * m.answered, 0);
+    const calibration: StatsResponse["calibration"] = {
+      specimensWithMetrics: withMetrics.length,
+      sure,
+      sureWrong,
+      hallucinationRate: sure ? sureWrong / sure : null,
+      abstained,
+      answered,
+      meanTimeMs: answered ? Math.round(timeSum / answered) : null,
+    };
 
     const aiConclusion = getAIConclusion(
       results.length,
@@ -95,15 +123,18 @@ export async function GET() {
       verdictCounts
     );
 
-    return NextResponse.json({
+    const body: StatsResponse = {
       totalSpecimens: results.length,
       overallDistribution,
-      sectionMeans,
+      sectionMeans: sectionMeans as unknown as SectionScores,
       verdictCounts,
       weakestSection: weakest,
       strongestSection: strongest,
       aiConclusion,
-    });
+      perfectScores,
+      calibration,
+    };
+    return NextResponse.json(body);
   } catch (error) {
     console.error("Stats fetch error:", error);
     return NextResponse.json(

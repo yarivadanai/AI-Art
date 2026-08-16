@@ -12,6 +12,10 @@ model Session {
   seed           String
   startedAt      DateTime   @default(now())
   expiresAt      DateTime
+  /// Intake belief answers ({ [beliefId]: 1..5 }); quoted back on the report.
+  beliefs        Json?
+  /// "human" for visitors; reserved for machine cohorts (e.g. "llm", "reference") on the dashboard.
+  cohort         String     @default("human")
   questions      Question[]
   responses      Response[]
   result         Result?
@@ -24,6 +28,7 @@ model Question {
   index     Int
   type      String
   payload   Json
+  /// { hash, normalization, decimalPlaces?, reference? } - server-only, never sent to the client before grading.
   answerKey Json
   session   Session    @relation(fields: [sessionId], references: [id])
   responses Response[]
@@ -39,9 +44,14 @@ model Response {
   correct    Boolean
   score      Float    @default(0)
   timeMs     Int
+  /// Self-reported confidence: "sure" | "unsure" | "guess" | "expired" | null (not stated).
+  confidence String?
+  /// The visitor pressed "I cannot determine this" instead of answering.
+  abstained  Boolean  @default(false)
   question   Question @relation(fields: [questionId], references: [id])
   session    Session  @relation(fields: [sessionId], references: [id])
 
+  @@unique([sessionId, questionId])
   @@index([sessionId])
   @@index([questionId])
 }
@@ -53,6 +63,8 @@ model Result {
   overall       Float
   verdict       String
   commentary    Json
+  /// Calibration and timing summary (see lib/engine/metrics.ts) - stored so /api/stats can aggregate cheaply.
+  metrics       Json?
   session       Session  @relation(fields: [sessionId], references: [id])
   createdAt     DateTime @default(now())
 }

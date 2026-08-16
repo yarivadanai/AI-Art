@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { generateTestPlan } from "@/lib/engine/test-plan";
+import { sanitizeBeliefs } from "@/lib/beliefs";
+import { SECTION_ORDER } from "@/lib/types";
 import crypto from "crypto";
 
-export async function POST(_req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
+    const body = await req.json().catch(() => ({}));
+    const beliefs = sanitizeBeliefs(body?.beliefs);
+
     const seed = crypto.randomBytes(16).toString("hex");
     const plan = generateTestPlan(seed);
 
@@ -12,6 +17,7 @@ export async function POST(_req: NextRequest) {
       data: {
         seed,
         expiresAt: plan.expiresAt,
+        beliefs: beliefs ?? undefined,
         questions: {
           create: plan.questions.map((q) => ({
             section: q.section,
@@ -25,14 +31,6 @@ export async function POST(_req: NextRequest) {
       include: { questions: true },
     });
 
-    const sectionOrder = [
-      "structural",
-      "state-tracking",
-      "sequential-depth",
-      "signal-detection",
-      "probabilistic",
-    ];
-
     const response = {
       sessionId: session.id,
       specimenId: session.id,
@@ -40,10 +38,12 @@ export async function POST(_req: NextRequest) {
       questions: session.questions
         .sort((a, b) => {
           const sectionDiff =
-            sectionOrder.indexOf(a.section) - sectionOrder.indexOf(b.section);
+            SECTION_ORDER.indexOf(a.section as (typeof SECTION_ORDER)[number]) -
+            SECTION_ORDER.indexOf(b.section as (typeof SECTION_ORDER)[number]);
           if (sectionDiff !== 0) return sectionDiff;
           return a.index - b.index;
         })
+        // Only payload leaves the server; answerKey (hash + reference) stays.
         .map((q) => ({
           id: q.id,
           section: q.section,

@@ -7,10 +7,12 @@ import { AuthoritySeal } from "@/components/AuthoritySeal";
 import { QuestionTimer } from "@/components/QuestionTimer";
 import { QuestionRenderer } from "@/components/QuestionRenderer";
 import { AICommentary } from "@/components/AICommentary";
+import { BeliefIntake } from "@/components/BeliefIntake";
 import { useTestStore } from "@/lib/store";
-import { getSectionIntro } from "@/lib/commentary";
+import { getSectionFeedback, getSectionIntro, getSectionTeaser, type RunningTotals } from "@/lib/commentary";
+import { BELIEF_ITEMS } from "@/lib/beliefs";
 import { SUBMIT_GRACE_MS } from "@/lib/engine/limits";
-import type { Section } from "@/lib/types";
+import { SECTION_ORDER, type Beliefs, type Confidence, type Section, type SectionSummary } from "@/lib/types";
 
 const SECTION_NAMES: Record<Section, string> = {
   structural: "ABSTRACT STRUCTURE",
@@ -76,18 +78,23 @@ function IntakeScreen() {
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [beliefs, setLocalBeliefs] = useState<Beliefs>({});
   const startSession = useTestStore((s) => s.startSession);
+  const setBeliefs = useTestStore((s) => s.setBeliefs);
   const lastResultId = useTestStore((s) => s.lastResultId);
   const phase = useTestStore((s) => s.phase);
+
+  const beliefsComplete = BELIEF_ITEMS.every((b) => typeof beliefs[b.id] === "number");
 
   const handleBegin = async () => {
     setLoading(true);
     setError(null);
     try {
+      setBeliefs(beliefs);
       const res = await fetch("/api/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ beliefs }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -135,6 +142,8 @@ function IntakeScreen() {
         )}
 
         <div className="space-y-6">
+          <BeliefIntake value={beliefs} onChange={setLocalBeliefs} />
+
           {/* AI assistance pledge */}
           <div className="card space-y-3">
             <label className="flex items-center gap-3 cursor-pointer">
@@ -161,7 +170,9 @@ function IntakeScreen() {
             <p>&#8226; Questions cannot be revisited once submitted</p>
             <p>&#8226; A unique session ID will be assigned</p>
             <p>&#8226; 25 questions across 5 sections</p>
-            <p>&#8226; SHA-256 hash-based grading. No partial credit. No curve.</p>
+            <p>&#8226; Every answer is graded together with your stated confidence</p>
+            <p>&#8226; &quot;I cannot determine this&quot; is always available and is not scored as an error</p>
+            <p>&#8226; Answers never leave the server. No partial credit. No curve.</p>
           </div>
 
           {error && (
@@ -172,8 +183,9 @@ function IntakeScreen() {
 
           <button
             onClick={handleBegin}
-            disabled={!agreed || loading}
+            disabled={!agreed || !beliefsComplete || loading}
             className="btn-primary w-full disabled:opacity-30 disabled:cursor-not-allowed"
+            title={!beliefsComplete ? "Answer the three prior positions first" : undefined}
           >
             {loading ? "INITIALIZING..." : error ? "RETRY" : "BEGIN TEST"}
           </button>
@@ -194,17 +206,22 @@ function TestRunner() {
   const setAnswer = useTestStore((s) => s.setAnswer);
   const nextQuestion = useTestStore((s) => s.nextQuestion);
   const expireQuestion = useTestStore((s) => s.expireQuestion);
+  const abstainQuestion = useTestStore((s) => s.abstainQuestion);
 
   const currentQ = questions[currentIndex];
 
   const handleSubmit = useCallback(
-    (answer: string) => {
+    (answer: string, confidence: Confidence) => {
       if (!currentQ) return;
-      setAnswer(currentQ.id, answer);
+      setAnswer(currentQ.id, answer, confidence, false);
       nextQuestion();
     },
     [currentQ, setAnswer, nextQuestion]
   );
+
+  const handleAbstain = useCallback(() => {
+    abstainQuestion();
+  }, [abstainQuestion]);
 
   // Clock ran out: the store records the draft (possibly empty) and advances.
   const handleTimerExpire = useCallback(() => {
@@ -279,6 +296,7 @@ function TestRunner() {
             payload={currentQ.payload}
             questionType={currentQ.type}
             onSubmit={handleSubmit}
+            onAbstain={handleAbstain}
           />
         </div>
       </div>
@@ -290,45 +308,91 @@ function BetweenSections() {
   const questions = useTestStore((s) => s.questions);
   const currentIndex = useTestStore((s) => s.currentIndex);
   const answers = useTestStore((s) => s.answers);
+  const sessionId = useTestStore((s) => s.sessionId);
+  const sectionSummaries = useTestStore((s) => s.sectionSummaries);
+  const setSectionSummary = useTestStore((s) => s.setSectionSummary);
   const setPhase = useTestStore((s) => s.setPhase);
   const beginQuestion = useTestStore((s) => s.beginQuestion);
   const specimenId = useTestStore((s) => s.specimenId);
+  const [gradingFailed, setGradingFailed] = useState(false);
+  const requested = useRef<string | null>(null);
 
   const currentQ = questions[currentIndex];
   const prevSection = questions[currentIndex - 1]?.section;
+  const summary = prevSection ? sectionSummaries[prevSection] : undefined;
+
+  // Grade the section just completed so the Authority can react to it. The
+  // final submit re-sends everything, so a failure here costs only the remark.
+  useEffect(() => {
+    if (!prevSection || !sessionId || summary || requested.current === prevSection) return;
+    requested.current = prevSection;
+    const sectionQs = questions.filter((q) => q.section === prevSection);
+    const responses = sectionQs.map((q) => ({
+      questionId: q.id,
+      answer: answers[q.id]?.answer ?? "",
+      timeMs: answers[q.id]?.timeMs ?? 0,
+      confidence: answers[q.id]?.confidence ?? null,
+      abstained: answers[q.id]?.abstained ?? false,
+    }));
+    fetch("/api/section", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sessionId, responses }),
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error(`section grading ${res.status}`);
+        const data = await res.json();
+        const s = (data.sections as SectionSummary[] | undefined)?.find((x) => x.section === prevSection);
+        if (s) setSectionSummary(s);
+        else throw new Error("no summary");
+      })
+      .catch((e) => {
+        console.warn("Section grading unavailable; continuing without feedback", e);
+        setGradingFailed(true);
+      });
+  }, [prevSection, sessionId, summary, questions, answers, setSectionSummary]);
 
   if (!prevSection || !currentQ) return null;
 
-  const prevSectionQs = questions.filter((q) => q.section === prevSection);
-  const answeredCount = prevSectionQs.filter((q) => answers[q.id]?.answer).length;
+  const transitionIndex = SECTION_ORDER.indexOf(prevSection);
+  const graded = SECTION_ORDER.map((s) => sectionSummaries[s]).filter((s): s is SectionSummary => !!s);
+  const running: RunningTotals = {
+    correct: graded.reduce((n, s) => n + s.correct, 0),
+    total: graded.reduce((n, s) => n + s.total, 0),
+    sure: graded.reduce((n, s) => n + s.sure, 0),
+    sureWrong: graded.reduce((n, s) => n + s.sureWrong, 0),
+    abstained: graded.reduce((n, s) => n + s.abstained, 0),
+    meanTimeMs: graded.length ? Math.round(graded.reduce((n, s) => n + s.meanTimeMs, 0) / graded.length) : 0,
+  };
 
-  const commentary = `Section complete. ${answeredCount} of ${prevSectionQs.length} questions received responses. Proceeding to next evaluation domain.`;
+  const feedback = summary
+    ? getSectionFeedback(prevSection, summary, running, transitionIndex, specimenId)
+    : gradingFailed
+      ? `${SECTION_NAMES[prevSection]} received. Grading deferred to the end of the session.`
+      : `${SECTION_NAMES[prevSection]} received. Grading...`;
+
+  const commentary = `${feedback}\n\n${getSectionTeaser(currentQ.section)}`;
 
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar section={currentQ.section} specimenId={specimenId} questionId={null} deadline={null} onExpire={() => {}} />
       <div className="flex-1 flex items-center justify-center px-4">
-        <div className="max-w-xl space-y-8 text-center">
-          <div className="section-label">SECTION TRANSITION</div>
-          <AICommentary text={commentary} speed={25} />
-          <div className="pt-4">
-            <div className="section-label mb-4">
-              NEXT: {SECTION_NAMES[currentQ.section]}
-            </div>
-            <AICommentary
-              text={getSectionIntro(currentQ.section)}
-              speed={20}
-            />
+        <div className="max-w-xl w-full space-y-8 text-left">
+          <div className="section-label text-center">
+            SECTION {transitionIndex + 1} OF {SECTION_ORDER.length} COMPLETE
           </div>
-          <button
-            onClick={() => {
-              beginQuestion();
-              setPhase("testing");
-            }}
-            className="btn-primary"
-          >
-            PROCEED
-          </button>
+          <AICommentary key={summary ? "graded" : gradingFailed ? "failed" : "pending"} text={commentary} speed={18} />
+          <div className="text-center">
+            <button
+              onClick={() => {
+                beginQuestion();
+                setPhase("testing");
+              }}
+              className="btn-primary"
+            >
+              PROCEED TO {SECTION_NAMES[currentQ.section]}
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -360,6 +424,8 @@ function SubmittingScreen() {
         questionId: q.id,
         answer: answers[q.id]?.answer ?? "",
         timeMs: answers[q.id]?.timeMs ?? 0,
+        confidence: answers[q.id]?.confidence ?? null,
+        abstained: answers[q.id]?.abstained ?? false,
       }));
 
       try {
