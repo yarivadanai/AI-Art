@@ -1593,40 +1593,10 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "the student",
-      "it barked",
-      "The guild certified the master",
-      "intern",
-      "barked",
-      "senator",
-      "trained the conductor",
-      "it certified the master"
-    ],
-    "clientSeed": null,
-    "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-    "normalization": "exact",
-    "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
-  },
-  {
-    "id": "state-tracking-t1-cognitive-stack-0027",
-    "section": "state-tracking",
-    "subtype": "cognitive-stack",
-    "tier": 1,
-    "prompt": "The dog that the cat that the rat that the cheese attracted bit chased barked.\n\nWhat did the dog do?",
-    "display": null,
-    "inputType": "multiple-choice",
-    "options": [
-      "the intern",
-      "the abbot",
-      "the singer",
-      "barked",
-      "the baker",
-      "the representative",
-      "the sergeant",
-      "the flight director"
+      "the dean",
+      "the professor",
+      "nobody: the sentence is ungrammatical",
+      "the student"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
@@ -1637,48 +1607,18 @@
     "_verifiedAnswer": "3"
   },
   {
-    "id": "state-tracking-t1-cognitive-stack-0028",
+    "id": "state-tracking-t1-cognitive-stack-0027",
     "section": "state-tracking",
     "subtype": "cognitive-stack",
     "tier": 1,
-    "prompt": "The report that the analyst who the manager who the CEO appointed trained reviewed was rejected.\n\nWho reviewed the report?",
+    "prompt": "The dog that the cat that the rat that the cheese attracted bit chased barked.\n\nWhat did the dog do?",
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "the analyst",
-      "the pianist",
-      "it trained the conductor",
-      "accused",
-      "the forger",
-      "the data that the experiment produced",
-      "trained the conductor",
-      "analyst"
-    ],
-    "clientSeed": null,
-    "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-    "normalization": "exact",
-    "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
-  },
-  {
-    "id": "state-tracking-t1-cognitive-stack-0029",
-    "section": "state-tracking",
-    "subtype": "cognitive-stack",
-    "tier": 1,
-    "prompt": "The song that the singer who the producer who the label signed mentored recorded won an award.\n\nWho recorded the song?",
-    "display": null,
-    "inputType": "multiple-choice",
-    "options": [
-      "the abbot",
-      "the singer",
-      "researcher",
-      "analyst",
-      "the minister",
-      "professor",
-      "pianist",
-      "representative"
+      "bit",
+      "barked",
+      "chased",
+      "attracted"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
@@ -1689,6 +1629,50 @@
     "_verifiedAnswer": "1"
   },
   {
+    "id": "state-tracking-t1-cognitive-stack-0028",
+    "section": "state-tracking",
+    "subtype": "cognitive-stack",
+    "tier": 1,
+    "prompt": "The report that the analyst who the manager who the CEO appointed trained reviewed was rejected.\n\nWho reviewed the report?",
+    "display": null,
+    "inputType": "multiple-choice",
+    "options": [
+      "the manager",
+      "the analyst and the manager jointly",
+      "the analyst",
+      "the CEO"
+    ],
+    "clientSeed": null,
+    "interactiveConfig": null,
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+    "normalization": "exact",
+    "decimalPlaces": null,
+    "timeLimit": 30,
+    "_verifiedAnswer": "2"
+  },
+  {
+    "id": "state-tracking-t1-cognitive-stack-0029",
+    "section": "state-tracking",
+    "subtype": "cognitive-stack",
+    "tier": 1,
+    "prompt": "The song that the singer who the producer who the label signed mentored recorded won an award.\n\nWho recorded the song?",
+    "display": null,
+    "inputType": "multiple-choice",
+    "options": [
+      "the singer",
+      "the producer and the singer jointly",
+      "the label",
+      "the producer"
+    ],
+    "clientSeed": null,
+    "interactiveConfig": null,
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "normalization": "exact",
+    "decimalPlaces": null,
+    "timeLimit": 30,
+    "_verifiedAnswer": "0"
+  },
+  {
     "id": "state-tracking-t1-cognitive-stack-0030",
     "section": "state-tracking",
     "subtype": "cognitive-stack",
@@ -1697,14 +1681,10 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "diplomat",
-      "scientist",
+      "the ambassador and the diplomat jointly",
+      "the ambassador",
       "the diplomat",
-      "singer",
-      "analyst",
-      "the flight director",
-      "the dog barked",
-      "The guild certified the master"
+      "the president"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
@@ -1723,22 +1703,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "the dog barked",
-      "the professor",
-      "the baker",
-      "forger",
-      "the postdoc",
-      "sergeant",
-      "the data",
-      "it caught the mouse"
+      "the chef",
+      "the chef and the baker jointly",
+      "the restaurant",
+      "the baker"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "2"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0032",
@@ -1749,92 +1725,10 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
+      "the mentor",
+      "the university",
       "the scientist",
-      "intern",
-      "the sergeant",
-      "data",
-      "it trained the conductor",
-      "the abbot",
-      "the data",
-      "the accused whom the police arrested"
-    ],
-    "clientSeed": null,
-    "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-    "normalization": "exact",
-    "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
-  },
-  {
-    "id": "state-tracking-t1-cognitive-stack-0033",
-    "section": "state-tracking",
-    "subtype": "cognitive-stack",
-    "tier": 1,
-    "prompt": "The bridge that the engineer who the architect who the city commissioned consulted designed collapsed.\n\nWho designed the bridge?",
-    "display": null,
-    "inputType": "multiple-choice",
-    "options": [
-      "sergeant",
-      "the baker",
-      "scholar",
-      "intern",
-      "the engineer",
-      "operator",
-      "data",
-      "flight director"
-    ],
-    "clientSeed": null,
-    "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
-    "normalization": "exact",
-    "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
-  },
-  {
-    "id": "state-tracking-t1-cognitive-stack-0034",
-    "section": "state-tracking",
-    "subtype": "cognitive-stack",
-    "tier": 1,
-    "prompt": "The novel that the writer who the editor who the publisher fired hired revised became a bestseller.\n\nWho revised the novel?",
-    "display": null,
-    "inputType": "multiple-choice",
-    "options": [
-      "researcher",
-      "flight director",
-      "The cat caught the mouse",
-      "the abbot",
-      "engineer",
-      "the intern",
-      "sergeant",
-      "the writer"
-    ],
-    "clientSeed": null,
-    "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
-    "normalization": "exact",
-    "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
-  },
-  {
-    "id": "state-tracking-t1-cognitive-stack-0035",
-    "section": "state-tracking",
-    "subtype": "cognitive-stack",
-    "tier": 1,
-    "prompt": "The algorithm that the intern who the lead who the CTO who the board appointed promoted mentored wrote crashed production.\n\nWho wrote the algorithm?",
-    "display": null,
-    "inputType": "multiple-choice",
-    "options": [
-      "caught the mouse",
-      "the analyst",
-      "the intern",
-      "data",
-      "scholar",
-      "the writer",
-      "the dog barked",
-      "the researcher"
+      "the mentor and the scientist jointly"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
@@ -1845,6 +1739,72 @@
     "_verifiedAnswer": "2"
   },
   {
+    "id": "state-tracking-t1-cognitive-stack-0033",
+    "section": "state-tracking",
+    "subtype": "cognitive-stack",
+    "tier": 1,
+    "prompt": "The bridge that the engineer who the architect who the city commissioned consulted designed collapsed.\n\nWho designed the bridge?",
+    "display": null,
+    "inputType": "multiple-choice",
+    "options": [
+      "the architect",
+      "the engineer",
+      "the city",
+      "the architect and the engineer jointly"
+    ],
+    "clientSeed": null,
+    "interactiveConfig": null,
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "normalization": "exact",
+    "decimalPlaces": null,
+    "timeLimit": 30,
+    "_verifiedAnswer": "1"
+  },
+  {
+    "id": "state-tracking-t1-cognitive-stack-0034",
+    "section": "state-tracking",
+    "subtype": "cognitive-stack",
+    "tier": 1,
+    "prompt": "The novel that the writer who the editor who the publisher fired hired revised became a bestseller.\n\nWho revised the novel?",
+    "display": null,
+    "inputType": "multiple-choice",
+    "options": [
+      "the publisher",
+      "the writer",
+      "the editor",
+      "the editor and the writer jointly"
+    ],
+    "clientSeed": null,
+    "interactiveConfig": null,
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "normalization": "exact",
+    "decimalPlaces": null,
+    "timeLimit": 30,
+    "_verifiedAnswer": "1"
+  },
+  {
+    "id": "state-tracking-t1-cognitive-stack-0035",
+    "section": "state-tracking",
+    "subtype": "cognitive-stack",
+    "tier": 1,
+    "prompt": "The algorithm that the intern who the lead who the CTO who the board appointed promoted mentored wrote crashed production.\n\nWho wrote the algorithm?",
+    "display": null,
+    "inputType": "multiple-choice",
+    "options": [
+      "the board",
+      "the CTO",
+      "the lead",
+      "the intern"
+    ],
+    "clientSeed": null,
+    "interactiveConfig": null,
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "normalization": "exact",
+    "decimalPlaces": null,
+    "timeLimit": 30,
+    "_verifiedAnswer": "3"
+  },
+  {
     "id": "state-tracking-t1-cognitive-stack-0036",
     "section": "state-tracking",
     "subtype": "cognitive-stack",
@@ -1853,22 +1813,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "a specific doctor did not see every patient",
-      "no, at most three problems total",
-      "three distinct readings",
-      "one particular doctor failed to see all patients",
-      "every country has at least one unsigned treaty",
-      "not three referees approved anything",
       "Not every student solved every problem",
-      "six"
+      "No student solved any problem",
+      "Every student solved none of the problems",
+      "Every student solved at least one problem but not all of them"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "_verifiedAnswer": "0"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0037",
@@ -1879,22 +1835,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "three manuscripts rejected; two specific reviewers recommended them all",
+      "Every doctor examined every patient",
+      "One particular doctor examined all the patients",
       "Each patient was examined by some doctor, possibly a different one",
-      "There is no professor such that almost every student solved a problem that professor could solve; effectively, the students solved problems outside any single professor's ability",
-      "There is a specific doctor who did not see every patient",
-      "No, it means for each book there is exactly one student who read it, and that student may differ per book",
-      "a single medication is the go-to for most doctors across all ailments",
-      "For every crime scene, no suspect was there according to any two witnesses; each scene is reported suspect-free",
-      "For every factory, there is an inspector who found no violation there"
+      "Some patient was examined by every doctor"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "1"
+    "_verifiedAnswer": "2"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0038",
@@ -1905,22 +1857,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "one particular medication is prescribed by most doctors for all common ailments",
-      "For every crime scene, no suspect was there according to any two witnesses; each scene is reported suspect-free",
-      "unconstrained; the limit is on the count of analysts per department",
       "The reading where 'someone' takes wide scope claims a single person loves everyone",
-      "for every patient there exists a doctor who examined them",
-      "Narrow scope 'every witness' (fewer than half believed all): true (4 < 6). Wide scope 'every witness' (for each witness, fewer than half believed them): false (7 is not fewer than 6).",
-      "No, it means for each book there is exactly one student who read it, and that student may differ per book",
-      "the right disjunct with existential narrow scope is trivially satisfied"
+      "Neither reading claims a single lover; the sentence only says everyone is loved by someone",
+      "The reading where 'everyone' takes wide scope claims a single person loves everyone",
+      "Both readings claim a single universal lover; they differ only in emphasis"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "_verifiedAnswer": "0"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0039",
@@ -1931,22 +1879,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "9",
-      "120",
-      "17",
-      "8",
-      "6",
-      "10",
-      "15",
-      "12"
+      "7",
+      "5",
+      "2",
+      "10"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0040",
@@ -1957,22 +1901,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "a single medication is the go-to for most doctors across all ailments",
-      "There are at most two countries such that every diplomat negotiated with a representative from those countries",
-      "Each question was answered by a distinct student; no two questions share the same student",
-      "The reading where 'someone' takes wide scope claims a single person loves everyone",
-      "every crime scene was reported by witnesses to have no suspects present",
-      "There are two specific languages that every linguist speaks",
-      "no maximum per analyst is specified; at most five analysts reviewed 2+ reports from each department",
-      "For every factory, there is an inspector who found no violation there"
+      "Two linguists speak every language",
+      "The linguists together speak exactly two languages",
+      "Each linguist speaks two languages, possibly a different pair for each linguist",
+      "There are two specific languages that every linguist speaks"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0041",
@@ -1983,22 +1923,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "No, it means for each book there is exactly one student who read it, and that student may differ per book",
-      "at most two countries had representatives that every diplomat negotiated with",
-      "it is not the case that every student solved every problem",
+      "One reading only; 'most' and 'few' do not interact in scope.",
+      "Two readings. The reading where 'few books' takes wide scope suggests students are generally poor readers.",
       "Two readings. The reading where 'most students' takes wide scope suggests students are generally poor readers.",
-      "Each patient was examined by some doctor, possibly a different one",
-      "Three: (1) one nurse, all patients, two specific wards; (2) per patient, some nurse, two wards; (3) per ward, a nurse monitored every patient",
-      "There is one specific medication that most doctors prescribe for every common ailment",
-      "for every patient there exists a doctor who examined them"
+      "Three readings; only the collective reading suggests students are poor readers."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "_verifiedAnswer": "2"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0042",
@@ -2009,40 +1945,10 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "each regulation is supported by few politicians",
-      "at least 6",
-      "up to 10",
-      "a unique student answered each question",
-      "Not every student solved every problem",
-      "fewer than three referees approved any manuscript",
-      "No",
-      "some student failed to solve some problem"
-    ],
-    "clientSeed": null,
-    "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
-    "normalization": "exact",
-    "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
-  },
-  {
-    "id": "state-tracking-t1-cognitive-stack-0043",
-    "section": "state-tracking",
-    "subtype": "cognitive-stack",
-    "tier": 1,
-    "prompt": "A different student answered each question.\n\nWhat does the most natural reading imply about the relationship between students and questions?",
-    "display": null,
-    "inputType": "multiple-choice",
-    "options": [
-      "There are two specific languages that every linguist speaks",
-      "for every patient there exists a doctor who examined them",
-      "Three manuscripts were rejected (one per editor), and the same two reviewers had recommended all three",
-      "Each question was answered by a distinct student; no two questions share the same student",
-      "one particular medication is prescribed by most doctors for all common ailments",
-      "The reading where 'someone' takes wide scope claims a single person loves everyone",
-      "each discrepancy had exactly two auditors who found it unreported by any division",
-      "There are at most two countries such that every diplomat negotiated with a representative from those countries"
+      "Yes",
+      "Only if the room holds fewer than two people",
+      "The sentence has no narrow-scope reading",
+      "No"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
@@ -2053,6 +1959,28 @@
     "_verifiedAnswer": "3"
   },
   {
+    "id": "state-tracking-t1-cognitive-stack-0043",
+    "section": "state-tracking",
+    "subtype": "cognitive-stack",
+    "tier": 1,
+    "prompt": "A different student answered each question.\n\nWhat does the most natural reading imply about the relationship between students and questions?",
+    "display": null,
+    "inputType": "multiple-choice",
+    "options": [
+      "Each question was answered by a distinct student; no two questions share the same student",
+      "Each student answered exactly one question, but two students may share a question",
+      "The questions were answered by students of different kinds",
+      "One student, different from the others, answered all the questions"
+    ],
+    "clientSeed": null,
+    "interactiveConfig": null,
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "normalization": "exact",
+    "decimalPlaces": null,
+    "timeLimit": 30,
+    "_verifiedAnswer": "0"
+  },
+  {
     "id": "state-tracking-t1-cognitive-stack-0044",
     "section": "state-tracking",
     "subtype": "cognitive-stack",
@@ -2061,22 +1989,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "theft, hiding, discovery, confession",
-      "the cover-up preceded the crime",
-      "four",
-      "stolen, hidden, forgery discovered, confession",
-      "Treaty signed → treaty annulled → war started",
-      "email sent, memo drafted, meeting, memo finalized",
-      "he packs, she reminds, he leaves",
-      "treaty signed, treaty annulled, war started"
+      "Treaty signed → war started → treaty annulled",
+      "War started → treaty signed → treaty annulled",
+      "Treaty annulled → treaty signed → war started",
+      "Treaty signed → treaty annulled → war started"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0045",
@@ -2087,22 +2011,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The previous auditor was hired to detect alterations that would be made after he was dismissed, meaning his hiring was pointless since the alterations would only happen once he was gone",
-      "He should have packed → she should remind him → he leaves",
-      "classification preceded the events being reported on",
-      "Competitor's research → competitor's patent → invention conceived → inventor's replication → patent filed",
-      "King funds rebellion → monument commissioned → rebellion succeeds → king reads prophecy",
-      "4 actions: publication, retraction, erratum, correction",
-      "competitor researched, competitor patented, inventor conceived, inventor replicated, inventor filed",
-      "the manuscript contains the map that leads to its own discovery"
+      "He leaves → she should remind him → he should have packed",
+      "She should remind him → he should have packed → he leaves",
+      "She should remind him → he leaves → he should have packed",
+      "He should have packed → she should remind him → he leaves"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "1"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0046",
@@ -2114,13 +2034,9 @@
     "inputType": "multiple-choice",
     "options": [
       "The cover-up began before the crime it was covering up was committed",
-      "Theft → hiding → discovery of forgery → confession",
-      "the manuscript cannot have been written before the fabrication if it was based on fabricated data",
-      "research, competitor patent, conception, replication, filing",
-      "circular dependency between announcement and regulatory review, compounded by the board never meeting",
-      "Deadline set → system designed → deadline passed → system deployed (too late)",
-      "the manuscript contains the map that leads to its own discovery",
-      "the decision to confess both preceded and depended on knowledge of the evidence"
+      "The investigation began before the cover-up did",
+      "The crime was committed after the investigation revealed it",
+      "The statute of limitations expired before the crime was committed"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
@@ -2139,22 +2055,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "1",
-      "6",
       "2",
-      "9",
-      "7",
-      "3",
       "4",
-      "8"
+      "1",
+      "3"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0048",
@@ -2165,22 +2077,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "he was hired to catch alterations that would only occur after he left",
-      "writing preceded fabrication but the content required the fabrication to exist first",
-      "anticipation preceded the decision, and interception preceded the dispatch",
-      "If she never told him, there would be nothing for her to later remind him about, making the condition self-defeating",
+      "Theft → hiding → confession → discovery of forgery",
+      "Theft → confession → hiding → discovery of forgery",
       "Theft → hiding → discovery of forgery → confession",
-      "the cover-up caused the crime which caused the cover-up",
-      "it is a self-referential paradox: the action of not telling negates the premise",
-      "The treaty was drafted to end a war that hadn't started yet, and it was drafted before the war began"
+      "Hiding → theft → discovery of forgery → confession"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "_verifiedAnswer": "2"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0049",
@@ -2191,22 +2099,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Deadline set → system designed → deadline passed → system deployed (too late)",
-      "the manuscript cannot have been written before the fabrication if it was based on fabricated data",
-      "five layers spanning the poet's lifetime to the biographer's corrective work",
-      "Three cycles: original vulnerability → patch 1 → new vulnerability → patch 2 → original vulnerability returns. The system ends up back where it started.",
-      "If she never told him, there would be nothing for her to later remind him about, making the condition self-defeating",
-      "classification preceded the events being reported on",
-      "the cover-up caused the crime which caused the cover-up",
-      "The text states the manuscript was written before the data fabrication, yet the manuscript reports on a study based on that fabricated data: the fabrication must have preceded the writing, contradicting the stated timeline"
+      "The reminder would have to occur before the telling, which is impossible",
+      "He cannot forget something he was explicitly told not to forget",
+      "She cannot know in advance what he will forget, so the sentence is meaningless",
+      "If she never told him, there would be nothing for her to later remind him about, making the condition self-defeating"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "_verifiedAnswer": "3"
   },
   {
     "id": "state-tracking-t1-cognitive-stack-0050",
@@ -2217,22 +2121,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "the cover-up caused the crime which caused the cover-up",
-      "the manuscript's map leads explorers to find the manuscript (a causal loop)",
-      "the enemy knew of the retreat before the decision and intercepted a courier not yet sent",
-      "four editorial actions in sequence with journal ceasing in between",
-      "the treaty to end the war was drafted before the war started",
+      "Email sent → meeting held → memo drafted → memo written",
+      "Meeting held → email sent → memo drafted → memo written",
       "Email sent → memo drafted → meeting held → memo written",
-      "He claims he decided to confess before he knew the evidence existed, but also says he would only confess after learning the prosecution had the evidence: the condition for confessing requires knowledge he claims not to have had",
-      "he decided to confess before knowing about evidence but his confession was conditional on learning about that evidence"
+      "Memo drafted → email sent → meeting held → memo written"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
     "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "_verifiedAnswer": "2"
   },
   {
     "id": "state-tracking-t2-cipher-chain-small-0151",
@@ -7623,21 +7523,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Incorrect sequence of tenses: 'will relocate' should be 'would relocate' to match the past tense 'announced' and parallel 'would receive'",
-      "Improper use of restrictive clause",
-      "subject-verb disagreement across parenthetical",
-      "Faulty parallelism in the enumerated positions",
-      "Faulty parallelism in compound predicate",
-      "Dangling participial phrase",
-      "Passive voice misuse",
-      "Wrong preposition: 'prohibited of' should be 'prohibited from'"
+      "'The paleontologist's assertion' is a misplaced possessive; it should read 'the assertion of the paleontologist'.",
+      "'which' should be 'that': the clause about the decade of study is restrictive.",
+      "'represent' should be 'represents': the subject is the singular 'specimen', separated from its verb by the 'which' clause (subject-verb agreement).",
+      "'had been studying' should be 'have been studying' to match the present tense of 'represent'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "2"
   },
   {
@@ -7649,22 +7545,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subjunctive mood error",
-      "Wrong preposition: 'in the capacity as' should be 'in the capacity of' or simply 'as'",
-      "Comma splice",
-      "Comma splice: 'The city council debated...' and 'ultimately they voted...' are independent clauses joined by a comma",
-      "Dangling modifier: 'While reviewing...and comparing' implies the 'watermark' performed these actions",
-      "Incorrect sequence of tenses: 'have tested' and 'shows' should be 'had tested' and 'showed' after past tense 'reported'",
-      "Pronoun case error",
-      "Conditional tense error"
+      "'might still hold together' should be 'might still have held together' (sequence of tenses after a past if-clause).",
+      "'her position on the amendment' is ambiguous about whose position (faulty pronoun reference).",
+      "'through the vote' is misplaced; it must directly follow 'coalition'.",
+      "'was to reconsider' should be 'were to reconsider': a hypothetical if-clause takes the subjunctive."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0103",
@@ -7675,22 +7567,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Incorrect sequence of tenses: 'is successful' (present) should be 'was successful' (past) or 'had been successful' after past tense 'informed'",
-      "Pronoun-antecedent disagreement (each...their)",
-      "Passive voice misuse",
-      "Faulty parallelism between 'deciphering' and 'translating'",
-      "Subjunctive mood error",
-      "Subject-verb disagreement",
-      "Tense inconsistency",
-      "Subject-verb disagreement: 'plethora' with 'of options' (plural referent) should take 'have overwhelmed' in modern usage, as 'plethora of' functions as a plural quantifier"
+      "'commenced' should be 'had commenced': the earlier of two past events needs the past perfect.",
+      "'access to' should be 'access of' (wrong preposition).",
+      "'his client' has no clear antecedent (faulty pronoun reference).",
+      "'was given' should be 'be given': 'insisted that' introducing a demand takes the mandative subjunctive."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0104",
@@ -7701,22 +7589,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Tense inconsistency",
-      "Misplaced temporal modifier",
-      "Pronoun-antecedent disagreement (anyone...their)",
-      "Split infinitive 'to suppress'",
-      "Incorrect use of comma before 'from'",
-      "Subject-verb disagreement",
-      "Subjunctive mood error",
-      "Pronoun-antecedent disagreement"
+      "'their equipment' disagrees in number with 'every participant'; it must be 'his or her equipment'.",
+      "'departs' should be 'will depart' (future reference in the time clause).",
+      "'registers' should be 'register': 'it is essential that' takes the mandative subjunctive.",
+      "'no later than forty-eight hours before' is a dangling comparative with nothing to compare."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0105",
@@ -7727,22 +7611,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement: 'framework' (singular) requires 'explains' not 'explain'",
-      "Wrong preposition: 'interested on' should be 'interested in'",
-      "Incorrect use of 'that' instead of 'which'",
-      "Passive voice misuse",
-      "Subject-verb disagreement: 'authority' (singular) requires 'has proposed' not 'have proposed'",
-      "Conditional tense error",
-      "Tense inconsistency",
-      "Subjunctive mood error"
+      "'Had the researchers not insisted' is nonstandard; formal prose requires 'If the researchers had not insisted'.",
+      "'was controlled' should be 'be controlled': 'insisted that' introducing a demand takes the mandative subjunctive.",
+      "'each variable' takes a plural verb: 'were controlled'.",
+      "'would have rejected' should be 'would reject' (sequence of tenses)."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0106",
@@ -7753,22 +7633,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement: 'discoveries' (plural) requires 'have' not 'has'",
-      "Subjunctive mood errors: 'implements' should be 'implement' and 'receives' should be 'receive' after 'recommended that' (the third clause correctly uses 'allocate')",
-      "Conditional tense error",
-      "Pronoun case error",
-      "Parallel structure violation",
-      "Misplaced modifier 'at length'",
-      "Incorrect subjunctive after 'consider'",
-      "Subjunctive mood error"
+      "'the three overlapping divisions' should be 'the three divisions that overlap' (participial adjective misuse).",
+      "'into a single operational unit' is a misplaced modifier; it must precede 'consolidate'.",
+      "'would consolidate' should be 'will consolidate' (mixed conditional).",
+      "'If I was' should be 'If I were': a counterfactual if-clause takes the subjunctive."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0107",
@@ -7779,22 +7655,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement",
-      "Parallel structure violation",
-      "Tense inconsistency",
-      "Comma splice: two independent clauses joined by a comma after 'dictionaries'",
-      "Faulty parallelism: 'begin journaling' (subjunctive + gerund), 'to practice' (infinitive), 'engaging' (gerund) are not consistent",
-      "Dangling modifier: 'While analyzing...using a spectrometer' implies 'data' was performing the analysis",
-      "Subjunctive mood error",
-      "Wrong preposition: 'distinguish among' should be 'distinguish between' when comparing specific strategies (or 'distinguish' with direct object)"
+      "'demanded that' should be 'demanded for' (wrong preposition after 'demand').",
+      "'and reports' breaks parallelism with 'surrenders'; it should be 'and reporting'.",
+      "'every Monday without exception' dangles; it must be moved next to 'demanded'.",
+      "'surrenders' and 'reports' should be 'surrender' and 'report': 'demanded that' takes the mandative subjunctive."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0108",
@@ -7805,22 +7677,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Split infinitive: 'to...cease' is split by a long adverbial phrase, 'within the next seventy-two hours and without any preconditions'",
-      "Dangling modifier after 'street'",
-      "Incorrect use of subjunctive mood",
-      "Misplaced adverbial modifier",
-      "Incorrect subjunctive in mandative clause",
-      "Pronoun-antecedent disagreement",
-      "subject-verb disagreement with 'each'",
-      "Subject-verb disagreement: 'array' (singular) requires 'has malfunctioned' but 'instruments' attracted the plural 'have'"
+      "'their dissertations' should be 'his or her dissertation' (pronoun agreement with 'each').",
+      "'are to present' does not agree with the singular 'each'; it should be 'is to present' (or the subjunctive 'be to present' after 'recommended that').",
+      "'who have submitted' should be 'who has submitted' to agree with 'each'.",
+      "'before the full faculty' should be 'in front of the full faculty' (wrong preposition)."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0109",
@@ -7831,22 +7699,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement",
-      "Tense inconsistency",
-      "Faulty parallelism between 'celebrated' and 'having secured'",
-      "Subjunctive mood error",
-      "Incorrect sequence of tenses: 'are advancing' (present continuous) should be 'were advancing' (past continuous) after 'informed'",
-      "Ambiguous pronoun reference",
-      "Pronoun-antecedent disagreement",
-      "Faulty comparison (incomplete comparative structure)"
+      "'each graduate student' should be 'every graduate student' after 'stipulated'.",
+      "'by the end of the fall semester' is misplaced; it modifies 'stipulated' rather than 'submits'.",
+      "'submits' should be 'submit': 'stipulated that' takes the mandative subjunctive.",
+      "'stipulated' should be 'stipulates' (sequence of tenses with 'submits')."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0110",
@@ -7857,21 +7721,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subjunctive mood error",
-      "Wrong preposition: 'accused for' should be 'accused of'",
-      "Redundancy error",
-      "Correlative conjunction error (neither...or)",
-      "Wrong preposition 'over' instead of 'during'",
-      "Conditional tense error",
-      "Subject-verb disagreement",
-      "Dangling modifier: 'Though widely considered...and having published...' modifies 'tenure' instead of 'Dr. Nakamura'"
+      "'provides' should be 'provide': 'insists that' introducing a requirement takes the mandative subjunctive.",
+      "'would be' should be 'will be' (mixed conditional).",
+      "'insists' should be 'insisted' to match the past subjunctive 'were'.",
+      "'Were it not for' is nonstandard inversion; it should be 'If it were not for'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "0"
   },
   {
@@ -7883,22 +7743,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement: 'accumulation' (singular) requires 'has contaminated' not 'have contaminated'",
-      "Parallel structure violation",
-      "Dangling modifier: 'Determined to finish...and working around the clock' modifies 'fresco' instead of 'conservation team'",
-      "Incorrect relative pronoun case: 'whom' should be 'who' as the subject of 'revolutionized'",
-      "Subjunctive mood error",
-      "Comma splice: two independent clauses joined by a comma after 'significance'",
-      "Subject-verb disagreement",
-      "Tense inconsistency"
+      "'the revised manuscript' dangles: it does not say who revised it.",
+      "'proposed that' should be 'proposed for' (wrong preposition).",
+      "'a more comprehensive literature review and a clearer methodological framework' is faulty parallelism (mixed comparative forms).",
+      "'includes' should be 'include': 'proposed that' takes the mandative subjunctive."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0112",
@@ -7909,22 +7765,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Passive voice misuse",
-      "Pronoun case error",
-      "Incorrect possessive 'museum's'",
-      "Subjunctive mood error",
-      "Faulty comparison",
-      "Conditional tense error",
-      "Subjunctive mood error: 'reorganizes' and 'submits' should be 'reorganize' and 'submit' after 'insisted that'",
-      "Faulty parallelism between 'skilled' and 'having brokered'"
+      "'was to accept' should be 'were to accept': a hypothetical if-clause takes the subjunctive.",
+      "'would need to relocate' should be 'will need to relocate' (mixed conditional).",
+      "'far exceeds' should be 'far exceeded' (sequence of tenses).",
+      "'where the cost of living' should be 'in which the cost of living' (relative adverb misuse)."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "timeLimit": 45,
+    "_verifiedAnswer": "0"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0113",
@@ -7935,22 +7787,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Faulty parallelism in correlative conjunction",
-      "Subject-verb disagreement",
-      "Comma splice: two independent clauses joined by a comma after 'break'",
-      "Subjunctive mood error",
-      "Wrong preposition 'to' after 'attributed'",
-      "Comma splice",
-      "Incorrect preposition 'into'",
-      "Tense inconsistency"
+      "'this' has no clear antecedent (vague pronoun reference).",
+      "'attends' should be 'attend': 'requested that' takes the mandative subjunctive.",
+      "'in Geneva' is misplaced; it modifies 'requested' rather than 'session'.",
+      "'but scheduling conflicts made this impossible' is a comma splice."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0114",
@@ -7961,22 +7809,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Split infinitive 'to suppress'",
-      "Parallel structure violation (tense shift)",
-      "Correlative conjunction error (misplaced both)",
-      "Subjunctive mood error",
-      "Redundancy error",
-      "Tense inconsistency",
-      "Split infinitive: 'to...carefully remove' is split by a long adverbial phrase",
-      "Subject-verb disagreement"
+      "'forthcoming about' should be 'forthcoming on' (wrong preposition).",
+      "'have plagued' should be 'has plagued' to agree with 'administration'.",
+      "'was' should be 'were': a wish about a present unreality takes the subjunctive.",
+      "'for the last three fiscal years' should be 'since three fiscal years'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0115",
@@ -7987,22 +7831,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Comma splice: two independent clauses joined by a comma after 'terrain'",
-      "Subjunctive mood error",
-      "Subject-verb disagreement",
-      "Incorrect relative pronoun case: 'whom' should be 'who' as the subject of 'was nowhere near'",
-      "Subject-verb disagreement ('phenomena' is plural, requires 'challenge')",
-      "Misplaced modifier",
-      "Tense inconsistency",
-      "Faulty parallelism between the two relative clauses"
+      "'pours' should be 'will pour' (future reference in the time clause).",
+      "A comma is required after 'imperative' before the that-clause.",
+      "'reviews' should be 'review': 'it is imperative that' takes the mandative subjunctive.",
+      "'structural integrity calculations' is an illegal noun stack; it must be 'calculations of structural integrity'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "1"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0116",
@@ -8013,22 +7853,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement: 'stack' (singular) requires 'was delivered' but 'documents' attracted the plural 'were delivered'",
-      "Incorrect sequence of tenses: 'acquires' (present) should be 'acquired' or 'had acquired' (past/past perfect)",
-      "Incorrect relative pronoun case: 'who' should be 'whom' as the object of 'selected'",
-      "Tense inconsistency",
-      "Dangling modifier",
-      "Passive voice misuse",
-      "Subject-verb disagreement",
-      "Subject-verb disagreement: 'operations' (plural) requires 'have provided' not 'has provided'"
+      "'for publication in the spring issue' dangles; it has no noun to modify.",
+      "'finally' is misplaced; it must precede 'the editorial board'.",
+      "'over the course of several months' is redundant, which is a grammatical error.",
+      "'Having been revised extensively...' dangles: it attaches to 'the editorial board' but describes the manuscript."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0117",
@@ -8039,22 +7875,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Comma splice",
-      "Pronoun-antecedent disagreement",
-      "Incorrect relative pronoun case: 'whom' should be 'who' as the subject of 'was the most prolific researcher'",
-      "Misplaced modifier / split infinitive: 'to not just meet but exceed' awkwardly splits the infinitive and misplaces the correlative",
-      "Faulty parallelism in the list of features",
-      "Correlative conjunction error (not only...and)",
-      "Dangling modifier",
-      "Misplaced modifier"
+      "'in the waiting room' is misplaced; it modifies 'surgeon' rather than 'reassured'.",
+      "'was reassured' should be 'were reassured' because 'family' is plural.",
+      "'Exhausted from the twelve-hour surgery...' dangles: it attaches to 'the patient's family' but describes the surgeon.",
+      "The passive 'was reassured by' is ungrammatical and must be recast in the active voice."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0118",
@@ -8065,22 +7897,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement",
-      "Passive voice misuse",
-      "Incorrect possessive form",
-      "Faulty parallelism between 'incorporated' and 'featured'",
-      "Dangling modifier",
-      "Faulty parallelism",
-      "Incorrect sequence of tenses: 'has since been confirmed' (present perfect) should be 'had since been confirmed' (past perfect) after past tense 'explained'",
-      "Tense inconsistency"
+      "'became apparent to' should be 'became apparent for' (wrong preposition).",
+      "'previously undetected' is redundant with 'anomaly'.",
+      "'While analyzing the spectroscopic data...' dangles: the anomaly did not do the analyzing; the research team did.",
+      "'over the previous decade' should be 'in the previous decade'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0119",
@@ -8091,21 +7919,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Misplaced modifier 'by a significant margin'",
-      "Dangling modifier",
-      "Comma splice",
-      "Subject-verb disagreement: 'litany' (singular) requires 'was finally addressed' not 'were finally addressed'",
-      "Faulty comparison",
-      "Faulty parallelism between 'raised' and 'self-taught'",
-      "Pronoun-antecedent disagreement",
-      "Subjunctive mood error: 'is considered' should be 'be considered' after 'requested that'"
+      "'sophisticated' is misplaced; it should modify 'novelist', not 'command'.",
+      "'Born into poverty... and largely self-educated' dangles: it attaches to 'the literary critics' but describes the novelist.",
+      "'were astonished by' should be 'were astonished at' (wrong preposition).",
+      "'largely self-educated' breaks parallelism with 'born into poverty' (participle versus adjective)."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "1"
   },
   {
@@ -8117,22 +7941,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Dangling modifier",
-      "Passive voice misuse",
-      "Faulty parallelism between the two verbs",
-      "Subject-verb disagreement",
-      "Faulty parallelism between the clauses",
-      "Wrong preposition: 'in the capacity as' should be 'in the capacity of' or simply 'as'",
-      "Wrong preposition: 'concern on' should be 'concern about' or 'concern over'",
-      "Split infinitive"
+      "'To fully appreciate' is a split infinitive and must be 'fully to appreciate'.",
+      "'To fully appreciate the complexity...' dangles: the sentence never names who is to appreciate it ('a thorough understanding' cannot).",
+      "'is required' should be 'are required' to agree with 'quartets'.",
+      "'before any meaningful analysis can proceed' should be 'before any meaningful analysis proceeds'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0121",
@@ -8143,22 +7963,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Dangling modifier",
-      "Incorrect sequence of tenses: 'captures' (present) and 'was' (past) are inconsistent; both should be past or both present (literary present)",
-      "Passive voice misuse",
-      "Pronoun-antecedent disagreement",
-      "Restrictive clause error ('which' should be 'that/who')",
-      "Tense inconsistency",
-      "Dangling modifier: 'Hoping to secure...having already submitted' modifies 'budget shortfall' instead of the observatory staff",
-      "Subject-verb disagreement ('who' refers to 'scholars,' requires 'insist')"
+      "'among indigenous communities' should be 'between indigenous communities'.",
+      "'After spending nearly a decade conducting fieldwork...' dangles: it attaches to 'the ethnographic findings', which did no fieldwork.",
+      "'that received widespread acclaim' should be 'which received widespread acclaim'.",
+      "'were published' should be 'was published' because 'findings' is a single body of work."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0122",
@@ -8169,22 +7985,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Subject-verb disagreement: 'accumulation' (singular) requires 'has contaminated' not 'have contaminated'",
-      "Subjunctive mood error: 'drafts' should be 'draft' after 'proposed that'",
-      "Subject-verb disagreement",
-      "Comma splice: 'indeed' is a conjunctive adverb requiring a semicolon before it when joining independent clauses",
-      "Personification error",
-      "Dangling modifier",
-      "Passive voice misuse",
-      "Subject-verb disagreement: 'federation' (singular) requires 'has announced' not 'have announced'"
+      "'revealed itself' is an improper reflexive; it must be 'was revealed'.",
+      "'Peering through the electron microscope...' dangles: it attaches to 'the crystalline structure', which was not peering.",
+      "'exceeding fifty thousand times' should be 'exceeding fifty thousand-fold' (wrong unit expression).",
+      "'newly synthesized' requires a hyphen as a compound modifier."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0123",
@@ -8195,22 +8007,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Dangling modifier",
-      "Subject-verb disagreement ('there are...people')",
-      "Tense inconsistency",
-      "Subject-verb disagreement: 'succession' (singular) requires 'was the subject' not 'were the subject'",
-      "Subject-verb disagreement",
-      "Comma splice",
-      "Faulty comparison (comparing salary to physician)",
-      "Subject-verb disagreement (nearest subject 'simulation' requires 'was')"
+      "'medieval Provencal literature' requires a capital 'Medieval'.",
+      "'Although widely regarded as one of the foremost authorities...' dangles: it attaches to 'the university' but describes Professor Harrington.",
+      "'for the third consecutive time' should be 'for the third time consecutively'.",
+      "'denied Professor Harrington tenure' has the objects in the wrong order; it must be 'denied tenure Professor Harrington'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "signal-detection-t1-grammar-violation-0124",
@@ -8221,21 +8029,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Dangling modifier",
-      "Comma splice",
-      "Misplaced modifier",
-      "Parallel structure violation",
-      "Faulty parallelism between the two relative clauses",
-      "Faulty parallelism: 'evaluating', 'interviewing', and 'to prepare' mix gerunds with an infinitive",
-      "Comma splice: two independent clauses joined by a comma after 'country'",
-      "Subject-verb disagreement: 'series' (singular) requires 'has been published' but 'experiments' attracted the plural 'have'"
+      "'announced' requires a preposition: 'announced about the quarterly earnings report'.",
+      "'a tailored navy suit and a confident smile' yokes unlike objects to 'wearing' and is therefore faulty parallelism.",
+      "'wearing a tailored navy suit and a confident smile' is misplaced: as positioned it modifies 'the quarterly earnings report' rather than 'the CEO'.",
+      "'the quarterly earnings report' should be 'the quarter's earnings report'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "2"
   },
   {
@@ -8247,22 +8051,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Dangling modifier: 'After spending nearly a decade collecting...' has no proper subject; 'findings' cannot spend a decade collecting",
-      "Squinting modifier",
-      "Incorrect relative pronoun case: 'whom' should be 'who' as the subject of 'was nowhere near'",
-      "Dangling modifier",
-      "Subject-verb disagreement: 'manager' (singular) is the subject; 'as well as' does not create a compound subject, so 'were' should be 'was'",
-      "Faulty comparison lacking parallel structure",
-      "Split infinitive",
-      "Misplaced modifier"
+      "'that' must be omitted after 'told the committee'.",
+      "'had reviewed' should be 'reviewed': the past perfect cannot follow 'told'.",
+      "'before the defense began' should be 'before the defense had begun'.",
+      "'only' is misplaced: as positioned it limits 'reviewed' (she did nothing but review); it should limit 'the first three chapters'."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "t2_micro-pattern_45",
@@ -8868,22 +8668,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Galaxies are not moving through space; space itself is expanding, carrying galaxies with it. Hubble's law (v = H₀d) doesn't describe motion through space but rather the metric expansion of spacetime. The CMB is not 'leftover heat' but photons released when the universe cooled enough for atoms to form (recombination).",
-      "While zero DC resistance is correct, superconductors have critical current density and critical magnetic field limits, and exceeding them destroys superconductivity. Even room-temperature superconductors would not 'eliminate all energy loss' because AC losses, junction resistance, and cooling systems for maintaining conditions still exist.",
-      "Nuclear reactors physically cannot produce a nuclear detonation; weapons require >80% enriched uranium or plutonium in a specific geometry with precise implosion. Chernobyl was a steam explosion and graphite fire, not a nuclear explosion. High-level waste's most dangerous isotopes decay within centuries. Low-dose radiation's cancer risk follows a contested linear no-threshold model.",
-      "Mirrors do not reverse left and right. They reverse front and back (the depth axis perpendicular to the mirror). The apparent 'lateral reversal' occurs because we mentally rotate our image 180° around the vertical axis to compare it to a face-to-face view.",
       "The uncertainty principle is not about measurement disturbance. It is an intrinsic property of quantum systems arising from the wave nature of matter; conjugate variables like position and momentum cannot simultaneously have precise values regardless of measurement.",
-      "Metamaterials don't make light 'go backwards'; negative refraction means the phase velocity direction is opposite to energy flow (Poynting vector). Cloaking devices are bandwidth-limited by causality constraints (Kramers-Kronig relations), and broadband invisibility is physically impossible. Current demonstrations work only at specific frequencies, often in microwave ranges, not visible light.",
-      "Transistors operate in analog regimes (subthreshold, linear, saturation) and are only approximated as digital switches. MOSFET operation involves complex quantum tunneling at modern scales. Moore's Law is an empirical observation about economics and engineering, not a physical law, and it has already slowed significantly.",
-      "The modern resolution (Landauer's principle, refined by Bennett) shows that it's the ERASURE of information, not the observation/measurement, that dissipates energy (kT ln 2 per bit). The demon CAN observe without energy cost but must eventually erase its memory, restoring the second law. Far from being separate domains, thermodynamics and information theory are deeply unified: entropy IS a measure of missing information."
+      "The error is one of degree: with sufficiently gentle instruments (weak measurement) both the collapse and the uncertainty can be avoided entirely.",
+      "Measurement does not collapse anything; the wavefunction is a bookkeeping device with no physical consequences, so both claims are meaningless.",
+      "The passage is right that instruments cause collapse but wrong about uncertainty: the principle applies only to position and momentum, never to energy and time."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "0"
   },
   {
     "id": "probabilistic-t1-expert-trap-0127",
@@ -8894,22 +8690,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Bleaching occurs when corals EXPEL their symbiotic zooxanthellae algae, not when the coral dies. Bleached coral is stressed but alive and can recover if conditions improve within weeks to months. Acidification reduces calcification rates and weakens existing structures, but it doesn't rapidly 'dissolve' reefs like acid on chalk, as the chemistry is more nuanced (reduced carbonate ion saturation state).",
-      "The evolutionary cause of bipedalism is debated, as it predates tool use by millions of years (Ardipithecus was bipedal ~4.4 Mya, earliest tools ~3.3 Mya). Bipedalism is NOT faster than quadrupedalism (quadrupeds are generally faster). The human spine is a modified quadruped spine with well-documented compromises (herniated discs, scoliosis, lordosis), so 'design' is misleading for an evolutionary kludge.",
-      "Ecosystems are not inherently balanced or equilibrium-seeking. They are dynamic, non-linear systems that can shift between multiple stable states. Some perturbations cause irreversible regime shifts. The 'balance of nature' is a myth.",
-      "DNA is not a blueprint; it's more like a recipe with context-dependent interpretation. Most traits are polygenic and influenced by environment (epigenetics). Many DNA sequences are regulatory, not protein-coding. Single genes rarely determine complex traits.",
-      "The human proteome contains over 1 million distinct protein species, far more than 20,000. Alternative splicing allows a single gene to produce multiple protein variants. Post-translational modifications (phosphorylation, glycosylation, ubiquitination) further expand diversity. The proteome is dynamic and tissue-specific, while the genome is (mostly) static and identical across cells.",
+      "Species do not evolve to adapt; individuals adapt by learning during their lifetimes and pass the improvements to their offspring.",
       "Evolution has no direction, goal, or 'need.' Natural selection acts on individuals, not species. 'Fitness' means reproductive success, not strength. Complexity does not always increase; parasites often evolve toward simplicity.",
-      "Viruses are not considered alive by most biologists (no metabolism, can't reproduce independently). Virulence does NOT always decrease; it depends on transmission mode. If transmission occurs before or during severe illness, high virulence can be maintained or even increase. Myxomatosis initially declined in virulence, then stabilized at an intermediate level.",
-      "The 10:1 ratio is an outdated myth; the revised estimate is roughly 1:1 (Sender et al., 2016). Bacteria are not a 'separate ecosystem' but deeply integrated with host immunity and metabolism. Most commercial probiotics have little evidence for lasting colonization or meaningful therapeutic benefit for healthy individuals."
+      "The error is the claim about complexity: evolution always increases complexity, but it does so for the good of the species rather than the individual.",
+      "The passage is essentially correct; its only error is calling fitness 'survival' when it means strength and speed, the traits selection maximizes."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "probabilistic-t1-expert-trap-0128",
@@ -8920,22 +8712,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Theories cannot be 'proven true'; they can only be corroborated or falsified (Popper). Kuhn showed that science progresses through paradigm shifts, not steady accumulation. Lakatos argued research programs have protective belts. The 'scientific method' as a single procedure is a pedagogical fiction; real scientific practice is diverse and messy.",
-      "The 'environment of evolutionary adaptedness' is a theoretical construct, not a specific habitat. Many traits are byproducts (spandrels), results of genetic drift, or sexually selected, and not all are adaptive. The mismatch hypothesis oversimplifies: anxiety disorders also existed in ancestral environments.",
-      "Forensic DNA profiling examines only a small number of loci, not the entire genome, yielding statistical probabilities rather than certainties. Contamination, degradation, and mixtures create ambiguity. Fingerprint analysis has documented error rates; the 2004 Brandon Mayfield case showed even FBI experts can make false identifications. No empirical study has proven universal fingerprint uniqueness.",
-      "Banks do not lend out deposits; they create new money by issuing loans, which simultaneously create matching deposits. The 'money multiplier' model is rejected by most central banks (Bank of England 2014). Reserve requirements don't constrain lending in modern banking; capital requirements and demand for credit do.",
-      "Evolutionary origins of moral intuitions don't determine their truth value (genetic fallacy). Cultural variation in moral systems doesn't entail moral relativism; cultures also disagree about empirical facts without disproving scientific realism. The is-ought gap (Hume's guillotine) means scientific descriptions of moral behavior cannot settle normative questions about what SHOULD be.",
-      "Gold has no intrinsic value as money; its value is also based on social convention. The gold standard was abandoned because it constrained monetary policy, causing deflationary spirals and deepening recessions. Fiat currencies are not inherently less stable.",
-      "The strong Sapir-Whorf hypothesis (linguistic determinism) is rejected; language influences but does not determine thought. Speakers of 'futureless' languages plan for the future normally. Color perception studies show slight reaction-time effects, not fundamentally different perception. The weak version (linguistic relativity) has modest empirical support.",
-      "The herd immunity threshold (1 - 1/R₀) assumes uniform random mixing, which never occurs in real populations. The threshold varies with contact patterns, population structure, waning immunity, and viral evolution. Diseases don't stop spreading entirely; transmission drops below replacement rate."
+      "The passage is correct that gold-backed money is more stable; the error is that the standard was abandoned by accident during wartime, not by choice.",
+      "Gold has intrinsic value as money because it is scarce; the error is that the gold standard was never abandoned, only suspended.",
+      "Governments did run out of gold; the error is calling fiat money unstable, since fiat currencies cannot lose value once a central bank exists.",
+      "Gold has no intrinsic value as money; its value is also based on social convention. The gold standard was abandoned because it constrained monetary policy, causing deflationary spirals and deepening recessions. Fiat currencies are not inherently less stable."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "ef2d127de37b942baad06145e54b0c619a1f22327b2ebbcfbec78f5564afe39d",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "5"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0129",
@@ -8946,22 +8734,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Deleted files typically remain on disk until overwritten, and forensic tools (EnCase, Autopsy) routinely recover them. Standard formatting only removes filesystem metadata, not data itself (secure erase or overwriting is needed). Incognito mode only prevents local browser history; ISPs, employers, and websites still track you. No encryption is 'absolutely unbreakable'; it's computationally infeasible to break, which is a practical, not absolute, guarantee.",
-      "Validity is about the logical structure, not the truth of the conclusion. A valid argument can have a false conclusion (if premises are false), and an invalid argument can have a true conclusion (by coincidence). Validity means the conclusion MUST follow IF the premises are true. Truth of the conclusion alone tells you nothing about validity.",
-      "Milgram's experiment had a completion rate of only ~25%, meaning most chains failed. Successful chains averaged 5-6 steps, but this represents a biased sample (only completed chains were counted). The 'six degrees' figure is not universal; it varies by social network density, geography, and socioeconomic factors. Modern social media analysis shows the average is closer to 3-4 on platforms like Facebook.",
-      "The hot hand was actually 'un-debunked' by Miller and Sanjurjo (2018), who discovered a subtle but significant statistical bias in the original analysis. When you select sequences conditional on observing a streak, the expected proportion of hits AFTER hits is below the true probability, not equal to it. The original study's null hypothesis was wrong. Recent analyses with better data confirm a modest but real hot hand effect.",
-      "Counting holes is insufficient for topological equivalence (homeomorphism). A torus and a Klein bottle both have similar Betti numbers but are not homeomorphic, as the Klein bottle is non-orientable. Topological equivalence requires a continuous bijection with continuous inverse, not just matching hole counts. Invariants like the fundamental group, orientability, and torsion in homology are needed.",
-      "P vs NP has NOT been proven either way; it remains the most important open problem in theoretical CS. If P = NP, it doesn't mean 'all hard problems become easy,' as the polynomial algorithm might have impractically high degree or constants. Also, problems outside NP (EXPTIME-hard, undecidable) would remain hard regardless.",
-      "A p-value is the probability of seeing data this extreme IF the null hypothesis is true, not the probability the null is true. P-values do not measure effect probability. Replication with p < 0.05 doesn't multiply confidence the way described.",
+      "Quantum computers threaten no encryption at all, because measurement collapses the superposition before any key can be read out.",
+      "The passage is correct except that large-scale quantum computers already exist, so classical encryption is already obsolete.",
+      "Quantum computers do try all keys simultaneously; the error is that they threaten only symmetric ciphers like AES, while RSA is safe because factoring is hard.",
       "Quantum computers threaten specific algorithms (RSA, ECC) via Shor's algorithm, not all encryption. Symmetric encryption and lattice-based cryptography are believed to be quantum-resistant. Quantum computers don't 'try all keys simultaneously.'"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0130",
@@ -8972,22 +8756,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Gold has no intrinsic value as money; its value is also based on social convention. The gold standard was abandoned because it constrained monetary policy, causing deflationary spirals and deepening recessions. Fiat currencies are not inherently less stable.",
-      "Insurers don't predict individual risk; they estimate aggregate loss distributions for risk pools. The law of large numbers reduces variance of average losses but doesn't guarantee profits (catastrophic correlated events like pandemics or hurricanes can overwhelm pooling). Investment income, not just underwriting profit, is crucial. Moral hazard and adverse selection can make certain markets unprofitable regardless of pool size.",
-      "IQ tests measure specific cognitive skills valued in educational contexts, not a fixed 'innate intelligence.' IQ is substantially heritable but also significantly influenced by environment (Flynn effect: ~3 points/decade increase). IQ scores change over the lifespan. The normal distribution is partly an artifact of test construction (items are selected to produce it).",
-      "All human languages are equally complex and expressive; there are no 'primitive' languages. Ancient languages like Sanskrit, Latin, and Classical Chinese had highly complex grammars. Languages change over time but do not 'progress' linearly.",
-      "Latin didn't 'evolve into' Romance languages after Rome fell; regional spoken Latin (Vulgar Latin) was already diverging during the Empire. Classical Latin was a literary standard that diverged from speech. Latin did not 'die'; the Romance languages ARE evolved Latin. Proto-Indo-European is the ancestor of one language family, not all languages, and thousands of unrelated language families exist.",
-      "The US is a constitutional republic with representative democracy, not a direct democracy. 'Majority rules' ignores constitutional protections of minority rights. Democracies don't always produce better outcomes; Arrow's impossibility theorem shows no voting system perfectly aggregates preferences.",
-      "The SPE has been largely discredited. Guards were coached and encouraged by the experimenters. The results were not replicated. Demand characteristics, selection bias, and experimenter influence explain the behavior better than situational determinism.",
-      "'First, do no harm' does not appear in the Hippocratic Oath; it's a later paraphrase. The original oath includes promises to Greek gods, prohibitions against surgery, and provisions for apprenticeship fees. Modern medical ethics is based on four principles (autonomy, beneficence, non-maleficence, justice), not the ancient oath. Avoiding all risk would prohibit most medicine."
+      "The SPE proved the opposite: people resist cruelty even under pressure, which is why it was stopped early.",
+      "The experiment was rigorous and has been replicated many times; its only flaw is that it used students rather than real prisoners and guards.",
+      "The passage is right that the situation transformed the guards; the error is that the participants were prison guards by profession, not volunteers.",
+      "The SPE has been largely discredited. Guards were coached and encouraged by the experimenters. The results were not replicated. Demand characteristics, selection bias, and experimenter influence explain the behavior better than situational determinism."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0131",
@@ -8998,22 +8778,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Virtual particles are mathematical terms in perturbative expansions, not literal entities blinking in and out of existence. The Casimir effect can be derived without reference to virtual particles (using boundary conditions on field modes). The popular Hawking radiation narrative with virtual pairs is a pedagogical analogy, not the actual calculation.",
-      "Sound DOES have thermal effects: the compressions are slightly non-adiabatic, and acoustic energy is ultimately dissipated as heat through viscous and thermal losses. Thermoacoustic engines exploit the interaction between sound waves and temperature gradients to create heat pumps and refrigerators. High-intensity ultrasound demonstrably heats tissue (used in medical therapy).",
-      "Relativistic mass is a deprecated concept. The modern understanding uses invariant (rest) mass, which does not change. The speed limit arises from the geometry of spacetime: not from mass increase but from the fact that spacetime intervals become spacelike beyond c.",
-      "While zero DC resistance is correct, superconductors have critical current density and critical magnetic field limits, and exceeding them destroys superconductivity. Even room-temperature superconductors would not 'eliminate all energy loss' because AC losses, junction resistance, and cooling systems for maintaining conditions still exist.",
-      "The modern resolution (Landauer's principle, refined by Bennett) shows that it's the ERASURE of information, not the observation/measurement, that dissipates energy (kT ln 2 per bit). The demon CAN observe without energy cost but must eventually erase its memory, restoring the second law. Far from being separate domains, thermodynamics and information theory are deeply unified: entropy IS a measure of missing information.",
-      "The uncertainty principle is not about measurement disturbance. It is an intrinsic property of quantum systems arising from the wave nature of matter; conjugate variables like position and momentum cannot simultaneously have precise values regardless of measurement.",
-      "Mirrors do not reverse left and right. They reverse front and back (the depth axis perpendicular to the mirror). The apparent 'lateral reversal' occurs because we mentally rotate our image 180° around the vertical axis to compare it to a face-to-face view.",
-      "The Higgs mechanism gives mass only to elementary particles through electroweak symmetry breaking, but ~99% of the mass of protons, neutrons (and thus everyday matter) comes from QCD binding energy (quark-gluon interactions), not the Higgs. The Standard Model is explicitly incomplete: it doesn't include gravity, dark matter, dark energy, neutrino masses (in its original form), or the matter-antimatter asymmetry."
+      "The speed limit exists only because light is the fastest thing yet observed; the error is that mass decreases near c, releasing energy.",
+      "The passage is correct: relativistic mass grows toward infinity, which is why photons, being massless, are the only things that can reach c.",
+      "The error is the claim that nothing exceeds light speed: quantum entanglement transmits information faster than light, so the limit holds only for massive objects.",
+      "Relativistic mass is a deprecated concept. The modern understanding uses invariant (rest) mass, which does not change. The speed limit arises from the geometry of spacetime: not from mass increase but from the fact that spacetime intervals become spacelike beyond c."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "2"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0132",
@@ -9024,22 +8800,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Haeckel's 'ontogeny recapitulates phylogeny' was discredited over a century ago and based on fraudulent drawings. Embryos don't pass through adult ancestral stages. The 'gill slits' are pharyngeal arches that develop into jaw, ear, and throat structures, and they never function as gills.",
-      "Evolution has no direction, goal, or 'need.' Natural selection acts on individuals, not species. 'Fitness' means reproductive success, not strength. Complexity does not always increase; parasites often evolve toward simplicity.",
-      "Bleaching occurs when corals EXPEL their symbiotic zooxanthellae algae, not when the coral dies. Bleached coral is stressed but alive and can recover if conditions improve within weeks to months. Acidification reduces calcification rates and weakens existing structures, but it doesn't rapidly 'dissolve' reefs like acid on chalk, as the chemistry is more nuanced (reduced carbonate ion saturation state).",
-      "Ecosystems are not inherently balanced or equilibrium-seeking. They are dynamic, non-linear systems that can shift between multiple stable states. Some perturbations cause irreversible regime shifts. The 'balance of nature' is a myth.",
-      "Many antibiotics don't 'poison' bacteria; they interfere with specific processes like cell wall synthesis or protein synthesis (ribosomal translation). Stopping early promotes resistance by killing susceptible bacteria while letting partially resistant ones survive. Bacteria don't become 'immune.'",
-      "Cell membranes are highly dynamic fluid structures, and the 'fluid mosaic model' describes lipids and proteins in constant lateral motion. Membrane fluidity is essential for function. Many transport processes are passive (diffusion, osmosis, facilitated diffusion through channels), requiring no energy. Lipid rafts provide transient organization, not rigid structure.",
-      "Viruses are not considered alive by most biologists (no metabolism, can't reproduce independently). Virulence does NOT always decrease; it depends on transmission mode. If transmission occurs before or during severe illness, high virulence can be maintained or even increase. Myxomatosis initially declined in virulence, then stabilized at an intermediate level.",
-      "DNA is not a blueprint; it's more like a recipe with context-dependent interpretation. Most traits are polygenic and influenced by environment (epigenetics). Many DNA sequences are regulatory, not protein-coding. Single genes rarely determine complex traits."
+      "DNA is a blueprint; the error is that the Human Genome Project mapped only protein-coding genes, which are the only part of DNA that matters.",
+      "DNA is not a blueprint; it's more like a recipe with context-dependent interpretation. Most traits are polygenic and influenced by environment (epigenetics). Many DNA sequences are regulatory, not protein-coding. Single genes rarely determine complex traits.",
+      "The passage is correct except that DNA does not determine eye color, which is set by the environment during infancy.",
+      "Each gene codes for one protein; the error is that personality has no genetic component at all, being entirely environmental."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "probabilistic-t1-expert-trap-0133",
@@ -9050,22 +8822,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The hot hand was actually 'un-debunked' by Miller and Sanjurjo (2018), who discovered a subtle but significant statistical bias in the original analysis. When you select sequences conditional on observing a streak, the expected proportion of hits AFTER hits is below the true probability, not equal to it. The original study's null hypothesis was wrong. Recent analyses with better data confirm a modest but real hot hand effect.",
-      "While primes thin out (by the prime number theorem, density ~ 1/ln(n)), their distribution is far from random, and deep structure exists (Riemann zeta function, prime gaps, Chebyshev bias). Primality testing uses sophisticated probabilistic and deterministic algorithms (AKS, Miller-Rabin), not brute force.",
-      "P vs NP has NOT been proven either way; it remains the most important open problem in theoretical CS. If P = NP, it doesn't mean 'all hard problems become easy,' as the polynomial algorithm might have impractically high degree or constants. Also, problems outside NP (EXPTIME-hard, undecidable) would remain hard regardless.",
-      "While the passage sounds correct on the surface, it subtly conflates Shannon entropy (a property of the source distribution) with Kolmogorov complexity (a property of individual strings). 'Removing redundancy' is about exploiting statistical patterns, while incompressibility of random data relates to algorithmic information theory. These are distinct frameworks.",
-      "Validity is about the logical structure, not the truth of the conclusion. A valid argument can have a false conclusion (if premises are false), and an invalid argument can have a true conclusion (by coincidence). Validity means the conclusion MUST follow IF the premises are true. Truth of the conclusion alone tells you nothing about validity.",
-      "Counting holes is insufficient for topological equivalence (homeomorphism). A torus and a Klein bottle both have similar Betti numbers but are not homeomorphic, as the Klein bottle is non-orientable. Topological equivalence requires a continuous bijection with continuous inverse, not just matching hole counts. Invariants like the fundamental group, orientability, and torsion in homology are needed.",
+      "The passage is correct in substance; the only error is that Gödel's theorems apply to every formal system, including ones as weak as propositional logic.",
+      "Gödel showed that arithmetic is inconsistent, so mathematics really is unreliable; the error is calling them 'incompleteness' theorems.",
       "Gödel's theorems apply to formal axiomatic systems of sufficient strength, not to 'mathematics' broadly. They show such systems cannot be both complete and consistent, not that math is 'flawed.' Mathematicians work productively with incomplete systems.",
-      "The last claim is wrong: the host's protocol critically affects the probability. If the host ALWAYS opens a losing door (knows what's behind them), switching gives 2/3. But if the host opens randomly and happens to reveal a goat, the probability IS 50/50, and the host's intent matters because it changes the conditional probability structure."
+      "The theorems apply to all reasoning, including physics and everyday logic, so the passage understates the problem."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "probabilistic-t1-expert-trap-0134",
@@ -9076,21 +8844,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The fossil record is extremely incomplete: fewer than 1% of species that ever lived are preserved. Superposition can be violated by tectonic folding, faulting, and thrust sheets that place older layers atop younger ones. Fossilization requires specific conditions (rapid burial, mineralization-friendly chemistry), creating systematic biases toward hard-bodied marine organisms.",
-      "Groundwater overwhelmingly exists in pore spaces of rock and sediment, not in underground rivers (except in karst systems). The water table fluctuates seasonally and with pumping. Water doesn't always take the 'shortest path'; it follows hydraulic gradients through permeable materials, and can even flow upward under artesian pressure.",
+      "The greenhouse effect is entirely natural, so human CO₂ emissions cannot change the climate; the error is attributing warming to industry.",
+      "The greenhouse effect is real but negligible; the error is that Earth's temperature is set almost entirely by the sun's variability.",
       "The greenhouse effect is natural and essential for life: without it, Earth would be about -18°C. The concern is the enhanced greenhouse effect from additional anthropogenic CO₂. The 'blanket' analogy is misleading; greenhouse gases re-radiate infrared, they don't 'trap' heat.",
-      "The relationship is bidirectional: orbital changes initiate warming, which releases oceanic CO₂, which amplifies warming through a positive feedback loop. The fact that CO₂ was a feedback in the past doesn't preclude it being a forcing today. Current CO₂ rise is from fossil fuels (verified by isotopic signature ¹³C/¹²C decline), which is a different mechanism from past natural cycles.",
-      "Continents don't plow through ocean floor; they're integral parts of tectonic plates that include both continental and oceanic crust. Wegener was criticized for lacking a mechanism, not the observation of fit. The mantle is mostly solid (not liquid magma), and plates move on the ductile asthenosphere, which deforms plastically over geological timescales.",
-      "Explosiveness depends primarily on magma viscosity and dissolved gas content, not volume. Low-viscosity basaltic eruptions (Hawaii) produce gentle flows despite enormous volumes. 'Overdue' is a statistical fallacy; volcanic eruptions are not periodic, and recurrence intervals are not predictive. Yellowstone's system may never produce another supereruption.",
-      "Water is intrinsically blue due to selective absorption of red wavelengths by O-H bond vibrations. The ocean's color is primarily from absorption, not sky reflection. Deep water appears darker because red light is absorbed at shallow depths, leaving only blue.",
-      "The Grand Canyon's formation involved catastrophic floods, tectonic uplift, and drainage capture events, not just steady erosion. Modern geomorphology recognizes that landscapes are shaped by both gradual processes and episodic catastrophic events. The canyon's age and formation mechanism remain debated, with evidence for rapid incision phases."
+      "The passage is right that the greenhouse effect is modern and harmful; the error is that CO₂ is not a greenhouse gas, water vapour is the only one."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "2"
   },
   {
@@ -9102,22 +8866,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Neural networks are loosely inspired by brains but operate very differently: backpropagation has no known biological analog. 'Enough data' doesn't overcome fundamental limitations (no free lunch theorem). Whether LLMs 'understand' language is deeply contested.",
-      "The hot hand was actually 'un-debunked' by Miller and Sanjurjo (2018), who discovered a subtle but significant statistical bias in the original analysis. When you select sequences conditional on observing a streak, the expected proportion of hits AFTER hits is below the true probability, not equal to it. The original study's null hypothesis was wrong. Recent analyses with better data confirm a modest but real hot hand effect.",
-      "While primes thin out (by the prime number theorem, density ~ 1/ln(n)), their distribution is far from random, and deep structure exists (Riemann zeta function, prime gaps, Chebyshev bias). Primality testing uses sophisticated probabilistic and deterministic algorithms (AKS, Miller-Rabin), not brute force.",
+      "A p-value of 0.05 does mean a 5% chance the result is due to chance; the error is that replication with p < 0.05 adds no confidence at all.",
+      "The passage is correct; the only error is that a p-value below 0.05 also tells you the effect is large enough to matter.",
       "A p-value is the probability of seeing data this extreme IF the null hypothesis is true, not the probability the null is true. P-values do not measure effect probability. Replication with p < 0.05 doesn't multiply confidence the way described.",
-      "P vs NP has NOT been proven either way; it remains the most important open problem in theoretical CS. If P = NP, it doesn't mean 'all hard problems become easy,' as the polynomial algorithm might have impractically high degree or constants. Also, problems outside NP (EXPTIME-hard, undecidable) would remain hard regardless.",
-      "Milgram's experiment had a completion rate of only ~25%, meaning most chains failed. Successful chains averaged 5-6 steps, but this represents a biased sample (only completed chains were counted). The 'six degrees' figure is not universal; it varies by social network density, geography, and socioeconomic factors. Modern social media analysis shows the average is closer to 3-4 on platforms like Facebook.",
-      "Validity is about the logical structure, not the truth of the conclusion. A valid argument can have a false conclusion (if premises are false), and an invalid argument can have a true conclusion (by coincidence). Validity means the conclusion MUST follow IF the premises are true. Truth of the conclusion alone tells you nothing about validity.",
-      "The last claim is wrong: the host's protocol critically affects the probability. If the host ALWAYS opens a losing door (knows what's behind them), switching gives 2/3. But if the host opens randomly and happens to reveal a goat, the probability IS 50/50, and the host's intent matters because it changes the conditional probability structure."
+      "A p-value is the probability that the hypothesis is false; the error is that two replications only establish the effect if both are below 0.01."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "3"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "probabilistic-t1-expert-trap-0136",
@@ -9128,22 +8888,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The computer metaphor is limited. Brains are not digital; neurons have analog properties, chemical signaling, dendritic computation, and neuroplasticity with no clear hardware/software distinction. Consciousness is not known to be substrate-independent.",
-      "All human languages are equally complex and expressive; there are no 'primitive' languages. Ancient languages like Sanskrit, Latin, and Classical Chinese had highly complex grammars. Languages change over time but do not 'progress' linearly.",
-      "The strong Sapir-Whorf hypothesis (linguistic determinism) is rejected; language influences but does not determine thought. Speakers of 'futureless' languages plan for the future normally. Color perception studies show slight reaction-time effects, not fundamentally different perception. The weak version (linguistic relativity) has modest empirical support.",
-      "Neuroplasticity is real but constrained; it's not infinite. Critical periods limit certain types of reorganization. A visual cortex neuron cannot simply become a motor neuron. Adult neurogenesis is largely restricted to the hippocampus and olfactory bulb (and even hippocampal neurogenesis in humans is debated). Maladaptive plasticity can cause chronic pain and phantom limbs.",
-      "Banks do not lend out deposits; they create new money by issuing loans, which simultaneously create matching deposits. The 'money multiplier' model is rejected by most central banks (Bank of England 2014). Reserve requirements don't constrain lending in modern banking; capital requirements and demand for credit do.",
-      "The legal standard is 'not guilty,' not 'innocent'; the court doesn't declare innocence. 'Beyond a reasonable doubt' does not mean 100% certainty; it means no reasonable person would doubt the conclusion based on the evidence presented.",
-      "The herd immunity threshold (1 - 1/R₀) assumes uniform random mixing, which never occurs in real populations. The threshold varies with contact patterns, population structure, waning immunity, and viral evolution. Diseases don't stop spreading entirely; transmission drops below replacement rate.",
-      "Insurers don't predict individual risk; they estimate aggregate loss distributions for risk pools. The law of large numbers reduces variance of average losses but doesn't guarantee profits (catastrophic correlated events like pandemics or hurricanes can overwhelm pooling). Investment income, not just underwriting profit, is crucial. Moral hazard and adverse selection can make certain markets unprofitable regardless of pool size."
+      "Ancient languages did have simpler grammars; the error is that modern languages have fewer words, not more.",
+      "Languages do progress from primitive to complex; the error is that English is not the most evolved, since Latin has more grammatical cases.",
+      "All languages started equally complex, but modern languages have simplified, so English is actually the least evolved.",
+      "All human languages are equally complex and expressive; there are no 'primitive' languages. Ancient languages like Sanskrit, Latin, and Classical Chinese had highly complex grammars. Languages change over time but do not 'progress' linearly."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "1"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0137",
@@ -9154,22 +8910,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
+      "The metaphor is exact and mind uploading is already possible; the error is only that silicon is currently too slow.",
+      "The brain is a digital computer; the error is that neurons are like memory cells, not transistors, and consciousness comes from clock speed.",
       "The computer metaphor is limited. Brains are not digital; neurons have analog properties, chemical signaling, dendritic computation, and neuroplasticity with no clear hardware/software distinction. Consciousness is not known to be substrate-independent.",
-      "Neuroplasticity is real but constrained; it's not infinite. Critical periods limit certain types of reorganization. A visual cortex neuron cannot simply become a motor neuron. Adult neurogenesis is largely restricted to the hippocampus and olfactory bulb (and even hippocampal neurogenesis in humans is debated). Maladaptive plasticity can cause chronic pain and phantom limbs.",
-      "The herd immunity threshold (1 - 1/R₀) assumes uniform random mixing, which never occurs in real populations. The threshold varies with contact patterns, population structure, waning immunity, and viral evolution. Diseases don't stop spreading entirely; transmission drops below replacement rate.",
-      "The US is a constitutional republic with representative democracy, not a direct democracy. 'Majority rules' ignores constitutional protections of minority rights. Democracies don't always produce better outcomes; Arrow's impossibility theorem shows no voting system perfectly aggregates preferences.",
-      "The SPE has been largely discredited. Guards were coached and encouraged by the experimenters. The results were not replicated. Demand characteristics, selection bias, and experimenter influence explain the behavior better than situational determinism.",
-      "Social evolution is not linear or progressive. Many societies deliberately chose foraging over agriculture. Agricultural societies often had worse nutrition, health, and equality. Complexity can decrease, and some cultures oscillated between modes of subsistence.",
-      "Evolutionary origins of moral intuitions don't determine their truth value (genetic fallacy). Cultural variation in moral systems doesn't entail moral relativism; cultures also disagree about empirical facts without disproving scientific realism. The is-ought gap (Hume's guillotine) means scientific descriptions of moral behavior cannot settle normative questions about what SHOULD be.",
-      "Theories cannot be 'proven true'; they can only be corroborated or falsified (Popper). Kuhn showed that science progresses through paradigm shifts, not steady accumulation. Lakatos argued research programs have protective belts. The 'scientific method' as a single procedure is a pedagogical fiction; real scientific practice is diverse and messy."
+      "Neurons are not like transistors because they compute with quantum effects; consciousness arises from quantum coherence in microtubules."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "probabilistic-t1-expert-trap-0138",
@@ -9180,21 +8932,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Human genetic variation is clinal (graded continuously across geography), not clustered into discrete races. There is more genetic variation within so-called races than between them. Ancestry tests identify statistical correlations with reference populations, not 'race.' Racial categories are social constructs that don't map onto biological discontinuities.",
-      "Cell membranes are highly dynamic fluid structures, and the 'fluid mosaic model' describes lipids and proteins in constant lateral motion. Membrane fluidity is essential for function. Many transport processes are passive (diffusion, osmosis, facilitated diffusion through channels), requiring no energy. Lipid rafts provide transient organization, not rigid structure.",
-      "The 10:1 ratio is an outdated myth; the revised estimate is roughly 1:1 (Sender et al., 2016). Bacteria are not a 'separate ecosystem' but deeply integrated with host immunity and metabolism. Most commercial probiotics have little evidence for lasting colonization or meaningful therapeutic benefit for healthy individuals.",
-      "Many antibiotics don't 'poison' bacteria; they interfere with specific processes like cell wall synthesis or protein synthesis (ribosomal translation). Stopping early promotes resistance by killing susceptible bacteria while letting partially resistant ones survive. Bacteria don't become 'immune.'",
-      "The immune system's primary function is distinguishing 'self' from 'non-self,' but it also tolerates many foreign entities (commensal bacteria, food, fetuses). Autoimmune disease is not a 'mistake'; it often involves loss of regulatory T cell function, molecular mimicry, or failure of central tolerance, reflecting complex system dysregulation rather than simple error.",
-      "The 'chemical imbalance' theory of depression has been largely abandoned, as a major 2022 umbrella review (Moncrieff et al.) found no consistent evidence for the serotonin deficit hypothesis. SSRIs increase synaptic serotonin within hours, but therapeutic effects take weeks, suggesting the mechanism involves downstream neuroplastic changes rather than serotonin restoration. Depression is a complex condition involving neural circuit dysfunction, inflammation, and psychosocial factors.",
-      "Haeckel's 'ontogeny recapitulates phylogeny' was discredited over a century ago and based on fraudulent drawings. Embryos don't pass through adult ancestral stages. The 'gill slits' are pharyngeal arches that develop into jaw, ear, and throat structures, and they never function as gills.",
-      "Many drugs work as antagonists (blocking receptors), not agonists. Dose-response curves plateau and can even show paradoxical effects at high doses (hormesis). Tolerance involves receptor downregulation, desensitization, and neuroadaptation, not just faster metabolism."
+      "The passage is correct except that resistance is impossible for bacteria; only viruses evolve drug resistance.",
+      "Antibiotics do poison bacteria; the error is that stopping early is fine because resistance is caused by antibiotics in farming, not by patients.",
+      "Bacteria do become immune to antibiotics through their immune systems; the error is that antibiotics work by boosting the human immune response.",
+      "Many antibiotics don't 'poison' bacteria; they interfere with specific processes like cell wall synthesis or protein synthesis (ribosomal translation). Stopping early promotes resistance by killing susceptible bacteria while letting partially resistant ones survive. Bacteria don't become 'immune.'"
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "3"
   },
   {
@@ -9206,22 +8954,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The strong Sapir-Whorf hypothesis (linguistic determinism) is rejected; language influences but does not determine thought. Speakers of 'futureless' languages plan for the future normally. Color perception studies show slight reaction-time effects, not fundamentally different perception. The weak version (linguistic relativity) has modest empirical support.",
+      "The passage is correct; the only error is that the standard applies in civil trials as well as criminal ones.",
+      "Defendants are legally declared innocent when acquitted; the error is that the criminal standard is 'preponderance of the evidence', not 'beyond a reasonable doubt'.",
       "The legal standard is 'not guilty,' not 'innocent'; the court doesn't declare innocence. 'Beyond a reasonable doubt' does not mean 100% certainty; it means no reasonable person would doubt the conclusion based on the evidence presented.",
-      "All human languages are equally complex and expressive; there are no 'primitive' languages. Ancient languages like Sanskrit, Latin, and Classical Chinese had highly complex grammars. Languages change over time but do not 'progress' linearly.",
-      "The 'environment of evolutionary adaptedness' is a theoretical construct, not a specific habitat. Many traits are byproducts (spandrels), results of genetic drift, or sexually selected, and not all are adaptive. The mismatch hypothesis oversimplifies: anxiety disorders also existed in ancestral environments.",
-      "'First, do no harm' does not appear in the Hippocratic Oath; it's a later paraphrase. The original oath includes promises to Greek gods, prohibitions against surgery, and provisions for apprenticeship fees. Modern medical ethics is based on four principles (autonomy, beneficence, non-maleficence, justice), not the ancient oath. Avoiding all risk would prohibit most medicine.",
-      "The computer metaphor is limited. Brains are not digital; neurons have analog properties, chemical signaling, dendritic computation, and neuroplasticity with no clear hardware/software distinction. Consciousness is not known to be substrate-independent.",
-      "Evolutionary origins of moral intuitions don't determine their truth value (genetic fallacy). Cultural variation in moral systems doesn't entail moral relativism; cultures also disagree about empirical facts without disproving scientific realism. The is-ought gap (Hume's guillotine) means scientific descriptions of moral behavior cannot settle normative questions about what SHOULD be.",
-      "IQ tests measure specific cognitive skills valued in educational contexts, not a fixed 'innate intelligence.' IQ is substantially heritable but also significantly influenced by environment (Flynn effect: ~3 points/decade increase). IQ scores change over the lifespan. The normal distribution is partly an artifact of test construction (items are selected to produce it)."
+      "'Beyond a reasonable doubt' does mean 100% certainty; the error is that the burden falls on the defence, not the prosecution."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "1"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "probabilistic-t1-expert-trap-0140",
@@ -9232,22 +8976,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
+      "Ecosystems always return to their natural state; the error is that this takes millennia rather than decades.",
+      "Ecosystems are balanced; the error is that removing a species never matters because another species always fills its role.",
       "Ecosystems are not inherently balanced or equilibrium-seeking. They are dynamic, non-linear systems that can shift between multiple stable states. Some perturbations cause irreversible regime shifts. The 'balance of nature' is a myth.",
-      "Haeckel's 'ontogeny recapitulates phylogeny' was discredited over a century ago and based on fraudulent drawings. Embryos don't pass through adult ancestral stages. The 'gill slits' are pharyngeal arches that develop into jaw, ear, and throat structures, and they never function as gills.",
-      "The evolutionary cause of bipedalism is debated, as it predates tool use by millions of years (Ardipithecus was bipedal ~4.4 Mya, earliest tools ~3.3 Mya). Bipedalism is NOT faster than quadrupedalism (quadrupeds are generally faster). The human spine is a modified quadruped spine with well-documented compromises (herniated discs, scoliosis, lordosis), so 'design' is misleading for an evolutionary kludge.",
-      "Fungi are not plants; they're more closely related to animals. Spores are fundamentally different from seeds (no embryo, no stored nutrition). Fungi are far from passive: mycorrhizal networks actively trade nutrients with living plants, some fungi are predatory (trapping nematodes), and others are parasitic on living organisms.",
-      "Evolution has no direction, goal, or 'need.' Natural selection acts on individuals, not species. 'Fitness' means reproductive success, not strength. Complexity does not always increase; parasites often evolve toward simplicity.",
-      "Cell membranes are highly dynamic fluid structures, and the 'fluid mosaic model' describes lipids and proteins in constant lateral motion. Membrane fluidity is essential for function. Many transport processes are passive (diffusion, osmosis, facilitated diffusion through channels), requiring no energy. Lipid rafts provide transient organization, not rigid structure.",
-      "Human genetic variation is clinal (graded continuously across geography), not clustered into discrete races. There is more genetic variation within so-called races than between them. Ancestry tests identify statistical correlations with reference populations, not 'race.' Racial categories are social constructs that don't map onto biological discontinuities.",
-      "Many drugs work as antagonists (blocking receptors), not agonists. Dose-response curves plateau and can even show paradoxical effects at high doses (hormesis). Tolerance involves receptor downregulation, desensitization, and neuroadaptation, not just faster metabolism."
+      "The passage is correct except that species have no roles; ecosystems are random collections that reach equilibrium by chance."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "probabilistic-t1-expert-trap-0141",
@@ -9258,22 +8998,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Protein folding often requires chaperone proteins, post-translational modifications, and specific cellular conditions, as sequence alone is insufficient in vivo. Many denatured proteins can refold (Anfinsen's experiment showed this). The 'lock and key' model was superseded by the 'induced fit' model, where enzyme and substrate both change conformation upon binding.",
-      "Organic chemistry includes non-biological carbon compounds (plastics, fuels, etc.). Carbon can form fewer than four bonds (CO has a triple bond + lone pair, carbocations have three). Biological homochirality (L-amino acids, D-sugars) is not explained by the right-hand rule, which describes magnetic fields, not molecular chirality.",
-      "The 'dark reactions' (Calvin cycle) don't occur in the dark; they require products of light reactions (ATP and NADPH) and occur simultaneously during the day. Chlorophyll doesn't absorb 'all' non-green light equally; it has specific absorption peaks (blue ~430nm and red ~660nm) with significant gaps.",
-      "Radiocarbon dating only works on organic materials (not stone, metal, or ceramics), is limited to roughly 50,000 years, requires calibration curves because atmospheric C-14 varies over time, and gives probabilistic ranges rather than exact dates. Contamination is a persistent problem.",
-      "Atoms don't 'want' anything; bonding minimizes energy. The octet rule is a useful heuristic but has many exceptions (BF₃, SF₆, NO, free radicals). Ionic bonding exists on a spectrum with covalent bonding. 'Complete transfer' is an idealization.",
-      "Even ultrapure water has a small but measurable conductivity (0.055 µS/cm at 25°C) because water autoionizes: H₂O ⇌ H⁺ + OH⁻ (Kw = 10⁻¹⁴). It's an extremely poor conductor but not a 'perfect insulator.' Deionized water has very low conductivity but not zero. Additionally, ultrapure water is actually more aggressive chemically (it readily dissolves materials to reach ionic equilibrium).",
-      "Batteries store chemical energy, not electricity; they convert chemical energy to electrical energy on demand. Discharged batteries still contain chemicals; the reactants are converted to products, shifting equilibrium. Rechargeable batteries degrade because side reactions create irreversible products (SEI layer growth, dendrite formation, electrolyte decomposition), limiting cycle life.",
-      "Helium compounds do exist under extreme pressure: Na₂He was synthesized in 2017, and HeH⁺ was detected in space. Earth's helium comes from radioactive alpha decay underground, not primordial atmospheric helium. It escapes not because it's 'too light for gravity' in a simple sense, but because thermal velocities in the exosphere exceed escape velocity for a fraction of helium atoms (Jeans escape)."
+      "The octet rule is exact for every stable molecule; the error is that bonds form to maximize energy, not to fill shells.",
+      "The passage is correct except that covalent bonds involve complete transfer and ionic bonds equal sharing; the definitions are swapped.",
+      "Atoms do want a full outer shell; the error is that the octet rule has no exceptions once transition metals are excluded.",
+      "Atoms don't 'want' anything; bonding minimizes energy. The octet rule is a useful heuristic but has many exceptions (BF₃, SF₆, NO, free radicals). Ionic bonding exists on a spectrum with covalent bonding. 'Complete transfer' is an idealization."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0142",
@@ -9284,22 +9020,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Neural networks are loosely inspired by brains but operate very differently: backpropagation has no known biological analog. 'Enough data' doesn't overcome fundamental limitations (no free lunch theorem). Whether LLMs 'understand' language is deeply contested.",
-      "A p-value is the probability of seeing data this extreme IF the null hypothesis is true, not the probability the null is true. P-values do not measure effect probability. Replication with p < 0.05 doesn't multiply confidence the way described.",
-      "Deleted files typically remain on disk until overwritten, and forensic tools (EnCase, Autopsy) routinely recover them. Standard formatting only removes filesystem metadata, not data itself (secure erase or overwriting is needed). Incognito mode only prevents local browser history; ISPs, employers, and websites still track you. No encryption is 'absolutely unbreakable'; it's computationally infeasible to break, which is a practical, not absolute, guarantee.",
-      "Counting holes is insufficient for topological equivalence (homeomorphism). A torus and a Klein bottle both have similar Betti numbers but are not homeomorphic, as the Klein bottle is non-orientable. Topological equivalence requires a continuous bijection with continuous inverse, not just matching hole counts. Invariants like the fundamental group, orientability, and torsion in homology are needed.",
-      "Quantum computers threaten specific algorithms (RSA, ECC) via Shor's algorithm, not all encryption. Symmetric encryption and lattice-based cryptography are believed to be quantum-resistant. Quantum computers don't 'try all keys simultaneously.'",
-      "While the passage sounds correct on the surface, it subtly conflates Shannon entropy (a property of the source distribution) with Kolmogorov complexity (a property of individual strings). 'Removing redundancy' is about exploiting statistical patterns, while incompressibility of random data relates to algorithmic information theory. These are distinct frameworks.",
-      "Validity is about the logical structure, not the truth of the conclusion. A valid argument can have a false conclusion (if premises are false), and an invalid argument can have a true conclusion (by coincidence). Validity means the conclusion MUST follow IF the premises are true. Truth of the conclusion alone tells you nothing about validity.",
-      "While primes thin out (by the prime number theorem, density ~ 1/ln(n)), their distribution is far from random, and deep structure exists (Riemann zeta function, prime gaps, Chebyshev bias). Primality testing uses sophisticated probabilistic and deterministic algorithms (AKS, Miller-Rabin), not brute force."
+      "The passage is correct except that LLMs understand language better than humans, not merely faster.",
+      "Deep learning does not mimic the brain at all; the error is that GPT-style models are rule-based expert systems, not neural networks.",
+      "Neural networks are accurate models of the brain because backpropagation is how neurons learn; the error is only that data alone is not enough, compute matters too.",
+      "Neural networks are loosely inspired by brains but operate very differently: backpropagation has no known biological analog. 'Enough data' doesn't overcome fundamental limitations (no free lunch theorem). Whether LLMs 'understand' language is deeply contested."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0143",
@@ -9310,22 +9042,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Chomsky's critique of behaviorist language acquisition remains compelling: children produce novel sentences never heard before (poverty of the stimulus), overgeneralize rules ('goed' instead of 'went'), and acquire language on similar timelines regardless of culture. Explicit correction is rare and usually ineffective for grammar.",
-      "Social evolution is not linear or progressive. Many societies deliberately chose foraging over agriculture. Agricultural societies often had worse nutrition, health, and equality. Complexity can decrease, and some cultures oscillated between modes of subsistence.",
-      "Forensic DNA profiling examines only a small number of loci, not the entire genome, yielding statistical probabilities rather than certainties. Contamination, degradation, and mixtures create ambiguity. Fingerprint analysis has documented error rates; the 2004 Brandon Mayfield case showed even FBI experts can make false identifications. No empirical study has proven universal fingerprint uniqueness.",
-      "The herd immunity threshold (1 - 1/R₀) assumes uniform random mixing, which never occurs in real populations. The threshold varies with contact patterns, population structure, waning immunity, and viral evolution. Diseases don't stop spreading entirely; transmission drops below replacement rate.",
-      "The legal standard is 'not guilty,' not 'innocent'; the court doesn't declare innocence. 'Beyond a reasonable doubt' does not mean 100% certainty; it means no reasonable person would doubt the conclusion based on the evidence presented.",
-      "Theories cannot be 'proven true'; they can only be corroborated or falsified (Popper). Kuhn showed that science progresses through paradigm shifts, not steady accumulation. Lakatos argued research programs have protective belts. The 'scientific method' as a single procedure is a pedagogical fiction; real scientific practice is diverse and messy.",
+      "The Dark Ages were a period of total regression; the error is that the Renaissance began in Germany, not Italy, and rescued Europe a century earlier.",
       "The 'Dark Ages' is a misleading term rejected by modern historians. The early medieval period saw significant innovation (heavy plow, horse collar, three-field rotation, Gothic architecture, universities). Knowledge was preserved and advanced in monasteries.",
-      "Resolution in radio astronomy depends on the telescope's diameter relative to wavelength, and since radio wavelengths are ~million times longer than optical, a single dish has very poor angular resolution. Interferometry (arrays like ALMA and the VLA) synthesizes a virtual telescope the size of the array's baseline. 'Collecting more waves' conflates sensitivity (signal strength) with resolution (detail)."
+      "The passage is correct except that Europe was ahead of the rest of the world throughout the period.",
+      "The Dark Ages saw no innovation; the error is that knowledge was preserved by universities, which the monasteries opposed."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683",
+    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "6"
+    "timeLimit": 45,
+    "_verifiedAnswer": "1"
   },
   {
     "id": "probabilistic-t1-expert-trap-0144",
@@ -9336,22 +9064,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The uncertainty principle is not about measurement disturbance. It is an intrinsic property of quantum systems arising from the wave nature of matter; conjugate variables like position and momentum cannot simultaneously have precise values regardless of measurement.",
-      "The second law applies to closed systems, and a room is not closed (you expend energy to clean it). 'Disorder' is a misleading gloss on entropy; it's about microstates, not messiness. Life doesn't violate the second law; it increases total entropy while locally decreasing it.",
-      "Metamaterials don't make light 'go backwards'; negative refraction means the phase velocity direction is opposite to energy flow (Poynting vector). Cloaking devices are bandwidth-limited by causality constraints (Kramers-Kronig relations), and broadband invisibility is physically impossible. Current demonstrations work only at specific frequencies, often in microwave ranges, not visible light.",
-      "While zero DC resistance is correct, superconductors have critical current density and critical magnetic field limits, and exceeding them destroys superconductivity. Even room-temperature superconductors would not 'eliminate all energy loss' because AC losses, junction resistance, and cooling systems for maintaining conditions still exist.",
-      "Plasma is not simply 'hot gas'; it is a quasineutral collection of charged particles exhibiting collective behavior, governed by electromagnetic forces rather than just thermal collisions. Plasma exists in everyday contexts: fluorescent lights, neon signs, the ionosphere, and comprises over 99% of visible matter in the universe.",
-      "Virtual particles are mathematical terms in perturbative expansions, not literal entities blinking in and out of existence. The Casimir effect can be derived without reference to virtual particles (using boundary conditions on field modes). The popular Hawking radiation narrative with virtual pairs is a pedagogical analogy, not the actual calculation.",
-      "Nuclear reactors physically cannot produce a nuclear detonation; weapons require >80% enriched uranium or plutonium in a specific geometry with precise implosion. Chernobyl was a steam explosion and graphite fire, not a nuclear explosion. High-level waste's most dangerous isotopes decay within centuries. Low-dose radiation's cancer risk follows a contested linear no-threshold model.",
-      "Sound speed in air depends on temperature, not pitch, and all frequencies travel at the same speed in a given medium (otherwise music would be garbled over distance). The speed is approximately 343 m/s at 20°C but varies with temperature. The treble/bass perception at concerts is due to speaker placement and room acoustics, not wave speed."
+      "Life does violate the second law; the error is that a messy room is a low-entropy state, not a high one.",
+      "Entropy is disorder and cleaning a room really does decrease it, so the second law holds only on average over many rooms.",
+      "The second law applies to open systems only; the passage errs by treating the room as closed.",
+      "The second law applies to closed systems, and a room is not closed (you expend energy to clean it). 'Disorder' is a misleading gloss on entropy; it's about microstates, not messiness. Life doesn't violate the second law; it increases total entropy while locally decreasing it."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "1"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0145",
@@ -9362,22 +9086,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The Mercator projection was designed for navigation: it preserves angles (conformality), essential for plotting constant-bearing courses. It was not a political conspiracy. The Peters projection preserves area but severely distorts shapes, and it was controversially presented as 'fairer' despite being a renamed Gall orthographic projection from 1855. No 2D map can preserve both area and shape simultaneously.",
-      "Evolutionary origins of moral intuitions don't determine their truth value (genetic fallacy). Cultural variation in moral systems doesn't entail moral relativism; cultures also disagree about empirical facts without disproving scientific realism. The is-ought gap (Hume's guillotine) means scientific descriptions of moral behavior cannot settle normative questions about what SHOULD be.",
-      "Language difficulty is relative to the learner's native language, and there is no objective difficulty ranking. English has relatively simple morphology (no grammatical gender, minimal case marking, no verb conjugation by person). All children acquire their native language on similar timelines regardless of its typological features. Tonal distinctions are trivially acquired by native speakers.",
-      "The SPE has been largely discredited. Guards were coached and encouraged by the experimenters. The results were not replicated. Demand characteristics, selection bias, and experimenter influence explain the behavior better than situational determinism.",
-      "The US is a constitutional republic with representative democracy, not a direct democracy. 'Majority rules' ignores constitutional protections of minority rights. Democracies don't always produce better outcomes; Arrow's impossibility theorem shows no voting system perfectly aggregates preferences.",
-      "The 'Dark Ages' is a misleading term rejected by modern historians. The early medieval period saw significant innovation (heavy plow, horse collar, three-field rotation, Gothic architecture, universities). Knowledge was preserved and advanced in monasteries.",
-      "The 'environment of evolutionary adaptedness' is a theoretical construct, not a specific habitat. Many traits are byproducts (spandrels), results of genetic drift, or sexually selected, and not all are adaptive. The mismatch hypothesis oversimplifies: anxiety disorders also existed in ancestral environments.",
-      "Forensic DNA profiling examines only a small number of loci, not the entire genome, yielding statistical probabilities rather than certainties. Contamination, degradation, and mixtures create ambiguity. Fingerprint analysis has documented error rates; the 2004 Brandon Mayfield case showed even FBI experts can make false identifications. No empirical study has proven universal fingerprint uniqueness."
+      "The passage is correct; the only error is that Arrow's theorem proves democracy always produces the best outcome.",
+      "Majority rule is the definition of democracy and admits no minority protections; the error is that the US is not a democracy at all.",
+      "The US is a direct democracy where citizens vote on all issues; the error is the claim that democracies always produce better outcomes.",
+      "The US is a constitutional republic with representative democracy, not a direct democracy. 'Majority rules' ignores constitutional protections of minority rights. Democracies don't always produce better outcomes; Arrow's impossibility theorem shows no voting system perfectly aggregates preferences."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0146",
@@ -9388,22 +9108,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
+      "The passage is correct except that dietary cholesterol raises blood cholesterol only in vegetarians.",
+      "Fat does make you fat because it is stored directly; the error is that dietary cholesterol has no relation to heart disease whatsoever, so eating it freely is safe.",
       "Fat doesn't uniquely cause weight gain; total energy balance and hormonal responses matter. Dietary cholesterol has minimal impact on blood cholesterol for most people. Calorie sources differ in satiety, thermic effect, and metabolic pathways.",
-      "Most hormones have many functions across multiple organ systems; testosterone affects bone density, red blood cell production, and mood regulation beyond reproduction. Cortisol doesn't 'cause' stress; it's released in response to stress and is also essential for metabolism and immune regulation. Oxytocin can increase in-group bias and aggression toward out-groups.",
-      "Fungi are not plants; they're more closely related to animals. Spores are fundamentally different from seeds (no embryo, no stored nutrition). Fungi are far from passive: mycorrhizal networks actively trade nutrients with living plants, some fungi are predatory (trapping nematodes), and others are parasitic on living organisms.",
-      "The evolutionary cause of bipedalism is debated, as it predates tool use by millions of years (Ardipithecus was bipedal ~4.4 Mya, earliest tools ~3.3 Mya). Bipedalism is NOT faster than quadrupedalism (quadrupeds are generally faster). The human spine is a modified quadruped spine with well-documented compromises (herniated discs, scoliosis, lordosis), so 'design' is misleading for an evolutionary kludge.",
-      "Ecosystems are not inherently balanced or equilibrium-seeking. They are dynamic, non-linear systems that can shift between multiple stable states. Some perturbations cause irreversible regime shifts. The 'balance of nature' is a myth.",
-      "Viruses are not considered alive by most biologists (no metabolism, can't reproduce independently). Virulence does NOT always decrease; it depends on transmission mode. If transmission occurs before or during severe illness, high virulence can be maintained or even increase. Myxomatosis initially declined in virulence, then stabilized at an intermediate level.",
-      "The immune system's primary function is distinguishing 'self' from 'non-self,' but it also tolerates many foreign entities (commensal bacteria, food, fetuses). Autoimmune disease is not a 'mistake'; it often involves loss of regulatory T cell function, molecular mimicry, or failure of central tolerance, reflecting complex system dysregulation rather than simple error.",
-      "Bleaching occurs when corals EXPEL their symbiotic zooxanthellae algae, not when the coral dies. Bleached coral is stressed but alive and can recover if conditions improve within weeks to months. Acidification reduces calcification rates and weakens existing structures, but it doesn't rapidly 'dissolve' reefs like acid on chalk, as the chemistry is more nuanced (reduced carbonate ion saturation state)."
+      "A calorie is a calorie; the error is that protein has more calories per gram than fat."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+    "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "0"
+    "timeLimit": 45,
+    "_verifiedAnswer": "2"
   },
   {
     "id": "probabilistic-t1-expert-trap-0147",
@@ -9414,22 +9130,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "The Grand Canyon's formation involved catastrophic floods, tectonic uplift, and drainage capture events, not just steady erosion. Modern geomorphology recognizes that landscapes are shaped by both gradual processes and episodic catastrophic events. The canyon's age and formation mechanism remain debated, with evidence for rapid incision phases.",
-      "Groundwater overwhelmingly exists in pore spaces of rock and sediment, not in underground rivers (except in karst systems). The water table fluctuates seasonally and with pumping. Water doesn't always take the 'shortest path'; it follows hydraulic gradients through permeable materials, and can even flow upward under artesian pressure.",
-      "The relationship is bidirectional: orbital changes initiate warming, which releases oceanic CO₂, which amplifies warming through a positive feedback loop. The fact that CO₂ was a feedback in the past doesn't preclude it being a forcing today. Current CO₂ rise is from fossil fuels (verified by isotopic signature ¹³C/¹²C decline), which is a different mechanism from past natural cycles.",
-      "Soil is a complex living ecosystem containing billions of organisms per gram: bacteria, fungi, archaea, and microfauna that drive nutrient cycling. Many plants thrive in acidic (blueberries, conifers) or alkaline (lavender, asparagus) soils. pH 'correction' is context-dependent, not universally desirable.",
-      "The fossil record is extremely incomplete: fewer than 1% of species that ever lived are preserved. Superposition can be violated by tectonic folding, faulting, and thrust sheets that place older layers atop younger ones. Fossilization requires specific conditions (rapid burial, mineralization-friendly chemistry), creating systematic biases toward hard-bodied marine organisms.",
-      "Continents don't plow through ocean floor; they're integral parts of tectonic plates that include both continental and oceanic crust. Wegener was criticized for lacking a mechanism, not the observation of fit. The mantle is mostly solid (not liquid magma), and plates move on the ductile asthenosphere, which deforms plastically over geological timescales.",
-      "Traditional breeding involves far more genetic disruption (mutagenesis, polyploidy, wide crosses) than targeted transgene insertion. Organic farming uses approved pesticides (copper sulfate, pyrethrin, Bt toxin, the same protein in some GMOs). Meta-analyses show minimal nutritional differences between organic and conventional produce.",
-      "Water is intrinsically blue due to selective absorption of red wavelengths by O-H bond vibrations. The ocean's color is primarily from absorption, not sky reflection. Deep water appears darker because red light is absorbed at shallow depths, leaving only blue."
+      "Water is intrinsically blue due to selective absorption of red wavelengths by O-H bond vibrations. The ocean's color is primarily from absorption, not sky reflection. Deep water appears darker because red light is absorbed at shallow depths, leaving only blue.",
+      "The ocean is blue because of dissolved salt; fresh water is colorless, which is why lakes look grey.",
+      "The ocean does reflect the sky; the error is that deep water looks darker because there is less sky to reflect at depth.",
+      "Water is intrinsically blue because it scatters blue light the way the sky does (Rayleigh scattering); the only error is the reflection claim."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "7902699be42c8a8e46fbbb4501726517e86b22c56a189f7625a6da49081b2451",
+    "answerHash": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "7"
+    "timeLimit": 45,
+    "_verifiedAnswer": "0"
   },
   {
     "id": "probabilistic-t1-expert-trap-0148",
@@ -9440,21 +9152,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Quantum mechanics prohibits complete cessation of motion: zero-point energy means particles retain irreducible motion even at 0K (Heisenberg uncertainty principle). Not all materials become superconductors near 0K; most metals remain normal conductors. Superconductivity requires specific electronic band structure conditions (Cooper pairing via phonon-mediated attraction), not merely absence of thermal vibration.",
-      "At the atomic scale, ultra-smooth surfaces can have HIGHER friction due to increased adhesive contact (van der Waals forces, cold welding). Friction has multiple mechanisms: asperity deformation, adhesion, and plowing. Lubricants work primarily by separating surfaces with a fluid film, not 'filling gaps,' as hydrodynamic pressure supports the load.",
+      "Electrons do travel near light speed; the error is that they slow down inside the house wiring, which is why bulbs warm up.",
+      "The water-pipe analogy is exact; the error is that the light turns on with a delay proportional to the distance from the plant.",
       "Electrons drift extremely slowly (millimeters per second). What propagates at near light speed is the electromagnetic field/wave that guides the energy. The water-pipe analogy breaks down because energy is carried in the fields outside the wire, not by the electrons inside it.",
-      "Silicon is used primarily because of its abundant, stable oxide (SiO₂) for insulation, not because it's the 'best' semiconductor (GaAs and GaN have superior electron mobility). The '3nm' node name is a marketing designation; actual transistor features are significantly larger. Chips require precisely controlled IMPURITIES (dopants like boron and phosphorus), and perfectly pure silicon wouldn't function as a semiconductor device.",
-      "PID is popular for its simplicity, not optimality. It is suboptimal for many systems: those with significant dead time, nonlinearities, multivariable coupling, or model uncertainty. 'Tuning until it works' ignores stability margins and robustness. Model predictive control (MPC) outperforms PID for complex, constrained systems.",
-      "The theorem requires the signal to be perfectly bandlimited, a condition no real-world signal satisfies (bandlimiting requires infinite duration). Anti-aliasing filters are imperfect, introducing artifacts. Additionally, the reconstruction requires ideal sinc interpolation, which is physically unrealizable. CD audio is excellent but not mathematically 'perfect.'",
-      "Solar panels become LESS efficient as temperature increases (typically -0.3%/°C for silicon). The Shockley-Queisser limit applies only to single-junction cells, and multi-junction cells exceed it (current record >47%). The Betz limit is correct for a single actuator disk in uniform flow but makes assumptions that can be partially circumvented by ducted turbines or tandem rotors.",
-      "The steel-concrete bond involves both mechanical interlock AND chemical adhesion from the alkaline cement matrix passivating the steel surface. Designing to yield strength ignores fatigue failure, which can occur well below yield under cyclic loading. Also, concrete's alkalinity protects rebar from corrosion, and carbonation or chloride ingress can cause catastrophic failure at stresses far below design limits."
+      "Electrons do not move at all in a circuit; energy is carried by protons in the wire, which is why copper is used."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "2"
   },
   {
@@ -9466,22 +9174,18 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Forensic DNA profiling examines only a small number of loci, not the entire genome, yielding statistical probabilities rather than certainties. Contamination, degradation, and mixtures create ambiguity. Fingerprint analysis has documented error rates; the 2004 Brandon Mayfield case showed even FBI experts can make false identifications. No empirical study has proven universal fingerprint uniqueness.",
-      "The strong Sapir-Whorf hypothesis (linguistic determinism) is rejected; language influences but does not determine thought. Speakers of 'futureless' languages plan for the future normally. Color perception studies show slight reaction-time effects, not fundamentally different perception. The weak version (linguistic relativity) has modest empirical support.",
-      "The US is a constitutional republic with representative democracy, not a direct democracy. 'Majority rules' ignores constitutional protections of minority rights. Democracies don't always produce better outcomes; Arrow's impossibility theorem shows no voting system perfectly aggregates preferences.",
-      "Equal temperament deliberately deviates from natural harmonic ratios, and that's the whole point. Pure intervals (like 3:2 fifths) don't divide evenly into 12 steps. ET is a compromise that makes every key equally slightly 'out of tune' to enable free modulation.",
-      "Social evolution is not linear or progressive. Many societies deliberately chose foraging over agriculture. Agricultural societies often had worse nutrition, health, and equality. Complexity can decrease, and some cultures oscillated between modes of subsistence.",
-      "Gold has no intrinsic value as money; its value is also based on social convention. The gold standard was abandoned because it constrained monetary policy, causing deflationary spirals and deepening recessions. Fiat currencies are not inherently less stable.",
-      "All human languages are equally complex and expressive; there are no 'primitive' languages. Ancient languages like Sanskrit, Latin, and Classical Chinese had highly complex grammars. Languages change over time but do not 'progress' linearly.",
-      "'First, do no harm' does not appear in the Hippocratic Oath; it's a later paraphrase. The original oath includes promises to Greek gods, prohibitions against surgery, and provisions for apprenticeship fees. Modern medical ethics is based on four principles (autonomy, beneficence, non-maleficence, justice), not the ancient oath. Avoiding all risk would prohibit most medicine."
+      "The passage is correct except that agricultural societies had better nutrition and health, which is why the transition was universal.",
+      "Social evolution is linear but runs the other way: civilizations degrade into agriculture and then into foraging.",
+      "Societies do progress linearly; the error is that hunter-gatherers were not 'stuck' but waiting, because agriculture had not yet been invented anywhere.",
+      "Social evolution is not linear or progressive. Many societies deliberately chose foraging over agriculture. Agricultural societies often had worse nutrition, health, and equality. Complexity can decrease, and some cultures oscillated between modes of subsistence."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
-    "answerHash": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+    "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
-    "_verifiedAnswer": "4"
+    "timeLimit": 45,
+    "_verifiedAnswer": "3"
   },
   {
     "id": "probabilistic-t1-expert-trap-0150",
@@ -9492,21 +9196,17 @@
     "display": null,
     "inputType": "multiple-choice",
     "options": [
-      "Viruses are not considered alive by most biologists (no metabolism, can't reproduce independently). Virulence does NOT always decrease; it depends on transmission mode. If transmission occurs before or during severe illness, high virulence can be maintained or even increase. Myxomatosis initially declined in virulence, then stabilized at an intermediate level.",
-      "Haeckel's 'ontogeny recapitulates phylogeny' was discredited over a century ago and based on fraudulent drawings. Embryos don't pass through adult ancestral stages. The 'gill slits' are pharyngeal arches that develop into jaw, ear, and throat structures, and they never function as gills.",
-      "Fat doesn't uniquely cause weight gain; total energy balance and hormonal responses matter. Dietary cholesterol has minimal impact on blood cholesterol for most people. Calorie sources differ in satiety, thermic effect, and metabolic pathways.",
-      "Many drugs work as antagonists (blocking receptors), not agonists. Dose-response curves plateau and can even show paradoxical effects at high doses (hormesis). Tolerance involves receptor downregulation, desensitization, and neuroadaptation, not just faster metabolism.",
-      "Evolution has no direction, goal, or 'need.' Natural selection acts on individuals, not species. 'Fitness' means reproductive success, not strength. Complexity does not always increase; parasites often evolve toward simplicity.",
-      "The 10:1 ratio is an outdated myth; the revised estimate is roughly 1:1 (Sender et al., 2016). Bacteria are not a 'separate ecosystem' but deeply integrated with host immunity and metabolism. Most commercial probiotics have little evidence for lasting colonization or meaningful therapeutic benefit for healthy individuals.",
-      "Most hormones have many functions across multiple organ systems; testosterone affects bone density, red blood cell production, and mood regulation beyond reproduction. Cortisol doesn't 'cause' stress; it's released in response to stress and is also essential for metabolism and immune regulation. Oxytocin can increase in-group bias and aggression toward out-groups.",
-      "Ecosystems are not inherently balanced or equilibrium-seeking. They are dynamic, non-linear systems that can shift between multiple stable states. Some perturbations cause irreversible regime shifts. The 'balance of nature' is a myth."
+      "All drugs are agonists that activate receptors; the error is that tolerance is purely psychological.",
+      "A higher dose always produces a stronger effect; the error is that tolerance is caused by receptor upregulation, not faster metabolism.",
+      "The passage is correct except that tolerance never occurs for receptor-acting drugs, only for enzyme-acting ones.",
+      "Many drugs work as antagonists (blocking receptors), not agonists. Dose-response curves plateau and can even show paradoxical effects at high doses (hormesis). Tolerance involves receptor downregulation, desensitization, and neuroadaptation, not just faster metabolism."
     ],
     "clientSeed": null,
     "interactiveConfig": null,
     "answerHash": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce",
     "normalization": "exact",
     "decimalPlaces": null,
-    "timeLimit": 30,
+    "timeLimit": 45,
     "_verifiedAnswer": "3"
   },
   {
