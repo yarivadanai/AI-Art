@@ -8,6 +8,12 @@ import type { Confidence, QuestionPayload, Section } from "@/lib/types";
  * The model is seated the way a visitor is: it sees the item's text and data,
  * is told the time limit, and may answer, qualify its confidence, or decline
  * with "I cannot determine this". No tools, no code execution.
+ *
+ * The JSON contract is both stated in the system prompt and enforced by
+ * LLM_ANSWER_SCHEMA, which the transport passes to the CLI's structured-output
+ * flag (lib/cohort/claude-cli.ts). parseLlmAnswer is still the boundary and
+ * still has to be forgiving: a reply it cannot read is recorded as an
+ * abstention and logged, never silently scored as wrong.
  */
 
 export const LLM_SYSTEM_PROMPT = [
@@ -19,7 +25,7 @@ export const LLM_SYSTEM_PROMPT = [
   "abstain: true only when you cannot determine the answer with the information given. An abstention is scored as \"I cannot determine this\", not as wrong. When you abstain, set answer to \"\".",
 ].join("\n");
 
-/** JSON schema for structured output (output_config.format). */
+/** JSON schema the reply must satisfy (passed to `claude -p --json-schema`). */
 export const LLM_ANSWER_SCHEMA = {
   type: "object",
   properties: {

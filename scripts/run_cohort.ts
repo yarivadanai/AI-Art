@@ -4,28 +4,31 @@
  * server needed) and drives the same adaptive engine visitors go through.
  *
  *   npx tsx scripts/run_cohort.ts --cohort reference [--n 3]
- *   npx tsx scripts/run_cohort.ts --cohort llm --model claude-opus-5 [--n 3] [--effort medium] [--max-tokens 4096]
+ *   npx tsx scripts/run_cohort.ts --cohort llm --model claude-opus-5 [--n 3] [--effort medium]
  *   npx tsx scripts/run_cohort.ts --cohort llm --model claude-sonnet-5 --dry-run
  *
  * reference: answers every item from the server-side reference and reports
  *   the measured wall time of the solver (the item generator, which computes
  *   the answer as it builds the item; at least 1 ms). Confidence "sure".
- * llm: sends each item to the Claude API (no tools) and records its JSON
- *   answer, confidence and abstention plus the request's wall time. Needs
- *   ANTHROPIC_API_KEY (or an `ant auth login` profile). Refusals are recorded
- *   as abstentions. --dry-run prints the prompts and stores nothing.
+ * llm: puts each item to a language model through the local Claude Code CLI
+ *   (`claude -p`, no tools, no MCP, one turn) and records its JSON answer,
+ *   confidence and abstention plus the call's wall time. Auth is the operator's
+ *   Claude subscription session (`~/.claude`, or `--config-dir` / the
+ *   CLAUDE_CONFIG_DIR env var for a specific account); metered credentials such
+ *   as ANTHROPIC_API_KEY are scrubbed from the child so they cannot bill the
+ *   API account by accident. --dry-run prints the prompts and stores nothing.
  *
  * Sessions are created with cohort = "reference" | "llm" and label = solver
  * name / model id, so /api/stats can separate them from human specimens.
  * Needs DATABASE_URL. Exits non-zero on failure.
  */
-import Anthropic from "@anthropic-ai/sdk";
 import crypto from "crypto";
 import { prisma } from "../lib/db";
 import { answerAdaptive, referenceOf, startAdaptive } from "../lib/engine/adaptive";
 import { SESSION_CEILING_MS } from "../lib/engine/limits";
 import { generateItem } from "../lib/generators";
 import { buildItemPrompt, LLM_ANSWER_SCHEMA, LLM_SYSTEM_PROMPT, parseLlmAnswer } from "../lib/cohort/llm";
+import { ClaudeCliError, completeViaClaudeCli, describeAuth, type Effort } from "../lib/cohort/claude-cli";
 import type { AnswerSubmission, Confidence, QuestionPayload, Section } from "../lib/types";
 import type { Question } from "@prisma/client";
 
@@ -33,27 +36,38 @@ interface Args {
   cohort: "reference" | "llm";
   model: string;
   n: number;
-  effort?: string;
-  maxTokens: number;
+  effort?: Effort;
+  configDir?: string;
+  timeoutMs: number;
   dryRun: boolean;
 }
+
+const EFFORTS: Effort[] = ["low", "medium", "high", "xhigh", "max"];
 
 function parseArgs(argv: string[]): Args {
   const get = (flag: string) => {
     const i = argv.indexOf(flag);
     return i >= 0 ? argv[i + 1] : undefined;
   };
+  const usage =
+    "usage: run_cohort.ts --cohort reference|llm [--model <id>] [--n <sessions>] [--effort low|medium|high|xhigh|max] [--config-dir <dir>] [--timeout-ms N] [--dry-run]";
   const cohort = get("--cohort");
   if (cohort !== "reference" && cohort !== "llm") {
-    console.error("usage: run_cohort.ts --cohort reference|llm [--model <id>] [--n <sessions>] [--effort low|medium|high|xhigh|max] [--max-tokens N] [--dry-run]");
+    console.error(usage);
+    process.exit(2);
+  }
+  const effort = get("--effort");
+  if (effort !== undefined && !EFFORTS.includes(effort as Effort)) {
+    console.error(`--effort must be one of ${EFFORTS.join(", ")}\n${usage}`);
     process.exit(2);
   }
   return {
     cohort,
     model: get("--model") ?? "claude-opus-5",
     n: Math.max(1, Number(get("--n") ?? 1)),
-    effort: get("--effort"),
-    maxTokens: Math.max(256, Number(get("--max-tokens") ?? 4096)),
+    effort: effort as Effort | undefined,
+    configDir: get("--config-dir"),
+    timeoutMs: Math.max(10_000, Number(get("--timeout-ms") ?? 600_000)),
     dryRun: argv.includes("--dry-run"),
   };
 }
@@ -83,10 +97,12 @@ function referenceAnswerer(): Answerer {
   };
 }
 
-/** A language model through the Messages API, no tools. */
+/** Consecutive transport failures that mean the run is broken, not the model. */
+const CONSECUTIVE_FAILURE_LIMIT = 3;
+
+/** A language model through the local Claude Code CLI, no tools. */
 function llmAnswerer(args: Args): Answerer {
-  // Lazy: a dry run must not need credentials. The SDK resolves ANTHROPIC_API_KEY or an `ant auth login` profile.
-  let client: Anthropic | null = null;
+  let consecutiveFailures = 0;
   return {
     label: args.model,
     async answer(q) {
@@ -95,36 +111,99 @@ function llmAnswerer(args: Args): Answerer {
         console.log(`\n--- ${q.section} #${q.index} (${q.type}) ---\n${prompt}\n`);
         return { answer: "", timeMs: 0, confidence: null, abstained: true, note: "dry-run" };
       }
-      client ??= new Anthropic();
       const t0 = Date.now();
-      const res = await client.messages.create({
-        model: args.model,
-        max_tokens: args.maxTokens,
-        system: LLM_SYSTEM_PROMPT,
-        messages: [{ role: "user", content: prompt }],
-        output_config: {
-          format: { type: "json_schema", schema: LLM_ANSWER_SCHEMA as unknown as Record<string, unknown> },
-          ...(args.effort ? { effort: args.effort as "low" | "medium" | "high" | "xhigh" | "max" } : {}),
-        },
-      });
-      const timeMs = Date.now() - t0;
-      if (res.stop_reason === "refusal") {
-        return { answer: "", timeMs, confidence: null, abstained: true, note: `refusal (${res.stop_details?.category ?? "no category"})` };
+      let reply;
+      try {
+        reply = await completeViaClaudeCli({
+          model: args.model,
+          system: LLM_SYSTEM_PROMPT,
+          prompt,
+          schema: LLM_ANSWER_SCHEMA,
+          effort: args.effort,
+          configDir: args.configDir,
+          timeoutMs: args.timeoutMs,
+        });
+      } catch (err) {
+        // One failed call is a real datum about the run, not a reason to
+        // abandon it: record the item as an abstention and keep going. But a
+        // systematic failure - a limit, an expired login, an unknown model id,
+        // a flag this CLI version rejects - fails every remaining item the same
+        // way, and a session of empty answers would land on the dashboard as if
+        // the model had genuinely declined 35 items. So a limit aborts at once,
+        // and CONSECUTIVE_FAILURE_LIMIT failures in a row abort too.
+        const rateLimited = err instanceof ClaudeCliError && err.detail.rateLimited;
+        consecutiveFailures += 1;
+        console.error(
+          JSON.stringify({
+            event: "cohort_item_failed",
+            model: args.model,
+            questionId: q.id,
+            section: q.section,
+            type: q.type,
+            rateLimited,
+            consecutiveFailures,
+            message: err instanceof Error ? err.message : String(err),
+          })
+        );
+        if (rateLimited) throw err;
+        if (consecutiveFailures >= CONSECUTIVE_FAILURE_LIMIT) {
+          throw new Error(
+            `${consecutiveFailures} consecutive failed calls (last: ${err instanceof Error ? err.message : String(err)}). ` +
+              "Aborting rather than storing a session of transport failures as abstentions."
+          );
+        }
+        return {
+          // Not the model's thinking time: metrics sum timeMs over every item,
+          // so charging a 10-minute timeout to the specimen would be a lie.
+          answer: "",
+          timeMs: 0,
+          confidence: null,
+          abstained: true,
+          note: `call failed: ${(err instanceof Error ? err.message : String(err)).slice(0, 120)}`,
+        };
       }
-      const text = res.content
-        .filter((b): b is Anthropic.TextBlock => b.type === "text")
-        .map((b) => b.text)
-        .join("\n");
-      const parsed = parseLlmAnswer(text);
+      consecutiveFailures = 0;
+      // The CLI reports the API call's own duration; prefer it over the spawn's
+      // wall time so the dashboard's per-item column compares thinking to
+      // thinking and not to ~2 s of process startup.
+      const timeMs = Math.max(1, reply.apiDurationMs || Date.now() - t0);
+      const parsed = parseLlmAnswer(reply.text);
       return {
         answer: parsed.answer,
         timeMs,
         confidence: parsed.abstained ? null : parsed.confidence,
         abstained: parsed.abstained,
-        note: parsed.parsed ? undefined : `unparseable reply: ${text.slice(0, 80)}`,
+        note: parsed.parsed ? undefined : `unparseable reply: ${reply.text.slice(0, 80)}`,
       };
     },
   };
+}
+
+/**
+ * One throwaway call before any session is created, so a bad model id, an
+ * expired login or a CLI that rejects one of our flags fails here - loudly and
+ * with nothing stored - instead of 35 items later as a wall of abstentions.
+ */
+async function preflight(args: Args) {
+  try {
+    const reply = await completeViaClaudeCli({
+      model: args.model,
+      system: "Reply with a single JSON object and nothing else.",
+      prompt: 'Reply with exactly {"answer":"ok","confidence":"sure","abstain":false}.',
+      schema: LLM_ANSWER_SCHEMA,
+      effort: args.effort,
+      configDir: args.configDir,
+      timeoutMs: Math.min(args.timeoutMs, 120_000),
+    });
+    const parsed = parseLlmAnswer(reply.text);
+    if (!parsed.parsed) throw new Error(`preflight reply did not parse: ${reply.text.slice(0, 120)}`);
+    console.log(`preflight ok (${reply.model}, ${reply.apiDurationMs} ms)\n`);
+  } catch (err) {
+    console.error(
+      JSON.stringify({ event: "cohort_preflight_failed", model: args.model, message: err instanceof Error ? err.message : String(err) })
+    );
+    throw new Error(`preflight call failed, nothing was stored: ${err instanceof Error ? err.message : String(err)}`);
+  }
 }
 
 async function runSession(args: Args, who: Answerer, k: number) {
@@ -183,6 +262,12 @@ async function runSession(args: Args, who: Answerer, k: number) {
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const who = args.cohort === "reference" ? referenceAnswerer() : llmAnswerer(args);
+  if (args.cohort === "llm" && !args.dryRun) {
+    console.log(
+      `transport: claude -p (no tools, no MCP, one turn)  model ${args.model}${args.effort ? `  effort ${args.effort}` : ""}\nauth: ${describeAuth(args.configDir)}`
+    );
+    await preflight(args);
+  }
   if (args.dryRun && args.cohort === "llm") {
     // Print the prompts for one session's worth of items without storing anything.
     const seed = crypto.randomBytes(16).toString("hex");
