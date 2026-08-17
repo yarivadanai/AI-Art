@@ -4,10 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
-import { RadarChart } from "@/components/RadarChart";
+import { Topology } from "@/components/Topology";
+import { ShareCard } from "@/components/ShareCard";
+import { ladderMarks, topologyInputFromResult } from "@/lib/topology";
 import { AICommentary } from "@/components/AICommentary";
 import {
   REPORT_COPY,
+  describeSpecimen,
   getBaselineNote,
   getFinalObservation,
   getMirrorLines,
@@ -71,6 +74,31 @@ export default function ResultPage() {
 
   const mirror = useMemo(
     () => (result ? getMirrorLines(result.metrics, result.beliefs, result.sectionScores) : []),
+    [result]
+  );
+  const topology = useMemo(() => {
+    if (!result) return null;
+    const marks = ladderMarks(
+      result.questionResults.map((q) => ({
+        section: q.section,
+        kind: q.payload.meta?.kind ?? null,
+        correct: q.correct,
+        confidence: q.confidence,
+        abstained: q.abstained,
+      }))
+    );
+    return topologyInputFromResult(result.sectionScores as unknown as Record<string, number>, result.metrics, marks);
+  }, [result]);
+  const description = useMemo(
+    () =>
+      result
+        ? describeSpecimen({
+            sessionId: result.specimenId,
+            overall: result.overall,
+            sectionScores: result.sectionScores as unknown as Record<string, number>,
+            metrics: result.metrics,
+          })
+        : null,
     [result]
   );
 
@@ -195,9 +223,13 @@ export default function ResultPage() {
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="card">
             <div className="section-label mb-4">COGNITIVE TOPOLOGY</div>
-            <RadarChart scores={result.sectionScores} showReference />
+            {topology && (
+              <div className="w-full max-w-md mx-auto aspect-square">
+                <Topology input={topology} size={400} />
+              </div>
+            )}
             <p className="font-mono text-[10px] text-muted mt-3 text-center">
-              {metrics?.mode === "adaptive" ? REPORT_COPY.topologyNoteAdaptive : REPORT_COPY.topologyNote}
+              {metrics?.mode === "adaptive" ? REPORT_COPY.topologyLegend : REPORT_COPY.topologyLegendFixed}
             </p>
           </div>
           <div className="card space-y-4">
@@ -252,7 +284,9 @@ export default function ResultPage() {
               {metrics && (
                 <div>
                   <dt className="text-muted">ABSTENTIONS</dt>
-                  <dd className="text-white">{metrics.abstained} of 25</dd>
+                  <dd className="text-white">
+                    {metrics.abstained} of {metrics.answered + metrics.abstained} items met
+                  </dd>
                 </div>
               )}
               {fastestCorrect && (
@@ -297,6 +331,9 @@ export default function ResultPage() {
             );
           })}
         </section>
+
+        {/* Share */}
+        {topology && description && <ShareCard resultId={result.resultId} description={description} topology={topology} />}
 
         {/* Closing */}
         <section className="card border-border">
