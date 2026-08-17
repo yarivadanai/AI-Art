@@ -16,6 +16,8 @@ model Session {
   beliefs        Json?
   /// "human" for visitors; reserved for machine cohorts (e.g. "llm", "reference") on the dashboard.
   cohort         String     @default("human")
+  /// Machine cohorts only: the model id ("claude-sonnet-5") or solver name shown on the dashboard. Null for humans.
+  label          String?
   /// "fixed" = 25 pre-generated bank items (pre-Phase-2); "adaptive" = staircase per domain (lib/engine/adaptive.ts).
   mode           String     @default("fixed")
   /// Adaptive engine state (AdaptiveState in lib/engine/adaptive.ts); null for fixed sessions.

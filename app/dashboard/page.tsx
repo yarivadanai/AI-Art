@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AuthoritySeal } from "@/components/AuthoritySeal";
 import { ScoreDistribution } from "@/components/ScoreDistribution";
 import { AICommentary } from "@/components/AICommentary";
+import { CohortComparison } from "@/components/CohortComparison";
 import { REPORT_COPY } from "@/lib/commentary";
 import type { StatsResponse } from "@/lib/types";
 
@@ -219,6 +220,9 @@ export default function DashboardPage() {
             <p className="font-sans text-xs text-white/50 mt-6 leading-relaxed">{REPORT_COPY.calibrationBlurb}</p>
           </div>
         )}
+
+        {/* Three cohorts */}
+        <CohortComparison cohorts={stats.cohorts} llmModels={stats.llmModels} />
 
         {/* The Mirror */}
         <div className="card border-accent/20">
